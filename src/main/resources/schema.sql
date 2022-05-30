@@ -1,6 +1,6 @@
 CREATE TABLE member
 (
-    id            bigint       NOT NULL,
+    id            bigint       NOT NULL AUTO_INCREMENT,
     github_id     varchar(255) NOT NULL UNIQUE,
     username      varchar(255) NOT NULL,
     profile_image varchar(255) NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE member
 
 CREATE TABLE restaurant
 (
-    id            bigint       NOT NULL,
+    id            bigint       NOT NULL AUTO_INCREMENT,
     category_id   bigint       NOT NULL,
     campus_id     bigint       NOT NULL,
     name          varchar(20)  NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE restaurant
 
 CREATE TABLE review
 (
-    id            bigint       NOT NULL,
+    id            bigint       NOT NULL AUTO_INCREMENT,
     member_id     bigint       NOT NULL,
     restaurant_id bigint       NOT NULL,
     content       varchar(255) NULL,
@@ -33,14 +33,14 @@ CREATE TABLE review
 
 CREATE TABLE category
 (
-    id   bigint      NOT NULL,
+    id   bigint      NOT NULL AUTO_INCREMENT,
     name varchar(10) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE campus
 (
-    id   bigint      NOT NULL,
+    id   bigint      NOT NULL AUTO_INCREMENT,
     name varchar(20) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
