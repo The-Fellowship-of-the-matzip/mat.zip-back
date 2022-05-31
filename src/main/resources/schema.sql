@@ -1,3 +1,9 @@
+drop table if exists member;
+drop table if exists restaurant;
+drop table if exists review;
+drop table if exists category;
+drop table if exists campus;
+
 CREATE TABLE member
 (
     id            bigint       NOT NULL AUTO_INCREMENT,
