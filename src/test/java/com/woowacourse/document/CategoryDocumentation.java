@@ -12,9 +12,6 @@ import org.springframework.http.MediaType;
 
 class CategoryDocumentation extends Documentation {
 
-    @MockBean
-    private CategoryService categoryService;
-
     @Test
     void 카테고리_전체조회() {
         when(categoryService.findAll()).thenReturn(CATEGORY_RESPONSES);

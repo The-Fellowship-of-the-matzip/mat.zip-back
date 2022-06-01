@@ -17,15 +17,14 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = 로그인();
         토큰을_반환한다(response);
     }
+    private ExtractableResponse<Response> 로그인() {
+        return httpGetRequest("/api/login?code=1");
+    }
 
     private void 토큰을_반환한다(ExtractableResponse<Response> response) {
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
                 () -> assertThat(response.as(TokenResponse.class).getAccessToken()).isNotNull()
         );
-    }
-
-    private ExtractableResponse<Response> 로그인() {
-        return httpGetRequest("/api/login?code=1");
     }
 }
