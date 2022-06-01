@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 class JwtTokenProviderTest {
 
     private static final String SECRET_KEY = "dasdc338hfhghsn21sdf1jvnu4ascasv21908fyhas2a";
-    private static final int VALIDITY_IN_MILLISECONDS = 1000;
+    private static final int VALIDITY_IN_MILLISECONDS = 1000000;
 
     @Test
     void 토큰을_생성한다() {
