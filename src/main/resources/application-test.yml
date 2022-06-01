@@ -17,5 +17,11 @@ github:
     access-token: http://localhost:8180/login/oauth/access_token
     profile: http://localhost:8180/user
 
+security:
+  jwt:
+    token:
+      secret-key: testtesttesttesttestteststestkey
+      expire-length: 3600000
+
 server:
   port: 8180
