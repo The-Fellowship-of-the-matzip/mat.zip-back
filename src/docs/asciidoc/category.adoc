@@ -1,0 +1,6 @@
+[[Category]]
+== 메뉴 카테고리
+
+=== 카테고리 목록 조회
+
+operation::categories/list[snippets='http-request,http-response']
