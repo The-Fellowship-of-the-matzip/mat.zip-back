@@ -1,5 +1,6 @@
 package com.woowacourse.auth.application;
 
+import com.woowacourse.auth.application.dto.GithubProfileResponse;
 import com.woowacourse.auth.application.dto.GithubTokenRequest;
 import com.woowacourse.auth.application.dto.GithubTokenResponse;
 import com.woowacourse.auth.exception.GithubAccessException;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
@@ -42,6 +44,22 @@ public class GithubOauthClient {
             throw new GithubAccessException();
         }
         return response.getAccessToken();
+    }
+
+    public GithubProfileResponse getGithubProfile(final String accessToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "token " + accessToken);
+
+        HttpEntity httpEntity = new HttpEntity<>(headers);
+        RestTemplate restTemplate = new RestTemplate();
+
+        try {
+            return restTemplate
+                    .exchange(profileUrl, HttpMethod.GET, httpEntity, GithubProfileResponse.class)
+                    .getBody();
+        } catch (HttpClientErrorException e) {
+            throw new GithubAccessException();
+        }
     }
 
 }

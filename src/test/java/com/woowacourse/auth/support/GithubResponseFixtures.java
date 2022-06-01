@@ -29,6 +29,13 @@ public enum GithubResponseFixtures {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
+    public static GithubResponseFixtures findResponseByAccessToken(final String accessToken) {
+        return Arrays.stream(values())
+                .filter(value -> accessToken.equals(value.accessToken))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
+    }
+
     public String getCode() {
         return code;
     }
