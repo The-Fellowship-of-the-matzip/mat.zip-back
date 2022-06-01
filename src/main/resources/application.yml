@@ -12,6 +12,7 @@ spring:
     console:
       enabled: true
       path: /h2-console
-
+  profiles:
+    include: auth
 server:
   port: 8080

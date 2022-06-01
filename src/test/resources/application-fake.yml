@@ -1,0 +1,10 @@
+github:
+  client:
+    id: github_client_id
+    secret: github_client_secret
+  url:
+    access-token: http://localhost:8081/login/oauth/access_token
+    profile: http://localhost:8081/user
+
+server:
+  port: 8081
