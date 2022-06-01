@@ -24,7 +24,7 @@ public class Member {
     private String githubId;
 
     @Column(nullable = false)
-    private String name;
+    private String username;
 
     @Column(name = "profile_image", nullable = false)
     private String profileImage;
@@ -33,10 +33,10 @@ public class Member {
     }
 
     @Builder
-    public Member(final Long id, final String githubId, final String name, final String profileImage) {
+    public Member(final Long id, final String githubId, final String username, final String profileImage) {
         this.id = id;
         this.githubId = githubId;
-        this.name = name;
+        this.username = username;
         this.profileImage = profileImage;
     }
 

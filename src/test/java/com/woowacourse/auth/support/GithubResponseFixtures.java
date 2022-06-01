@@ -1,5 +1,6 @@
 package com.woowacourse.auth.support;
 
+import com.woowacourse.matzip.domain.member.Member;
 import java.util.Arrays;
 
 public enum GithubResponseFixtures {
@@ -34,6 +35,14 @@ public enum GithubResponseFixtures {
                 .filter(value -> accessToken.equals(value.accessToken))
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
+    }
+
+    public Member toMember() {
+        return Member.builder()
+                .githubId(HUNI.getGithubId())
+                .username(HUNI.getUsername())
+                .profileImage(HUNI.getProfileImage())
+                .build();
     }
 
     public String getCode() {
