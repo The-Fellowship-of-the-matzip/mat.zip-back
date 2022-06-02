@@ -20,6 +20,6 @@ public enum CampusName {
         return Arrays.stream(values())
                 .filter(campusName -> campusName.getValue().equals(value))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 캠퍼스 이름입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 캠퍼스 이름입니다."));
     }
 }
