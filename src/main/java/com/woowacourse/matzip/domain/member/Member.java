@@ -7,13 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(name = "UN_GITHUB_ID", columnNames = "github_id"))
+@Table(name = "member")
 public class Member {
 
     @Id
