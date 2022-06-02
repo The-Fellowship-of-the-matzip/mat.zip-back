@@ -6,13 +6,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.woowacourse.auth.application.dto.GithubProfileResponse;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
+import com.woowacourse.support.SpringServiceTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-@Transactional
+@SpringServiceTest
 public class MemberServiceTest {
 
     @Autowired
