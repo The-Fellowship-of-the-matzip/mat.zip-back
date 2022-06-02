@@ -27,12 +27,12 @@ public class Campus {
     protected Campus() {
     }
 
-    public Campus(CampusName campusName) {
+    public Campus(final CampusName campusName) {
         this.campusName = campusName;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }

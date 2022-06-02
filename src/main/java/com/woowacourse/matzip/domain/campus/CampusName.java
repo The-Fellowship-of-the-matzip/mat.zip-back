@@ -12,11 +12,11 @@ public enum CampusName {
 
     private final String value;
 
-    CampusName(String value) {
+    CampusName(final String value) {
         this.value = value;
     }
 
-    public static CampusName from(String value) {
+    public static CampusName from(final String value) {
         return Arrays.stream(values())
                 .filter(campusName -> campusName.getValue().equals(value))
                 .findAny()
