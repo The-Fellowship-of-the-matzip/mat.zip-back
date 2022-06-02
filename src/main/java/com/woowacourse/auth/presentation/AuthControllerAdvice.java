@@ -11,6 +11,6 @@ public class AuthControllerAdvice {
 
     @ExceptionHandler(GithubAccessException.class)
     public ResponseEntity<ErrorResponse> githubAccessExceptionHandler(final GithubAccessException e) {
-        return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+        return ResponseEntity.badRequest().body(ErrorResponse.from(e));
     }
 }

@@ -10,7 +10,11 @@ public class ErrorResponse {
     private ErrorResponse() {
     }
 
-    public ErrorResponse(final String message) {
+    private ErrorResponse(final String message) {
         this.message = message;
+    }
+
+    public static ErrorResponse from(final RuntimeException exception) {
+        return new ErrorResponse(exception.getMessage());
     }
 }
