@@ -22,13 +22,13 @@ public class Campus {
 
     @Column(unique = true)
     @Enumerated(EnumType.STRING)
-    private CampusName campusName;
+    private CampusName name;
 
     protected Campus() {
     }
 
-    public Campus(final CampusName campusName) {
-        this.campusName = campusName;
+    public Campus(final CampusName name) {
+        this.name = name;
     }
 
     @Override
@@ -40,11 +40,11 @@ public class Campus {
             return false;
         }
         Campus campus = (Campus) o;
-        return Objects.equals(id, campus.id) && campusName == campus.campusName;
+        return Objects.equals(id, campus.id) && name == campus.name;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, campusName);
+        return Objects.hash(id, name);
     }
 }
