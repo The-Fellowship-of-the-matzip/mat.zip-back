@@ -17,17 +17,23 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class GithubOauthClient {
 
-    @Value("${github.client.id}")
-    private String clientId;
+    private final String clientId;
 
-    @Value("${github.client.secret}")
-    private String clientSecret;
+    private final String clientSecret;
 
-    @Value("${github.url.access-token}")
-    private String tokenUrl;
+    private final String tokenUrl;
 
-    @Value("${github.url.profile}")
-    private String profileUrl;
+    private final String profileUrl;
+
+    public GithubOauthClient(@Value("${github.client.id}") final String clientId,
+                             @Value("${github.client.secret}") final String clientSecret,
+                             @Value("${github.url.access-token}") final String tokenUrl,
+                             @Value("${github.url.profile}") final String profileUrl) {
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
+        this.tokenUrl = tokenUrl;
+        this.profileUrl = profileUrl;
+    }
 
     public String getGithubAccessToken(final String code) {
         GithubTokenRequest githubTokenRequest = new GithubTokenRequest(clientId, clientSecret, code);
@@ -61,5 +67,4 @@ public class GithubOauthClient {
             throw new GithubAccessException();
         }
     }
-
 }

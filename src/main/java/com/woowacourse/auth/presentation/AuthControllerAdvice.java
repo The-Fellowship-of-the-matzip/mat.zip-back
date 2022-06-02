@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class AuthControllerAdvice {
 
     @ExceptionHandler(GithubAccessException.class)
-    public ResponseEntity<ErrorResponse> githubAccessExceptionHandler(GithubAccessException e) {
+    public ResponseEntity<ErrorResponse> githubAccessExceptionHandler(final GithubAccessException e) {
         return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
     }
 }

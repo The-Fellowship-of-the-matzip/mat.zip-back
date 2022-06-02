@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GithubProfileResponse {
 
     @JsonProperty("id")
@@ -18,6 +17,9 @@ public class GithubProfileResponse {
 
     @JsonProperty("avatar_url")
     private String profileImage;
+
+    private GithubProfileResponse() {
+    }
 
     public GithubProfileResponse(final String githubId, final String username, final String profileImage) {
         this.githubId = githubId;

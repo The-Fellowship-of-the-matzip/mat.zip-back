@@ -26,6 +26,10 @@ import org.springframework.web.context.WebApplicationContext;
 class Documentation {
 
     protected MockMvcRequestSpecification docsGiven;
+    @MockBean
+    protected CategoryService categoryService;
+    @MockBean
+    protected AuthService authService;
 
     @BeforeEach
     void setDocsGiven(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
@@ -37,10 +41,4 @@ class Documentation {
                                 .withResponseDefaults(prettyPrint()))
                         .build()).log().all();
     }
-
-    @MockBean
-    protected CategoryService categoryService;
-
-    @MockBean
-    protected AuthService authService;
 }

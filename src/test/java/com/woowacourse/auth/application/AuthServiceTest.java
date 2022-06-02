@@ -34,5 +34,4 @@ public class AuthServiceTest {
         List<Member> members = memberRepository.findAll();
         assertThat(members).hasSize(1);
     }
-
 }

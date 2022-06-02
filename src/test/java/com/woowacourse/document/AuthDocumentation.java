@@ -34,7 +34,6 @@ public class AuthDocumentation extends Documentation {
     void 로그인_실패_한다() {
         when(authService.createToken(anyString())).thenThrow(new GithubAccessException());
 
-
         docsGiven
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when().get("/api/login?code=2")

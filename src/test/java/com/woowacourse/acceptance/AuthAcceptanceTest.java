@@ -17,6 +17,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = 로그인();
         토큰을_반환한다(response);
     }
+
     private ExtractableResponse<Response> 로그인() {
         return httpGetRequest("/api/login?code=1");
     }

@@ -13,9 +13,9 @@ public class AuthService {
     private final MemberService memberService;
     private final GithubOauthClient githubOauthClient;
 
-    public AuthService(JwtTokenProvider jwtTokenProvider,
-                       MemberService memberService,
-                       GithubOauthClient githubOauthClient) {
+    public AuthService(final JwtTokenProvider jwtTokenProvider,
+                       final MemberService memberService,
+                       final GithubOauthClient githubOauthClient) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.memberService = memberService;
         this.githubOauthClient = githubOauthClient;

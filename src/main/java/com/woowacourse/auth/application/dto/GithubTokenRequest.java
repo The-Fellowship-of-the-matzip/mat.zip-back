@@ -1,12 +1,9 @@
 package com.woowacourse.auth.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GithubTokenRequest {
 
     @JsonProperty("client_id")
@@ -16,6 +13,9 @@ public class GithubTokenRequest {
     private String clientSecret;
 
     private String code;
+
+    private GithubTokenRequest() {
+    }
 
     public GithubTokenRequest(final String clientId, final String clientSecret, final String code) {
         this.clientId = clientId;
