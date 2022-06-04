@@ -1,7 +1,9 @@
 package com.woowacourse.matzip.application;
 
 import static com.woowacourse.auth.support.GithubResponseFixtures.HUNI;
+import static com.woowacourse.auth.support.GithubResponseFixtures.ORI;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.auth.application.dto.GithubProfileResponse;
 import com.woowacourse.matzip.domain.member.Member;
@@ -20,13 +22,20 @@ public class MemberServiceTest {
     private MemberRepository memberRepository;
 
     @Test
-    void 멤버가_존재하면_가져온다() {
+    void 멤버가_존재하면_업데이트한다() {
         Member persistMember = memberRepository.save(HUNI.toMember());
         GithubProfileResponse githubProfileResponse =
-                new GithubProfileResponse(HUNI.getGithubId(), HUNI.getUsername(), HUNI.getProfileImage());
+                new GithubProfileResponse(HUNI.getGithubId(), ORI.getUsername(), ORI.getProfileImage());
 
-        Member foundMember = memberService.createOrFind(githubProfileResponse);
-        assertThat(persistMember).isEqualTo(foundMember);
+        memberService.createOrUpdate(githubProfileResponse);
+        Member foundMember = memberRepository.findMemberByGithubId(persistMember.getGithubId())
+                .orElse(null);
+        assertAll(
+                () -> assertThat(foundMember).isNotNull(),
+                () -> assertThat(persistMember.getId()).isEqualTo(foundMember.getId()),
+                () -> assertThat(foundMember.getUsername()).isEqualTo(ORI.getUsername()),
+                () -> assertThat(foundMember.getProfileImage()).isEqualTo(ORI.getProfileImage())
+        );
     }
 
     @Test
@@ -34,8 +43,8 @@ public class MemberServiceTest {
         GithubProfileResponse githubProfileResponse =
                 new GithubProfileResponse(HUNI.getGithubId(), HUNI.getUsername(), HUNI.getProfileImage());
 
-        Member persistMember = memberService.createOrFind(githubProfileResponse);
-        assertThat(memberRepository.findById(persistMember.getId()).isPresent()).isTrue();
+        memberService.createOrUpdate(githubProfileResponse);
+        assertThat(memberRepository.findMemberByGithubId(HUNI.getGithubId()).isPresent()).isTrue();
     }
 
 }

@@ -6,7 +6,9 @@ import java.util.Arrays;
 public enum GithubResponseFixtures {
 
     HUNI("1", "access_token_1", "87312401",
-            "jayjaehunchoi", "https://avatars.githubusercontent.com/u/87312401?v=4");
+            "jayjaehunchoi", "https://avatars.githubusercontent.com/u/87312401?v=4"),
+    ORI("2", "access_token_2", "87312401",
+            "jinyoungchoi95", "https://avatars.githubusercontent.com/u/69106910?v=4");
 
     private final String code;
     private final String accessToken;

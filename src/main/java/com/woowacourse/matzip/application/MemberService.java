@@ -1,13 +1,12 @@
 package com.woowacourse.matzip.application;
 
 import com.woowacourse.auth.application.dto.GithubProfileResponse;
-import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Service
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -16,8 +15,11 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public Member createOrFind(final GithubProfileResponse githubProfileResponse) {
-        return memberRepository.findMemberByGithubId(githubProfileResponse.getGithubId())
-                .orElseGet(() -> memberRepository.save(githubProfileResponse.toMember()));
+    public void createOrUpdate(final GithubProfileResponse githubProfileResponse) {
+        memberRepository.findMemberByGithubId(githubProfileResponse.getGithubId())
+                .ifPresentOrElse(member -> {
+                    member.updateUsername(githubProfileResponse.getUsername());
+                    member.updateProfileImage(githubProfileResponse.getProfileImage());
+                }, () -> memberRepository.save(githubProfileResponse.toMember()));
     }
 }

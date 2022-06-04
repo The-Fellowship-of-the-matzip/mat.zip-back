@@ -2,9 +2,7 @@ package com.woowacourse.auth.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.woowacourse.matzip.domain.member.Member;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public class GithubProfileResponse {

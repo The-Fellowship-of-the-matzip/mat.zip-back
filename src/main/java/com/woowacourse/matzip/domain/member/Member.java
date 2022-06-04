@@ -10,9 +10,9 @@ import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 
-@Getter
 @Entity
 @Table(name = "member")
+@Getter
 public class Member {
 
     @Id
@@ -37,6 +37,18 @@ public class Member {
         this.githubId = githubId;
         this.username = username;
         this.profileImage = profileImage;
+    }
+
+    public void updateUsername(final String username) {
+        if (Objects.nonNull(username)) {
+            this.username = username;
+        }
+    }
+
+    public void updateProfileImage(final String profileImage) {
+        if (Objects.nonNull(profileImage)) {
+            this.profileImage = profileImage;
+        }
     }
 
     @Override
