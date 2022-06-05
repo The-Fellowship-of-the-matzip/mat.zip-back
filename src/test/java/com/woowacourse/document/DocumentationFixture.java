@@ -15,7 +15,7 @@ public class DocumentationFixture {
     private static final Category CATEGORY_5 = new Category(5L, "카페/디저트");
 
     public static final List<CategoryResponse> CATEGORY_RESPONSES = Stream.of(CATEGORY_1, CATEGORY_2, CATEGORY_3,
-            CATEGORY_4, CATEGORY_5)
+                    CATEGORY_4, CATEGORY_5)
             .map(CategoryResponse::from)
             .collect(Collectors.toList());
 }
