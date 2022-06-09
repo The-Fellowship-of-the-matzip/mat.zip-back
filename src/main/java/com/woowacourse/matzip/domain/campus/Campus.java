@@ -20,7 +20,7 @@ public class Campus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(name = "name", length = 20, nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
     private CampusName name;
 
