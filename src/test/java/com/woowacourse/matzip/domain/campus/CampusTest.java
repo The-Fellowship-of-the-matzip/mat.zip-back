@@ -10,11 +10,4 @@ class CampusTest {
     void 캠퍼스_생성() {
         assertThat(new Campus(CampusName.JAMSIL)).isInstanceOf(Campus.class);
     }
-
-    @Test
-    void equalsHashCode() {
-        assertThat(new Campus(CampusName.JAMSIL))
-                .isEqualTo(new Campus(CampusName.JAMSIL))
-                .hasSameHashCodeAs(new Campus(CampusName.JAMSIL));
-    }
 }

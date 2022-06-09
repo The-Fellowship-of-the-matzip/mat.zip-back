@@ -40,11 +40,11 @@ public class Campus {
             return false;
         }
         Campus campus = (Campus) o;
-        return Objects.equals(id, campus.id) && name == campus.name;
+        return Objects.equals(id, campus.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id);
     }
 }
