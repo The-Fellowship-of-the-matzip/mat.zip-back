@@ -1,7 +1,7 @@
 package com.woowacourse.matzip.domain.campus;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.matzip.exception.CampusNotFoundException;
 import java.util.List;
@@ -19,14 +19,13 @@ public class CampusCacheRepositoryTest {
 
     @Test
     void 존재하지_않는_캠퍼스일때_예외발생() {
-        assertThatThrownBy(() -> campusCacheRepository.findById(3L))
+        assertThatThrownBy(() -> campusCacheRepository.checkExistId(3L))
                 .isInstanceOf(CampusNotFoundException.class)
                 .hasMessage("존재하지 않는 캠퍼스입니다.");
     }
 
     @Test
-    void 캠퍼스이름으로_캠퍼스_반환() {
-        Campus campus = campusCacheRepository.findById(1L);
-        assertThat(campus).isInstanceOf(Campus.class);
+    void 존재하는_캠퍼스_확인() {
+        assertDoesNotThrow(() -> campusCacheRepository.checkExistId(1L));
     }
 }

@@ -11,10 +11,10 @@ public class CampusCacheRepository {
         this.campuses = campuses;
     }
 
-    public Campus findById(final Long id) {
-        return campuses.stream()
+    public void checkExistId(final Long id) {
+        campuses.stream()
                 .filter(campus -> campus.isSameId(id))
-                .findFirst()
+                .findAny()
                 .orElseThrow(CampusNotFoundException::new);
     }
 }
