@@ -21,8 +21,8 @@ public class DocumentationFixture {
             .map(CategoryResponse::from)
             .collect(Collectors.toList());
 
-    private static final Campus CAMPUS_1 = new Campus(1L, "JAMSIL");
-    private static final Campus CAMPUS_2 = new Campus(2L, "SEOLLEUNG");
+    private static final Campus CAMPUS_1 = new Campus(1L, "잠실");
+    private static final Campus CAMPUS_2 = new Campus(2L, "선릉");
 
     public static final List<CampusResponse> CAMPUS_RESPONSES = Stream.of(CAMPUS_1, CAMPUS_2)
             .map(CampusResponse::from)
