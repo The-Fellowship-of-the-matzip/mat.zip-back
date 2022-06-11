@@ -24,12 +24,13 @@ public class Campus {
     protected Campus() {
     }
 
-    public Campus(final String name) {
+    public Campus(final Long id, final String name) {
+        this.id = id;
         this.name = name;
     }
 
-    public boolean isSameCampusName(final String name) {
-        return this.name.equals(name);
+    public boolean isSameId(final Long id) {
+        return this.id.equals(id);
     }
 
     @Override

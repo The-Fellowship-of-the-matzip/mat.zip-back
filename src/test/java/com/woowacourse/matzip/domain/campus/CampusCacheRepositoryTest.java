@@ -14,19 +14,19 @@ public class CampusCacheRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        campusCacheRepository = new CampusCacheRepository(List.of(new Campus("JAMSIL"), new Campus("SEOLLEUNG")));
+        campusCacheRepository = new CampusCacheRepository(List.of(new Campus(1L, "JAMSIL"), new Campus(2L, "SEOLLEUNG")));
     }
 
     @Test
     void 존재하지_않는_캠퍼스일때_예외발생() {
-        assertThatThrownBy(() -> campusCacheRepository.findByCampusName("SONGPA"))
+        assertThatThrownBy(() -> campusCacheRepository.findById(3L))
                 .isInstanceOf(CampusNotFoundException.class)
                 .hasMessage("존재하지 않는 캠퍼스입니다.");
     }
 
     @Test
     void 캠퍼스이름으로_캠퍼스_반환() {
-        Campus campus = campusCacheRepository.findByCampusName("JAMSIL");
+        Campus campus = campusCacheRepository.findById(1L);
         assertThat(campus).isInstanceOf(Campus.class);
     }
 }

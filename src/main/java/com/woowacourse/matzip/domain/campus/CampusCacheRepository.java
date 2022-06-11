@@ -11,9 +11,9 @@ public class CampusCacheRepository {
         this.campuses = campuses;
     }
 
-    public Campus findByCampusName(final String campusName) {
+    public Campus findById(final Long id) {
         return campuses.stream()
-                .filter(campus -> campus.isSameCampusName(campusName))
+                .filter(campus -> campus.isSameId(id))
                 .findFirst()
                 .orElseThrow(CampusNotFoundException::new);
     }

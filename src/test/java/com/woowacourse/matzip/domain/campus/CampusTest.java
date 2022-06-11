@@ -10,14 +10,14 @@ class CampusTest {
 
     @Test
     void 캠퍼스_생성() {
-        assertThat(new Campus("JAMSIL")).isInstanceOf(Campus.class);
+        assertThat(new Campus(1L, "JAMSIL")).isInstanceOf(Campus.class);
     }
 
     @ParameterizedTest
-    @CsvSource(value = {"JAMSIL,true", "SEOLLEUNG,false"})
-    void 캠퍼스_이름이_동일한지_확인한다(String name, boolean expected) {
-        Campus campus = new Campus("JAMSIL");
+    @CsvSource(value = {"1,true", "2,false"})
+    void 캠퍼스_이름이_동일한지_확인한다(final Long id, final boolean expected) {
+        Campus campus = new Campus(1L, "JAMSIL");
 
-        assertThat(campus.isSameCampusName(name)).isEqualTo(expected);
+        assertThat(campus.isSameId(id)).isEqualTo(expected);
     }
 }

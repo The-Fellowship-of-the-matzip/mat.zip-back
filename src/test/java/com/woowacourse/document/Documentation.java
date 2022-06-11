@@ -8,6 +8,7 @@ import com.woowacourse.auth.application.JwtTokenProvider;
 import com.woowacourse.auth.presentation.AuthController;
 import com.woowacourse.auth.presentation.AuthenticationContext;
 import com.woowacourse.matzip.application.CategoryService;
+import com.woowacourse.matzip.domain.campus.CampusRepository;
 import com.woowacourse.matzip.presentation.CategoryController;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.specification.MockMvcRequestSpecification;
@@ -36,6 +37,8 @@ class Documentation {
     protected JwtTokenProvider jwtTokenProvider;
     @MockBean
     protected AuthenticationContext authenticationContext;
+    @MockBean
+    protected CampusRepository campusRepository;
 
     @BeforeEach
     void setDocsGiven(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
