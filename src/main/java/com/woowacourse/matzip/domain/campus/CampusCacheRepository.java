@@ -17,4 +17,8 @@ public class CampusCacheRepository {
                 .findAny()
                 .orElseThrow(CampusNotFoundException::new);
     }
+
+    public List<Campus> getCampuses() {
+        return List.copyOf(campuses);
+    }
 }

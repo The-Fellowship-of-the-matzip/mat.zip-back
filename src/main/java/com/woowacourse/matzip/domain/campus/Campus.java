@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 
 @Entity
@@ -24,6 +25,7 @@ public class Campus {
     protected Campus() {
     }
 
+    @Builder
     public Campus(final Long id, final String name) {
         this.id = id;
         this.name = name;
