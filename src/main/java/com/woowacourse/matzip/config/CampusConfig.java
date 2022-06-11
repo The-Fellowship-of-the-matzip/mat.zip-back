@@ -20,7 +20,8 @@ public class CampusConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(new CampusInterceptor(campusCacheRepository()))
-            .addPathPatterns("/api/campuses/**");
+            .addPathPatterns("/api/campuses/**")
+            .excludePathPatterns("/api/campuses");
     }
 
     @Bean
