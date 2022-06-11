@@ -30,7 +30,7 @@ public class CampusInterceptor implements HandlerInterceptor {
     }
 
     @SuppressWarnings("unchecked")
-    private Map<String, ?> getAttribute(final HttpServletRequest request) {
-        return (Map<String, ?>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+    private Map<String, Object> getAttribute(final HttpServletRequest request) {
+        return (Map<String, Object>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
     }
 }
