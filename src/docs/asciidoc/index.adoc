@@ -6,5 +6,5 @@
 
 == Mat-Zip
 include::auth.adoc[]
-include::category.adoc[]
 include::campus.adoc[]
+include::category.adoc[]
