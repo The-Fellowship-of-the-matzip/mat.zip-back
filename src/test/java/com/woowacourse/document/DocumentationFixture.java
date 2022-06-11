@@ -1,6 +1,8 @@
 package com.woowacourse.document;
 
+import com.woowacourse.matzip.application.response.CampusResponse;
 import com.woowacourse.matzip.application.response.CategoryResponse;
+import com.woowacourse.matzip.domain.campus.Campus;
 import com.woowacourse.matzip.domain.category.Category;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,5 +19,12 @@ public class DocumentationFixture {
     public static final List<CategoryResponse> CATEGORY_RESPONSES = Stream.of(CATEGORY_1, CATEGORY_2, CATEGORY_3,
                     CATEGORY_4, CATEGORY_5)
             .map(CategoryResponse::from)
+            .collect(Collectors.toList());
+
+    private static final Campus CAMPUS_1 = new Campus(1L, "JAMSIL");
+    private static final Campus CAMPUS_2 = new Campus(2L, "SEOLLEUNG");
+
+    public static final List<CampusResponse> CAMPUS_RESPONSES = Stream.of(CAMPUS_1, CAMPUS_2)
+            .map(CampusResponse::from)
             .collect(Collectors.toList());
 }
