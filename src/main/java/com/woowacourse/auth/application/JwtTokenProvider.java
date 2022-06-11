@@ -1,5 +1,6 @@
 package com.woowacourse.auth.application;
 
+import com.woowacourse.auth.exception.InvalidTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -37,24 +38,15 @@ public class JwtTokenProvider {
     }
 
     public String getPayload(final String token) {
-        return getClaimJws(token)
-                .getBody()
-                .getSubject();
-    }
-
-    public boolean validateToken(final String token) {
         try {
-            getClaimJws(token);
-            return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            return false;
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+        } catch (JwtException e) {
+            throw new InvalidTokenException();
         }
-    }
-
-    private Jws<Claims> getClaimJws(final String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token);
     }
 }

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
@@ -25,19 +26,12 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler)
             throws Exception {
-        if (isPreflight(request)) {
+        if (CorsUtils.isPreFlightRequest(request)) {
             return true;
         }
         final String token = AuthorizationExtractor.extract(request)
                 .orElseThrow(TokenNotFoundException::new);
-        if (jwtTokenProvider.validateToken(token)) {
-            authenticationContext.setPrincipal(jwtTokenProvider.getPayload(token));
-            return true;
-        }
-        throw new InvalidTokenException();
-    }
-
-    private boolean isPreflight(HttpServletRequest request) {
-        return HttpMethod.OPTIONS.matches(request.getMethod());
+        authenticationContext.setPrincipal(jwtTokenProvider.getPayload(token));
+        return true;
     }
 }
