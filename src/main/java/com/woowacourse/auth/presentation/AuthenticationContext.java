@@ -9,19 +9,19 @@ import org.springframework.web.context.annotation.RequestScope;
 @RequestScope
 public class AuthenticationContext {
 
-    private String authority;
+    private String principal;
 
-    public String getAuthority() {
-        if (Objects.isNull(authority)) {
+    public String getPrincipal() {
+        if (Objects.isNull(principal)) {
             throw new AuthenticationContextException();
         }
-        return authority;
+        return principal;
     }
 
-    public void setAuthority(final String authority) {
-        if (Objects.nonNull(this.authority)) {
+    public void setPrincipal(final String principal) {
+        if (Objects.nonNull(this.principal)) {
             throw new AuthenticationContextException();
         }
-        this.authority = authority;
+        this.principal = principal;
     }
 }
