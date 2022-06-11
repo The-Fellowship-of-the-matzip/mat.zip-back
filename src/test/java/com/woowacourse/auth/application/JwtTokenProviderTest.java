@@ -1,7 +1,9 @@
 package com.woowacourse.auth.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.auth.exception.InvalidTokenException;
 import org.junit.jupiter.api.Test;
 
 class JwtTokenProviderTest {
@@ -25,18 +27,11 @@ class JwtTokenProviderTest {
     }
 
     @Test
-    void 기간이_남으면_true를_반환한다() {
-        JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(SECRET_KEY, VALIDITY_IN_MILLISECONDS);
-        String token = jwtTokenProvider.createToken("1");
-
-        assertThat(jwtTokenProvider.validateToken(token)).isTrue();
-    }
-
-    @Test
-    void 기간이_만료되면_false를_반환한다() {
+    void 기간이_만료되면_에러가_발생한다() {
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(SECRET_KEY, 0);
         String token = jwtTokenProvider.createToken("1");
 
-        assertThat(jwtTokenProvider.validateToken(token)).isFalse();
+        assertThatThrownBy(() -> jwtTokenProvider.getPayload(token))
+                .isInstanceOf(InvalidTokenException.class);
     }
 }

@@ -4,7 +4,9 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
 import com.woowacourse.auth.application.AuthService;
+import com.woowacourse.auth.application.JwtTokenProvider;
 import com.woowacourse.auth.presentation.AuthController;
+import com.woowacourse.auth.presentation.AuthenticationContext;
 import com.woowacourse.matzip.application.CategoryService;
 import com.woowacourse.matzip.presentation.CategoryController;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
@@ -30,6 +32,10 @@ class Documentation {
     protected CategoryService categoryService;
     @MockBean
     protected AuthService authService;
+    @MockBean
+    protected JwtTokenProvider jwtTokenProvider;
+    @MockBean
+    protected AuthenticationContext authenticationContext;
 
     @BeforeEach
     void setDocsGiven(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
