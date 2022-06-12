@@ -1,0 +1,6 @@
+[[Restaurant]]
+== 식당
+
+=== 캠퍼스 별 식당 목록 조회
+
+operation::restaurants/list[snippets='http-request,http-response']
