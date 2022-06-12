@@ -3,12 +3,11 @@ package com.woowacourse.matzip.domain.campus;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 
 @Entity
@@ -21,14 +20,19 @@ public class Campus {
     private Long id;
 
     @Column(name = "name", length = 20, nullable = false, unique = true)
-    @Enumerated(EnumType.STRING)
-    private CampusName name;
+    private String name;
 
     protected Campus() {
     }
 
-    public Campus(final CampusName name) {
+    @Builder
+    public Campus(final Long id, final String name) {
+        this.id = id;
         this.name = name;
+    }
+
+    public boolean isSameId(final Long id) {
+        return this.id.equals(id);
     }
 
     @Override
