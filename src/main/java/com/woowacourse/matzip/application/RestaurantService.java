@@ -18,16 +18,9 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public List<RestaurantResponse> findByCampusIdOrderByIdDesc(final Long campusId, final Pageable pageable) {
-        return restaurantRepository.findByCampusIdOrderByIdDesc(campusId, pageable)
-                .stream()
-                .map(RestaurantResponse::from)
-                .collect(Collectors.toList());
-    }
-
-    public List<RestaurantResponse> findByCampusIdAndCategoryIdOrderByIdDesc(final Long campusId, final Long categoryId,
-                                                                             final Pageable pageable) {
-        return restaurantRepository.findByCampusIdAndCategoryIdOrderByIdDesc(campusId, categoryId, pageable)
+    public List<RestaurantResponse> findByCampusIdOrderByIdDesc(final Long campusId, final Long categoryId,
+                                                                final Pageable pageable) {
+        return restaurantRepository.findPageByCampusIdOrderByIdDesc(campusId, categoryId, pageable)
                 .stream()
                 .map(RestaurantResponse::from)
                 .collect(Collectors.toList());

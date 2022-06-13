@@ -37,7 +37,7 @@ class RestaurantRepositoryTest {
                 .build();
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2));
 
-        Page<Restaurant> actual = restaurantRepository.findByCampusIdOrderByIdDesc(1L, Pageable.ofSize(10));
+        Page<Restaurant> actual = restaurantRepository.findPageByCampusIdOrderByIdDesc(1L, null, Pageable.ofSize(10));
 
         assertThat(actual).containsExactly(restaurant2, restaurant1);
     }
@@ -64,7 +64,7 @@ class RestaurantRepositoryTest {
                 .build();
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2));
 
-        Page<Restaurant> actual = restaurantRepository.findByCampusIdAndCategoryIdOrderByIdDesc(1L, 1L,
+        Page<Restaurant> actual = restaurantRepository.findPageByCampusIdOrderByIdDesc(1L, 1L,
                 Pageable.ofSize(10));
 
         assertThat(actual).containsExactly(restaurant2, restaurant1);
