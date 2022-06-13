@@ -13,13 +13,13 @@ class RestaurantAcceptanceTest extends AcceptanceTest {
     private static final Long 선릉캠퍼스_ID = 2L;
 
     @Test
-    void 선릉캠퍼스_식당_목록을_모두_조회한다() {
-        ExtractableResponse<Response> response = 캠퍼스_식당_전체_조회_요청(선릉캠퍼스_ID);
+    void 선릉캠퍼스_식당_목록의_0페이지를_조회한다() {
+        ExtractableResponse<Response> response = 캠퍼스_식당_0페이지_조회_요청(선릉캠퍼스_ID);
         식당_조회에_성공한다(response);
     }
 
-    private static ExtractableResponse<Response> 캠퍼스_식당_전체_조회_요청(final Long campusId) {
-        return httpGetRequest("/api/campuses/" + campusId + "/restaurants");
+    private static ExtractableResponse<Response> 캠퍼스_식당_0페이지_조회_요청(final Long campusId) {
+        return httpGetRequest("/api/campuses/" + campusId + "/restaurants?page=0&size=10");
     }
 
     private void 식당_조회에_성공한다(final ExtractableResponse<Response> response) {

@@ -37,8 +37,8 @@ public class DocumentationFixture {
             "서울 강남구 역삼로65길 31", 1L,
             "https://place.map.kakao.com/11190567", "www.image.com");
 
-    public static final List<RestaurantResponse> RESTAURANT_RESPONSES = Stream.of(SEOLLEUNG_RESTAURANT_1,
-                    SEOLLEUNG_RESTAURANT_2)
+    public static final List<RestaurantResponse> RESTAURANT_RESPONSES = Stream.of(SEOLLEUNG_RESTAURANT_2,
+                    SEOLLEUNG_RESTAURANT_1)
             .map(RestaurantResponse::from)
             .collect(Collectors.toList());
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -18,7 +19,7 @@ class RestaurantServiceTest {
 
     @Test
     void 캠퍼스id가_일치하는_식당_목록을_반환한다() {
-        List<RestaurantResponse> responses = restaurantService.findByCampusId(2L);
+        List<RestaurantResponse> responses = restaurantService.findByCampusIdOrderByIdDesc(2L, Pageable.ofSize(10));
 
         assertThat(responses).hasSize(2);
     }
