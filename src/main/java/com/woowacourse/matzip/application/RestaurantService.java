@@ -24,4 +24,12 @@ public class RestaurantService {
                 .map(RestaurantResponse::from)
                 .collect(Collectors.toList());
     }
+
+    public List<RestaurantResponse> findByCampusIdAndCategoryIdOrderByIdDesc(final Long campusId, final Long categoryId,
+                                                                             final Pageable pageable) {
+        return restaurantRepository.findByCampusIdAndCategoryIdOrderByIdDesc(campusId, categoryId, pageable)
+                .stream()
+                .map(RestaurantResponse::from)
+                .collect(Collectors.toList());
+    }
 }
