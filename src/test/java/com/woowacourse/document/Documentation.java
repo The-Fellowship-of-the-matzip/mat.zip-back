@@ -9,9 +9,12 @@ import com.woowacourse.auth.presentation.AuthController;
 import com.woowacourse.auth.presentation.AuthenticationContext;
 import com.woowacourse.matzip.application.CampusService;
 import com.woowacourse.matzip.application.CategoryService;
+import com.woowacourse.matzip.application.RestaurantService;
+import com.woowacourse.matzip.config.CampusConfig;
 import com.woowacourse.matzip.domain.campus.CampusRepository;
 import com.woowacourse.matzip.presentation.CampusController;
 import com.woowacourse.matzip.presentation.CategoryController;
+import com.woowacourse.matzip.presentation.RestaurantController;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.specification.MockMvcRequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +29,7 @@ import org.springframework.web.context.WebApplicationContext;
 @WebMvcTest({
         CategoryController.class,
         CampusController.class,
+        RestaurantController.class,
         AuthController.class
 })
 @ExtendWith(RestDocumentationExtension.class)
@@ -37,9 +41,13 @@ class Documentation {
     @MockBean
     protected CampusService campusService;
     @MockBean
+    protected RestaurantService restaurantService;
+    @MockBean
     protected AuthService authService;
     @MockBean
     protected JwtTokenProvider jwtTokenProvider;
+    @MockBean
+    protected CampusConfig campusConfig;
     @MockBean
     protected AuthenticationContext authenticationContext;
     @MockBean
