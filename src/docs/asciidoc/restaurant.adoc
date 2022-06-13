@@ -4,3 +4,7 @@
 === 캠퍼스 별 식당 목록 조회
 
 operation::restaurants/list[snippets='http-request,http-response']
+
+=== 캠퍼스 별 카테고리가 일치하는 식당 목록 조회
+
+operation::restaurants-category/list[snippets='http-request,http-response']

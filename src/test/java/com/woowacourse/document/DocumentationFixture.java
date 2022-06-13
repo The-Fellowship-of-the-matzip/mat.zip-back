@@ -36,9 +36,17 @@ public class DocumentationFixture {
     private static final Restaurant SEOLLEUNG_RESTAURANT_2 = new Restaurant(2L, 1L, 2L, "뽕나무쟁이 선릉본점",
             "서울 강남구 역삼로65길 31", 1L,
             "https://place.map.kakao.com/11190567", "www.image.com");
+    private static final Restaurant SEOLLEUNG_RESTAURANT_3 = new Restaurant(3L, 2L, 2L, "마담밍",
+            "서울 강남구 선릉로86길 5-4 1층", 1L,
+            "https://place.map.kakao.com/18283045", "www.image.com");
 
-    public static final List<RestaurantResponse> RESTAURANT_RESPONSES = Stream.of(SEOLLEUNG_RESTAURANT_2,
-                    SEOLLEUNG_RESTAURANT_1)
+    public static final List<RestaurantResponse> SEOLLEUNG_RESTAURANT_RESPONSES = Stream.of(SEOLLEUNG_RESTAURANT_3,
+                    SEOLLEUNG_RESTAURANT_2, SEOLLEUNG_RESTAURANT_1)
+            .map(RestaurantResponse::from)
+            .collect(Collectors.toList());
+
+    public static final List<RestaurantResponse> SEOLLEUNG_KOREAN_RESTAURANT_RESPONSES = Stream.of(
+                    SEOLLEUNG_RESTAURANT_2, SEOLLEUNG_RESTAURANT_1)
             .map(RestaurantResponse::from)
             .collect(Collectors.toList());
 }
