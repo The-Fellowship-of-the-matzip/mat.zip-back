@@ -6,7 +6,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
 public class CampusDocumentation extends Documentation {
 
@@ -15,7 +14,6 @@ public class CampusDocumentation extends Documentation {
         when(campusService.findAll()).thenReturn(CAMPUS_RESPONSES);
 
         docsGiven
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when().get("/api/campuses")
                 .then().log().all()
                 .apply(document("campuses/list"))
