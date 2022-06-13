@@ -33,7 +33,7 @@ public class DocumentationFixture {
     private static final Restaurant SEOLLEUNG_RESTAURANT_1 = new Restaurant(1L, 1L, 2L, "배가무닭볶음탕",
             "서울 강남구 선릉로86길 30 1층", 1L,
             "https://place.map.kakao.com/733513512", "www.image.com");
-    private static final Restaurant SEOLLEUNG_RESTAURANT_2 = new Restaurant(1L, 1L, 2L, "뽕나무쟁이 선릉본점",
+    private static final Restaurant SEOLLEUNG_RESTAURANT_2 = new Restaurant(2L, 1L, 2L, "뽕나무쟁이 선릉본점",
             "서울 강남구 역삼로65길 31", 1L,
             "https://place.map.kakao.com/11190567", "www.image.com");
 
