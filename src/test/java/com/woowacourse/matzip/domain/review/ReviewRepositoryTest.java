@@ -4,14 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
-import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
-import com.woowacourse.support.SpringServiceTest;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 
-@SpringServiceTest
+@DataJpaTest
 class ReviewRepositoryTest {
 
     @Autowired
@@ -19,9 +18,6 @@ class ReviewRepositoryTest {
 
     @Autowired
     private ReviewRepository reviewRepository;
-
-    @Autowired
-    private RestaurantRepository restaurantRepository;
 
     @Test
     void 페이징값을_반환한다() {
