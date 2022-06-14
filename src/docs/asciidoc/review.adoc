@@ -1,0 +1,6 @@
+[[Review]]
+== 리뷰
+
+=== 리뷰 작성
+
+operation::reviewes/create[snippets='http-request,http-response']

@@ -14,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class AuthorizationExtractorTest {
 
-    private static final String AUTHORIZATION_HEADER_TYPE = "Authrozation";
+    private static final String AUTHORIZATION_HEADER_TYPE = "Authorization";
 
     private final HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
 

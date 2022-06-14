@@ -8,3 +8,4 @@
 include::auth.adoc[]
 include::campus.adoc[]
 include::category.adoc[]
+include::review.adoc[]
