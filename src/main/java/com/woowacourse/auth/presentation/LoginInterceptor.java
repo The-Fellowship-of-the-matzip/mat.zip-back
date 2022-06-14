@@ -1,7 +1,6 @@
 package com.woowacourse.auth.presentation;
 
 import com.woowacourse.auth.application.JwtTokenProvider;
-import com.woowacourse.auth.exception.InvalidTokenException;
 import com.woowacourse.auth.exception.TokenNotFoundException;
 import com.woowacourse.auth.support.AuthorizationExtractor;
 import javax.servlet.http.HttpServletRequest;
@@ -24,11 +23,16 @@ public class LoginInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler)
-            throws Exception {
+    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response,
+                             final Object handler) {
         if (CorsUtils.isPreFlightRequest(request)) {
             return true;
         }
+
+        if (HttpMethod.GET.matches(request.getMethod())) {
+            return true;
+        }
+
         final String token = AuthorizationExtractor.extract(request)
                 .orElseThrow(TokenNotFoundException::new);
         authenticationContext.setPrincipal(jwtTokenProvider.getPayload(token));
