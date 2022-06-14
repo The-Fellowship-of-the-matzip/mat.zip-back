@@ -46,5 +46,4 @@ public class MemberServiceTest {
         memberService.createOrUpdate(githubProfileResponse);
         assertThat(memberRepository.findMemberByGithubId(HUNI.getGithubId()).isPresent()).isTrue();
     }
-
 }

@@ -34,7 +34,7 @@ public class Review {
     private String content;
 
     @Column(name = "score", nullable = false)
-    private Integer score;
+    private int score;
 
     @Column(name = "menu", length = 20, nullable = false)
     private String menu;
