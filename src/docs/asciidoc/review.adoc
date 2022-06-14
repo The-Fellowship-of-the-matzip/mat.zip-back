@@ -4,3 +4,7 @@
 === 리뷰 작성
 
 operation::reviewes/create[snippets='http-request,http-response']
+
+=== 리뷰 조회
+
+operation::reviewes/list[snippets='http-request,http-response']

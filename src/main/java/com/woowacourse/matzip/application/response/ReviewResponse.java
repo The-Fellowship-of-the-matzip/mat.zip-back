@@ -35,7 +35,7 @@ public class ReviewResponse {
     }
 
     @Getter
-    static class ReviewAuthor {
+    public static class ReviewAuthor {
 
         private String username;
         private String profileImage;
@@ -43,7 +43,7 @@ public class ReviewResponse {
         private ReviewAuthor() {
         }
 
-        private ReviewAuthor(final String username, final String profileImage) {
+        public ReviewAuthor(final String username, final String profileImage) {
             this.username = username;
             this.profileImage = profileImage;
         }

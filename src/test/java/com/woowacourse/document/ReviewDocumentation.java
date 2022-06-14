@@ -1,9 +1,11 @@
 package com.woowacourse.document;
 
+import static com.woowacourse.document.DocumentationFixture.REVIEW_RESPONSES;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 
 import com.woowacourse.matzip.presentation.request.ReviewCreateRequest;
@@ -25,5 +27,16 @@ public class ReviewDocumentation extends Documentation {
                 .then().log().all()
                 .apply(document("reviewes/create"))
                 .statusCode(HttpStatus.CREATED.value());
+    }
+
+    @Test
+    void 리뷰를_조회한다() {
+        when(reviewService.findPageByRestaurantId(any(), any())).thenReturn(REVIEW_RESPONSES);
+
+        docsGiven
+                .when().get("/api/restaurants/1/reviews")
+                .then().log().all()
+                .apply(document("reviewes/list"))
+                .statusCode(HttpStatus.OK.value());
     }
 }
