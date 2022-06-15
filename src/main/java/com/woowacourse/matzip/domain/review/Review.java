@@ -1,6 +1,7 @@
 package com.woowacourse.matzip.domain.review;
 
 import com.woowacourse.matzip.domain.member.Member;
+import com.woowacourse.matzip.exception.InvalidReviewException;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,9 @@ import lombok.Getter;
 @Table(name = "review")
 @Getter
 public class Review {
+
+    private static final int MIN_SCORE = 0;
+    private static final int MAX_SCORE = 5;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,14 +47,21 @@ public class Review {
     }
 
     @Builder
-    public Review(final Long id, final Member member, final Long restaurantId, final String content,
-                  final Integer score, final String menu) {
+    public Review(final Long id, final Member member, final Long restaurantId, final String content, final int score,
+                  final String menu) {
+        validateScoreLength(score);
         this.id = id;
         this.member = member;
         this.restaurantId = restaurantId;
         this.content = content;
         this.score = score;
         this.menu = menu;
+    }
+
+    private void validateScoreLength(final int score) {
+        if (score < MIN_SCORE || score > MAX_SCORE) {
+            throw new InvalidReviewException("리뷰 점수는 0점부터 5점까지만 가능합니다.");
+        }
     }
 
     @Override
