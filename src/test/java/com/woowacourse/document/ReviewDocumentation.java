@@ -34,7 +34,7 @@ public class ReviewDocumentation extends Documentation {
         when(reviewService.findPageByRestaurantId(any(), any())).thenReturn(REVIEW_RESPONSES);
 
         docsGiven
-                .when().get("/api/restaurants/1/reviews")
+                .when().get("/api/restaurants/1/reviews?page=0&size=5")
                 .then().log().all()
                 .apply(document("reviewes/list"))
                 .statusCode(HttpStatus.OK.value());
