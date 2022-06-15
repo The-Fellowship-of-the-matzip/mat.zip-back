@@ -7,8 +7,6 @@ import lombok.Getter;
 public class RestaurantResponse {
 
     private Long id;
-    private Long categoryId;
-    private Long campusId;
     private String name;
     private String address;
     private Long distance;
@@ -18,12 +16,9 @@ public class RestaurantResponse {
     private RestaurantResponse() {
     }
 
-    private RestaurantResponse(final Long id, final Long categoryId, final Long campusId, final String name,
-                               final String address, final Long distance, final String kakaoMapUrl,
-                               final String imageUrl) {
+    private RestaurantResponse(final Long id, final String name, final String address, final Long distance,
+                               final String kakaoMapUrl, final String imageUrl) {
         this.id = id;
-        this.categoryId = categoryId;
-        this.campusId = campusId;
         this.name = name;
         this.address = address;
         this.distance = distance;
@@ -32,8 +27,11 @@ public class RestaurantResponse {
     }
 
     public static RestaurantResponse from(final Restaurant restaurant) {
-        return new RestaurantResponse(restaurant.getId(), restaurant.getCategoryId(), restaurant.getCampusId(),
-                restaurant.getName(), restaurant.getAddress(), restaurant.getDistance(), restaurant.getKakaoMapUrl(),
+        return new RestaurantResponse(restaurant.getId(),
+                restaurant.getName(),
+                restaurant.getAddress(),
+                restaurant.getDistance(),
+                restaurant.getKakaoMapUrl(),
                 restaurant.getImageUrl());
     }
 }
