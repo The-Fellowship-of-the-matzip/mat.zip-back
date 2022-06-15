@@ -8,7 +8,7 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-class RestaurantAcceptanceTest extends AcceptanceTest {
+public class RestaurantAcceptanceTest extends AcceptanceTest {
 
     private static final Long 선릉캠퍼스_ID = 2L;
     private static final Long 한식_ID = 1L;

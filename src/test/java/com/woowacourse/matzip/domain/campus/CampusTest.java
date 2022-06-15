@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class CampusTest {
+public class CampusTest {
 
     @Test
     void 캠퍼스_생성() {

@@ -10,7 +10,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-class RestaurantDocumentation extends Documentation {
+public class RestaurantDocumentation extends Documentation {
 
     @Test
     void 선릉캠퍼스_식당_목록의_0페이지를_조회한다() {

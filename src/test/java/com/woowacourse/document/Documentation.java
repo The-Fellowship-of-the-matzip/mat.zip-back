@@ -33,7 +33,7 @@ import org.springframework.web.context.WebApplicationContext;
         AuthController.class
 })
 @ExtendWith(RestDocumentationExtension.class)
-class Documentation {
+public class Documentation {
 
     protected MockMvcRequestSpecification docsGiven;
     @MockBean

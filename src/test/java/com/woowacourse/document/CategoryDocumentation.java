@@ -7,7 +7,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-class CategoryDocumentation extends Documentation {
+public class CategoryDocumentation extends Documentation {
 
     @Test
     void 카테고리_전체조회() {

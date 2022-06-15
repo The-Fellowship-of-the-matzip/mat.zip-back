@@ -10,7 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 @DataJpaTest
-class RestaurantRepositoryTest {
+public class RestaurantRepositoryTest {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
