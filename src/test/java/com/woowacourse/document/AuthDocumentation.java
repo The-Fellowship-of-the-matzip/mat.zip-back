@@ -11,7 +11,6 @@ import com.woowacourse.auth.application.dto.TokenResponse;
 import com.woowacourse.auth.exception.GithubAccessException;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
 public class AuthDocumentation extends Documentation {
 
@@ -20,7 +19,6 @@ public class AuthDocumentation extends Documentation {
         when(authService.createToken(anyString())).thenReturn(new TokenResponse(HUNI.getAccessToken()));
 
         docsGiven
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when().get("/api/login?code=1")
                 .then().log().all()
                 .apply(document("auth/login",
@@ -35,7 +33,6 @@ public class AuthDocumentation extends Documentation {
         when(authService.createToken(anyString())).thenThrow(new GithubAccessException());
 
         docsGiven
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when().get("/api/login?code=2")
                 .then().log().all()
                 .apply(document("auth/login-failed",

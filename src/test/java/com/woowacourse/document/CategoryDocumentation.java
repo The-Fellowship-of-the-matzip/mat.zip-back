@@ -6,16 +6,14 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
-class CategoryDocumentation extends Documentation {
+public class CategoryDocumentation extends Documentation {
 
     @Test
     void 카테고리_전체조회() {
         when(categoryService.findAll()).thenReturn(CATEGORY_RESPONSES);
 
         docsGiven
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when().get("/api/categories")
                 .then().log().all()
                 .apply(document("categories/list"))

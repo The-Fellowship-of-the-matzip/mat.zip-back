@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringServiceTest
-class CategoryServiceTest {
+public class CategoryServiceTest {
 
     @Autowired
     private CategoryService categoryService;
