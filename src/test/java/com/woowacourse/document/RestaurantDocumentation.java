@@ -32,7 +32,7 @@ class RestaurantDocumentation extends Documentation {
         docsGiven
                 .when().get("/api/campuses/2/restaurants?categoryId=1&page=0&size=10")
                 .then().log().all()
-                .apply(document("restaurants-category/list"))
+                .apply(document("restaurants/list-category"))
                 .statusCode(HttpStatus.OK.value());
     }
 }
