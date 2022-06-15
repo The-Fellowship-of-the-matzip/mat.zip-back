@@ -1,6 +1,7 @@
 package com.woowacourse.matzip.domain.review;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
@@ -32,10 +33,17 @@ class ReviewRepositoryTest {
                     .restaurantId(1L)
                     .content("맛있어요")
                     .score(4)
-                    .menu("족발")
+                    .menu("족발" + i)
                     .build());
         }
-        List<Review> reviews = reviewRepository.findReviewsByRestaurantIdOrderByIdDesc(1L, PageRequest.of(2, 5));
-        assertThat(reviews).hasSize(5);
+        List<Review> firstReviewPage = reviewRepository.findReviewsByRestaurantIdOrderByIdDesc(1L, PageRequest.of(0, 5));
+        List<Review> secondReviewPage = reviewRepository.findReviewsByRestaurantIdOrderByIdDesc(1L, PageRequest.of(1, 5));
+
+        assertAll(
+                () -> assertThat(firstReviewPage).hasSize(5),
+                () -> assertThat(firstReviewPage.get(0).getMenu()).isEqualTo("족발20"),
+                () -> assertThat(secondReviewPage).hasSize(5),
+                () -> assertThat(secondReviewPage.get(0).getMenu()).isEqualTo("족발15")
+        );
     }
 }
