@@ -25,7 +25,6 @@ public class RestaurantController {
     public ResponseEntity<List<RestaurantResponse>> show(@PathVariable final Long campusId,
                                                          @RequestParam(required = false) final Long categoryId,
                                                          final Pageable pageable) {
-        System.err.println(categoryId);
         return ResponseEntity.ok(restaurantService.findByCampusIdOrderByIdDesc(campusId, categoryId, pageable));
     }
 }
