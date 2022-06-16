@@ -48,4 +48,27 @@ class ReviewRepositoryTest {
                 () -> assertThat(secondReviewPage.get(0).getMenu()).isEqualTo("족발15")
         );
     }
+
+    @Test
+    void 전체_별점을_반환한다() {
+        Member member = Member.builder()
+                .githubId("githubId")
+                .username("username")
+                .profileImage("url")
+                .build();
+        for (int i = 1; i <= 20; i++) {
+            reviewRepository.save(Review.builder()
+                    .member(memberRepository.save(member))
+                    .restaurantId(1L)
+                    .content("맛있어요")
+                    .rating(4)
+                    .menu("족발" + i)
+                    .build());
+        }
+
+        List<Integer> ratings = reviewRepository.findRatingsByRestaurantId(1L);
+
+        assertThat(ratings).hasSize(20)
+                .containsOnly(4);
+    }
 }
