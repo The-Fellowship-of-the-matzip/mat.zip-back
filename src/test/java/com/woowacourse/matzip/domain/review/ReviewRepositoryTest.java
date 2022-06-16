@@ -50,13 +50,13 @@ class ReviewRepositoryTest {
     }
 
     @Test
-    void 전체_별점을_반환한다() {
+    void 평균_별점을_반환한다() {
         Member member = Member.builder()
                 .githubId("githubId")
                 .username("username")
                 .profileImage("url")
                 .build();
-        for (int i = 1; i <= 20; i++) {
+        for (int i = 1; i <= 10; i++) {
             reviewRepository.save(Review.builder()
                     .member(memberRepository.save(member))
                     .restaurantId(1L)
@@ -65,10 +65,18 @@ class ReviewRepositoryTest {
                     .menu("족발" + i)
                     .build());
         }
+        for (int i = 11; i <= 20; i++) {
+            reviewRepository.save(Review.builder()
+                    .member(memberRepository.save(member))
+                    .restaurantId(1L)
+                    .content("맛있어요")
+                    .rating(5)
+                    .menu("족발" + i)
+                    .build());
+        }
 
-        List<Integer> ratings = reviewRepository.findRatingsByRestaurantId(1L);
+        double average = reviewRepository.findAverageRatingByRestaurantId(1L);
 
-        assertThat(ratings).hasSize(20)
-                .containsOnly(4);
+        assertThat(average).isEqualTo(4.5);
     }
 }
