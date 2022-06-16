@@ -3,6 +3,12 @@ package com.woowacourse.matzip.application;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
+import com.woowacourse.matzip.domain.member.Member;
+import com.woowacourse.matzip.domain.member.MemberRepository;
+import com.woowacourse.matzip.domain.restaurant.Restaurant;
+import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
+import com.woowacourse.matzip.domain.review.Review;
+import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.support.SpringServiceTest;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -14,6 +20,12 @@ class RestaurantServiceTest {
 
     @Autowired
     private RestaurantService restaurantService;
+    @Autowired
+    private MemberRepository memberRepository;
+    @Autowired
+    private RestaurantRepository restaurantRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     @Test
     void 캠퍼스id가_일치하는_식당_목록_페이지를_반환한다() {
@@ -29,5 +41,39 @@ class RestaurantServiceTest {
                 Pageable.ofSize(10));
 
         assertThat(responses).hasSize(2);
+    }
+
+    @Test
+    void 식당_목록_조회시_평균별점도_조회한다() {
+        Member member = Member.builder()
+                .githubId("githubId")
+                .username("username")
+                .profileImage("url")
+                .build();
+        Restaurant restaurant = Restaurant.builder()
+                .campusId(1L)
+                .categoryId(1L)
+                .name("테스트식당")
+                .address("테스트주소")
+                .kakaoMapUrl("testURL")
+                .imageUrl("testURL")
+                .build();
+        restaurantRepository.save(restaurant);
+        for (int i = 1; i <= 10; i++) {
+            reviewRepository.save(Review.builder()
+                    .member(memberRepository.save(member))
+                    .restaurantId(restaurant.getId())
+                    .content("맛있어요")
+                    .rating(4)
+                    .menu("족발" + i)
+                    .build());
+        }
+
+        List<RestaurantTitleResponse> responses = restaurantService.findByCampusIdOrderByIdDesc(1L, 1L,
+                Pageable.ofSize(10));
+
+        assertThat(responses).hasSize(1)
+                .extracting(RestaurantTitleResponse::getRating)
+                .containsExactly(4.0);
     }
 }
