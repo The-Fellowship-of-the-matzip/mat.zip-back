@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 
 @Entity
@@ -27,6 +28,7 @@ public class Category {
     protected Category() {
     }
 
+    @Builder
     public Category(final Long id, final String name) {
         checkCategoryLength(name);
         this.id = id;

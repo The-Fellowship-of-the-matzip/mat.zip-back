@@ -6,7 +6,7 @@ import org.apache.logging.log4j.util.Strings;
 
 public class AuthorizationExtractor {
 
-    private static final String AUTHORIZATION_HEADER_TYPE = "Authrozation";
+    private static final String AUTHORIZATION_HEADER_TYPE = "Authorization";
     private static final String TOKEN_TYPE = "Bearer";
 
     private AuthorizationExtractor() {

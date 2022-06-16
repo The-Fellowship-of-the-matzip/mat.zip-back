@@ -12,14 +12,19 @@ import org.springframework.http.HttpStatus;
 
 public class AuthAcceptanceTest extends AcceptanceTest {
 
+    public static String 로그인_토큰() {
+        return 로그인().as(TokenResponse.class)
+                .getAccessToken();
+    }
+
+    private static ExtractableResponse<Response> 로그인() {
+        return httpGetRequest("/api/login?code=1");
+    }
+
     @Test
     void code를_요청하면_토큰을_반환한다() {
         ExtractableResponse<Response> response = 로그인();
         토큰을_반환한다(response);
-    }
-
-    private ExtractableResponse<Response> 로그인() {
-        return httpGetRequest("/api/login?code=1");
     }
 
     private void 토큰을_반환한다(ExtractableResponse<Response> response) {
