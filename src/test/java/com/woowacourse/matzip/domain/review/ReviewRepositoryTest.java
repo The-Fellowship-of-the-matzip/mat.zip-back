@@ -32,12 +32,14 @@ class ReviewRepositoryTest {
                     .member(memberRepository.save(member))
                     .restaurantId(1L)
                     .content("맛있어요")
-                    .score(4)
+                    .rating(4)
                     .menu("족발" + i)
                     .build());
         }
-        List<Review> firstReviewPage = reviewRepository.findReviewsByRestaurantIdOrderByIdDesc(1L, PageRequest.of(0, 5));
-        List<Review> secondReviewPage = reviewRepository.findReviewsByRestaurantIdOrderByIdDesc(1L, PageRequest.of(1, 5));
+        List<Review> firstReviewPage = reviewRepository.findReviewsByRestaurantIdOrderByIdDesc(1L,
+                PageRequest.of(0, 5));
+        List<Review> secondReviewPage = reviewRepository.findReviewsByRestaurantIdOrderByIdDesc(1L,
+                PageRequest.of(1, 5));
 
         assertAll(
                 () -> assertThat(firstReviewPage).hasSize(5),

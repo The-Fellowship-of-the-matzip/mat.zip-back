@@ -6,15 +6,15 @@ import com.woowacourse.matzip.domain.review.Review;
 public class ReviewCreateRequest {
 
     private String content;
-    private int score;
+    private int rating;
     private String menu;
 
     private ReviewCreateRequest() {
     }
 
-    public ReviewCreateRequest(final String content, final int score, final String menu) {
+    public ReviewCreateRequest(final String content, final int rating, final String menu) {
         this.content = content;
-        this.score = score;
+        this.rating = rating;
         this.menu = menu;
     }
 
@@ -23,7 +23,7 @@ public class ReviewCreateRequest {
                 .member(member)
                 .restaurantId(restaurantId)
                 .content(content)
-                .score(score)
+                .rating(rating)
                 .menu(menu)
                 .build();
     }
@@ -32,8 +32,8 @@ public class ReviewCreateRequest {
         return content;
     }
 
-    public int getScore() {
-        return score;
+    public int getRating() {
+        return rating;
     }
 
     public String getMenu() {

@@ -11,7 +11,7 @@ public class ReviewTest {
     @ParameterizedTest
     @ValueSource(ints = {-1, 6})
     void 별점_범위제한인_경우_예외발생(final int score) {
-        assertThatThrownBy(() -> Review.builder().score(score).build())
+        assertThatThrownBy(() -> Review.builder().rating(score).build())
                 .isInstanceOf(InvalidReviewException.class)
                 .hasMessage("리뷰 점수는 0점부터 5점까지만 가능합니다.");
     }
