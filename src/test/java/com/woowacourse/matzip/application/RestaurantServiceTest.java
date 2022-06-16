@@ -1,6 +1,7 @@
 package com.woowacourse.matzip.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.domain.member.Member;
@@ -13,6 +14,7 @@ import com.woowacourse.support.SpringServiceTest;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 @SpringServiceTest
@@ -29,18 +31,29 @@ class RestaurantServiceTest {
 
     @Test
     void 캠퍼스id가_일치하는_식당_목록_페이지를_반환한다() {
-        List<RestaurantTitleResponse> responses = restaurantService.findByCampusIdOrderByIdDesc(2L, null,
-                Pageable.ofSize(10));
+        List<RestaurantTitleResponse> page1 = restaurantService.findByCampusIdOrderByIdDesc(2L, null,
+                Pageable.ofSize(2));
+        List<RestaurantTitleResponse> page2 = restaurantService.findByCampusIdOrderByIdDesc(2L, null,
+                PageRequest.of(1, 2));
 
-        assertThat(responses).hasSize(3);
+        assertAll(
+                () -> assertThat(page1).hasSize(2)
+                        .extracting(RestaurantTitleResponse::getName)
+                        .containsExactly("마담밍", "뽕나무쟁이 선릉본점"),
+                () -> assertThat(page2).hasSize(1)
+                        .extracting(RestaurantTitleResponse::getName)
+                        .containsExactly("배가무닭볶음탕")
+        );
     }
 
     @Test
     void 캠퍼스id와_카테고리id가_일치하는_식당_목록_페이지를_반환한다() {
         List<RestaurantTitleResponse> responses = restaurantService.findByCampusIdOrderByIdDesc(2L, 1L,
-                Pageable.ofSize(10));
+                Pageable.ofSize(2));
 
-        assertThat(responses).hasSize(2);
+        assertThat(responses).hasSize(2)
+                .extracting(RestaurantTitleResponse::getName)
+                .containsExactly("뽕나무쟁이 선릉본점", "배가무닭볶음탕");
     }
 
     @Test
