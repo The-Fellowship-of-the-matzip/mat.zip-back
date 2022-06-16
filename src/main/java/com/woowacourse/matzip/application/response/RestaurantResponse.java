@@ -9,14 +9,14 @@ public class RestaurantResponse {
     private Long id;
     private String name;
     private String address;
-    private Long distance;
+    private long distance;
     private String kakaoMapUrl;
     private String imageUrl;
 
     private RestaurantResponse() {
     }
 
-    private RestaurantResponse(final Long id, final String name, final String address, final Long distance,
+    private RestaurantResponse(final Long id, final String name, final String address, final long distance,
                                final String kakaoMapUrl, final String imageUrl) {
         this.id = id;
         this.name = name;

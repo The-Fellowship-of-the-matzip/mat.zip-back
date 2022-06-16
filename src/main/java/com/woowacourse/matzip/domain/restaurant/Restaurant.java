@@ -32,7 +32,7 @@ public class Restaurant {
     private String address;
 
     @Column(name = "distance", nullable = false)
-    private Long distance;
+    private long distance;
 
     @Column(name = "kakao_map_url", nullable = false)
     private String kakaoMapUrl;
@@ -45,7 +45,7 @@ public class Restaurant {
 
     @Builder
     public Restaurant(final Long id, final Long categoryId, final Long campusId, final String name,
-                      final String address, final Long distance, final String kakaoMapUrl, final String imageUrl) {
+                      final String address, final long distance, final String kakaoMapUrl, final String imageUrl) {
         this.id = id;
         this.categoryId = categoryId;
         this.campusId = campusId;

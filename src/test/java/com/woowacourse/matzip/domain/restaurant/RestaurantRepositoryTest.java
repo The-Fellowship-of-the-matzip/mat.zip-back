@@ -22,7 +22,7 @@ public class RestaurantRepositoryTest {
                 .campusId(1L)
                 .name("식당1")
                 .address("주소1")
-                .distance(10L)
+                .distance(10)
                 .kakaoMapUrl("www.kakao.test.com")
                 .imageUrl("www.test.com")
                 .build();
@@ -31,7 +31,7 @@ public class RestaurantRepositoryTest {
                 .campusId(1L)
                 .name("식당2")
                 .address("주소2")
-                .distance(10L)
+                .distance(10)
                 .kakaoMapUrl("www.kakao.test.com")
                 .imageUrl("www.test.com")
                 .build();
@@ -49,7 +49,7 @@ public class RestaurantRepositoryTest {
                 .campusId(1L)
                 .name("식당1")
                 .address("주소1")
-                .distance(10L)
+                .distance(10)
                 .kakaoMapUrl("www.kakao.test.com")
                 .imageUrl("www.test.com")
                 .build();
@@ -58,7 +58,7 @@ public class RestaurantRepositoryTest {
                 .campusId(1L)
                 .name("식당2")
                 .address("주소2")
-                .distance(10L)
+                .distance(10)
                 .kakaoMapUrl("www.kakao.test.com")
                 .imageUrl("www.test.com")
                 .build();
@@ -77,7 +77,7 @@ public class RestaurantRepositoryTest {
                 .campusId(1L)
                 .name("식당1")
                 .address("주소1")
-                .distance(10L)
+                .distance(10)
                 .kakaoMapUrl("www.kakao.test.com")
                 .imageUrl("www.test.com")
                 .build();
@@ -86,7 +86,7 @@ public class RestaurantRepositoryTest {
                 .campusId(1L)
                 .name("식당2")
                 .address("주소2")
-                .distance(10L)
+                .distance(10)
                 .kakaoMapUrl("www.kakao.test.com")
                 .imageUrl("www.test.com")
                 .build();
@@ -95,7 +95,7 @@ public class RestaurantRepositoryTest {
                 .campusId(1L)
                 .name("식당3")
                 .address("주소3")
-                .distance(10L)
+                .distance(10)
                 .kakaoMapUrl("www.kakao.test.com")
                 .imageUrl("www.test.com")
                 .build();
@@ -104,7 +104,7 @@ public class RestaurantRepositoryTest {
                 .campusId(1L)
                 .name("식당4")
                 .address("주소4")
-                .distance(10L)
+                .distance(10)
                 .kakaoMapUrl("www.kakao.test.com")
                 .imageUrl("www.test.com")
                 .build();
