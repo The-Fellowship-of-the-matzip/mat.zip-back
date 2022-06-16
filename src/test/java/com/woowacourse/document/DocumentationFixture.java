@@ -2,7 +2,7 @@ package com.woowacourse.document;
 
 import com.woowacourse.matzip.application.response.CampusResponse;
 import com.woowacourse.matzip.application.response.CategoryResponse;
-import com.woowacourse.matzip.application.response.RestaurantResponse;
+import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.ReviewResponse;
 import com.woowacourse.matzip.application.response.ReviewResponse.ReviewAuthor;
 import com.woowacourse.matzip.domain.campus.Campus;
@@ -32,14 +32,20 @@ public class DocumentationFixture {
             .map(CampusResponse::from)
             .collect(Collectors.toList());
 
-    private static final ReviewResponse REVIEW_1 = new ReviewResponse(1L, new ReviewAuthor("후니", "url"), "무가 맛있어요", 5, "무닭볶음탕 (중)");
-    private static final ReviewResponse REVIEW_2 = new ReviewResponse(2L, new ReviewAuthor("오찌", "url"), "맛없어요.", 2, "무닭볶음탕 (대)");
-    private static final ReviewResponse REVIEW_3 = new ReviewResponse(3L, new ReviewAuthor("태태", "url"), "평범해요.", 3, "무닭볶음탕 (중)");
-    private static final ReviewResponse REVIEW_4 = new ReviewResponse(4L, new ReviewAuthor("샐리", "url"), "맛있어요.", 4, "무닭볶음탕 (대)");
-    private static final ReviewResponse REVIEW_5 = new ReviewResponse(5L, new ReviewAuthor("블링", "url"), "또오고 싶어요.", 5, "통마늘 닭똥집볶음");
+    private static final ReviewResponse REVIEW_1 = new ReviewResponse(1L, new ReviewAuthor("후니", "url"), "무가 맛있어요", 5,
+            "무닭볶음탕 (중)");
+    private static final ReviewResponse REVIEW_2 = new ReviewResponse(2L, new ReviewAuthor("오찌", "url"), "맛없어요.", 2,
+            "무닭볶음탕 (대)");
+    private static final ReviewResponse REVIEW_3 = new ReviewResponse(3L, new ReviewAuthor("태태", "url"), "평범해요.", 3,
+            "무닭볶음탕 (중)");
+    private static final ReviewResponse REVIEW_4 = new ReviewResponse(4L, new ReviewAuthor("샐리", "url"), "맛있어요.", 4,
+            "무닭볶음탕 (대)");
+    private static final ReviewResponse REVIEW_5 = new ReviewResponse(5L, new ReviewAuthor("블링", "url"), "또오고 싶어요.", 5,
+            "통마늘 닭똥집볶음");
 
-    public static final List<ReviewResponse> REVIEW_RESPONSES = List.of(REVIEW_1, REVIEW_2, REVIEW_3, REVIEW_4, REVIEW_5);
-  
+    public static final List<ReviewResponse> REVIEW_RESPONSES = List.of(REVIEW_1, REVIEW_2, REVIEW_3, REVIEW_4,
+            REVIEW_5);
+
     private static final Restaurant SEOLLEUNG_RESTAURANT_1 = new Restaurant(1L, 1L, 2L, "배가무닭볶음탕",
             "서울 강남구 선릉로86길 30 1층", 1L,
             "https://place.map.kakao.com/733513512", "www.image.com");
@@ -50,13 +56,13 @@ public class DocumentationFixture {
             "서울 강남구 선릉로86길 5-4 1층", 1L,
             "https://place.map.kakao.com/18283045", "www.image.com");
 
-    public static final List<RestaurantResponse> SEOLLEUNG_RESTAURANT_RESPONSES = Stream.of(SEOLLEUNG_RESTAURANT_3,
+    public static final List<RestaurantTitleResponse> SEOLLEUNG_RESTAURANT_RESPONSES = Stream.of(SEOLLEUNG_RESTAURANT_3,
                     SEOLLEUNG_RESTAURANT_2, SEOLLEUNG_RESTAURANT_1)
-            .map(RestaurantResponse::from)
+            .map(restaurant -> RestaurantTitleResponse.of(restaurant, 4))
             .collect(Collectors.toList());
 
-    public static final List<RestaurantResponse> SEOLLEUNG_KOREAN_RESTAURANT_RESPONSES = Stream.of(
+    public static final List<RestaurantTitleResponse> SEOLLEUNG_KOREAN_RESTAURANT_RESPONSES = Stream.of(
                     SEOLLEUNG_RESTAURANT_2, SEOLLEUNG_RESTAURANT_1)
-            .map(RestaurantResponse::from)
+            .map(restaurant -> RestaurantTitleResponse.of(restaurant, 4))
             .collect(Collectors.toList());
 }

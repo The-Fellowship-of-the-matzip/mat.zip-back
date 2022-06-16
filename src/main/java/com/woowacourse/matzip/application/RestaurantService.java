@@ -1,6 +1,6 @@
 package com.woowacourse.matzip.application;
 
-import com.woowacourse.matzip.application.response.RestaurantResponse;
+import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,11 +18,11 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public List<RestaurantResponse> findByCampusIdOrderByIdDesc(final Long campusId, final Long categoryId,
-                                                                final Pageable pageable) {
+    public List<RestaurantTitleResponse> findByCampusIdOrderByIdDesc(final Long campusId, final Long categoryId,
+                                                                     final Pageable pageable) {
         return restaurantRepository.findPageByCampusIdOrderByIdDesc(campusId, categoryId, pageable)
                 .stream()
-                .map(RestaurantResponse::from)
+                .map(restaurant -> RestaurantTitleResponse.of(restaurant, 0))
                 .collect(Collectors.toList());
     }
 }
