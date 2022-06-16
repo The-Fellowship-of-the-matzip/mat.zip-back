@@ -2,10 +2,12 @@ package com.woowacourse.document;
 
 import com.woowacourse.matzip.application.response.CampusResponse;
 import com.woowacourse.matzip.application.response.CategoryResponse;
+import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.ReviewResponse;
 import com.woowacourse.matzip.application.response.ReviewResponse.ReviewAuthor;
 import com.woowacourse.matzip.domain.campus.Campus;
 import com.woowacourse.matzip.domain.category.Category;
+import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -37,4 +39,24 @@ public class DocumentationFixture {
     private static final ReviewResponse REVIEW_5 = new ReviewResponse(5L, new ReviewAuthor("블링", "url"), "또오고 싶어요.", 5, "통마늘 닭똥집볶음");
 
     public static final List<ReviewResponse> REVIEW_RESPONSES = List.of(REVIEW_1, REVIEW_2, REVIEW_3, REVIEW_4, REVIEW_5);
+  
+    private static final Restaurant SEOLLEUNG_RESTAURANT_1 = new Restaurant(1L, 1L, 2L, "배가무닭볶음탕",
+            "서울 강남구 선릉로86길 30 1층", 1L,
+            "https://place.map.kakao.com/733513512", "www.image.com");
+    private static final Restaurant SEOLLEUNG_RESTAURANT_2 = new Restaurant(2L, 1L, 2L, "뽕나무쟁이 선릉본점",
+            "서울 강남구 역삼로65길 31", 1L,
+            "https://place.map.kakao.com/11190567", "www.image.com");
+    private static final Restaurant SEOLLEUNG_RESTAURANT_3 = new Restaurant(3L, 2L, 2L, "마담밍",
+            "서울 강남구 선릉로86길 5-4 1층", 1L,
+            "https://place.map.kakao.com/18283045", "www.image.com");
+
+    public static final List<RestaurantResponse> SEOLLEUNG_RESTAURANT_RESPONSES = Stream.of(SEOLLEUNG_RESTAURANT_3,
+                    SEOLLEUNG_RESTAURANT_2, SEOLLEUNG_RESTAURANT_1)
+            .map(RestaurantResponse::from)
+            .collect(Collectors.toList());
+
+    public static final List<RestaurantResponse> SEOLLEUNG_KOREAN_RESTAURANT_RESPONSES = Stream.of(
+                    SEOLLEUNG_RESTAURANT_2, SEOLLEUNG_RESTAURANT_1)
+            .map(RestaurantResponse::from)
+            .collect(Collectors.toList());
 }

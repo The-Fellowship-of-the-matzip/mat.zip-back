@@ -26,7 +26,7 @@ public class CampusInterceptor implements HandlerInterceptor {
     }
 
     private Long getCampusId(final HttpServletRequest request) {
-        return (Long) getAttribute(request).get(CAMPUS_ID_PATH);
+        return Long.parseLong((String) getAttribute(request).get(CAMPUS_ID_PATH));
     }
 
     @SuppressWarnings("unchecked")
