@@ -10,17 +10,18 @@ public class ReviewResponse {
     private Long id;
     private ReviewAuthor author;
     private String content;
-    private int score;
+    private int rating;
     private String menu;
 
     private ReviewResponse() {
     }
 
-    public ReviewResponse(final Long id, final ReviewAuthor author, final String content, final int score, final String menu) {
+    public ReviewResponse(final Long id, final ReviewAuthor author, final String content, final int rating,
+                          final String menu) {
         this.id = id;
         this.author = author;
         this.content = content;
-        this.score = score;
+        this.rating = rating;
         this.menu = menu;
     }
 
@@ -29,7 +30,7 @@ public class ReviewResponse {
                 review.getId(),
                 ReviewAuthor.from(review.getMember()),
                 review.getContent(),
-                review.getScore(),
+                review.getRating(),
                 review.getMenu()
         );
     }

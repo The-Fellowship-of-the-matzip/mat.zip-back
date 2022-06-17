@@ -1,7 +1,9 @@
 package com.woowacourse.matzip.application;
 
-import com.woowacourse.matzip.application.response.RestaurantResponse;
+import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
+import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
+import com.woowacourse.matzip.domain.review.ReviewRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
@@ -13,16 +15,24 @@ import org.springframework.transaction.annotation.Transactional;
 public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
+    private final ReviewRepository reviewRepository;
 
-    public RestaurantService(final RestaurantRepository restaurantRepository) {
+    public RestaurantService(final RestaurantRepository restaurantRepository, final ReviewRepository reviewRepository) {
         this.restaurantRepository = restaurantRepository;
+        this.reviewRepository = reviewRepository;
     }
 
-    public List<RestaurantResponse> findByCampusIdOrderByIdDesc(final Long campusId, final Long categoryId,
-                                                                final Pageable pageable) {
+    public List<RestaurantTitleResponse> findByCampusIdOrderByIdDesc(final Long campusId, final Long categoryId,
+                                                                     final Pageable pageable) {
         return restaurantRepository.findPageByCampusIdOrderByIdDesc(campusId, categoryId, pageable)
                 .stream()
-                .map(RestaurantResponse::from)
+                .map(this::toResponse)
                 .collect(Collectors.toList());
+    }
+
+    private RestaurantTitleResponse toResponse(Restaurant restaurant) {
+        double rating = reviewRepository.findAverageRatingByRestaurantId(restaurant.getId())
+                .orElse(0.0);
+        return RestaurantTitleResponse.of(restaurant, rating);
     }
 }

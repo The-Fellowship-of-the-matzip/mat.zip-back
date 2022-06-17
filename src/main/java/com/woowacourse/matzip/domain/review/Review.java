@@ -37,8 +37,8 @@ public class Review {
     @Column(name = "content")
     private String content;
 
-    @Column(name = "score", nullable = false)
-    private int score;
+    @Column(name = "rating", nullable = false)
+    private int rating;
 
     @Column(name = "menu", length = 20, nullable = false)
     private String menu;
@@ -47,19 +47,19 @@ public class Review {
     }
 
     @Builder
-    public Review(final Long id, final Member member, final Long restaurantId, final String content, final int score,
+    public Review(final Long id, final Member member, final Long restaurantId, final String content, final int rating,
                   final String menu) {
-        validateScoreLength(score);
+        validateRating(rating);
         this.id = id;
         this.member = member;
         this.restaurantId = restaurantId;
         this.content = content;
-        this.score = score;
+        this.rating = rating;
         this.menu = menu;
     }
 
-    private void validateScoreLength(final int score) {
-        if (score < MIN_SCORE || score > MAX_SCORE) {
+    private void validateRating(final int rating) {
+        if (rating < MIN_SCORE || rating > MAX_SCORE) {
             throw new InvalidReviewException("리뷰 점수는 0점부터 5점까지만 가능합니다.");
         }
     }

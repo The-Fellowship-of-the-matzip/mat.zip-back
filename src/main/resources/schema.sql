@@ -32,7 +32,7 @@ CREATE TABLE review
     member_id     bigint       NOT NULL,
     restaurant_id bigint       NOT NULL,
     content       varchar(255) NULL,
-    score         int          NOT NULL,
+    rating        int          NOT NULL,
     menu          varchar(20)  NOT NULL,
     PRIMARY KEY (id)
 );

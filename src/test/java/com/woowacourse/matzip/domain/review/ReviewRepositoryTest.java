@@ -32,12 +32,14 @@ class ReviewRepositoryTest {
                     .member(memberRepository.save(member))
                     .restaurantId(1L)
                     .content("맛있어요")
-                    .score(4)
+                    .rating(4)
                     .menu("족발" + i)
                     .build());
         }
-        List<Review> firstReviewPage = reviewRepository.findReviewsByRestaurantIdOrderByIdDesc(1L, PageRequest.of(0, 5));
-        List<Review> secondReviewPage = reviewRepository.findReviewsByRestaurantIdOrderByIdDesc(1L, PageRequest.of(1, 5));
+        List<Review> firstReviewPage = reviewRepository.findReviewsByRestaurantIdOrderByIdDesc(1L,
+                PageRequest.of(0, 5));
+        List<Review> secondReviewPage = reviewRepository.findReviewsByRestaurantIdOrderByIdDesc(1L,
+                PageRequest.of(1, 5));
 
         assertAll(
                 () -> assertThat(firstReviewPage).hasSize(5),
@@ -45,5 +47,37 @@ class ReviewRepositoryTest {
                 () -> assertThat(secondReviewPage).hasSize(5),
                 () -> assertThat(secondReviewPage.get(0).getMenu()).isEqualTo("족발15")
         );
+    }
+
+    @Test
+    void 평균_별점을_반환한다() {
+        Member member = Member.builder()
+                .githubId("githubId")
+                .username("username")
+                .profileImage("url")
+                .build();
+        for (int i = 1; i <= 10; i++) {
+            reviewRepository.save(Review.builder()
+                    .member(memberRepository.save(member))
+                    .restaurantId(1L)
+                    .content("맛있어요")
+                    .rating(4)
+                    .menu("족발" + i)
+                    .build());
+        }
+        for (int i = 11; i <= 20; i++) {
+            reviewRepository.save(Review.builder()
+                    .member(memberRepository.save(member))
+                    .restaurantId(1L)
+                    .content("맛있어요")
+                    .rating(5)
+                    .menu("족발" + i)
+                    .build());
+        }
+
+        double average = reviewRepository.findAverageRatingByRestaurantId(1L)
+                .orElse(0.0);
+
+        assertThat(average).isEqualTo(4.5);
     }
 }
