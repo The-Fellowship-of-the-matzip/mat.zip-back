@@ -75,7 +75,7 @@ class ReviewRepositoryTest {
                     .build());
         }
 
-        double average = reviewRepository.findAverageRatingByRestaurantId(1L)
+        double average = reviewRepository.findAverageRatingUsingRestaurantId(1L)
                 .orElse(0.0);
 
         assertThat(average).isEqualTo(4.5);

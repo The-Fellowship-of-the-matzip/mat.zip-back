@@ -11,7 +11,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query(
             value = "select avg(r.rating) from Review r where (r.restaurantId = :restaurantId)"
     )
-    Optional<Double> findAverageRatingByRestaurantId(Long restaurantId);
+    Optional<Double> findAverageRatingUsingRestaurantId(Long restaurantId);
 
     List<Review> findReviewsByRestaurantIdOrderByIdDesc(Long restaurantId, Pageable pageable);
 }

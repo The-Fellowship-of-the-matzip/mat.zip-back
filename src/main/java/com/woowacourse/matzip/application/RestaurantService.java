@@ -40,7 +40,7 @@ public class RestaurantService {
     }
 
     private RestaurantTitleResponse toResponse(final Restaurant restaurant) {
-        double rating = reviewRepository.findAverageRatingByRestaurantId(restaurant.getId())
+        double rating = reviewRepository.findAverageRatingUsingRestaurantId(restaurant.getId())
                 .orElse(0.0);
         return RestaurantTitleResponse.of(restaurant, rating);
     }
