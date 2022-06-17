@@ -141,4 +141,51 @@ public class RestaurantRepositoryTest {
 
         assertThat(actual).containsExactly(restaurant4, restaurant3);
     }
+
+    @Test
+    void 캠퍼스id에_해당하는_식당을_무작위로_지정한_개수만큼_조회한다() {
+        Restaurant restaurant1 = Restaurant.builder()
+                .categoryId(1L)
+                .campusId(1L)
+                .name("식당1")
+                .address("주소1")
+                .distance(10)
+                .kakaoMapUrl("www.kakao.test.com")
+                .imageUrl("www.test.com")
+                .build();
+        Restaurant restaurant2 = Restaurant.builder()
+                .categoryId(1L)
+                .campusId(1L)
+                .name("식당2")
+                .address("주소2")
+                .distance(10)
+                .kakaoMapUrl("www.kakao.test.com")
+                .imageUrl("www.test.com")
+                .build();
+        Restaurant restaurant3 = Restaurant.builder()
+                .categoryId(1L)
+                .campusId(1L)
+                .name("식당3")
+                .address("주소3")
+                .distance(10)
+                .kakaoMapUrl("www.kakao.test.com")
+                .imageUrl("www.test.com")
+                .build();
+        Restaurant restaurant4 = Restaurant.builder()
+                .categoryId(1L)
+                .campusId(1L)
+                .name("식당4")
+                .address("주소4")
+                .distance(10)
+                .kakaoMapUrl("www.kakao.test.com")
+                .imageUrl("www.test.com")
+                .build();
+        restaurantRepository.saveAll(
+                List.of(restaurant1, restaurant2, restaurant3, restaurant4));
+
+        List<Restaurant> restaurants = restaurantRepository.findRandomByCampusId(1L, 2);
+
+        assertThat(restaurants).hasSize(2)
+                .containsAnyOf(restaurant1, restaurant2, restaurant3, restaurant4);
+    }
 }
