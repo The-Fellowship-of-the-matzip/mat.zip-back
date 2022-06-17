@@ -29,6 +29,12 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurantService.findByCampusIdOrderByIdDesc(campusId, categoryId, pageable));
     }
 
+    @GetMapping("/campuses/{campusId}/restaurants/random")
+    public ResponseEntity<List<RestaurantTitleResponse>> showRandom(@PathVariable final Long campusId,
+                                                                    @RequestParam final int size) {
+        return ResponseEntity.ok(restaurantService.findRandomByCampusId(campusId, size));
+    }
+
     @GetMapping("/restaurants/{restaurantId}")
     public ResponseEntity<RestaurantResponse> showRestaurant(@PathVariable final Long restaurantId) {
         return ResponseEntity.ok(restaurantService.findById(restaurantId));
