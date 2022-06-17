@@ -1,6 +1,7 @@
 package com.woowacourse.matzip.domain.restaurant;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -35,11 +36,26 @@ public class RestaurantRepositoryTest {
                 .kakaoMapUrl("www.kakao.test.com")
                 .imageUrl("www.test.com")
                 .build();
-        restaurantRepository.saveAll(List.of(restaurant1, restaurant2));
+        Restaurant restaurant3 = Restaurant.builder()
+                .categoryId(1L)
+                .campusId(1L)
+                .name("식당3")
+                .address("주소3")
+                .distance(10)
+                .kakaoMapUrl("www.kakao.test.com")
+                .imageUrl("www.test.com")
+                .build();
+        restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
 
-        List<Restaurant> actual = restaurantRepository.findPageByCampusIdOrderByIdDesc(1L, null, Pageable.ofSize(10));
+        List<Restaurant> page1 = restaurantRepository.findPageByCampusIdOrderByIdDesc(1L, null,
+                PageRequest.of(0, 2));
+        List<Restaurant> page2 = restaurantRepository.findPageByCampusIdOrderByIdDesc(1L, null,
+                PageRequest.of(1, 2));
 
-        assertThat(actual).containsExactly(restaurant2, restaurant1);
+        assertAll(
+                () -> assertThat(page1).containsExactly(restaurant3, restaurant2),
+                () -> assertThat(page2).containsExactly(restaurant1)
+        );
     }
 
     @Test
@@ -62,12 +78,21 @@ public class RestaurantRepositoryTest {
                 .kakaoMapUrl("www.kakao.test.com")
                 .imageUrl("www.test.com")
                 .build();
-        restaurantRepository.saveAll(List.of(restaurant1, restaurant2));
+        Restaurant restaurant3 = Restaurant.builder()
+                .categoryId(2L)
+                .campusId(1L)
+                .name("식당3")
+                .address("주소3")
+                .distance(10)
+                .kakaoMapUrl("www.kakao.test.com")
+                .imageUrl("www.test.com")
+                .build();
+        restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
 
-        List<Restaurant> actual = restaurantRepository.findPageByCampusIdOrderByIdDesc(1L, 1L,
-                Pageable.ofSize(10));
+        List<Restaurant> page1 = restaurantRepository.findPageByCampusIdOrderByIdDesc(1L, 1L,
+                Pageable.ofSize(2));
 
-        assertThat(actual).containsExactly(restaurant2, restaurant1);
+        assertThat(page1).containsExactly(restaurant2, restaurant1);
     }
 
     @Test
