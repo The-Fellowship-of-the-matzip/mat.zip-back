@@ -12,9 +12,14 @@ public class RestaurantAcceptanceTest extends AcceptanceTest {
 
     private static final Long 선릉캠퍼스_ID = 2L;
     private static final Long 한식_ID = 1L;
+    private static final Long 식당_1_ID = 1L;
 
     private static ExtractableResponse<Response> 캠퍼스_식당_0페이지_조회_요청(final Long campusId) {
         return httpGetRequest("/api/campuses/" + campusId + "/restaurants?page=0&size=10");
+    }
+
+    private static ExtractableResponse<Response> 식당_조회_요청(Long restaurantId) {
+        return httpGetRequest("/api/restaurants/" + restaurantId);
     }
 
     @Test
@@ -26,6 +31,12 @@ public class RestaurantAcceptanceTest extends AcceptanceTest {
     @Test
     void 선릉캠퍼스_한식_식당_목록의_0페이지를_조회한다() {
         ExtractableResponse<Response> response = 캠퍼스_카테고리_식당_0페이지_조회_요청(선릉캠퍼스_ID, 한식_ID);
+        식당_조회에_성공한다(response);
+    }
+
+    @Test
+    void 선릉캠퍼스_식당_1의_상세_정보를_조회한다() {
+        ExtractableResponse<Response> response = 식당_조회_요청(식당_1_ID);
         식당_조회에_성공한다(response);
     }
 

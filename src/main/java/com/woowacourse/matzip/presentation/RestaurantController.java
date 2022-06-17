@@ -1,6 +1,7 @@
 package com.woowacourse.matzip.presentation;
 
 import com.woowacourse.matzip.application.RestaurantService;
+import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/campuses/{campusId}/restaurants")
+@RequestMapping("/api")
 public class RestaurantController {
 
     private final RestaurantService restaurantService;
@@ -21,10 +22,15 @@ public class RestaurantController {
         this.restaurantService = restaurantService;
     }
 
-    @GetMapping
+    @GetMapping("/campuses/{campusId}/restaurants")
     public ResponseEntity<List<RestaurantTitleResponse>> showPage(@PathVariable final Long campusId,
                                                                   @RequestParam(required = false) final Long categoryId,
                                                                   final Pageable pageable) {
         return ResponseEntity.ok(restaurantService.findByCampusIdOrderByIdDesc(campusId, categoryId, pageable));
+    }
+
+    @GetMapping("/restaurants/{restaurantId}")
+    public ResponseEntity<RestaurantResponse> showRestaurant(@PathVariable final Long restaurantId) {
+        return ResponseEntity.ok(restaurantService.findById(restaurantId));
     }
 }
