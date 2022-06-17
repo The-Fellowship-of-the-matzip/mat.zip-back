@@ -1,9 +1,11 @@
 package com.woowacourse.matzip.application;
 
+import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
+import com.woowacourse.matzip.exception.RestaurantNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
@@ -30,9 +32,16 @@ public class RestaurantService {
                 .collect(Collectors.toList());
     }
 
-    private RestaurantTitleResponse toResponse(Restaurant restaurant) {
+    private RestaurantTitleResponse toResponse(final Restaurant restaurant) {
         double rating = reviewRepository.findAverageRatingByRestaurantId(restaurant.getId())
                 .orElse(0.0);
         return RestaurantTitleResponse.of(restaurant, rating);
+    }
+
+    public RestaurantResponse findById(final Long restaurantId) {
+        return RestaurantResponse.from(
+                restaurantRepository.findById(restaurantId)
+                        .orElseThrow(RestaurantNotFoundException::new)
+        );
     }
 }
