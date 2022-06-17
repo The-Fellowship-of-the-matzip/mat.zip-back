@@ -1,6 +1,7 @@
 package com.woowacourse.document;
 
 import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_KOREAN_RESTAURANT_RESPONSES;
+import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANT_RANDOM_2_RESPONSES;
 import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANT_RESPONSES;
 import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANT_RESPONSE_1;
 import static org.mockito.ArgumentMatchers.any;
@@ -34,6 +35,18 @@ public class RestaurantDocumentation extends Documentation {
                 .when().get("/api/campuses/2/restaurants?categoryId=1&page=0&size=10")
                 .then().log().all()
                 .apply(document("restaurants/list-category"))
+                .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 선릉캠퍼스_식당_목록을_2개_무작위로_조회한다() {
+        when(restaurantService.findRandomByCampusId(eq(2L), eq(2))).thenReturn(
+                SEOLLEUNG_RESTAURANT_RANDOM_2_RESPONSES);
+
+        docsGiven
+                .when().get("/api/campuses/2/restaurants/random?size=2")
+                .then().log().all()
+                .apply(document("restaurants/list-random"))
                 .statusCode(HttpStatus.OK.value());
     }
 

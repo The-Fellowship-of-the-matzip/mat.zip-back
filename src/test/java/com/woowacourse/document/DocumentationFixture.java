@@ -53,6 +53,11 @@ public class DocumentationFixture {
             .map(restaurant -> RestaurantTitleResponse.of(restaurant, 4))
             .collect(Collectors.toList());
 
+    public static final List<RestaurantTitleResponse> SEOLLEUNG_RESTAURANT_RANDOM_2_RESPONSES = Stream.of(
+                    SEOLLEUNG_RESTAURANT_1, SEOLLEUNG_RESTAURANT_3)
+            .map(restaurant -> RestaurantTitleResponse.of(restaurant, 4))
+            .collect(Collectors.toList());
+
     public static final RestaurantResponse SEOLLEUNG_RESTAURANT_RESPONSE_1 = RestaurantResponse.from(
             SEOLLEUNG_RESTAURANT_1);
 
