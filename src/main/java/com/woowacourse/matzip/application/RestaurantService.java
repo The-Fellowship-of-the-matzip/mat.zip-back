@@ -32,6 +32,13 @@ public class RestaurantService {
                 .collect(Collectors.toList());
     }
 
+    public List<RestaurantTitleResponse> findRandomByCampusId(final Long campusId, final int size) {
+        return restaurantRepository.findRandomByCampusId(campusId, size)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
     private RestaurantTitleResponse toResponse(final Restaurant restaurant) {
         double rating = reviewRepository.findAverageRatingByRestaurantId(restaurant.getId())
                 .orElse(0.0);

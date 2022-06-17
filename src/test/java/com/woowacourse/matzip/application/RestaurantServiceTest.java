@@ -94,6 +94,15 @@ class RestaurantServiceTest {
     }
 
     @Test
+    void 무작위로_지정한_캠퍼스의_지정한_개수의_식당_목록을_조회한다() {
+        List<RestaurantTitleResponse> responses = restaurantService.findRandomByCampusId(2L, 2);
+
+        assertThat(responses).hasSize(2)
+                .extracting("name")
+                .containsAnyOf("마담밍", "뽕나무쟁이 선릉본점", "배가무닭볶음탕");
+    }
+
+    @Test
     void id로_식당의_상세_정보를_조회한다() {
         Restaurant restaurant = Restaurant.builder()
                 .campusId(1L)
