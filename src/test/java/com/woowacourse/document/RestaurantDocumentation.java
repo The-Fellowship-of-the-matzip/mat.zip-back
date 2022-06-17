@@ -2,6 +2,7 @@ package com.woowacourse.document;
 
 import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_KOREAN_RESTAURANT_RESPONSES;
 import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANT_RESPONSES;
+import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANT_RESPONSE_1;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -33,6 +34,17 @@ public class RestaurantDocumentation extends Documentation {
                 .when().get("/api/campuses/2/restaurants?categoryId=1&page=0&size=10")
                 .then().log().all()
                 .apply(document("restaurants/list-category"))
+                .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 선릉캠퍼스_식당_1의_상세_정보를_조회한다() {
+        when(restaurantService.findById(eq(1L))).thenReturn(SEOLLEUNG_RESTAURANT_RESPONSE_1);
+
+        docsGiven
+                .when().get("/api/restaurants/1")
+                .then().log().all()
+                .apply(document("restaurants"))
                 .statusCode(HttpStatus.OK.value());
     }
 }
