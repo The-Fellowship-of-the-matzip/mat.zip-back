@@ -183,7 +183,7 @@ public class RestaurantRepositoryTest {
         restaurantRepository.saveAll(
                 List.of(restaurant1, restaurant2, restaurant3, restaurant4));
 
-        List<Restaurant> restaurants = restaurantRepository.findRandomByCampusId(1L, 2);
+        List<Restaurant> restaurants = restaurantRepository.findRandomsByCampusId(1L, 2);
 
         assertThat(restaurants).hasSize(2)
                 .containsAnyOf(restaurant1, restaurant2, restaurant3, restaurant4);

@@ -32,8 +32,8 @@ public class RestaurantService {
                 .collect(Collectors.toList());
     }
 
-    public List<RestaurantTitleResponse> findRandomByCampusId(final Long campusId, final int size) {
-        return restaurantRepository.findRandomByCampusId(campusId, size)
+    public List<RestaurantTitleResponse> findRandomsByCampusId(final Long campusId, final int size) {
+        return restaurantRepository.findRandomsByCampusId(campusId, size)
                 .stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());

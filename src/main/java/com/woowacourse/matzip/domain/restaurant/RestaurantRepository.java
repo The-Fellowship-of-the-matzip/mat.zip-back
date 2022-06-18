@@ -24,5 +24,5 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
                     + "order by rand() limit ?",
             nativeQuery = true
     )
-    List<Restaurant> findRandomByCampusId(Long campusId, int size);
+    List<Restaurant> findRandomsByCampusId(Long campusId, int size);
 }

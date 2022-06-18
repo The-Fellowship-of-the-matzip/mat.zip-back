@@ -40,7 +40,7 @@ public class RestaurantDocumentation extends Documentation {
 
     @Test
     void 선릉캠퍼스_식당_목록을_2개_무작위로_조회한다() {
-        when(restaurantService.findRandomByCampusId(eq(2L), eq(2))).thenReturn(
+        when(restaurantService.findRandomsByCampusId(eq(2L), eq(2))).thenReturn(
                 SEOLLEUNG_RESTAURANT_RANDOM_2_RESPONSES);
 
         docsGiven

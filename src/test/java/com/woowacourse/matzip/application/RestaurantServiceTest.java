@@ -95,7 +95,7 @@ class RestaurantServiceTest {
 
     @Test
     void 무작위로_지정한_캠퍼스의_지정한_개수의_식당_목록을_조회한다() {
-        List<RestaurantTitleResponse> responses = restaurantService.findRandomByCampusId(2L, 2);
+        List<RestaurantTitleResponse> responses = restaurantService.findRandomsByCampusId(2L, 2);
 
         assertThat(responses).hasSize(2)
                 .extracting("name")

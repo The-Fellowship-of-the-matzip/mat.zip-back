@@ -32,7 +32,7 @@ public class RestaurantController {
     @GetMapping("/campuses/{campusId}/restaurants/random")
     public ResponseEntity<List<RestaurantTitleResponse>> showRandom(@PathVariable final Long campusId,
                                                                     @RequestParam final int size) {
-        return ResponseEntity.ok(restaurantService.findRandomByCampusId(campusId, size));
+        return ResponseEntity.ok(restaurantService.findRandomsByCampusId(campusId, size));
     }
 
     @GetMapping("/restaurants/{restaurantId}")
