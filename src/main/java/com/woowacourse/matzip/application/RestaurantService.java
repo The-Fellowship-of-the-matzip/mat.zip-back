@@ -28,18 +28,18 @@ public class RestaurantService {
                                                                      final Pageable pageable) {
         return restaurantRepository.findPageByCampusIdOrderByIdDesc(campusId, categoryId, pageable)
                 .stream()
-                .map(this::toResponse)
+                .map(this::toResponseTitleResponse)
                 .collect(Collectors.toList());
     }
 
     public List<RestaurantTitleResponse> findRandomsByCampusId(final Long campusId, final int size) {
         return restaurantRepository.findRandomsByCampusId(campusId, size)
                 .stream()
-                .map(this::toResponse)
+                .map(this::toResponseTitleResponse)
                 .collect(Collectors.toList());
     }
 
-    private RestaurantTitleResponse toResponse(final Restaurant restaurant) {
+    private RestaurantTitleResponse toResponseTitleResponse(final Restaurant restaurant) {
         double rating = reviewRepository.findAverageRatingUsingRestaurantId(restaurant.getId())
                 .orElse(0.0);
         return RestaurantTitleResponse.of(restaurant, rating);
