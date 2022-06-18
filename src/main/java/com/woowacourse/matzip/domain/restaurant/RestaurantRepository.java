@@ -16,4 +16,13 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
                     + "order by r.id desc"
     )
     List<Restaurant> findPageByCampusIdOrderByIdDesc(Long campusId, Long categoryId, Pageable pageable);
+
+    @Query(
+            value = "select id, category_id, campus_id, name, address, distance, kakao_map_url, image_url "
+                    + "from restaurant "
+                    + "where campus_id = ? "
+                    + "order by rand() limit ?",
+            nativeQuery = true
+    )
+    List<Restaurant> findRandomsByCampusId(Long campusId, int size);
 }

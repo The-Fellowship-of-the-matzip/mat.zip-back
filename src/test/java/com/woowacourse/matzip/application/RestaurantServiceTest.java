@@ -1,8 +1,10 @@
 package com.woowacourse.matzip.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
@@ -10,6 +12,7 @@ import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import com.woowacourse.matzip.domain.review.Review;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
+import com.woowacourse.matzip.exception.RestaurantNotFoundException;
 import com.woowacourse.support.SpringServiceTest;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -88,5 +91,38 @@ class RestaurantServiceTest {
         assertThat(responses).hasSize(1)
                 .extracting(RestaurantTitleResponse::getRating)
                 .containsExactly(4.0);
+    }
+
+    @Test
+    void 무작위로_지정한_캠퍼스의_지정한_개수의_식당_목록을_조회한다() {
+        List<RestaurantTitleResponse> responses = restaurantService.findRandomsByCampusId(2L, 2);
+
+        assertThat(responses).hasSize(2)
+                .extracting("name")
+                .containsAnyOf("마담밍", "뽕나무쟁이 선릉본점", "배가무닭볶음탕");
+    }
+
+    @Test
+    void id로_식당의_상세_정보를_조회한다() {
+        Restaurant restaurant = Restaurant.builder()
+                .campusId(1L)
+                .categoryId(1L)
+                .name("테스트식당")
+                .address("테스트주소")
+                .kakaoMapUrl("testURL")
+                .imageUrl("testURL")
+                .build();
+        restaurantRepository.save(restaurant);
+
+        RestaurantResponse response = restaurantService.findById(restaurant.getId());
+
+        assertThat(response).usingRecursiveComparison()
+                .isEqualTo(restaurant);
+    }
+
+    @Test
+    void 존재하지_않는_id로_조회하면_예외를_반환한다() {
+        assertThatThrownBy(() -> restaurantService.findById(Long.MAX_VALUE))
+                .isInstanceOf(RestaurantNotFoundException.class);
     }
 }
