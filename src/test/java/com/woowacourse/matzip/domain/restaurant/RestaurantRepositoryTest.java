@@ -18,33 +18,9 @@ public class RestaurantRepositoryTest {
 
     @Test
     void 캠퍼스id가_일치하는_식당을_내림차순으로_페이징해서_반환한다() {
-        Restaurant restaurant1 = Restaurant.builder()
-                .categoryId(1L)
-                .campusId(1L)
-                .name("식당1")
-                .address("주소1")
-                .distance(10)
-                .kakaoMapUrl("www.kakao.test.com")
-                .imageUrl("www.test.com")
-                .build();
-        Restaurant restaurant2 = Restaurant.builder()
-                .categoryId(1L)
-                .campusId(1L)
-                .name("식당2")
-                .address("주소2")
-                .distance(10)
-                .kakaoMapUrl("www.kakao.test.com")
-                .imageUrl("www.test.com")
-                .build();
-        Restaurant restaurant3 = Restaurant.builder()
-                .categoryId(1L)
-                .campusId(1L)
-                .name("식당3")
-                .address("주소3")
-                .distance(10)
-                .kakaoMapUrl("www.kakao.test.com")
-                .imageUrl("www.test.com")
-                .build();
+        Restaurant restaurant1 = createTestRestaurant(1L, 1L, "식당1", "주소1");
+        Restaurant restaurant2 = createTestRestaurant(1L, 1L, "식당2", "주소2");
+        Restaurant restaurant3 = createTestRestaurant(1L, 1L, "식당3", "주소3");
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
 
         List<Restaurant> page1 = restaurantRepository.findPageByCampusIdOrderByIdDesc(1L, null,
@@ -60,33 +36,9 @@ public class RestaurantRepositoryTest {
 
     @Test
     void 캠퍼스id와_카테고리id가_일치하는_식당을_내림차순으로_페이징해서_반환한다() {
-        Restaurant restaurant1 = Restaurant.builder()
-                .categoryId(1L)
-                .campusId(1L)
-                .name("식당1")
-                .address("주소1")
-                .distance(10)
-                .kakaoMapUrl("www.kakao.test.com")
-                .imageUrl("www.test.com")
-                .build();
-        Restaurant restaurant2 = Restaurant.builder()
-                .categoryId(1L)
-                .campusId(1L)
-                .name("식당2")
-                .address("주소2")
-                .distance(10)
-                .kakaoMapUrl("www.kakao.test.com")
-                .imageUrl("www.test.com")
-                .build();
-        Restaurant restaurant3 = Restaurant.builder()
-                .categoryId(2L)
-                .campusId(1L)
-                .name("식당3")
-                .address("주소3")
-                .distance(10)
-                .kakaoMapUrl("www.kakao.test.com")
-                .imageUrl("www.test.com")
-                .build();
+        Restaurant restaurant1 = createTestRestaurant(1L, 1L, "식당1", "주소1");
+        Restaurant restaurant2 = createTestRestaurant(1L, 1L, "식당2", "주소2");
+        Restaurant restaurant3 = createTestRestaurant(2L, 1L, "식당3", "주소3");
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
 
         List<Restaurant> page1 = restaurantRepository.findPageByCampusIdOrderByIdDesc(1L, 1L,
@@ -97,42 +49,10 @@ public class RestaurantRepositoryTest {
 
     @Test
     void 페이징_테스트() {
-        Restaurant restaurant1 = Restaurant.builder()
-                .categoryId(1L)
-                .campusId(1L)
-                .name("식당1")
-                .address("주소1")
-                .distance(10)
-                .kakaoMapUrl("www.kakao.test.com")
-                .imageUrl("www.test.com")
-                .build();
-        Restaurant restaurant2 = Restaurant.builder()
-                .categoryId(1L)
-                .campusId(1L)
-                .name("식당2")
-                .address("주소2")
-                .distance(10)
-                .kakaoMapUrl("www.kakao.test.com")
-                .imageUrl("www.test.com")
-                .build();
-        Restaurant restaurant3 = Restaurant.builder()
-                .categoryId(1L)
-                .campusId(1L)
-                .name("식당3")
-                .address("주소3")
-                .distance(10)
-                .kakaoMapUrl("www.kakao.test.com")
-                .imageUrl("www.test.com")
-                .build();
-        Restaurant restaurant4 = Restaurant.builder()
-                .categoryId(1L)
-                .campusId(1L)
-                .name("식당4")
-                .address("주소4")
-                .distance(10)
-                .kakaoMapUrl("www.kakao.test.com")
-                .imageUrl("www.test.com")
-                .build();
+        Restaurant restaurant1 = createTestRestaurant(1L, 1L, "식당1", "주소1");
+        Restaurant restaurant2 = createTestRestaurant(1L, 1L, "식당2", "주소2");
+        Restaurant restaurant3 = createTestRestaurant(1L, 1L, "식당3", "주소3");
+        Restaurant restaurant4 = createTestRestaurant(1L, 1L, "식당4", "주소4");
         restaurantRepository.saveAll(
                 List.of(restaurant1, restaurant2, restaurant3, restaurant4));
 
@@ -144,42 +64,10 @@ public class RestaurantRepositoryTest {
 
     @Test
     void 캠퍼스id에_해당하는_식당을_무작위로_지정한_개수만큼_조회한다() {
-        Restaurant restaurant1 = Restaurant.builder()
-                .categoryId(1L)
-                .campusId(1L)
-                .name("식당1")
-                .address("주소1")
-                .distance(10)
-                .kakaoMapUrl("www.kakao.test.com")
-                .imageUrl("www.test.com")
-                .build();
-        Restaurant restaurant2 = Restaurant.builder()
-                .categoryId(1L)
-                .campusId(1L)
-                .name("식당2")
-                .address("주소2")
-                .distance(10)
-                .kakaoMapUrl("www.kakao.test.com")
-                .imageUrl("www.test.com")
-                .build();
-        Restaurant restaurant3 = Restaurant.builder()
-                .categoryId(1L)
-                .campusId(1L)
-                .name("식당3")
-                .address("주소3")
-                .distance(10)
-                .kakaoMapUrl("www.kakao.test.com")
-                .imageUrl("www.test.com")
-                .build();
-        Restaurant restaurant4 = Restaurant.builder()
-                .categoryId(1L)
-                .campusId(1L)
-                .name("식당4")
-                .address("주소4")
-                .distance(10)
-                .kakaoMapUrl("www.kakao.test.com")
-                .imageUrl("www.test.com")
-                .build();
+        Restaurant restaurant1 = createTestRestaurant(1L, 1L, "식당1", "주소1");
+        Restaurant restaurant2 = createTestRestaurant(1L, 1L, "식당2", "주소2");
+        Restaurant restaurant3 = createTestRestaurant(1L, 1L, "식당3", "주소3");
+        Restaurant restaurant4 = createTestRestaurant(1L, 1L, "식당4", "주소4");
         restaurantRepository.saveAll(
                 List.of(restaurant1, restaurant2, restaurant3, restaurant4));
 
@@ -187,5 +75,17 @@ public class RestaurantRepositoryTest {
 
         assertThat(restaurants).hasSize(2)
                 .containsAnyOf(restaurant1, restaurant2, restaurant3, restaurant4);
+    }
+
+    private Restaurant createTestRestaurant(Long categoryId, Long campusId, String name, String address) {
+        return Restaurant.builder()
+                .categoryId(categoryId)
+                .campusId(campusId)
+                .name(name)
+                .address(address)
+                .distance(10)
+                .kakaoMapUrl("테스트URL")
+                .imageUrl("테스트URL")
+                .build();
     }
 }
