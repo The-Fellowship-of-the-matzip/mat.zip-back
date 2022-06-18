@@ -13,5 +13,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     )
     Optional<Double> findAverageRatingUsingRestaurantId(Long restaurantId);
 
-    Slice<Review> findReviewsByRestaurantIdOrderByIdDesc(Long restaurantId, Pageable pageable);
+    Slice<Review> findPageByRestaurantIdOrderByIdDesc(Long restaurantId, Pageable pageable);
 }

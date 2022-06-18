@@ -2,9 +2,8 @@ package com.woowacourse.matzip.presentation;
 
 import com.woowacourse.auth.support.AuthenticationPrincipal;
 import com.woowacourse.matzip.application.ReviewService;
-import com.woowacourse.matzip.application.response.ReviewResponse;
+import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.presentation.request.ReviewCreateRequest;
-import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +33,8 @@ public class ReviewController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ReviewResponse>> findReviews(@PathVariable final Long restaurantId,
-                                                            final Pageable pageable) {
+    public ResponseEntity<ReviewsResponse> findReviews(@PathVariable final Long restaurantId,
+                                                       final Pageable pageable) {
         return ResponseEntity.ok(reviewService.findPageByRestaurantId(restaurantId, pageable));
     }
 }

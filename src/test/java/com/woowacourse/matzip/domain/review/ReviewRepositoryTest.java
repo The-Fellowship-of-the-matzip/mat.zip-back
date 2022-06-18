@@ -36,9 +36,9 @@ class ReviewRepositoryTest {
                     .menu("족발" + i)
                     .build());
         }
-        Slice<Review> firstReviewPage = reviewRepository.findReviewsByRestaurantIdOrderByIdDesc(1L,
+        Slice<Review> firstReviewPage = reviewRepository.findPageByRestaurantIdOrderByIdDesc(1L,
                 PageRequest.of(0, 5));
-        Slice<Review> secondReviewPage = reviewRepository.findReviewsByRestaurantIdOrderByIdDesc(1L,
+        Slice<Review> secondReviewPage = reviewRepository.findPageByRestaurantIdOrderByIdDesc(1L,
                 PageRequest.of(1, 5));
 
         assertAll(

@@ -7,6 +7,7 @@ import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
 import com.woowacourse.matzip.application.response.ReviewResponse;
 import com.woowacourse.matzip.application.response.ReviewResponse.ReviewAuthor;
+import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.domain.campus.Campus;
 import com.woowacourse.matzip.domain.category.Category;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
@@ -77,6 +78,7 @@ public class DocumentationFixture {
     private static final ReviewResponse REVIEW_5 = new ReviewResponse(5L, new ReviewAuthor("블링", "url"), "또오고 싶어요.", 5,
             "통마늘 닭똥집볶음");
 
-    public static final List<ReviewResponse> REVIEW_RESPONSES = List.of(REVIEW_1, REVIEW_2, REVIEW_3, REVIEW_4,
-            REVIEW_5);
+    public static final ReviewsResponse REVIEW_RESPONSES = new ReviewsResponse(
+            false, List.of(REVIEW_1, REVIEW_2, REVIEW_3, REVIEW_4, REVIEW_5)
+    );
 }

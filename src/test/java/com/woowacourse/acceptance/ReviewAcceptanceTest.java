@@ -6,7 +6,7 @@ import static com.woowacourse.acceptance.support.RestAssuredRequest.httpPostRequ
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.matzip.application.response.ReviewResponse;
+import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.presentation.request.ReviewCreateRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -51,7 +51,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
     private void 리뷰_조회에_성공한다(final ExtractableResponse<Response> response) {
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-                () -> assertThat(response.jsonPath().getList(".", ReviewResponse.class)).hasSize(5)
+                () -> assertThat(response.jsonPath().getObject(".", ReviewsResponse.class).getReviews()).hasSize(5)
         );
     }
 }
