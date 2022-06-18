@@ -3,6 +3,7 @@ package com.woowacourse.matzip.presentation;
 import com.woowacourse.matzip.application.RestaurantService;
 import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
+import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -23,15 +24,15 @@ public class RestaurantController {
     }
 
     @GetMapping("/campuses/{campusId}/restaurants")
-    public ResponseEntity<List<RestaurantTitleResponse>> showPage(@PathVariable final Long campusId,
-                                                                  @RequestParam(required = false) final Long categoryId,
-                                                                  final Pageable pageable) {
+    public ResponseEntity<RestaurantTitlesResponse> showPage(@PathVariable final Long campusId,
+                                                             @RequestParam(required = false) final Long categoryId,
+                                                             final Pageable pageable) {
         return ResponseEntity.ok(restaurantService.findByCampusIdOrderByIdDesc(campusId, categoryId, pageable));
     }
 
     @GetMapping("/campuses/{campusId}/restaurants/random")
-    public ResponseEntity<List<RestaurantTitleResponse>> showRandom(@PathVariable final Long campusId,
-                                                                    @RequestParam final int size) {
+    public ResponseEntity<List<RestaurantTitleResponse>> showRandoms(@PathVariable final Long campusId,
+                                                                     @RequestParam final int size) {
         return ResponseEntity.ok(restaurantService.findRandomsByCampusId(campusId, size));
     }
 

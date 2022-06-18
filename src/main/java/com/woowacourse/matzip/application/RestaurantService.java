@@ -2,6 +2,7 @@ package com.woowacourse.matzip.application;
 
 import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
+import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
@@ -9,6 +10,7 @@ import com.woowacourse.matzip.exception.RestaurantNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,12 +26,13 @@ public class RestaurantService {
         this.reviewRepository = reviewRepository;
     }
 
-    public List<RestaurantTitleResponse> findByCampusIdOrderByIdDesc(final Long campusId, final Long categoryId,
-                                                                     final Pageable pageable) {
-        return restaurantRepository.findPageByCampusIdOrderByIdDesc(campusId, categoryId, pageable)
-                .stream()
+    public RestaurantTitlesResponse findByCampusIdOrderByIdDesc(final Long campusId, final Long categoryId,
+                                                                final Pageable pageable) {
+        Slice<Restaurant> page = restaurantRepository.findPageByCampusIdOrderByIdDesc(campusId, categoryId, pageable);
+        List<RestaurantTitleResponse> restaurantTitleResponses = page.stream()
                 .map(this::toResponseTitleResponse)
                 .collect(Collectors.toList());
+        return new RestaurantTitlesResponse(page.hasNext(), restaurantTitleResponses);
     }
 
     public List<RestaurantTitleResponse> findRandomsByCampusId(final Long campusId, final int size) {
