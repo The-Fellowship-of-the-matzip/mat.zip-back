@@ -44,11 +44,11 @@ class RestaurantServiceTest {
                 () -> assertThat(page1.getRestaurants()).hasSize(2)
                         .extracting(RestaurantTitleResponse::getName)
                         .containsExactly("마담밍", "뽕나무쟁이 선릉본점"),
-                () -> assertThat(page1.hasNext()).isTrue(),
+                () -> assertThat(page1.isHasNext()).isTrue(),
                 () -> assertThat(page2.getRestaurants()).hasSize(1)
                         .extracting(RestaurantTitleResponse::getName)
                         .containsExactly("배가무닭볶음탕"),
-                () -> assertThat(page2.hasNext()).isFalse()
+                () -> assertThat(page2.isHasNext()).isFalse()
         );
     }
 
@@ -61,7 +61,7 @@ class RestaurantServiceTest {
                 () -> assertThat(response.getRestaurants()).hasSize(2)
                         .extracting(RestaurantTitleResponse::getName)
                         .containsExactly("뽕나무쟁이 선릉본점", "배가무닭볶음탕"),
-                () -> assertThat(response.hasNext()).isFalse()
+                () -> assertThat(response.isHasNext()).isFalse()
         );
     }
 

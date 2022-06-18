@@ -63,9 +63,9 @@ public class ReviewServiceTest {
 
         assertAll(
                 () -> assertThat(page1.getReviews()).hasSize(2),
-                () -> assertThat(page1.hasNext()).isTrue(),
+                () -> assertThat(page1.isHasNext()).isTrue(),
                 () -> assertThat(page2.getReviews()).hasSize(1),
-                () -> assertThat(page2.hasNext()).isFalse()
+                () -> assertThat(page2.isHasNext()).isFalse()
         );
     }
 }
