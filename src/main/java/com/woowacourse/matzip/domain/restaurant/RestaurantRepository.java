@@ -2,6 +2,7 @@ package com.woowacourse.matzip.domain.restaurant;
 
 import java.util.List;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -15,7 +16,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
                     + "(:categoryId is null or r.categoryId = :categoryId )"
                     + "order by r.id desc"
     )
-    List<Restaurant> findPageByCampusIdOrderByIdDesc(Long campusId, Long categoryId, Pageable pageable);
+    Slice<Restaurant> findPageByCampusIdOrderByIdDesc(Long campusId, Long categoryId, Pageable pageable);
 
     @Query(
             value = "select id, category_id, campus_id, name, address, distance, kakao_map_url, image_url "
