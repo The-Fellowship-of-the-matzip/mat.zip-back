@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
+import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
@@ -34,29 +35,34 @@ class RestaurantServiceTest {
 
     @Test
     void 캠퍼스id가_일치하는_식당_목록_페이지를_반환한다() {
-        List<RestaurantTitleResponse> page1 = restaurantService.findByCampusIdOrderByIdDesc(2L, null,
+        RestaurantTitlesResponse page1 = restaurantService.findByCampusIdOrderByIdDesc(2L, null,
                 Pageable.ofSize(2));
-        List<RestaurantTitleResponse> page2 = restaurantService.findByCampusIdOrderByIdDesc(2L, null,
+        RestaurantTitlesResponse page2 = restaurantService.findByCampusIdOrderByIdDesc(2L, null,
                 PageRequest.of(1, 2));
 
         assertAll(
-                () -> assertThat(page1).hasSize(2)
+                () -> assertThat(page1.getRestaurants()).hasSize(2)
                         .extracting(RestaurantTitleResponse::getName)
                         .containsExactly("마담밍", "뽕나무쟁이 선릉본점"),
-                () -> assertThat(page2).hasSize(1)
+                () -> assertThat(page1.isHasNext()).isTrue(),
+                () -> assertThat(page2.getRestaurants()).hasSize(1)
                         .extracting(RestaurantTitleResponse::getName)
-                        .containsExactly("배가무닭볶음탕")
+                        .containsExactly("배가무닭볶음탕"),
+                () -> assertThat(page2.isHasNext()).isFalse()
         );
     }
 
     @Test
     void 캠퍼스id와_카테고리id가_일치하는_식당_목록_페이지를_반환한다() {
-        List<RestaurantTitleResponse> responses = restaurantService.findByCampusIdOrderByIdDesc(2L, 1L,
+        RestaurantTitlesResponse response = restaurantService.findByCampusIdOrderByIdDesc(2L, 1L,
                 Pageable.ofSize(2));
 
-        assertThat(responses).hasSize(2)
-                .extracting(RestaurantTitleResponse::getName)
-                .containsExactly("뽕나무쟁이 선릉본점", "배가무닭볶음탕");
+        assertAll(
+                () -> assertThat(response.getRestaurants()).hasSize(2)
+                        .extracting(RestaurantTitleResponse::getName)
+                        .containsExactly("뽕나무쟁이 선릉본점", "배가무닭볶음탕"),
+                () -> assertThat(response.isHasNext()).isFalse()
+        );
     }
 
     @Test
@@ -85,10 +91,10 @@ class RestaurantServiceTest {
                     .build());
         }
 
-        List<RestaurantTitleResponse> responses = restaurantService.findByCampusIdOrderByIdDesc(1L, 1L,
+        RestaurantTitlesResponse response = restaurantService.findByCampusIdOrderByIdDesc(1L, 1L,
                 Pageable.ofSize(10));
 
-        assertThat(responses).hasSize(1)
+        assertThat(response.getRestaurants()).hasSize(1)
                 .extracting(RestaurantTitleResponse::getRating)
                 .containsExactly(4.0);
     }

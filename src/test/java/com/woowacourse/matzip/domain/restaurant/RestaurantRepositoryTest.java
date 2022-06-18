@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 @DataJpaTest
 public class RestaurantRepositoryTest {
@@ -23,9 +24,9 @@ public class RestaurantRepositoryTest {
         Restaurant restaurant3 = createTestRestaurant(1L, 1L, "식당3", "주소3");
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
 
-        List<Restaurant> page1 = restaurantRepository.findPageByCampusIdOrderByIdDesc(1L, null,
+        Slice<Restaurant> page1 = restaurantRepository.findPageByCampusIdOrderByIdDesc(1L, null,
                 PageRequest.of(0, 2));
-        List<Restaurant> page2 = restaurantRepository.findPageByCampusIdOrderByIdDesc(1L, null,
+        Slice<Restaurant> page2 = restaurantRepository.findPageByCampusIdOrderByIdDesc(1L, null,
                 PageRequest.of(1, 2));
 
         assertAll(
@@ -41,7 +42,7 @@ public class RestaurantRepositoryTest {
         Restaurant restaurant3 = createTestRestaurant(2L, 1L, "식당3", "주소3");
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
 
-        List<Restaurant> page1 = restaurantRepository.findPageByCampusIdOrderByIdDesc(1L, 1L,
+        Slice<Restaurant> page1 = restaurantRepository.findPageByCampusIdOrderByIdDesc(1L, 1L,
                 Pageable.ofSize(2));
 
         assertThat(page1).containsExactly(restaurant2, restaurant1);
@@ -56,7 +57,7 @@ public class RestaurantRepositoryTest {
         restaurantRepository.saveAll(
                 List.of(restaurant1, restaurant2, restaurant3, restaurant4));
 
-        List<Restaurant> actual = restaurantRepository.findPageByCampusIdOrderByIdDesc(1L, 1L,
+        Slice<Restaurant> actual = restaurantRepository.findPageByCampusIdOrderByIdDesc(1L, 1L,
                 PageRequest.of(0, 2));
 
         assertThat(actual).containsExactly(restaurant4, restaurant3);

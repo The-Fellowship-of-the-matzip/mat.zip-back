@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 
 @DataJpaTest
 class ReviewRepositoryTest {
@@ -36,16 +36,16 @@ class ReviewRepositoryTest {
                     .menu("족발" + i)
                     .build());
         }
-        List<Review> firstReviewPage = reviewRepository.findReviewsByRestaurantIdOrderByIdDesc(1L,
+        Slice<Review> firstReviewPage = reviewRepository.findPageByRestaurantIdOrderByIdDesc(1L,
                 PageRequest.of(0, 5));
-        List<Review> secondReviewPage = reviewRepository.findReviewsByRestaurantIdOrderByIdDesc(1L,
+        Slice<Review> secondReviewPage = reviewRepository.findPageByRestaurantIdOrderByIdDesc(1L,
                 PageRequest.of(1, 5));
 
         assertAll(
                 () -> assertThat(firstReviewPage).hasSize(5),
-                () -> assertThat(firstReviewPage.get(0).getMenu()).isEqualTo("족발20"),
+                () -> assertThat(firstReviewPage.getContent().get(0).getMenu()).isEqualTo("족발20"),
                 () -> assertThat(secondReviewPage).hasSize(5),
-                () -> assertThat(secondReviewPage.get(0).getMenu()).isEqualTo("족발15")
+                () -> assertThat(secondReviewPage.getContent().get(0).getMenu()).isEqualTo("족발15")
         );
     }
 

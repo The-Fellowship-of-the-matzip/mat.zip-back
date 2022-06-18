@@ -4,8 +4,10 @@ import com.woowacourse.matzip.application.response.CampusResponse;
 import com.woowacourse.matzip.application.response.CategoryResponse;
 import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
+import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
 import com.woowacourse.matzip.application.response.ReviewResponse;
 import com.woowacourse.matzip.application.response.ReviewResponse.ReviewAuthor;
+import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.domain.campus.Campus;
 import com.woowacourse.matzip.domain.category.Category;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
@@ -43,15 +45,19 @@ public class DocumentationFixture {
             "서울 강남구 선릉로86길 5-4 1층", 1L,
             "https://place.map.kakao.com/18283045", "www.image.com");
 
-    public static final List<RestaurantTitleResponse> SEOLLEUNG_RESTAURANT_RESPONSES = Stream.of(SEOLLEUNG_RESTAURANT_3,
-                    SEOLLEUNG_RESTAURANT_2, SEOLLEUNG_RESTAURANT_1)
-            .map(restaurant -> RestaurantTitleResponse.of(restaurant, 4))
-            .collect(Collectors.toList());
+    public static final RestaurantTitlesResponse SEOLLEUNG_RESTAURANT_RESPONSES = new RestaurantTitlesResponse(
+            false,
+            Stream.of(SEOLLEUNG_RESTAURANT_3, SEOLLEUNG_RESTAURANT_2, SEOLLEUNG_RESTAURANT_1)
+                    .map(restaurant -> RestaurantTitleResponse.of(restaurant, 4))
+                    .collect(Collectors.toList())
+    );
 
-    public static final List<RestaurantTitleResponse> SEOLLEUNG_KOREAN_RESTAURANT_RESPONSES = Stream.of(
-                    SEOLLEUNG_RESTAURANT_2, SEOLLEUNG_RESTAURANT_1)
-            .map(restaurant -> RestaurantTitleResponse.of(restaurant, 4))
-            .collect(Collectors.toList());
+    public static final RestaurantTitlesResponse SEOLLEUNG_KOREAN_RESTAURANT_RESPONSES = new RestaurantTitlesResponse(
+            false,
+            Stream.of(SEOLLEUNG_RESTAURANT_3, SEOLLEUNG_RESTAURANT_2)
+                    .map(restaurant -> RestaurantTitleResponse.of(restaurant, 4))
+                    .collect(Collectors.toList())
+    );
 
     public static final List<RestaurantTitleResponse> SEOLLEUNG_RESTAURANT_RANDOM_2_RESPONSES = Stream.of(
                     SEOLLEUNG_RESTAURANT_1, SEOLLEUNG_RESTAURANT_3)
@@ -72,6 +78,7 @@ public class DocumentationFixture {
     private static final ReviewResponse REVIEW_5 = new ReviewResponse(5L, new ReviewAuthor("블링", "url"), "또오고 싶어요.", 5,
             "통마늘 닭똥집볶음");
 
-    public static final List<ReviewResponse> REVIEW_RESPONSES = List.of(REVIEW_1, REVIEW_2, REVIEW_3, REVIEW_4,
-            REVIEW_5);
+    public static final ReviewsResponse REVIEW_RESPONSES = new ReviewsResponse(
+            false, List.of(REVIEW_1, REVIEW_2, REVIEW_3, REVIEW_4, REVIEW_5)
+    );
 }
