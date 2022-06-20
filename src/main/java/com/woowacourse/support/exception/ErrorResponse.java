@@ -1,4 +1,4 @@
-package com.woowacourse.auth.exception;
+package com.woowacourse.support.exception;
 
 import lombok.Getter;
 
@@ -16,5 +16,9 @@ public class ErrorResponse {
 
     public static ErrorResponse from(final RuntimeException exception) {
         return new ErrorResponse(exception.getMessage());
+    }
+
+    public static ErrorResponse from(final String message) {
+        return new ErrorResponse(message);
     }
 }
