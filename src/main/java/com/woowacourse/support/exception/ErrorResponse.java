@@ -1,4 +1,4 @@
-package com.woowacourse.auth.exception;
+package com.woowacourse.support.exception;
 
 import lombok.Getter;
 
