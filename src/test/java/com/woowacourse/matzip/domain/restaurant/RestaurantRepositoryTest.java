@@ -1,7 +1,7 @@
 package com.woowacourse.matzip.domain.restaurant;
 
-import static com.woowacourse.matzip.domain.restaurant.SortFilter.DEFAULT;
-import static com.woowacourse.matzip.domain.restaurant.SortFilter.SPELL;
+import static com.woowacourse.matzip.domain.restaurant.SortCondition.DEFAULT;
+import static com.woowacourse.matzip.domain.restaurant.SortCondition.SPELL;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestMember;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestRestaurant;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestReview;
@@ -36,9 +36,9 @@ public class RestaurantRepositoryTest {
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
 
         Slice<Restaurant> page1 = restaurantRepository.findPageByCampusId(1L, null,
-                PageRequest.of(0, 2, DEFAULT.getSortCondition()));
+                PageRequest.of(0, 2, DEFAULT.getValue()));
         Slice<Restaurant> page2 = restaurantRepository.findPageByCampusId(1L, null,
-                PageRequest.of(1, 2, DEFAULT.getSortCondition()));
+                PageRequest.of(1, 2, DEFAULT.getValue()));
 
         assertAll(
                 () -> assertThat(page1).containsExactly(restaurant3, restaurant2),
@@ -54,9 +54,9 @@ public class RestaurantRepositoryTest {
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
 
         Slice<Restaurant> page1 = restaurantRepository.findPageByCampusId(1L, null,
-                PageRequest.of(0, 2, SPELL.getSortCondition()));
+                PageRequest.of(0, 2, SPELL.getValue()));
         Slice<Restaurant> page2 = restaurantRepository.findPageByCampusId(1L, null,
-                PageRequest.of(1, 2, SPELL.getSortCondition()));
+                PageRequest.of(1, 2, SPELL.getValue()));
 
         assertAll(
                 () -> assertThat(page1).containsExactly(restaurant1, restaurant2),
@@ -72,7 +72,7 @@ public class RestaurantRepositoryTest {
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
 
         Slice<Restaurant> page1 = restaurantRepository.findPageByCampusId(1L, 1L,
-                PageRequest.of(0, 2, DEFAULT.getSortCondition()));
+                PageRequest.of(0, 2, DEFAULT.getValue()));
 
         assertThat(page1).containsExactly(restaurant2, restaurant1);
     }
@@ -105,7 +105,7 @@ public class RestaurantRepositoryTest {
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3, restaurant4));
 
         Slice<Restaurant> actual = restaurantRepository.findPageByCampusId(1L, 1L,
-                PageRequest.of(0, 2, DEFAULT.getSortCondition()));
+                PageRequest.of(0, 2, DEFAULT.getValue()));
 
         assertThat(actual).containsExactly(restaurant4, restaurant3);
     }

@@ -1,6 +1,6 @@
 package com.woowacourse.matzip.application;
 
-import static com.woowacourse.matzip.domain.restaurant.SortFilter.DEFAULT;
+import static com.woowacourse.matzip.domain.restaurant.SortCondition.DEFAULT;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestMember;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestRestaurant;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestReview;
@@ -38,9 +38,9 @@ class RestaurantServiceTest {
     @Test
     void 캠퍼스id가_일치하는_식당_목록_페이지를_반환한다() {
         RestaurantTitlesResponse page1 = restaurantService.findByCampusId(2L, null,
-                PageRequest.of(0, 2, DEFAULT.getSortCondition()));
+                PageRequest.of(0, 2, DEFAULT.getValue()));
         RestaurantTitlesResponse page2 = restaurantService.findByCampusId(2L, null,
-                PageRequest.of(1, 2, DEFAULT.getSortCondition()));
+                PageRequest.of(1, 2, DEFAULT.getValue()));
 
         assertAll(
                 () -> assertThat(page1.getRestaurants()).hasSize(2)
@@ -57,7 +57,7 @@ class RestaurantServiceTest {
     @Test
     void 캠퍼스id와_카테고리id가_일치하는_식당_목록_페이지를_반환한다() {
         RestaurantTitlesResponse response = restaurantService.findByCampusId(2L, 1L,
-                PageRequest.of(0, 2, DEFAULT.getSortCondition()));
+                PageRequest.of(0, 2, DEFAULT.getValue()));
 
         assertAll(
                 () -> assertThat(response.getRestaurants()).hasSize(2)
@@ -78,7 +78,7 @@ class RestaurantServiceTest {
         }
 
         RestaurantTitlesResponse response = restaurantService.findByCampusId(1L, 1L,
-                PageRequest.of(0, 10, DEFAULT.getSortCondition()));
+                PageRequest.of(0, 10, DEFAULT.getValue()));
 
         assertThat(response.getRestaurants()).hasSize(1)
                 .extracting(RestaurantTitleResponse::getRating)

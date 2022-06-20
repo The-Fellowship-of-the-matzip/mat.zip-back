@@ -1,10 +1,12 @@
 package com.woowacourse.matzip.presentation;
 
+import static com.woowacourse.matzip.domain.restaurant.SortCondition.RATING;
+
 import com.woowacourse.matzip.application.RestaurantService;
 import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
-import com.woowacourse.matzip.domain.restaurant.SortFilter;
+import com.woowacourse.matzip.domain.restaurant.SortCondition;
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,13 +30,14 @@ public class RestaurantController {
     @GetMapping("/campuses/{campusId}/restaurants")
     public ResponseEntity<RestaurantTitlesResponse> showPage(@PathVariable final Long campusId,
                                                              @RequestParam(required = false) final Long categoryId,
-                                                             @RequestParam(value = "filter", defaultValue = "DEFAULT") final SortFilter sortFilter,
+                                                             @RequestParam(value = "filter", defaultValue = "DEFAULT") final String filterName,
                                                              final Pageable pageable) {
-        if (sortFilter == SortFilter.RATING) {
+        SortCondition sortCondition = SortCondition.from(filterName);
+        if (sortCondition == RATING) {
             return ResponseEntity.ok(restaurantService.findByCampusIdOrderByRatingDesc(campusId, categoryId, pageable));
         }
         Pageable pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
-                sortFilter.getSortCondition());
+                sortCondition.getValue());
         return ResponseEntity.ok(restaurantService.findByCampusId(campusId, categoryId, pageableWithSort));
     }
 
