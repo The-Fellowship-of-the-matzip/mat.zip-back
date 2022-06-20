@@ -29,10 +29,27 @@ public class RestaurantService {
     public RestaurantTitlesResponse findByCampusIdOrderByIdDesc(final Long campusId, final Long categoryId,
                                                                 final Pageable pageable) {
         Slice<Restaurant> page = restaurantRepository.findPageByCampusIdOrderByIdDesc(campusId, categoryId, pageable);
+        return toRestaurantTitlesResponse(page);
+    }
+
+    public RestaurantTitlesResponse findByCampusIdOrderByRatingDesc(final Long campusId, final Long categoryId,
+                                                                    final Pageable pageable) {
+        Slice<Restaurant> page = restaurantRepository.findPageByCampusIdOrderByRatingDesc(campusId, categoryId,
+                pageable);
+        return toRestaurantTitlesResponse(page);
+    }
+
+    private RestaurantTitlesResponse toRestaurantTitlesResponse(Slice<Restaurant> page) {
         List<RestaurantTitleResponse> restaurantTitleResponses = page.stream()
                 .map(this::toResponseTitleResponse)
                 .collect(Collectors.toList());
         return new RestaurantTitlesResponse(page.hasNext(), restaurantTitleResponses);
+    }
+
+    private RestaurantTitleResponse toResponseTitleResponse(final Restaurant restaurant) {
+        double rating = reviewRepository.findAverageRatingUsingRestaurantId(restaurant.getId())
+                .orElse(0.0);
+        return RestaurantTitleResponse.of(restaurant, rating);
     }
 
     public List<RestaurantTitleResponse> findRandomsByCampusId(final Long campusId, final int size) {
@@ -40,12 +57,6 @@ public class RestaurantService {
                 .stream()
                 .map(this::toResponseTitleResponse)
                 .collect(Collectors.toList());
-    }
-
-    private RestaurantTitleResponse toResponseTitleResponse(final Restaurant restaurant) {
-        double rating = reviewRepository.findAverageRatingUsingRestaurantId(restaurant.getId())
-                .orElse(0.0);
-        return RestaurantTitleResponse.of(restaurant, rating);
     }
 
     public RestaurantResponse findById(final Long restaurantId) {

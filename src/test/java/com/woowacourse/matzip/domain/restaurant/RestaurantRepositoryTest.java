@@ -1,11 +1,13 @@
 package com.woowacourse.matzip.domain.restaurant;
 
+import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestMember;
+import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestRestaurant;
+import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestReview;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
-import com.woowacourse.matzip.domain.review.Review;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -102,35 +104,5 @@ public class RestaurantRepositoryTest {
 
         assertThat(restaurants).hasSize(2)
                 .containsAnyOf(restaurant1, restaurant2, restaurant3, restaurant4);
-    }
-
-    private Restaurant createTestRestaurant(Long categoryId, Long campusId, String name, String address) {
-        return Restaurant.builder()
-                .categoryId(categoryId)
-                .campusId(campusId)
-                .name(name)
-                .address(address)
-                .distance(10)
-                .kakaoMapUrl("테스트URL")
-                .imageUrl("테스트URL")
-                .build();
-    }
-
-    private Member createTestMember() {
-        return Member.builder()
-                .githubId("githubId")
-                .username("username")
-                .profileImage("url")
-                .build();
-    }
-
-    private Review createTestReview(Member member, Long restaurantId, int rating) {
-        return Review.builder()
-                .member(member)
-                .restaurantId(restaurantId)
-                .content("맛있어요")
-                .rating(rating)
-                .menu("메뉴")
-                .build();
     }
 }

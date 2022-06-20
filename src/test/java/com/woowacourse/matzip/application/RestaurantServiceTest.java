@@ -1,5 +1,8 @@
 package com.woowacourse.matzip.application;
 
+import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestMember;
+import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestRestaurant;
+import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestReview;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -11,7 +14,6 @@ import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
-import com.woowacourse.matzip.domain.review.Review;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.matzip.exception.RestaurantNotFoundException;
 import com.woowacourse.support.SpringServiceTest;
@@ -67,28 +69,12 @@ class RestaurantServiceTest {
 
     @Test
     void 식당_목록_조회시_평균별점도_조회한다() {
-        Member member = Member.builder()
-                .githubId("githubId")
-                .username("username")
-                .profileImage("url")
-                .build();
-        Restaurant restaurant = Restaurant.builder()
-                .campusId(1L)
-                .categoryId(1L)
-                .name("테스트식당")
-                .address("테스트주소")
-                .kakaoMapUrl("testURL")
-                .imageUrl("testURL")
-                .build();
+        Member member = createTestMember();
+        memberRepository.save(member);
+        Restaurant restaurant = createTestRestaurant(1L, 1L, "테스트식당", "테스트주소");
         restaurantRepository.save(restaurant);
         for (int i = 1; i <= 10; i++) {
-            reviewRepository.save(Review.builder()
-                    .member(memberRepository.save(member))
-                    .restaurantId(restaurant.getId())
-                    .content("맛있어요")
-                    .rating(4)
-                    .menu("족발" + i)
-                    .build());
+            reviewRepository.save(createTestReview(member, restaurant.getId(), 4));
         }
 
         RestaurantTitlesResponse response = restaurantService.findByCampusIdOrderByIdDesc(1L, 1L,
@@ -97,6 +83,26 @@ class RestaurantServiceTest {
         assertThat(response.getRestaurants()).hasSize(1)
                 .extracting(RestaurantTitleResponse::getRating)
                 .containsExactly(4.0);
+    }
+
+    @Test
+    void 캠퍼스id가_일치하는_식당_목록을_평균_별점_순으로_정렬한_페이지를_반환한다() {
+        Member member = createTestMember();
+        memberRepository.save(member);
+        Restaurant restaurant1 = createTestRestaurant(1L, 1L, "테스트식당1", "테스트주소1");
+        Restaurant restaurant2 = createTestRestaurant(1L, 1L, "테스트식당2", "테스트주소2");
+        restaurantRepository.saveAll(List.of(restaurant1, restaurant2));
+        for (int i = 0; i < 10; i++) {
+            reviewRepository.save(createTestReview(member, restaurant1.getId(), 4));
+            reviewRepository.save(createTestReview(member, restaurant2.getId(), 3));
+        }
+
+        RestaurantTitlesResponse response = restaurantService.findByCampusIdOrderByRatingDesc(1L, 1L,
+                PageRequest.of(0, 2));
+
+        assertThat(response.getRestaurants()).hasSize(2)
+                .extracting("id")
+                .containsExactly(restaurant1.getId(), restaurant2.getId());
     }
 
     @Test
