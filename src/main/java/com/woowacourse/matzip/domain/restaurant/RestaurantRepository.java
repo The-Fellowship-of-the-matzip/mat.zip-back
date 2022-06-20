@@ -11,12 +11,23 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     @Query(
             value = "select r from Restaurant r "
                     + "where "
-                    + "(r.campusId = :campusId )"
+                    + "(r.campusId = :campusId) "
                     + "and "
-                    + "(:categoryId is null or r.categoryId = :categoryId )"
+                    + "(:categoryId is null or r.categoryId = :categoryId) "
                     + "order by r.id desc"
     )
     Slice<Restaurant> findPageByCampusIdOrderByIdDesc(Long campusId, Long categoryId, Pageable pageable);
+
+    @Query(
+            value = "select r from Restaurant r left join Review rv on rv.restaurantId = r.id "
+                    + "where "
+                    + "(r.campusId = :campusId) "
+                    + "and "
+                    + "(:categoryId is null or r.categoryId = :categoryId) "
+                    + "group by r.id "
+                    + "order by avg(rv.rating) desc"
+    )
+    Slice<Restaurant> findPageByCampusIdOrderByRatingDesc(Long campusId, Long categoryId, Pageable pageable);
 
     @Query(
             value = "select id, category_id, campus_id, name, address, distance, kakao_map_url, image_url "

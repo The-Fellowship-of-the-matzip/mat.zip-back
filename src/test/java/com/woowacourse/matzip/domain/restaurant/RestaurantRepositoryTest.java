@@ -3,6 +3,10 @@ package com.woowacourse.matzip.domain.restaurant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.matzip.domain.member.Member;
+import com.woowacourse.matzip.domain.member.MemberRepository;
+import com.woowacourse.matzip.domain.review.Review;
+import com.woowacourse.matzip.domain.review.ReviewRepository;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,10 @@ public class RestaurantRepositoryTest {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
+    @Autowired
+    private MemberRepository memberRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     @Test
     void 캠퍼스id가_일치하는_식당을_내림차순으로_페이징해서_반환한다() {
@@ -49,13 +57,31 @@ public class RestaurantRepositoryTest {
     }
 
     @Test
+    void 캠퍼스id가_일치하는_식당을_별점순으로_페이징해서_반환한다() {
+        Restaurant restaurant1 = createTestRestaurant(1L, 1L, "식당1", "주소1");
+        Restaurant restaurant2 = createTestRestaurant(1L, 1L, "식당2", "주소2");
+        Restaurant restaurant3 = createTestRestaurant(2L, 1L, "식당3", "주소3");
+        restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
+
+        Member member = createTestMember();
+        memberRepository.save(member);
+        for (int i = 0; i < 3; i++) {
+            reviewRepository.save(createTestReview(member, restaurant1.getId(), 5));
+            reviewRepository.save(createTestReview(member, restaurant2.getId(), 0));
+        }
+
+        Slice<Restaurant> page = restaurantRepository.findPageByCampusIdOrderByRatingDesc(1L, null,
+                PageRequest.of(0, 3));
+        assertThat(page.getContent()).containsExactly(restaurant1, restaurant2, restaurant3);
+    }
+
+    @Test
     void 페이징_테스트() {
         Restaurant restaurant1 = createTestRestaurant(1L, 1L, "식당1", "주소1");
         Restaurant restaurant2 = createTestRestaurant(1L, 1L, "식당2", "주소2");
         Restaurant restaurant3 = createTestRestaurant(1L, 1L, "식당3", "주소3");
         Restaurant restaurant4 = createTestRestaurant(1L, 1L, "식당4", "주소4");
-        restaurantRepository.saveAll(
-                List.of(restaurant1, restaurant2, restaurant3, restaurant4));
+        restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3, restaurant4));
 
         Slice<Restaurant> actual = restaurantRepository.findPageByCampusIdOrderByIdDesc(1L, 1L,
                 PageRequest.of(0, 2));
@@ -87,6 +113,24 @@ public class RestaurantRepositoryTest {
                 .distance(10)
                 .kakaoMapUrl("테스트URL")
                 .imageUrl("테스트URL")
+                .build();
+    }
+
+    private Member createTestMember() {
+        return Member.builder()
+                .githubId("githubId")
+                .username("username")
+                .profileImage("url")
+                .build();
+    }
+
+    private Review createTestReview(Member member, Long restaurantId, int rating) {
+        return Review.builder()
+                .member(member)
+                .restaurantId(restaurantId)
+                .content("맛있어요")
+                .rating(rating)
+                .menu("메뉴")
                 .build();
     }
 }
