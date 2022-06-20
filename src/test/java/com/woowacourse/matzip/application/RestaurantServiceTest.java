@@ -1,5 +1,6 @@
 package com.woowacourse.matzip.application;
 
+import static com.woowacourse.matzip.domain.restaurant.SortFilter.DEFAULT;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestMember;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestRestaurant;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestReview;
@@ -21,7 +22,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 @SpringServiceTest
 class RestaurantServiceTest {
@@ -37,10 +37,10 @@ class RestaurantServiceTest {
 
     @Test
     void 캠퍼스id가_일치하는_식당_목록_페이지를_반환한다() {
-        RestaurantTitlesResponse page1 = restaurantService.findByCampusIdOrderByIdDesc(2L, null,
-                Pageable.ofSize(2));
-        RestaurantTitlesResponse page2 = restaurantService.findByCampusIdOrderByIdDesc(2L, null,
-                PageRequest.of(1, 2));
+        RestaurantTitlesResponse page1 = restaurantService.findByCampusId(2L, null,
+                PageRequest.of(0, 2, DEFAULT.getSortCondition()));
+        RestaurantTitlesResponse page2 = restaurantService.findByCampusId(2L, null,
+                PageRequest.of(1, 2, DEFAULT.getSortCondition()));
 
         assertAll(
                 () -> assertThat(page1.getRestaurants()).hasSize(2)
@@ -56,8 +56,8 @@ class RestaurantServiceTest {
 
     @Test
     void 캠퍼스id와_카테고리id가_일치하는_식당_목록_페이지를_반환한다() {
-        RestaurantTitlesResponse response = restaurantService.findByCampusIdOrderByIdDesc(2L, 1L,
-                Pageable.ofSize(2));
+        RestaurantTitlesResponse response = restaurantService.findByCampusId(2L, 1L,
+                PageRequest.of(0, 2, DEFAULT.getSortCondition()));
 
         assertAll(
                 () -> assertThat(response.getRestaurants()).hasSize(2)
@@ -77,8 +77,8 @@ class RestaurantServiceTest {
             reviewRepository.save(createTestReview(member, restaurant.getId(), 4));
         }
 
-        RestaurantTitlesResponse response = restaurantService.findByCampusIdOrderByIdDesc(1L, 1L,
-                Pageable.ofSize(10));
+        RestaurantTitlesResponse response = restaurantService.findByCampusId(1L, 1L,
+                PageRequest.of(0, 10, DEFAULT.getSortCondition()));
 
         assertThat(response.getRestaurants()).hasSize(1)
                 .extracting(RestaurantTitleResponse::getRating)
@@ -116,14 +116,7 @@ class RestaurantServiceTest {
 
     @Test
     void id로_식당의_상세_정보를_조회한다() {
-        Restaurant restaurant = Restaurant.builder()
-                .campusId(1L)
-                .categoryId(1L)
-                .name("테스트식당")
-                .address("테스트주소")
-                .kakaoMapUrl("testURL")
-                .imageUrl("testURL")
-                .build();
+        Restaurant restaurant = createTestRestaurant(1L, 1L, "테스트식당", "테스트주소");
         restaurantRepository.save(restaurant);
 
         RestaurantResponse response = restaurantService.findById(restaurant.getId());

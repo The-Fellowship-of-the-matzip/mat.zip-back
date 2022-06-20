@@ -26,9 +26,9 @@ public class RestaurantService {
         this.reviewRepository = reviewRepository;
     }
 
-    public RestaurantTitlesResponse findByCampusIdOrderByIdDesc(final Long campusId, final Long categoryId,
-                                                                final Pageable pageable) {
-        Slice<Restaurant> page = restaurantRepository.findPageByCampusIdOrderByIdDesc(campusId, categoryId, pageable);
+    public RestaurantTitlesResponse findByCampusId(final Long campusId, final Long categoryId,
+                                                   final Pageable pageable) {
+        Slice<Restaurant> page = restaurantRepository.findPageByCampusId(campusId, categoryId, pageable);
         return toRestaurantTitlesResponse(page);
     }
 

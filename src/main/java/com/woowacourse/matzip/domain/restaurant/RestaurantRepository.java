@@ -14,9 +14,8 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
                     + "(r.campusId = :campusId) "
                     + "and "
                     + "(:categoryId is null or r.categoryId = :categoryId) "
-                    + "order by r.id desc"
     )
-    Slice<Restaurant> findPageByCampusIdOrderByIdDesc(Long campusId, Long categoryId, Pageable pageable);
+    Slice<Restaurant> findPageByCampusId(Long campusId, Long categoryId, Pageable pageable);
 
     @Query(
             value = "select r from Restaurant r left join Review rv on rv.restaurantId = r.id "
