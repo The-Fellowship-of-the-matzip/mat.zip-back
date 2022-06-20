@@ -6,6 +6,7 @@ import com.woowacourse.auth.exception.TokenNotFoundException;
 import com.woowacourse.matzip.exception.CampusNotFoundException;
 import com.woowacourse.matzip.exception.InvalidCategoryException;
 import com.woowacourse.matzip.exception.InvalidReviewException;
+import com.woowacourse.matzip.exception.InvalidSortConditionException;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
 import com.woowacourse.matzip.exception.RestaurantNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,8 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler({
             InvalidCategoryException.class,
-            InvalidReviewException.class
+            InvalidReviewException.class,
+            InvalidSortConditionException.class
     })
     public ResponseEntity<ErrorResponse> businessExceptionHandler(final RuntimeException e) {
         return ResponseEntity.badRequest().body(ErrorResponse.from(e));
