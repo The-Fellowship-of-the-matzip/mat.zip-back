@@ -62,9 +62,11 @@ public class RestaurantService {
     }
 
     public RestaurantResponse findById(final Long restaurantId) {
-        return RestaurantResponse.from(
+        return RestaurantResponse.of(
                 restaurantRepository.findById(restaurantId)
-                        .orElseThrow(RestaurantNotFoundException::new)
+                        .orElseThrow(RestaurantNotFoundException::new),
+                reviewRepository.findAverageRatingUsingRestaurantId(restaurantId)
+                        .orElse(0.0)
         );
     }
 

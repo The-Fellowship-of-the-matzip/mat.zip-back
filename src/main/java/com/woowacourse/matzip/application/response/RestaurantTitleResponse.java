@@ -23,8 +23,12 @@ public class RestaurantTitleResponse {
         this.imageUrl = imageUrl;
     }
 
-    public static RestaurantTitleResponse of(Restaurant restaurant, double rating) {
-        return new RestaurantTitleResponse(restaurant.getId(), restaurant.getName(), restaurant.getDistance(), rating,
-                restaurant.getImageUrl());
+    public static RestaurantTitleResponse of(final Restaurant restaurant, final double rating) {
+        return new RestaurantTitleResponse(restaurant.getId(),
+                restaurant.getName(),
+                restaurant.getDistance(),
+                rating,
+                restaurant.getImageUrl()
+        );
     }
 }

@@ -1,6 +1,7 @@
 package com.woowacourse.matzip.application;
 
 import static com.woowacourse.matzip.domain.restaurant.SortCondition.DEFAULT;
+import static com.woowacourse.matzip.domain.restaurant.SortCondition.SPELL;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestMember;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestRestaurant;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestReview;
@@ -36,7 +37,7 @@ class RestaurantServiceTest {
     private ReviewRepository reviewRepository;
 
     @Test
-    void 캠퍼스id가_일치하는_식당_목록_페이지를_반환한다() {
+    void 캠퍼스id가_일치하는_식당_목록_페이지를_최신순으로_반환한다() {
         RestaurantTitlesResponse page1 = restaurantService.findByCampusId(2L, null,
                 PageRequest.of(0, 2, DEFAULT.getValue()));
         RestaurantTitlesResponse page2 = restaurantService.findByCampusId(2L, null,
@@ -86,7 +87,22 @@ class RestaurantServiceTest {
     }
 
     @Test
-    void 캠퍼스id가_일치하는_식당_목록을_평균_별점_순으로_정렬한_페이지를_반환한다() {
+    void 캠퍼스id가_일치하는_식당_목록을_가나다순으로_정렬한_페이지를_반환한다() {
+        Restaurant restaurant1 = createTestRestaurant(1L, 1L, "가식당", "테스트주소1");
+        Restaurant restaurant2 = createTestRestaurant(1L, 1L, "다식당", "테스트주소2");
+        Restaurant restaurant3 = createTestRestaurant(1L, 1L, "나식당", "테스트주소3");
+        restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
+
+        RestaurantTitlesResponse response = restaurantService.findByCampusIdOrderByRatingDesc(1L, 1L,
+                PageRequest.of(0, 3, SPELL.getValue()));
+
+        assertThat(response.getRestaurants()).hasSize(3)
+                .extracting("id")
+                .containsExactly(restaurant1.getId(), restaurant3.getId(), restaurant2.getId());
+    }
+
+    @Test
+    void 캠퍼스id가_일치하는_식당_목록을_평균_별점순으로_정렬한_페이지를_반환한다() {
         Member member = createTestMember();
         memberRepository.save(member);
         Restaurant restaurant1 = createTestRestaurant(1L, 1L, "테스트식당1", "테스트주소1");
@@ -121,8 +137,12 @@ class RestaurantServiceTest {
 
         RestaurantResponse response = restaurantService.findById(restaurant.getId());
 
-        assertThat(response).usingRecursiveComparison()
-                .isEqualTo(restaurant);
+        assertAll(
+                () -> assertThat(response).usingRecursiveComparison()
+                        .ignoringFields("rating")
+                        .isEqualTo(restaurant),
+                () -> assertThat(response.getRating()).isEqualTo(0.0)
+        );
     }
 
     @Test
@@ -139,9 +159,11 @@ class RestaurantServiceTest {
         Restaurant restaurant4 = createTestRestaurant(1L, 1L, "테스트식당4", "테스트주소4");
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3, restaurant4));
 
-        RestaurantTitlesResponse response1 = restaurantService.findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(1L, "테스트",
+        RestaurantTitlesResponse response1 = restaurantService.findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(
+                1L, "테스트",
                 PageRequest.of(0, 2));
-        RestaurantTitlesResponse response2 = restaurantService.findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(1L, "테스트",
+        RestaurantTitlesResponse response2 = restaurantService.findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(
+                1L, "테스트",
                 PageRequest.of(1, 2));
 
         assertAll(

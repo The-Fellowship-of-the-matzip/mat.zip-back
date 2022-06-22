@@ -1,9 +1,11 @@
 package com.woowacourse.document;
 
-import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_KOREAN_RESTAURANT_RESPONSES;
-import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_PORT_CUTLET_RESTAURANT_RESPONSES;
-import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANT_RANDOM_2_RESPONSES;
-import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANT_RESPONSES;
+import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_KOREAN_RESTAURANTS_RESPONSE;
+import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_PORT_CUTLET_RESTAURANTS_RESPONSE;
+import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANTS_RANDOM_2_RESPONSE;
+import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANTS_RESPONSE;
+import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANTS_SORT_BY_RATING_RESPONSE;
+import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANTS_SORT_BY_SPELL_RESPONSE;
 import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANT_RESPONSE_1;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -16,9 +18,9 @@ import org.springframework.http.HttpStatus;
 public class RestaurantDocumentation extends Documentation {
 
     @Test
-    void 선릉캠퍼스_식당_목록의_0페이지를_조회한다() {
+    void 선릉캠퍼스_식당_목록의_0페이지를_최신순으로_조회한다() {
         when(restaurantService.findByCampusId(eq(2L), eq(null), any())).thenReturn(
-                SEOLLEUNG_RESTAURANT_RESPONSES);
+                SEOLLEUNG_RESTAURANTS_RESPONSE);
 
         docsGiven
                 .when().get("/api/campuses/2/restaurants?page=0&size=10")
@@ -28,9 +30,33 @@ public class RestaurantDocumentation extends Documentation {
     }
 
     @Test
-    void 선릉캠퍼스_한식_식당_목록의_0페이지를_조회한다() {
+    void 선릉캠퍼스_식당_목록의_0페이지를_가나다순으로_조회한다() {
+        when(restaurantService.findByCampusId(eq(2L), eq(null), any())).thenReturn(
+                SEOLLEUNG_RESTAURANTS_SORT_BY_SPELL_RESPONSE);
+
+        docsGiven
+                .when().get("/api/campuses/2/restaurants?filter=spell&page=0&size=10")
+                .then().log().all()
+                .apply(document("restaurants/list-spell"))
+                .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 선릉캠퍼스_식당_목록의_0페이지를_별점순으로_조회한다() {
+        when(restaurantService.findByCampusIdOrderByRatingDesc(eq(2L), eq(null), any())).thenReturn(
+                SEOLLEUNG_RESTAURANTS_SORT_BY_RATING_RESPONSE);
+
+        docsGiven
+                .when().get("/api/campuses/2/restaurants?filter=rating&page=0&size=10")
+                .then().log().all()
+                .apply(document("restaurants/list-rating"))
+                .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 선릉캠퍼스_한식_식당_목록의_0페이지를_최신순으로_조회한다() {
         when(restaurantService.findByCampusId(eq(2L), eq(1L), any())).thenReturn(
-                SEOLLEUNG_KOREAN_RESTAURANT_RESPONSES);
+                SEOLLEUNG_KOREAN_RESTAURANTS_RESPONSE);
 
         docsGiven
                 .when().get("/api/campuses/2/restaurants?categoryId=1&page=0&size=10")
@@ -42,7 +68,7 @@ public class RestaurantDocumentation extends Documentation {
     @Test
     void 선릉캠퍼스_식당_목록을_2개_무작위로_조회한다() {
         when(restaurantService.findRandomsByCampusId(eq(2L), eq(2))).thenReturn(
-                SEOLLEUNG_RESTAURANT_RANDOM_2_RESPONSES);
+                SEOLLEUNG_RESTAURANTS_RANDOM_2_RESPONSE);
 
         docsGiven
                 .when().get("/api/campuses/2/restaurants/random?size=2")
@@ -65,7 +91,7 @@ public class RestaurantDocumentation extends Documentation {
     @Test
     void 선릉캠퍼스_식당을_이름으로_검색한다() {
         when(restaurantService.findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(eq(1L), eq("돈까스"), any()))
-                .thenReturn(SEOLLEUNG_PORT_CUTLET_RESTAURANT_RESPONSES);
+                .thenReturn(SEOLLEUNG_PORT_CUTLET_RESTAURANTS_RESPONSE);
 
         docsGiven
                 .when().get("/api/campuses/1/restaurants/search?name=돈까스&page=0&size=2")
