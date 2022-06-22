@@ -124,4 +124,18 @@ public class RestaurantRepositoryTest {
         assertThat(restaurants).hasSize(2)
                 .containsAnyOf(restaurant1, restaurant2, restaurant3, restaurant4);
     }
+
+    @Test
+    void 이름이_일치하는_레스토랑을_조회한다() {
+        Restaurant restaurant1 = createTestRestaurant(1L, 1L, "식당sigdang 1", "주소1");
+        Restaurant restaurant2 = createTestRestaurant(1L, 1L, "식당SigDang 2", "주소2");
+        Restaurant restaurant3 = createTestRestaurant(1L, 1L, "당식3", "주소3");
+        Restaurant restaurant4 = createTestRestaurant(1L, 1L, "당식4", "주소4");
+        restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3, restaurant4));
+
+        List<Restaurant> restaurants = restaurantRepository.findByNameContainingIgnoreCase("식당sigdang");
+
+        assertThat(restaurants).hasSize(2)
+                .containsAnyOf(restaurant1, restaurant2);
+    }
 }
