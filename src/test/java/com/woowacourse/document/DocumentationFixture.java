@@ -51,28 +51,48 @@ public class DocumentationFixture {
             "서울 강남구 도곡로 221 셀라빌딩 1층", 1L,
             "https://place.map.kakao.com/471451980", "www.image.com");
 
-    public static final RestaurantTitlesResponse SEOLLEUNG_RESTAURANT_RESPONSES = new RestaurantTitlesResponse(
+    public static final RestaurantTitlesResponse SEOLLEUNG_RESTAURANTS_RESPONSE = new RestaurantTitlesResponse(
             false,
-            Stream.of(SEOLLEUNG_RESTAURANT_3, SEOLLEUNG_RESTAURANT_2, SEOLLEUNG_RESTAURANT_1)
+            Stream.of(SEOLLEUNG_RESTAURANT_5, SEOLLEUNG_RESTAURANT_4, SEOLLEUNG_RESTAURANT_3, SEOLLEUNG_RESTAURANT_2,
+                            SEOLLEUNG_RESTAURANT_1)
                     .map(restaurant -> RestaurantTitleResponse.of(restaurant, 4))
                     .collect(Collectors.toList())
     );
 
-    public static final RestaurantTitlesResponse SEOLLEUNG_PORT_CUTLET_RESTAURANT_RESPONSES = new RestaurantTitlesResponse(
+    public static final RestaurantTitlesResponse SEOLLEUNG_RESTAURANTS_SORT_BY_SPELL_RESPONSE = new RestaurantTitlesResponse(
+            false,
+            Stream.of(SEOLLEUNG_RESTAURANT_3, SEOLLEUNG_RESTAURANT_1, SEOLLEUNG_RESTAURANT_4, SEOLLEUNG_RESTAURANT_2,
+                            SEOLLEUNG_RESTAURANT_5)
+                    .map(restaurant -> RestaurantTitleResponse.of(restaurant, 4))
+                    .collect(Collectors.toList())
+    );
+
+    public static final RestaurantTitlesResponse SEOLLEUNG_RESTAURANTS_SORT_BY_RATING_RESPONSE = new RestaurantTitlesResponse(
+            false,
+            List.of(
+                    RestaurantTitleResponse.of(SEOLLEUNG_RESTAURANT_1, 5),
+                    RestaurantTitleResponse.of(SEOLLEUNG_RESTAURANT_2, 4.7),
+                    RestaurantTitleResponse.of(SEOLLEUNG_RESTAURANT_3, 4.2),
+                    RestaurantTitleResponse.of(SEOLLEUNG_RESTAURANT_4, 3.7),
+                    RestaurantTitleResponse.of(SEOLLEUNG_RESTAURANT_5, 3.0)
+            )
+    );
+
+    public static final RestaurantTitlesResponse SEOLLEUNG_PORT_CUTLET_RESTAURANTS_RESPONSE = new RestaurantTitlesResponse(
             false,
             Stream.of(SEOLLEUNG_RESTAURANT_5, SEOLLEUNG_RESTAURANT_4)
                     .map(restaurant -> RestaurantTitleResponse.of(restaurant, 4))
                     .collect(Collectors.toList())
     );
 
-    public static final RestaurantTitlesResponse SEOLLEUNG_KOREAN_RESTAURANT_RESPONSES = new RestaurantTitlesResponse(
+    public static final RestaurantTitlesResponse SEOLLEUNG_KOREAN_RESTAURANTS_RESPONSE = new RestaurantTitlesResponse(
             false,
             Stream.of(SEOLLEUNG_RESTAURANT_3, SEOLLEUNG_RESTAURANT_2)
                     .map(restaurant -> RestaurantTitleResponse.of(restaurant, 4))
                     .collect(Collectors.toList())
     );
 
-    public static final List<RestaurantTitleResponse> SEOLLEUNG_RESTAURANT_RANDOM_2_RESPONSES = Stream.of(
+    public static final List<RestaurantTitleResponse> SEOLLEUNG_RESTAURANTS_RANDOM_2_RESPONSE = Stream.of(
                     SEOLLEUNG_RESTAURANT_1, SEOLLEUNG_RESTAURANT_3)
             .map(restaurant -> RestaurantTitleResponse.of(restaurant, 4))
             .collect(Collectors.toList());
@@ -91,7 +111,7 @@ public class DocumentationFixture {
     private static final ReviewResponse REVIEW_5 = new ReviewResponse(5L, new ReviewAuthor("블링", "url"), "또오고 싶어요.", 5,
             "통마늘 닭똥집볶음");
 
-    public static final ReviewsResponse REVIEW_RESPONSES = new ReviewsResponse(
+    public static final ReviewsResponse REVIEWS_RESPONSE = new ReviewsResponse(
             false, List.of(REVIEW_1, REVIEW_2, REVIEW_3, REVIEW_4, REVIEW_5)
     );
 }

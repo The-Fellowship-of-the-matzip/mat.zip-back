@@ -1,6 +1,6 @@
 package com.woowacourse.document;
 
-import static com.woowacourse.document.DocumentationFixture.REVIEW_RESPONSES;
+import static com.woowacourse.document.DocumentationFixture.REVIEWS_RESPONSE;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -31,7 +31,7 @@ public class ReviewDocumentation extends Documentation {
 
     @Test
     void 리뷰를_조회한다() {
-        when(reviewService.findPageByRestaurantId(any(), any())).thenReturn(REVIEW_RESPONSES);
+        when(reviewService.findPageByRestaurantId(any(), any())).thenReturn(REVIEWS_RESPONSE);
 
         docsGiven
                 .when().get("/api/restaurants/1/reviews?page=0&size=5")
