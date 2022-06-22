@@ -5,10 +5,12 @@ import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
+import com.woowacourse.matzip.domain.restaurant.SortCondition;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.matzip.exception.RestaurantNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -64,5 +66,18 @@ public class RestaurantService {
                 restaurantRepository.findById(restaurantId)
                         .orElseThrow(RestaurantNotFoundException::new)
         );
+    }
+
+    public RestaurantTitlesResponse findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(final Long campusId,
+                                                                                              final String name,
+                                                                                              final Pageable pageable) {
+        Pageable pageableById = toIdDescSortPageable(pageable);
+        return toRestaurantTitlesResponse(
+                restaurantRepository.findPageByCampusIdAndNameContainingIgnoreCase(campusId, name, pageableById)
+        );
+    }
+
+    private Pageable toIdDescSortPageable(final Pageable pageable) {
+        return PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), SortCondition.DEFAULT.getValue());
     }
 }

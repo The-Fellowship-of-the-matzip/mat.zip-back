@@ -130,4 +130,29 @@ class RestaurantServiceTest {
         assertThatThrownBy(() -> restaurantService.findById(Long.MAX_VALUE))
                 .isInstanceOf(RestaurantNotFoundException.class);
     }
+
+    @Test
+    void 이름이_일치하는_식당목록을_반환한다() {
+        Restaurant restaurant1 = createTestRestaurant(1L, 1L, "테스트식당1", "테스트주소1");
+        Restaurant restaurant2 = createTestRestaurant(1L, 1L, "테스트식당2", "테스트주소2");
+        Restaurant restaurant3 = createTestRestaurant(1L, 1L, "테스트식당3", "테스트주소3");
+        Restaurant restaurant4 = createTestRestaurant(1L, 1L, "테스트식당4", "테스트주소4");
+        restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3, restaurant4));
+
+        RestaurantTitlesResponse response1 = restaurantService.findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(1L, "테스트",
+                PageRequest.of(0, 2));
+        RestaurantTitlesResponse response2 = restaurantService.findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(1L, "테스트",
+                PageRequest.of(1, 2));
+
+        assertAll(
+                () -> assertThat(response1.getRestaurants()).hasSize(2)
+                        .extracting("id")
+                        .containsExactly(restaurant4.getId(), restaurant3.getId()),
+                () -> assertThat(response1.isHasNext()).isTrue(),
+                () -> assertThat(response2.getRestaurants()).hasSize(2)
+                        .extracting("id")
+                        .containsExactly(restaurant2.getId(), restaurant1.getId()),
+                () -> assertThat(response2.isHasNext()).isFalse()
+        );
+    }
 }
