@@ -24,7 +24,7 @@ public class DocumentationFixture {
     private static final Category CATEGORY_5 = new Category(5L, "카페/디저트");
 
     public static final List<CategoryResponse> CATEGORY_RESPONSES = Stream.of(CATEGORY_1, CATEGORY_2, CATEGORY_3,
-            CATEGORY_4, CATEGORY_5)
+                    CATEGORY_4, CATEGORY_5)
             .map(CategoryResponse::from)
             .collect(Collectors.toList());
 
@@ -73,12 +73,12 @@ public class DocumentationFixture {
     );
 
     public static final List<RestaurantTitleResponse> SEOLLEUNG_RESTAURANT_RANDOM_2_RESPONSES = Stream.of(
-            SEOLLEUNG_RESTAURANT_1, SEOLLEUNG_RESTAURANT_3)
+                    SEOLLEUNG_RESTAURANT_1, SEOLLEUNG_RESTAURANT_3)
             .map(restaurant -> RestaurantTitleResponse.of(restaurant, 4))
             .collect(Collectors.toList());
 
-    public static final RestaurantResponse SEOLLEUNG_RESTAURANT_RESPONSE_1 = RestaurantResponse.from(
-            SEOLLEUNG_RESTAURANT_1);
+    public static final RestaurantResponse SEOLLEUNG_RESTAURANT_RESPONSE_1 = RestaurantResponse.of(
+            SEOLLEUNG_RESTAURANT_1, 4.0);
 
     private static final ReviewResponse REVIEW_1 = new ReviewResponse(1L, new ReviewAuthor("후니", "url"), "무가 맛있어요", 5,
             "무닭볶음탕 (중)");

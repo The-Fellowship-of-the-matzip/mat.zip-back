@@ -121,8 +121,12 @@ class RestaurantServiceTest {
 
         RestaurantResponse response = restaurantService.findById(restaurant.getId());
 
-        assertThat(response).usingRecursiveComparison()
-                .isEqualTo(restaurant);
+        assertAll(
+                () -> assertThat(response).usingRecursiveComparison()
+                        .ignoringFields("rating")
+                        .isEqualTo(restaurant),
+                () -> assertThat(response.getRating()).isEqualTo(0.0)
+        );
     }
 
     @Test
@@ -139,9 +143,11 @@ class RestaurantServiceTest {
         Restaurant restaurant4 = createTestRestaurant(1L, 1L, "테스트식당4", "테스트주소4");
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3, restaurant4));
 
-        RestaurantTitlesResponse response1 = restaurantService.findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(1L, "테스트",
+        RestaurantTitlesResponse response1 = restaurantService.findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(
+                1L, "테스트",
                 PageRequest.of(0, 2));
-        RestaurantTitlesResponse response2 = restaurantService.findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(1L, "테스트",
+        RestaurantTitlesResponse response2 = restaurantService.findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(
+                1L, "테스트",
                 PageRequest.of(1, 2));
 
         assertAll(
