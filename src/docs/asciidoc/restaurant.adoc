@@ -13,6 +13,10 @@ operation::restaurants/list-category[snippets='http-request,http-response']
 
 operation::restaurants/list-random[snippets='http-request,http-response']
 
+=== 식당 이름 검색
+
+operation::restaurants/search[snippets='http-request,http-response']
+
 === 식당 상세 정보 조회
 
 operation::restaurants[snippets='http-request,http-response']

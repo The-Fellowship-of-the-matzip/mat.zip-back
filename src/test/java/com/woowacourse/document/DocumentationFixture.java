@@ -24,7 +24,7 @@ public class DocumentationFixture {
     private static final Category CATEGORY_5 = new Category(5L, "카페/디저트");
 
     public static final List<CategoryResponse> CATEGORY_RESPONSES = Stream.of(CATEGORY_1, CATEGORY_2, CATEGORY_3,
-                    CATEGORY_4, CATEGORY_5)
+            CATEGORY_4, CATEGORY_5)
             .map(CategoryResponse::from)
             .collect(Collectors.toList());
 
@@ -44,10 +44,23 @@ public class DocumentationFixture {
     private static final Restaurant SEOLLEUNG_RESTAURANT_3 = new Restaurant(3L, 2L, 2L, "마담밍",
             "서울 강남구 선릉로86길 5-4 1층", 1L,
             "https://place.map.kakao.com/18283045", "www.image.com");
+    private static final Restaurant SEOLLEUNG_RESTAURANT_4 = new Restaurant(4L, 3L, 2L, "브라운돈까스 선릉점",
+            "서울 강남구 선릉로 520", 1L,
+            "https://place.map.kakao.com/24449739", "www.image.com");
+    private static final Restaurant SEOLLEUNG_RESTAURANT_5 = new Restaurant(5L, 3L, 2L, "윤화돈까스",
+            "서울 강남구 도곡로 221 셀라빌딩 1층", 1L,
+            "https://place.map.kakao.com/471451980", "www.image.com");
 
     public static final RestaurantTitlesResponse SEOLLEUNG_RESTAURANT_RESPONSES = new RestaurantTitlesResponse(
             false,
             Stream.of(SEOLLEUNG_RESTAURANT_3, SEOLLEUNG_RESTAURANT_2, SEOLLEUNG_RESTAURANT_1)
+                    .map(restaurant -> RestaurantTitleResponse.of(restaurant, 4))
+                    .collect(Collectors.toList())
+    );
+
+    public static final RestaurantTitlesResponse SEOLLEUNG_PORT_CUTLET_RESTAURANT_RESPONSES = new RestaurantTitlesResponse(
+            false,
+            Stream.of(SEOLLEUNG_RESTAURANT_5, SEOLLEUNG_RESTAURANT_4)
                     .map(restaurant -> RestaurantTitleResponse.of(restaurant, 4))
                     .collect(Collectors.toList())
     );
@@ -60,7 +73,7 @@ public class DocumentationFixture {
     );
 
     public static final List<RestaurantTitleResponse> SEOLLEUNG_RESTAURANT_RANDOM_2_RESPONSES = Stream.of(
-                    SEOLLEUNG_RESTAURANT_1, SEOLLEUNG_RESTAURANT_3)
+            SEOLLEUNG_RESTAURANT_1, SEOLLEUNG_RESTAURANT_3)
             .map(restaurant -> RestaurantTitleResponse.of(restaurant, 4))
             .collect(Collectors.toList());
 
