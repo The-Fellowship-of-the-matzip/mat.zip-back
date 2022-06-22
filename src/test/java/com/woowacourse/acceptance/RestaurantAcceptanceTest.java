@@ -39,6 +39,12 @@ public class RestaurantAcceptanceTest extends AcceptanceTest {
         return httpGetRequest("/api/restaurants/" + restaurantId);
     }
 
+    private static ExtractableResponse<Response> 식당_검색_요청(final Long campusId, final int page, final int size,
+                                                          final String name) {
+        return httpGetRequest(
+                "/api/campuses/" + campusId + "/restaurants/search?page=" + page + "&size=" + size + "&name=" + name);
+    }
+
     @Test
     void 선릉캠퍼스_식당_목록의_0페이지를_조회하고_다음_페이지가_있는지_확인한다() {
         ExtractableResponse<Response> response = 캠퍼스_식당_페이지_조회_요청(선릉캠퍼스_ID, 0, 1);
@@ -47,8 +53,8 @@ public class RestaurantAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 선릉캠퍼스_식당_목록의_0페이지를_이름_순으로_조회한다() {
-        ExtractableResponse<Response> response = 캠퍼스_식당_페이지_정렬_기준_변경해서_조회_요청(선릉캠퍼스_ID, 0, 2, "spell");
-        식당이_정렬되어_있다(response, "마담밍", "배가무닭볶음탕");
+        ExtractableResponse<Response> response = 캠퍼스_식당_페이지_정렬_기준_변경해서_조회_요청(선릉캠퍼스_ID, 1, 2, "spell");
+        식당이_정렬되어_있다(response, "마담밍3", "배가무닭볶음탕");
     }
 
     @Test
@@ -69,6 +75,12 @@ public class RestaurantAcceptanceTest extends AcceptanceTest {
         식당_조회에_성공한다(response);
     }
 
+    @Test
+    void 선릉캠퍼스_식당을_이름으로_검색한다() {
+        ExtractableResponse<Response> response = 식당_검색_요청(선릉캠퍼스_ID, 0, 2, "마담밍");
+        식당_검색에_성공한다(response, "마담밍3", "마담밍2");
+    }
+
     private void 식당_조회에_성공한다(final ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
@@ -85,6 +97,15 @@ public class RestaurantAcceptanceTest extends AcceptanceTest {
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
                 () -> assertThat(response.as(RestaurantTitlesResponse.class).getRestaurants()).extracting("name")
                         .containsExactly(names)
+        );
+    }
+
+    private void 식당_검색에_성공한다(final ExtractableResponse<Response> response, String... names) {
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(response.as(RestaurantTitlesResponse.class).getRestaurants()).extracting("name")
+                        .containsExactly(names),
+                () -> assertThat(response.as(RestaurantTitlesResponse.class).isHasNext()).isTrue()
         );
     }
 }

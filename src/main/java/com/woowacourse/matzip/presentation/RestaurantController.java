@@ -47,6 +47,14 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurantService.findRandomsByCampusId(campusId, size));
     }
 
+    @GetMapping("/campuses/{campusId}/restaurants/search")
+    public ResponseEntity<RestaurantTitlesResponse> searchRestaurantsPage(@PathVariable final Long campusId,
+                                                                          @RequestParam final String name,
+                                                                          final Pageable pageable) {
+        return ResponseEntity.ok(
+                restaurantService.findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(campusId, name, pageable));
+    }
+
     @GetMapping("/restaurants/{restaurantId}")
     public ResponseEntity<RestaurantResponse> showRestaurant(@PathVariable final Long restaurantId) {
         return ResponseEntity.ok(restaurantService.findById(restaurantId));
