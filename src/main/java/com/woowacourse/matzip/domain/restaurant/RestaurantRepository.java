@@ -37,5 +37,5 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     )
     List<Restaurant> findRandomsByCampusId(Long campusId, int size);
 
-    List<Restaurant> findByNameContainingIgnoreCase(String name);
+    List<Restaurant> findByCampusIdAndNameContainingIgnoreCase(Long campusId, String name);
 }
