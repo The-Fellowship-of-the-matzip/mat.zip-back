@@ -1,6 +1,7 @@
 package com.woowacourse.document;
 
 import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_KOREAN_RESTAURANT_RESPONSES;
+import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_PORT_CUTLET_RESTAURANT_RESPONSES;
 import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANT_RANDOM_2_RESPONSES;
 import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANT_RESPONSES;
 import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANT_RESPONSE_1;
@@ -58,6 +59,18 @@ public class RestaurantDocumentation extends Documentation {
                 .when().get("/api/restaurants/1")
                 .then().log().all()
                 .apply(document("restaurants"))
+                .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 선릉캠퍼스_식당을_이름으로_검색한다() {
+        when(restaurantService.findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(eq(1L), eq("돈까스"), any()))
+                .thenReturn(SEOLLEUNG_PORT_CUTLET_RESTAURANT_RESPONSES);
+
+        docsGiven
+                .when().get("/api/campuses/1/restaurants/search?name=돈까스&page=0&size=2")
+                .then().log().all()
+                .apply(document("restaurants/search"))
                 .statusCode(HttpStatus.OK.value());
     }
 }

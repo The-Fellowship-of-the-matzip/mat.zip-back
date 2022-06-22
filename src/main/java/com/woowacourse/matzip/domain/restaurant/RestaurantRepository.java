@@ -36,4 +36,6 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
             nativeQuery = true
     )
     List<Restaurant> findRandomsByCampusId(Long campusId, int size);
+
+    Slice<Restaurant> findPageByCampusIdAndNameContainingIgnoreCase(Long campusId, String name, Pageable pageable);
 }
