@@ -45,12 +45,12 @@ class RestaurantServiceTest {
         assertAll(
                 () -> assertThat(page1.getRestaurants()).hasSize(2)
                         .extracting(RestaurantTitleResponse::getName)
-                        .containsExactly("마담밍", "뽕나무쟁이 선릉본점"),
+                        .containsExactly("마담밍3", "마담밍2"),
                 () -> assertThat(page1.isHasNext()).isTrue(),
-                () -> assertThat(page2.getRestaurants()).hasSize(1)
+                () -> assertThat(page2.getRestaurants()).hasSize(2)
                         .extracting(RestaurantTitleResponse::getName)
-                        .containsExactly("배가무닭볶음탕"),
-                () -> assertThat(page2.isHasNext()).isFalse()
+                        .containsExactly("마담밍", "뽕나무쟁이 선릉본점"),
+                () -> assertThat(page2.isHasNext()).isTrue()
         );
     }
 
@@ -111,7 +111,7 @@ class RestaurantServiceTest {
 
         assertThat(responses).hasSize(2)
                 .extracting("name")
-                .containsAnyOf("마담밍", "뽕나무쟁이 선릉본점", "배가무닭볶음탕");
+                .containsAnyOf("마담밍", "마담밍2", "마담밍3", "뽕나무쟁이 선릉본점", "배가무닭볶음탕");
     }
 
     @Test
