@@ -4,6 +4,7 @@ import com.woowacourse.auth.support.AuthenticationPrincipal;
 import com.woowacourse.matzip.application.ReviewService;
 import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.presentation.request.ReviewCreateRequest;
+import javax.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class ReviewController {
 
     @PostMapping
     public ResponseEntity<Void> createReview(@PathVariable final Long restaurantId,
-                                             @RequestBody final ReviewCreateRequest reviewCreateRequest,
+                                             @RequestBody @Valid final ReviewCreateRequest reviewCreateRequest,
                                              @AuthenticationPrincipal final String githubId) {
         reviewService.createReview(githubId, restaurantId, reviewCreateRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();

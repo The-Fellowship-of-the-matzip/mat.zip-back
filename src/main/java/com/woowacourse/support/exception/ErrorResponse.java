@@ -1,6 +1,7 @@
 package com.woowacourse.support.exception;
 
 import lombok.Getter;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @Getter
 public class ErrorResponse {
@@ -16,6 +17,12 @@ public class ErrorResponse {
 
     public static ErrorResponse from(final RuntimeException exception) {
         return new ErrorResponse(exception.getMessage());
+    }
+
+    public static ErrorResponse from(final MethodArgumentNotValidException exception) {
+        return new ErrorResponse(exception.getFieldErrors()
+                .get(0)
+                .getDefaultMessage());
     }
 
     public static ErrorResponse from(final String message) {
