@@ -16,8 +16,7 @@ public enum GithubResponseFixtures {
     private final String username;
     private final String profileImage;
 
-    GithubResponseFixtures(String code, String accessToken, String githubId, String username,
-                           String profileImage) {
+    GithubResponseFixtures(String code, String accessToken, String githubId, String username, String profileImage) {
         this.code = code;
         this.accessToken = accessToken;
         this.githubId = githubId;
@@ -27,23 +26,23 @@ public enum GithubResponseFixtures {
 
     public static GithubResponseFixtures findResponseByCode(final String code) {
         return Arrays.stream(values())
-                .filter(value -> code.equals(value.code))
+                .filter(value -> value.code.equals(code))
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
     }
 
     public static GithubResponseFixtures findResponseByAccessToken(final String accessToken) {
         return Arrays.stream(values())
-                .filter(value -> accessToken.equals(value.accessToken))
+                .filter(value -> value.accessToken.equals(accessToken))
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
     }
 
     public Member toMember() {
         return Member.builder()
-                .githubId(HUNI.getGithubId())
-                .username(HUNI.getUsername())
-                .profileImage(HUNI.getProfileImage())
+                .githubId(getGithubId())
+                .username(getUsername())
+                .profileImage(getProfileImage())
                 .build();
     }
 
