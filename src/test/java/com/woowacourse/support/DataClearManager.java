@@ -26,21 +26,6 @@ public class DataClearManager implements InitializingBean {
     private DataSource dataSource;
     private List<String> tableNames;
 
-    @Override
-    public void afterPropertiesSet() {
-        tableNames = new ArrayList<>();
-        try {
-            final DatabaseMetaData metaData = dataSource.getConnection().getMetaData();
-            final ResultSet tables = metaData.getTables(null, null, null, new String[]{"TABLE"});
-            while (tables.next()) {
-                tableNames.add(tables.getString("TABLE_NAME"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
-        }
-    }
-
     @Transactional
     public void clear() {
         truncate(tableNames);
@@ -62,5 +47,19 @@ public class DataClearManager implements InitializingBean {
     private void executeTruncateQuery(String tableName) {
         entityManager.createNativeQuery(String.format(TRUNCATE_FORMAT, tableName)).executeUpdate();
         entityManager.createNativeQuery(String.format(ID_RESET_FORMAT, tableName)).executeUpdate();
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        tableNames = new ArrayList<>();
+        try {
+            final DatabaseMetaData metaData = dataSource.getConnection().getMetaData();
+            final ResultSet tables = metaData.getTables(null, null, null, new String[]{"TABLE"});
+            while (tables.next()) {
+                tableNames.add(tables.getString("TABLE_NAME"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
     }
 }
