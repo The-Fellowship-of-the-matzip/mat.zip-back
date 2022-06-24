@@ -24,6 +24,7 @@ public class Review {
     private static final int MIN_SCORE = 0;
     private static final int MAX_SCORE = 5;
     private static final int MAX_MENU_LENGTH = 20;
+    private static final int MAX_CONTENT_LENGTH = 255;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +37,7 @@ public class Review {
     @Column(name = "restaurant_id", nullable = false)
     private Long restaurantId;
 
-    @Column(name = "content", length = 255)
+    @Column(name = "content", length = MAX_CONTENT_LENGTH)
     private String content;
 
     @Column(name = "rating", nullable = false)
@@ -53,6 +54,7 @@ public class Review {
                   final String menu) {
         validateRating(rating);
         LengthValidator.checkStringLength(menu, MAX_MENU_LENGTH, "메뉴의 이름");
+        LengthValidator.checkStringLength(content, MAX_CONTENT_LENGTH, "리뷰 내용");
         this.id = id;
         this.member = member;
         this.restaurantId = restaurantId;
