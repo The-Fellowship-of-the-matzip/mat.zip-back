@@ -24,6 +24,6 @@ public class CampusTest {
 
         assertThatThrownBy(() -> Campus.builder().name(name).build())
                 .isInstanceOf(InvalidLengthException.class)
-                .hasMessage("캠퍼스 이름은(는) 20보다 작은 값만 입력할 수 있습니다.");
+                .hasMessage("캠퍼스 이름은(는) 길이가 20 이하의 값만 입력할 수 있습니다.");
     }
 }

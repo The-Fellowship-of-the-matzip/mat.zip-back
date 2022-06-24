@@ -17,7 +17,7 @@ public class LengthValidatorTest {
 
         assertThatThrownBy(() -> LengthValidator.checkStringLength(value, max, name))
                 .isInstanceOf(InvalidLengthException.class)
-                .hasMessage(name + "은(는) " + max + "보다 작은 값만 입력할 수 있습니다.");
+                .hasMessage(name + "은(는) 길이가 " + max + " 이하의 값만 입력할 수 있습니다.");
     }
 
     @ParameterizedTest
@@ -29,6 +29,6 @@ public class LengthValidatorTest {
 
         assertThatThrownBy(() -> LengthValidator.checkStringLength(value, max, min, name))
                 .isInstanceOf(InvalidLengthException.class)
-                .hasMessage(name + "은(는) " + min + "와 " + max + " 사이 값만 입력할 수 있습니다.");
+                .hasMessage(name + "은(는) 길이가 " + min + "와 " + max + " 사이 값만 입력할 수 있습니다.");
     }
 }
