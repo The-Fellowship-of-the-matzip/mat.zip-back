@@ -23,9 +23,9 @@ public class MemberServiceTest {
 
     @Test
     void 멤버가_존재하면_업데이트한다() {
-        Member persistMember = memberRepository.save(HUNI.toMember());
+        Member persistMember = memberRepository.save(ORI.toMember());
         GithubProfileResponse githubProfileResponse =
-                new GithubProfileResponse(HUNI.getGithubId(), ORI.getUsername(), ORI.getProfileImage());
+                new GithubProfileResponse(ORI.getGithubId(), HUNI.getUsername(), HUNI.getProfileImage());
 
         memberService.createOrUpdate(githubProfileResponse);
         Member foundMember = memberRepository.findMemberByGithubId(persistMember.getGithubId())
@@ -33,8 +33,8 @@ public class MemberServiceTest {
         assertAll(
                 () -> assertThat(foundMember).isNotNull(),
                 () -> assertThat(persistMember.getId()).isEqualTo(foundMember.getId()),
-                () -> assertThat(foundMember.getUsername()).isEqualTo(ORI.getUsername()),
-                () -> assertThat(foundMember.getProfileImage()).isEqualTo(ORI.getProfileImage())
+                () -> assertThat(foundMember.getUsername()).isEqualTo(HUNI.getUsername()),
+                () -> assertThat(foundMember.getProfileImage()).isEqualTo(HUNI.getProfileImage())
         );
     }
 

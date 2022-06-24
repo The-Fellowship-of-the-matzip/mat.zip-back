@@ -7,7 +7,7 @@ public enum GithubResponseFixtures {
 
     HUNI("1", "access_token_1", "87312401",
             "jayjaehunchoi", "https://avatars.githubusercontent.com/u/87312401?v=4"),
-    ORI("2", "access_token_2", "87312401",
+    ORI("2", "access_token_2", "69106910",
             "jinyoungchoi95", "https://avatars.githubusercontent.com/u/69106910?v=4");
 
     private final String code;
@@ -16,8 +16,7 @@ public enum GithubResponseFixtures {
     private final String username;
     private final String profileImage;
 
-    GithubResponseFixtures(String code, String accessToken, String githubId, String username,
-                           String profileImage) {
+    GithubResponseFixtures(String code, String accessToken, String githubId, String username, String profileImage) {
         this.code = code;
         this.accessToken = accessToken;
         this.githubId = githubId;
@@ -27,23 +26,23 @@ public enum GithubResponseFixtures {
 
     public static GithubResponseFixtures findResponseByCode(final String code) {
         return Arrays.stream(values())
-                .filter(value -> code.equals(value.code))
+                .filter(value -> value.code.equals(code))
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
     }
 
     public static GithubResponseFixtures findResponseByAccessToken(final String accessToken) {
         return Arrays.stream(values())
-                .filter(value -> accessToken.equals(value.accessToken))
+                .filter(value -> value.accessToken.equals(accessToken))
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
     }
 
     public Member toMember() {
         return Member.builder()
-                .githubId(HUNI.getGithubId())
-                .username(HUNI.getUsername())
-                .profileImage(HUNI.getProfileImage())
+                .githubId(getGithubId())
+                .username(getUsername())
+                .profileImage(getProfileImage())
                 .build();
     }
 
