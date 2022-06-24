@@ -2,6 +2,7 @@ package com.woowacourse.matzip.domain.review;
 
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.exception.InvalidReviewException;
+import com.woowacourse.matzip.support.LengthValidator;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +23,7 @@ public class Review {
 
     private static final int MIN_SCORE = 0;
     private static final int MAX_SCORE = 5;
+    private static final int MAX_MENU_LENGTH = 20;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +36,7 @@ public class Review {
     @Column(name = "restaurant_id", nullable = false)
     private Long restaurantId;
 
-    @Column(name = "content")
+    @Column(name = "content", length = 255)
     private String content;
 
     @Column(name = "rating", nullable = false)
@@ -50,6 +52,7 @@ public class Review {
     public Review(final Long id, final Member member, final Long restaurantId, final String content, final int rating,
                   final String menu) {
         validateRating(rating);
+        LengthValidator.checkStringLength(menu, MAX_MENU_LENGTH, "메뉴의 이름");
         this.id = id;
         this.member = member;
         this.restaurantId = restaurantId;
