@@ -1,6 +1,6 @@
 package com.woowacourse.matzip.application;
 
-import static com.woowacourse.auth.support.GithubResponseFixtures.HUNI;
+import static com.woowacourse.auth.support.GithubResponseFixtures.ORI;
 import static com.woowacourse.matzip.support.ReviewFixtures.REVIEW_1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -43,7 +43,7 @@ public class ReviewServiceTest {
 
     @Test
     void 리뷰를_작성한다() {
-        Member member = memberRepository.save(HUNI.toMember());
+        Member member = memberRepository.save(ORI.toMember());
         Restaurant restaurant = restaurantRepository.findAll().get(0);
 
         assertDoesNotThrow(
@@ -52,7 +52,7 @@ public class ReviewServiceTest {
 
     @Test
     void 리뷰를_조회한다() {
-        Member member = memberRepository.save(HUNI.toMember());
+        Member member = memberRepository.save(ORI.toMember());
         Restaurant restaurant = restaurantRepository.findAll().get(0);
         for (int i = 0; i < 3; i++) {
             reviewService.createReview(member.getGithubId(), restaurant.getId(), reviewCreateRequest());
