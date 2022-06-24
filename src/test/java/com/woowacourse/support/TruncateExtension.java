@@ -18,7 +18,7 @@ public class TruncateExtension implements InvocationInterceptor {
     }
 
     private DataClearManager getDataClearManager(final ExtensionContext extensionContext) {
-        return  (DataClearManager) SpringExtension.getApplicationContext(
-                extensionContext).getBean("dataClearManager");
+        return (DataClearManager) SpringExtension.getApplicationContext(extensionContext)
+                .getBean("dataClearManager");
     }
 }
