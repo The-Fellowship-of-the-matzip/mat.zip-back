@@ -43,7 +43,7 @@ public class Review {
     @Column(name = "rating", nullable = false)
     private int rating;
 
-    @Column(name = "menu", length = 20, nullable = false)
+    @Column(name = "menu", length = MAX_MENU_LENGTH, nullable = false)
     private String menu;
 
     protected Review() {
