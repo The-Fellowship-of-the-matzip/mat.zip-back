@@ -35,8 +35,22 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         리뷰_작성에_성공한다(response);
     }
 
-    private void 리뷰_작성에_성공한다(final ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
+    @Test
+    void 리뷰_작성_시_null_리뷰() {
+        String accessToken = 로그인_토큰();
+        ReviewCreateRequest request = new ReviewCreateRequest(null, 4, "무닭볶음탕 (중)");
+
+        ExtractableResponse<Response> response = 리뷰_생성_요청(식당_ID, accessToken, request);
+        리뷰_작성에_실패한다(response);
+    }
+
+    @Test
+    void 리뷰_작성_시_null_메뉴() {
+        String accessToken = 로그인_토큰();
+        ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, null);
+
+        ExtractableResponse<Response> response = 리뷰_생성_요청(식당_ID, accessToken, request);
+        리뷰_작성에_실패한다(response);
     }
 
     @Test
@@ -46,6 +60,14 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         }
         ExtractableResponse<Response> response = 리뷰_조회_요청(식당_ID, 2, 5);
         리뷰_조회에_성공한다(response);
+    }
+
+    private void 리뷰_작성에_성공한다(final ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
+    }
+
+    private void 리뷰_작성에_실패한다(final ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 
     private void 리뷰_조회에_성공한다(final ExtractableResponse<Response> response) {
