@@ -88,7 +88,7 @@ public class RestaurantRepositoryTest {
         memberRepository.save(member);
         for (int i = 0; i < 3; i++) {
             reviewRepository.save(createTestReview(member, restaurant1.getId(), 5));
-            reviewRepository.save(createTestReview(member, restaurant2.getId(), 0));
+            reviewRepository.save(createTestReview(member, restaurant2.getId(), 1));
         }
 
         Slice<Restaurant> page = restaurantRepository.findPageByCampusIdOrderByRatingDesc(1L, null,

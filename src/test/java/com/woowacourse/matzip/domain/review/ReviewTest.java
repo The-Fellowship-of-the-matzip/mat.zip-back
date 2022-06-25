@@ -13,11 +13,11 @@ import org.junit.jupiter.params.provider.ValueSource;
 public class ReviewTest {
 
     @ParameterizedTest
-    @ValueSource(ints = {-1, 6})
+    @ValueSource(ints = {0, 6})
     void 별점_범위제한인_경우_예외발생(final int score) {
         assertThatThrownBy(() -> Review.builder().rating(score).build())
                 .isInstanceOf(InvalidReviewException.class)
-                .hasMessage("리뷰 점수는 0점부터 5점까지만 가능합니다.");
+                .hasMessage("리뷰 점수는 1점부터 5점까지만 가능합니다.");
     }
 
     @Test
@@ -27,6 +27,7 @@ public class ReviewTest {
         assertThatThrownBy(() -> Review.builder()
                 .menu(menu)
                 .content("리뷰내용")
+                .rating(3)
                 .build())
                 .isInstanceOf(InvalidLengthException.class)
                 .hasMessage("메뉴의 이름은(는) 길이가 20 이하의 값만 입력할 수 있습니다.");
@@ -41,6 +42,7 @@ public class ReviewTest {
         assertThatThrownBy(() -> Review.builder()
                 .menu("메뉴")
                 .content(content)
+                .rating(3)
                 .build())
                 .isInstanceOf(InvalidLengthException.class)
                 .hasMessage("리뷰 내용은(는) 길이가 255 이하의 값만 입력할 수 있습니다.");

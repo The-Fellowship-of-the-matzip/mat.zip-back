@@ -21,7 +21,7 @@ import lombok.Getter;
 @Getter
 public class Review {
 
-    private static final int MIN_SCORE = 0;
+    private static final int MIN_SCORE = 1;
     private static final int MAX_SCORE = 5;
     private static final int MAX_MENU_LENGTH = 20;
     private static final int MAX_CONTENT_LENGTH = 255;
@@ -65,7 +65,7 @@ public class Review {
 
     private void validateRating(final int rating) {
         if (rating < MIN_SCORE || rating > MAX_SCORE) {
-            throw new InvalidReviewException("리뷰 점수는 0점부터 5점까지만 가능합니다.");
+            throw new InvalidReviewException(String.format("리뷰 점수는 %d점부터 %d점까지만 가능합니다.", MIN_SCORE, MAX_SCORE));
         }
     }
 
