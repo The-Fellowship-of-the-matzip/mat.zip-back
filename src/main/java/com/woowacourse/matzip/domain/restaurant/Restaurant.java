@@ -1,5 +1,6 @@
 package com.woowacourse.matzip.domain.restaurant;
 
+import com.woowacourse.matzip.support.LengthValidator;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,8 @@ import lombok.Getter;
 @Getter
 public class Restaurant {
 
+    private static final int MAX_NAME_LENGTH = 20;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,7 +28,7 @@ public class Restaurant {
     @Column(name = "campus_id", nullable = false)
     private Long campusId;
 
-    @Column(name = "name", length = 20, nullable = false)
+    @Column(name = "name", length = MAX_NAME_LENGTH, nullable = false)
     private String name;
 
     @Column(name = "address", nullable = false, unique = true)
@@ -46,6 +49,7 @@ public class Restaurant {
     @Builder
     public Restaurant(final Long id, final Long categoryId, final Long campusId, final String name,
                       final String address, final long distance, final String kakaoMapUrl, final String imageUrl) {
+        LengthValidator.checkStringLength(name, MAX_NAME_LENGTH, "식당 이름");
         this.id = id;
         this.categoryId = categoryId;
         this.campusId = campusId;

@@ -5,12 +5,14 @@ import com.woowacourse.auth.exception.InvalidTokenException;
 import com.woowacourse.auth.exception.TokenNotFoundException;
 import com.woowacourse.matzip.exception.CampusNotFoundException;
 import com.woowacourse.matzip.exception.InvalidCategoryException;
+import com.woowacourse.matzip.exception.InvalidLengthException;
 import com.woowacourse.matzip.exception.InvalidReviewException;
 import com.woowacourse.matzip.exception.InvalidSortConditionException;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
 import com.woowacourse.matzip.exception.RestaurantNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -44,9 +46,17 @@ public class GlobalControllerAdvice {
     @ExceptionHandler({
             InvalidCategoryException.class,
             InvalidReviewException.class,
-            InvalidSortConditionException.class
+            InvalidSortConditionException.class,
+            InvalidLengthException.class
     })
     public ResponseEntity<ErrorResponse> businessExceptionHandler(final RuntimeException e) {
+        return ResponseEntity.badRequest().body(ErrorResponse.from(e));
+    }
+
+    @ExceptionHandler({
+            MethodArgumentNotValidException.class
+    })
+    public ResponseEntity<ErrorResponse> springValidationExceptionHandler(final MethodArgumentNotValidException e) {
         return ResponseEntity.badRequest().body(ErrorResponse.from(e));
     }
 

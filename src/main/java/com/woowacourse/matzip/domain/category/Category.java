@@ -1,6 +1,6 @@
 package com.woowacourse.matzip.domain.category;
 
-import com.woowacourse.matzip.exception.InvalidCategoryException;
+import com.woowacourse.matzip.support.LengthValidator;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +22,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", length = 10, nullable = false, unique = true)
+    @Column(name = "name", length = CATEGORY_NAME_LIMIT_LENGTH, nullable = false, unique = true)
     private String name;
 
     protected Category() {
@@ -30,15 +30,9 @@ public class Category {
 
     @Builder
     public Category(final Long id, final String name) {
-        checkCategoryLength(name);
+        LengthValidator.checkStringLength(name, CATEGORY_NAME_LIMIT_LENGTH, "카테고리의 이름");
         this.id = id;
         this.name = name;
-    }
-
-    private void checkCategoryLength(final String name) {
-        if (name.length() > CATEGORY_NAME_LIMIT_LENGTH) {
-            throw new InvalidCategoryException(String.format("카테고리의 이름은 %d자를 넘을 수 없습니다.", CATEGORY_NAME_LIMIT_LENGTH));
-        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.woowacourse.matzip.domain.campus;
 
+import com.woowacourse.matzip.support.LengthValidator;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,11 +16,13 @@ import lombok.Getter;
 @Getter
 public class Campus {
 
+    private static final int MAX_NAME_LENGTH = 20;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", length = 20, nullable = false, unique = true)
+    @Column(name = "name", length = MAX_NAME_LENGTH, nullable = false, unique = true)
     private String name;
 
     protected Campus() {
@@ -27,6 +30,7 @@ public class Campus {
 
     @Builder
     public Campus(final Long id, final String name) {
+        LengthValidator.checkStringLength(name, MAX_NAME_LENGTH, "캠퍼스 이름");
         this.id = id;
         this.name = name;
     }

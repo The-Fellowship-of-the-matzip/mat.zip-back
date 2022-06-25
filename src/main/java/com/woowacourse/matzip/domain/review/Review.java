@@ -2,6 +2,7 @@ package com.woowacourse.matzip.domain.review;
 
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.exception.InvalidReviewException;
+import com.woowacourse.matzip.support.LengthValidator;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,8 +21,10 @@ import lombok.Getter;
 @Getter
 public class Review {
 
-    private static final int MIN_SCORE = 0;
+    private static final int MIN_SCORE = 1;
     private static final int MAX_SCORE = 5;
+    private static final int MAX_MENU_LENGTH = 20;
+    private static final int MAX_CONTENT_LENGTH = 255;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,13 +37,13 @@ public class Review {
     @Column(name = "restaurant_id", nullable = false)
     private Long restaurantId;
 
-    @Column(name = "content")
+    @Column(name = "content", length = MAX_CONTENT_LENGTH)
     private String content;
 
     @Column(name = "rating", nullable = false)
     private int rating;
 
-    @Column(name = "menu", length = 20, nullable = false)
+    @Column(name = "menu", length = MAX_MENU_LENGTH, nullable = false)
     private String menu;
 
     protected Review() {
@@ -50,6 +53,8 @@ public class Review {
     public Review(final Long id, final Member member, final Long restaurantId, final String content, final int rating,
                   final String menu) {
         validateRating(rating);
+        LengthValidator.checkStringLength(menu, MAX_MENU_LENGTH, "메뉴의 이름");
+        LengthValidator.checkStringLength(content, MAX_CONTENT_LENGTH, "리뷰 내용");
         this.id = id;
         this.member = member;
         this.restaurantId = restaurantId;
@@ -60,7 +65,7 @@ public class Review {
 
     private void validateRating(final int rating) {
         if (rating < MIN_SCORE || rating > MAX_SCORE) {
-            throw new InvalidReviewException("리뷰 점수는 0점부터 5점까지만 가능합니다.");
+            throw new InvalidReviewException(String.format("리뷰 점수는 %d점부터 %d점까지만 가능합니다.", MIN_SCORE, MAX_SCORE));
         }
     }
 

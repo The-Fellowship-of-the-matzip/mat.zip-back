@@ -2,11 +2,14 @@ package com.woowacourse.matzip.presentation.request;
 
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.review.Review;
+import javax.validation.constraints.NotNull;
 
 public class ReviewCreateRequest {
 
+    @NotNull(message = "리뷰 내용은 null이 들어올 수 없습니다.")
     private String content;
     private int rating;
+    @NotNull(message = "리뷰 메뉴는 null이 들어올 수 없습니다.")
     private String menu;
 
     private ReviewCreateRequest() {
