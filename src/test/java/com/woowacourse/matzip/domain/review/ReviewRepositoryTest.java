@@ -5,13 +5,17 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
+import com.woowacourse.support.config.JpaConfig;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 
 @DataJpaTest
+@Import(JpaConfig.class)
 class ReviewRepositoryTest {
 
     @Autowired
@@ -79,5 +83,25 @@ class ReviewRepositoryTest {
                 .orElse(0.0);
 
         assertThat(average).isEqualTo(4.5);
+    }
+
+    @Test
+    void 리뷰_저장_시_생성시간이_추가된다() {
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        Member member = Member.builder()
+                .githubId("githubId")
+                .username("username")
+                .profileImage("url")
+                .build();
+        Review review = reviewRepository.save(Review.builder()
+                .member(memberRepository.save(member))
+                .restaurantId(1L)
+                .content("맛있어요")
+                .rating(5)
+                .menu("족발")
+                .build());
+
+        assertThat(review.getCreatedAt()).isAfter(currentTime);
     }
 }

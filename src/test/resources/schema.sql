@@ -34,6 +34,7 @@ CREATE TABLE review
     content       varchar(255) NULL,
     rating        int          NOT NULL,
     menu          varchar(20)  NOT NULL,
+    created_at    TIMESTAMP    NOT NULL,
     PRIMARY KEY (id)
 );
 
