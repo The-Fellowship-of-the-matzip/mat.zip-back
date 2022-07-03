@@ -11,7 +11,7 @@ import org.springframework.data.domain.Sort;
 @Getter
 public enum SortCondition {
 
-    RATING("rating", Sort.unsorted()),
+    RATING("rating", Sort.by(desc("rating"))),
     SPELL("spell", Sort.by(asc("name"))),
     DEFAULT("default", Sort.by(desc("id"))),
     ;

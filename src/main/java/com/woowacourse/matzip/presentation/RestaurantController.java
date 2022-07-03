@@ -1,7 +1,5 @@
 package com.woowacourse.matzip.presentation;
 
-import static com.woowacourse.matzip.domain.restaurant.SortCondition.RATING;
-
 import com.woowacourse.matzip.application.RestaurantService;
 import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
@@ -33,9 +31,6 @@ public class RestaurantController {
                                                              @RequestParam(value = "filter", defaultValue = "DEFAULT") final String filterName,
                                                              final Pageable pageable) {
         SortCondition sortCondition = SortCondition.from(filterName);
-        if (sortCondition == RATING) {
-            return ResponseEntity.ok(restaurantService.findByCampusIdOrderByRatingDesc(campusId, categoryId, pageable));
-        }
         Pageable pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
                 sortCondition.getValue());
         return ResponseEntity.ok(restaurantService.findByCampusId(campusId, categoryId, pageableWithSort));

@@ -1,6 +1,7 @@
 package com.woowacourse.matzip.application;
 
 import static com.woowacourse.matzip.domain.restaurant.SortCondition.DEFAULT;
+import static com.woowacourse.matzip.domain.restaurant.SortCondition.RATING;
 import static com.woowacourse.matzip.domain.restaurant.SortCondition.SPELL;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestMember;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestRestaurant;
@@ -93,7 +94,7 @@ class RestaurantServiceTest {
         Restaurant restaurant3 = createTestRestaurant(1L, 1L, "나식당", "테스트주소3");
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
 
-        RestaurantTitlesResponse response = restaurantService.findByCampusIdOrderByRatingDesc(1L, 1L,
+        RestaurantTitlesResponse response = restaurantService.findByCampusId(1L, 1L,
                 PageRequest.of(0, 3, SPELL.getValue()));
 
         assertThat(response.getRestaurants()).hasSize(3)
@@ -113,8 +114,8 @@ class RestaurantServiceTest {
             reviewRepository.save(createTestReview(member, restaurant2.getId(), 3));
         }
 
-        RestaurantTitlesResponse response = restaurantService.findByCampusIdOrderByRatingDesc(1L, 1L,
-                PageRequest.of(0, 2));
+        RestaurantTitlesResponse response = restaurantService.findByCampusId(1L, 1L,
+                PageRequest.of(0, 2, RATING.getValue()));
 
         assertThat(response.getRestaurants()).hasSize(2)
                 .extracting("id")

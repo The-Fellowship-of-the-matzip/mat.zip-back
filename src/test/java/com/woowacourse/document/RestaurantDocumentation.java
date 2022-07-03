@@ -43,7 +43,7 @@ public class RestaurantDocumentation extends Documentation {
 
     @Test
     void 선릉캠퍼스_식당_목록의_0페이지를_별점순으로_조회한다() {
-        when(restaurantService.findByCampusIdOrderByRatingDesc(eq(2L), eq(null), any())).thenReturn(
+        when(restaurantService.findByCampusId(eq(2L), eq(null), any())).thenReturn(
                 SEOLLEUNG_RESTAURANTS_SORT_BY_RATING_RESPONSE);
 
         docsGiven

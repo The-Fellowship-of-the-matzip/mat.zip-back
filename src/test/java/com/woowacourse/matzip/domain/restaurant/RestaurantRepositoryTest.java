@@ -1,6 +1,7 @@
 package com.woowacourse.matzip.domain.restaurant;
 
 import static com.woowacourse.matzip.domain.restaurant.SortCondition.DEFAULT;
+import static com.woowacourse.matzip.domain.restaurant.SortCondition.RATING;
 import static com.woowacourse.matzip.domain.restaurant.SortCondition.SPELL;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestMember;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestRestaurant;
@@ -11,14 +12,17 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
+import com.woowacourse.support.config.JpaConfig;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 
 @DataJpaTest
+@Import(JpaConfig.class)
 public class RestaurantRepositoryTest {
 
     @Autowired
@@ -91,8 +95,8 @@ public class RestaurantRepositoryTest {
             reviewRepository.save(createTestReview(member, restaurant2.getId(), 1));
         }
 
-        Slice<Restaurant> page = restaurantRepository.findPageByCampusIdOrderByRatingDesc(1L, null,
-                PageRequest.of(0, 3));
+        Slice<Restaurant> page = restaurantRepository.findPageByCampusId(1L, null,
+                PageRequest.of(0, 3, RATING.getValue()));
         assertThat(page.getContent()).containsExactly(restaurant1, restaurant2, restaurant3);
     }
 

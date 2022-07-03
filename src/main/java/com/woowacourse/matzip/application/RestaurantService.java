@@ -34,13 +34,6 @@ public class RestaurantService {
         return toRestaurantTitlesResponse(page);
     }
 
-    public RestaurantTitlesResponse findByCampusIdOrderByRatingDesc(final Long campusId, final Long categoryId,
-                                                                    final Pageable pageable) {
-        Slice<Restaurant> page = restaurantRepository.findPageByCampusIdOrderByRatingDesc(campusId, categoryId,
-                pageable);
-        return toRestaurantTitlesResponse(page);
-    }
-
     private RestaurantTitlesResponse toRestaurantTitlesResponse(Slice<Restaurant> page) {
         List<RestaurantTitleResponse> restaurantTitleResponses = page.stream()
                 .map(this::toResponseTitleResponse)
