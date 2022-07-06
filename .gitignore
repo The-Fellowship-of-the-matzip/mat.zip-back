@@ -38,3 +38,6 @@ out/
 
 ### auth ###
 application-auth.yml
+
+### rest docs ###
+/src/main/resources/static/index.html
