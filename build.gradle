@@ -4,6 +4,7 @@ plugins {
     id 'org.asciidoctor.convert' version '1.5.9.2'
     id 'java'
     id 'jacoco'
+    id "org.sonarqube" version "3.4.0.2513"
 }
 
 apply from: 'test.gradle'
@@ -74,4 +75,13 @@ task createDocument(type: Copy) {
 
 bootJar {
     dependsOn createDocument
+}
+
+// for sonar cloud
+sonarqube {
+    properties {
+        property "sonar.projectKey", "The-Fellowship-of-the-matzip_mat.zip-back"
+        property "sonar.organization", "the-fellowship-of-the-matzip"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
 }
