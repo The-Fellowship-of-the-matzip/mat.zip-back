@@ -1,17 +1,22 @@
 package com.woowacourse.matzip.domain.member;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "member")
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 public class Member {
 
@@ -27,6 +32,10 @@ public class Member {
 
     @Column(name = "profile_image", nullable = false)
     private String profileImage;
+
+    @CreatedDate
+    @Column(name = "created_at", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
 
     protected Member() {
     }
