@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
-import org.hibernate.annotations.Formula;
 
 @Entity
 @Table(name = "restaurant")
@@ -43,9 +42,6 @@ public class Restaurant {
 
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
-
-    @Formula("(select avg(r.rating) from review r where r.restaurant_id = id)")
-    private double rating;
 
     protected Restaurant() {
     }
