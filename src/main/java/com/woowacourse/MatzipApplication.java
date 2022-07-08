@@ -16,5 +16,4 @@ public class MatzipApplication {
     void started() {
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
     }
-
 }
