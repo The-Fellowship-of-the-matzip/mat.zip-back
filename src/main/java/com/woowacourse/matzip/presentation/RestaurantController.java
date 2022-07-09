@@ -4,9 +4,7 @@ import com.woowacourse.matzip.application.RestaurantService;
 import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
-import com.woowacourse.matzip.domain.restaurant.SortCondition;
 import java.util.List;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,10 +28,8 @@ public class RestaurantController {
                                                              @RequestParam(required = false) final Long categoryId,
                                                              @RequestParam(value = "filter", defaultValue = "DEFAULT") final String filterName,
                                                              final Pageable pageable) {
-        SortCondition sortCondition = SortCondition.from(filterName);
-        Pageable pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
-                sortCondition.getValue());
-        return ResponseEntity.ok(restaurantService.findByCampusId(campusId, categoryId, pageableWithSort));
+        return ResponseEntity.ok(
+                restaurantService.findByCampusIdAndCategoryId(filterName, campusId, categoryId, pageable));
     }
 
     @GetMapping("/campuses/{campusId}/restaurants/random")

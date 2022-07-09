@@ -1,8 +1,5 @@
 package com.woowacourse.matzip.application;
 
-import static com.woowacourse.matzip.domain.restaurant.SortCondition.DEFAULT;
-import static com.woowacourse.matzip.domain.restaurant.SortCondition.RATING;
-import static com.woowacourse.matzip.domain.restaurant.SortCondition.SPELL;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestMember;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestRestaurant;
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestReview;
@@ -39,10 +36,10 @@ class RestaurantServiceTest {
 
     @Test
     void 캠퍼스id가_일치하는_식당_목록_페이지를_최신순으로_반환한다() {
-        RestaurantTitlesResponse page1 = restaurantService.findByCampusId(2L, null,
-                PageRequest.of(0, 2, DEFAULT.getValue()));
-        RestaurantTitlesResponse page2 = restaurantService.findByCampusId(2L, null,
-                PageRequest.of(1, 2, DEFAULT.getValue()));
+        RestaurantTitlesResponse page1 = restaurantService.findByCampusIdAndCategoryId("DEFAULT", 2L, null,
+                PageRequest.of(0, 2));
+        RestaurantTitlesResponse page2 = restaurantService.findByCampusIdAndCategoryId("DEFAULT", 2L, null,
+                PageRequest.of(1, 2));
 
         assertAll(
                 () -> assertThat(page1.getRestaurants()).hasSize(2)
@@ -58,8 +55,8 @@ class RestaurantServiceTest {
 
     @Test
     void 캠퍼스id와_카테고리id가_일치하는_식당_목록_페이지를_반환한다() {
-        RestaurantTitlesResponse response = restaurantService.findByCampusId(2L, 1L,
-                PageRequest.of(0, 2, DEFAULT.getValue()));
+        RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId("DEFAULT", 2L, 1L,
+                PageRequest.of(0, 2));
 
         assertAll(
                 () -> assertThat(response.getRestaurants()).hasSize(2)
@@ -79,8 +76,8 @@ class RestaurantServiceTest {
             reviewRepository.save(createTestReview(member, restaurant.getId(), 4));
         }
 
-        RestaurantTitlesResponse response = restaurantService.findByCampusId(1L, 1L,
-                PageRequest.of(0, 10, DEFAULT.getValue()));
+        RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId("DEFAULT", 1L, 1L,
+                PageRequest.of(0, 10));
 
         assertThat(response.getRestaurants()).hasSize(1)
                 .extracting(RestaurantTitleResponse::getRating)
@@ -94,8 +91,8 @@ class RestaurantServiceTest {
         Restaurant restaurant3 = createTestRestaurant(1L, 1L, "나식당", "테스트주소3");
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
 
-        RestaurantTitlesResponse response = restaurantService.findByCampusId(1L, 1L,
-                PageRequest.of(0, 3, SPELL.getValue()));
+        RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId("SPELL", 1L, 1L,
+                PageRequest.of(0, 3));
 
         assertThat(response.getRestaurants()).hasSize(3)
                 .extracting("id")
@@ -114,8 +111,8 @@ class RestaurantServiceTest {
             reviewRepository.save(createTestReview(member, restaurant2.getId(), 3));
         }
 
-        RestaurantTitlesResponse response = restaurantService.findByCampusId(1L, 1L,
-                PageRequest.of(0, 2, RATING.getValue()));
+        RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId("RATING", 1L, 1L,
+                PageRequest.of(0, 2));
 
         assertThat(response.getRestaurants()).hasSize(2)
                 .extracting("id")

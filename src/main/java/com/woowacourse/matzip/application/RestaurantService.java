@@ -4,6 +4,8 @@ import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
+import com.woowacourse.matzip.domain.restaurant.RestaurantFindQueryFactory;
+import com.woowacourse.matzip.domain.restaurant.RestaurantReadOnlyRepository;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import com.woowacourse.matzip.domain.restaurant.SortCondition;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
@@ -21,16 +23,22 @@ import org.springframework.transaction.annotation.Transactional;
 public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
+    private final RestaurantReadOnlyRepository restaurantReadOnlyRepository;
     private final ReviewRepository reviewRepository;
 
-    public RestaurantService(final RestaurantRepository restaurantRepository, final ReviewRepository reviewRepository) {
+    public RestaurantService(RestaurantRepository restaurantRepository,
+                             RestaurantReadOnlyRepository restaurantReadOnlyRepository,
+                             ReviewRepository reviewRepository) {
         this.restaurantRepository = restaurantRepository;
+        this.restaurantReadOnlyRepository = restaurantReadOnlyRepository;
         this.reviewRepository = reviewRepository;
     }
 
-    public RestaurantTitlesResponse findByCampusId(final Long campusId, final Long categoryId,
-                                                   final Pageable pageable) {
-        Slice<Restaurant> page = restaurantRepository.findPageByCampusId(campusId, categoryId, pageable);
+    public RestaurantTitlesResponse findByCampusIdAndCategoryId(final String sortCondition, final Long campusId,
+                                                                final Long categoryId, final Pageable pageable) {
+        String query = RestaurantFindQueryFactory.from(sortCondition);
+        Slice<Restaurant> page = restaurantReadOnlyRepository.findPageByCampusIdAndCategoryId(query, campusId,
+                categoryId, pageable);
         return toRestaurantTitlesResponse(page);
     }
 

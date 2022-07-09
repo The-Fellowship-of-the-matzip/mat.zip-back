@@ -7,6 +7,9 @@ import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANT
 import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANTS_SORT_BY_RATING_RESPONSE;
 import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANTS_SORT_BY_SPELL_RESPONSE;
 import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANT_RESPONSE_1;
+import static com.woowacourse.matzip.domain.restaurant.RestaurantFindQueryFactory.ORDER_BY_ID_DESC;
+import static com.woowacourse.matzip.domain.restaurant.RestaurantFindQueryFactory.ORDER_BY_NAME_ASC;
+import static com.woowacourse.matzip.domain.restaurant.RestaurantFindQueryFactory.ORDER_BY_RATING_DESC;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -19,8 +22,8 @@ public class RestaurantDocumentation extends Documentation {
 
     @Test
     void 선릉캠퍼스_식당_목록의_0페이지를_최신순으로_조회한다() {
-        when(restaurantService.findByCampusId(eq(2L), eq(null), any())).thenReturn(
-                SEOLLEUNG_RESTAURANTS_RESPONSE);
+        when(restaurantService.findByCampusIdAndCategoryId(eq(ORDER_BY_ID_DESC.getQuery()), eq(2L), eq(null),
+                any())).thenReturn(SEOLLEUNG_RESTAURANTS_RESPONSE);
 
         docsGiven
                 .when().get("/api/campuses/2/restaurants?page=0&size=10")
@@ -31,8 +34,8 @@ public class RestaurantDocumentation extends Documentation {
 
     @Test
     void 선릉캠퍼스_식당_목록의_0페이지를_가나다순으로_조회한다() {
-        when(restaurantService.findByCampusId(eq(2L), eq(null), any())).thenReturn(
-                SEOLLEUNG_RESTAURANTS_SORT_BY_SPELL_RESPONSE);
+        when(restaurantService.findByCampusIdAndCategoryId(eq(ORDER_BY_NAME_ASC.getQuery()), eq(2L), eq(null),
+                any())).thenReturn(SEOLLEUNG_RESTAURANTS_SORT_BY_SPELL_RESPONSE);
 
         docsGiven
                 .when().get("/api/campuses/2/restaurants?filter=spell&page=0&size=10")
@@ -43,8 +46,8 @@ public class RestaurantDocumentation extends Documentation {
 
     @Test
     void 선릉캠퍼스_식당_목록의_0페이지를_별점순으로_조회한다() {
-        when(restaurantService.findByCampusId(eq(2L), eq(null), any())).thenReturn(
-                SEOLLEUNG_RESTAURANTS_SORT_BY_RATING_RESPONSE);
+        when(restaurantService.findByCampusIdAndCategoryId(eq(ORDER_BY_RATING_DESC.getQuery()), eq(2L), eq(null),
+                any())).thenReturn(SEOLLEUNG_RESTAURANTS_SORT_BY_RATING_RESPONSE);
 
         docsGiven
                 .when().get("/api/campuses/2/restaurants?filter=rating&page=0&size=10")
@@ -55,8 +58,8 @@ public class RestaurantDocumentation extends Documentation {
 
     @Test
     void 선릉캠퍼스_한식_식당_목록의_0페이지를_최신순으로_조회한다() {
-        when(restaurantService.findByCampusId(eq(2L), eq(1L), any())).thenReturn(
-                SEOLLEUNG_KOREAN_RESTAURANTS_RESPONSE);
+        when(restaurantService.findByCampusIdAndCategoryId(eq(ORDER_BY_ID_DESC.getQuery()), eq(2L), eq(1L),
+                any())).thenReturn(SEOLLEUNG_KOREAN_RESTAURANTS_RESPONSE);
 
         docsGiven
                 .when().get("/api/campuses/2/restaurants?categoryId=1&page=0&size=10")
