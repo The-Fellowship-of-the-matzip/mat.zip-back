@@ -10,6 +10,7 @@ CREATE TABLE member
     github_id     varchar(255) NOT NULL UNIQUE,
     username      varchar(255) NOT NULL,
     profile_image varchar(255) NOT NULL,
+    created_at    TIMESTAMP    NOT NULL,
     PRIMARY KEY (id)
 );
 
