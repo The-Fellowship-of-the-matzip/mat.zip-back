@@ -11,22 +11,33 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class RestaurantQueryRepository {
 
+    public static final String CAMPUS_ID = "campusId";
+    public static final String CATEGORY_ID = "categoryId";
     @PersistenceContext
     private EntityManager em;
 
-    public Slice<Restaurant> findPageByCampusIdAndCategoryId(String query, Long campusId, Long categoryId,
-                                                             Pageable pageable) {
-        int startIndex = pageable.getPageNumber() * pageable.getPageSize();
+    public Slice<Restaurant> findPageByCampusIdAndCategoryId(final String query, final Long campusId,
+                                                             final Long categoryId, final Pageable pageable) {
+        int startIndex = calculateStartIndex(pageable);
+        int pageSize = pageable.getPageSize();
         List<Restaurant> restaurants = em.createQuery(query, Restaurant.class)
-                .setParameter("campusId", campusId)
-                .setParameter("categoryId", categoryId)
+                .setParameter(CAMPUS_ID, campusId)
+                .setParameter(CATEGORY_ID, categoryId)
                 .setFirstResult(startIndex)
-                .setMaxResults(pageable.getPageSize() + 1)
+                .setMaxResults(pageSize + 1)
                 .getResultList();
-        boolean hasNext = restaurants.size() == pageable.getPageSize() + 1;
-        if (restaurants.size() > pageable.getPageSize()) {
-            restaurants = restaurants.subList(0, pageable.getPageSize());
+        boolean hasNext = isHasNext(pageable, restaurants);
+        if (restaurants.size() > pageSize) {
+            restaurants = restaurants.subList(0, pageSize);
         }
         return new SliceImpl<>(restaurants, pageable, hasNext);
+    }
+
+    private int calculateStartIndex(Pageable pageable) {
+        return pageable.getPageNumber() * pageable.getPageSize();
+    }
+
+    private boolean isHasNext(Pageable pageable, List<Restaurant> restaurants) {
+        return restaurants.size() == pageable.getPageSize() + 1;
     }
 }
