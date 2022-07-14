@@ -27,7 +27,7 @@ public class RestaurantQueryRepository {
                 .setMaxResults(pageSize + 1)
                 .getResultList();
         boolean hasNext = isHasNext(pageable, restaurants);
-        if (restaurants.size() > pageSize) {
+        if (hasNext) {
             restaurants = restaurants.subList(0, pageSize);
         }
         return new SliceImpl<>(restaurants, pageable, hasNext);
