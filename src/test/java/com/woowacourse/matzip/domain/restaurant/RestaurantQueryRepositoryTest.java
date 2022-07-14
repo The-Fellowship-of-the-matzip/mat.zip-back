@@ -26,7 +26,7 @@ import org.springframework.stereotype.Repository;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Repository.class))
 @Import(JpaConfig.class)
-class RestaurantQueryRepositoryTest {
+public class RestaurantQueryRepositoryTest {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
