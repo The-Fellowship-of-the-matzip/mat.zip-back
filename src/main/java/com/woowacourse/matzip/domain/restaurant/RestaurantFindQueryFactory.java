@@ -30,7 +30,7 @@ public enum RestaurantFindQueryFactory {
         return Arrays.stream(values())
                 .filter(condition -> condition.key.equalsIgnoreCase(sortCondition))
                 .findAny()
-                .orElseThrow(InvalidSortConditionException::new)
-                .query;
+                .map(RestaurantFindQueryFactory::getQuery)
+                .orElseThrow(InvalidSortConditionException::new);
     }
 }
