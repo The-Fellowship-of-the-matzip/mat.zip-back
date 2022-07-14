@@ -36,10 +36,10 @@ public class RestaurantService {
 
     public RestaurantTitlesResponse findByCampusIdAndCategoryId(final String sortCondition, final Long campusId,
                                                                 final Long categoryId, final Pageable pageable) {
-        String query = RestaurantFindQueryFactory.from(sortCondition);
-        Slice<Restaurant> page = restaurantQueryRepository.findPageByCampusIdAndCategoryId(query, campusId,
-                categoryId, pageable);
-        return toRestaurantTitlesResponse(page);
+        String restaurantFindQuery = RestaurantFindQueryFactory.from(sortCondition);
+        Slice<Restaurant> restaurants = restaurantQueryRepository.findPageByCampusIdAndCategoryId(restaurantFindQuery,
+                campusId, categoryId, pageable);
+        return toRestaurantTitlesResponse(restaurants);
     }
 
     private RestaurantTitlesResponse toRestaurantTitlesResponse(Slice<Restaurant> page) {
