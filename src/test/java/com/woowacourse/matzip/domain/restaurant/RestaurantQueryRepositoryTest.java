@@ -26,12 +26,12 @@ import org.springframework.stereotype.Repository;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Repository.class))
 @Import(JpaConfig.class)
-class RestaurantReadOnlyRepositoryTest {
+class RestaurantQueryRepositoryTest {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
     @Autowired
-    private RestaurantReadOnlyRepository restaurantReadOnlyRepository;
+    private RestaurantQueryRepository restaurantQueryRepository;
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
@@ -45,9 +45,9 @@ class RestaurantReadOnlyRepositoryTest {
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
 
         String query = ORDER_BY_ID_DESC.getQuery();
-        Slice<Restaurant> page1 = restaurantReadOnlyRepository.findPageByCampusIdAndCategoryId(query, 1L, null,
+        Slice<Restaurant> page1 = restaurantQueryRepository.findPageByCampusIdAndCategoryId(query, 1L, null,
                 PageRequest.of(0, 2));
-        Slice<Restaurant> page2 = restaurantReadOnlyRepository.findPageByCampusIdAndCategoryId(query, 1L, null,
+        Slice<Restaurant> page2 = restaurantQueryRepository.findPageByCampusIdAndCategoryId(query, 1L, null,
                 PageRequest.of(1, 2));
 
         assertAll(
@@ -64,9 +64,9 @@ class RestaurantReadOnlyRepositoryTest {
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
 
         String query = ORDER_BY_NAME_ASC.getQuery();
-        Slice<Restaurant> page1 = restaurantReadOnlyRepository.findPageByCampusIdAndCategoryId(query, 1L, null,
+        Slice<Restaurant> page1 = restaurantQueryRepository.findPageByCampusIdAndCategoryId(query, 1L, null,
                 PageRequest.of(0, 2));
-        Slice<Restaurant> page2 = restaurantReadOnlyRepository.findPageByCampusIdAndCategoryId(query, 1L, null,
+        Slice<Restaurant> page2 = restaurantQueryRepository.findPageByCampusIdAndCategoryId(query, 1L, null,
                 PageRequest.of(1, 2));
 
         assertAll(
@@ -83,7 +83,7 @@ class RestaurantReadOnlyRepositoryTest {
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
 
         String query = ORDER_BY_ID_DESC.getQuery();
-        Slice<Restaurant> page1 = restaurantReadOnlyRepository.findPageByCampusIdAndCategoryId(query, 1L, 1L,
+        Slice<Restaurant> page1 = restaurantQueryRepository.findPageByCampusIdAndCategoryId(query, 1L, 1L,
                 PageRequest.of(0, 2));
 
         assertThat(page1).containsExactly(restaurant2, restaurant1);
@@ -104,7 +104,7 @@ class RestaurantReadOnlyRepositoryTest {
         }
 
         String query = ORDER_BY_RATING_DESC.getQuery();
-        Slice<Restaurant> page = restaurantReadOnlyRepository.findPageByCampusIdAndCategoryId(query, 1L, null,
+        Slice<Restaurant> page = restaurantQueryRepository.findPageByCampusIdAndCategoryId(query, 1L, null,
                 PageRequest.of(0, 3));
         assertThat(page.getContent()).containsExactly(restaurant1, restaurant2, restaurant3);
     }
@@ -118,7 +118,7 @@ class RestaurantReadOnlyRepositoryTest {
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3, restaurant4));
 
         String query = ORDER_BY_ID_DESC.getQuery();
-        Slice<Restaurant> page = restaurantReadOnlyRepository.findPageByCampusIdAndCategoryId(query, 1L, 1L,
+        Slice<Restaurant> page = restaurantQueryRepository.findPageByCampusIdAndCategoryId(query, 1L, 1L,
                 PageRequest.of(0, 2));
 
         assertThat(page).containsExactly(restaurant4, restaurant3);

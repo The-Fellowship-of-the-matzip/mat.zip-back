@@ -9,7 +9,7 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class RestaurantReadOnlyRepository {
+public class RestaurantQueryRepository {
 
     @PersistenceContext
     private EntityManager em;
