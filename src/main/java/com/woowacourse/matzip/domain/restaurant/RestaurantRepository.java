@@ -5,29 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
-
-    @Query(
-            value = "select r from Restaurant r "
-                    + "where "
-                    + "(r.campusId = :campusId) "
-                    + "and "
-                    + "(:categoryId is null or r.categoryId = :categoryId) "
-    )
-    Slice<Restaurant> findPageByCampusId(@Param("campusId") Long campusId, @Param("categoryId") Long categoryId, Pageable pageable);
-
-    @Query(
-            value = "select r from Restaurant r left join Review rv on rv.restaurantId = r.id "
-                    + "where "
-                    + "(r.campusId = :campusId) "
-                    + "and "
-                    + "(:categoryId is null or r.categoryId = :categoryId) "
-                    + "group by r.id "
-                    + "order by avg(rv.rating) desc"
-    )
-    Slice<Restaurant> findPageByCampusIdOrderByRatingDesc(@Param("campusId") Long campusId, @Param("categoryId")Long categoryId, Pageable pageable);
 
     @Query(
             value = "select id, category_id, campus_id, name, address, distance, kakao_map_url, image_url "

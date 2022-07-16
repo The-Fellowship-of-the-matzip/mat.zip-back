@@ -4,6 +4,8 @@ import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
+import com.woowacourse.matzip.domain.restaurant.RestaurantFindQueryFactory;
+import com.woowacourse.matzip.domain.restaurant.RestaurantQueryRepository;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import com.woowacourse.matzip.domain.restaurant.SortCondition;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
@@ -21,24 +23,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
+    private final RestaurantQueryRepository restaurantQueryRepository;
     private final ReviewRepository reviewRepository;
 
-    public RestaurantService(final RestaurantRepository restaurantRepository, final ReviewRepository reviewRepository) {
+    public RestaurantService(RestaurantRepository restaurantRepository,
+                             RestaurantQueryRepository restaurantQueryRepository,
+                             ReviewRepository reviewRepository) {
         this.restaurantRepository = restaurantRepository;
+        this.restaurantQueryRepository = restaurantQueryRepository;
         this.reviewRepository = reviewRepository;
     }
 
-    public RestaurantTitlesResponse findByCampusId(final Long campusId, final Long categoryId,
-                                                   final Pageable pageable) {
-        Slice<Restaurant> page = restaurantRepository.findPageByCampusId(campusId, categoryId, pageable);
-        return toRestaurantTitlesResponse(page);
-    }
-
-    public RestaurantTitlesResponse findByCampusIdOrderByRatingDesc(final Long campusId, final Long categoryId,
-                                                                    final Pageable pageable) {
-        Slice<Restaurant> page = restaurantRepository.findPageByCampusIdOrderByRatingDesc(campusId, categoryId,
-                pageable);
-        return toRestaurantTitlesResponse(page);
+    public RestaurantTitlesResponse findByCampusIdAndCategoryId(final String sortCondition, final Long campusId,
+                                                                final Long categoryId, final Pageable pageable) {
+        String restaurantFindQuery = RestaurantFindQueryFactory.from(sortCondition);
+        Slice<Restaurant> restaurants = restaurantQueryRepository.findPageByCampusIdAndCategoryId(restaurantFindQuery,
+                campusId, categoryId, pageable);
+        return toRestaurantTitlesResponse(restaurants);
     }
 
     private RestaurantTitlesResponse toRestaurantTitlesResponse(Slice<Restaurant> page) {
