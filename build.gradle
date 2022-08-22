@@ -56,12 +56,12 @@ dependencies {
     testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
 }
 
-tasks.named('test') {
+test {
     outputs.dir snippetsDir
     useJUnitPlatform()
 }
 
-tasks.named('asciidoctor') {
+asciidoctor {
     inputs.dir snippetsDir
     dependsOn test
 }
@@ -73,11 +73,17 @@ task createDocument(type: Copy) {
     into file("src/main/resources/static")
 }
 
-bootJar {
+task copyDocument(type: Copy) {
     dependsOn createDocument
+
+    from file("src/main/resources/static")
+    into file("build/resources/main/static")
 }
 
-// for sonar cloud
+bootJar {
+    dependsOn copyDocument
+}
+
 sonarqube {
     properties {
         property "sonar.projectKey", "The-Fellowship-of-the-matzip_mat.zip-back"
