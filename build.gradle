@@ -4,6 +4,7 @@ plugins {
     id 'org.asciidoctor.convert' version '1.5.9.2'
     id 'java'
     id 'jacoco'
+    id "org.sonarqube" version "3.4.0.2513"
 }
 
 apply from: 'test.gradle'
@@ -82,6 +83,7 @@ task copyDocument(type: Copy) {
 bootJar {
     dependsOn copyDocument
 }
+
 sonarqube {
     properties {
         property "sonar.projectKey", "The-Fellowship-of-the-matzip_mat.zip-back"
