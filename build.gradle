@@ -82,3 +82,10 @@ task copyDocument(type: Copy) {
 bootJar {
     dependsOn copyDocument
 }
+sonarqube {
+    properties {
+        property "sonar.projectKey", "The-Fellowship-of-the-matzip_mat.zip-back"
+        property "sonar.organization", "the-fellowship-of-the-matzip"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
+}
