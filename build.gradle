@@ -1,87 +1,52 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.8'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'org.asciidoctor.convert' version '1.5.9.2'
+    id 'org.springframework.boot' version '2.6.8' apply(false)
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE' apply(false)
+    id 'org.asciidoctor.convert' version '1.5.9.2' apply(false)
     id 'java'
     id 'jacoco'
-    id "org.sonarqube" version "3.4.0.2513"
+    id "org.sonarqube" version "3.4.0.2513" apply(false)
 }
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+    apply plugin: 'org.sonarqube'
 
-apply from: 'test.gradle'
+    group = 'com.woowacourse'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '11'
 
-group = 'com.woowacourse'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+    repositories {
+        mavenCentral()
     }
 }
 
-repositories {
-    mavenCentral()
-}
+subprojects {
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.asciidoctor.convert'
 
-ext {
-    set('snippetsDir', file("build/generated-snippets"))
-}
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    dependencies {
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+    }
 
-    // database driver
-    runtimeOnly 'mysql:mysql-connector-java'
-    testRuntimeOnly 'com.h2database:h2'
+    test {
+        useJUnitPlatform()
+    }
 
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+    bootJar {
+        enabled = false
+    }
 
-    // jwt
-    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
-    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-    // rest-assured
-    testImplementation 'io.rest-assured:rest-assured:4.4.0'
-    testImplementation 'io.rest-assured:spring-mock-mvc:4.4.0'
-
-    // rest-docs
-    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.5.RELEASE'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
-}
-
-test {
-    outputs.dir snippetsDir
-    useJUnitPlatform()
-}
-
-asciidoctor {
-    inputs.dir snippetsDir
-    dependsOn test
-}
-
-task createDocument(type: Copy) {
-    dependsOn asciidoctor
-
-    from file("build/asciidoc/html5/index.html")
-    into file("src/main/resources/static")
-}
-
-task copyDocument(type: Copy) {
-    dependsOn createDocument
-
-    from file("src/main/resources/static")
-    into file("build/resources/main/static")
-}
-
-bootJar {
-    dependsOn copyDocument
+    jar {
+        enabled = true
+    }
 }
 
 sonarqube {
