@@ -10,7 +10,7 @@ class PathContainerTest {
     void include에_포함_되지_않은_경로() {
         PathContainer pathContainer = new PathContainer();
         pathContainer.includePathPattern("/api/reviews", PathMethod.DELETE);
-        assertThat(pathContainer.notIncludedPath("/api/reviews", "PUT")).isTrue();
+        assertThat(pathContainer.isNotIncludedPath("/api/reviews", "PUT")).isTrue();
     }
 
     @Test
@@ -18,6 +18,6 @@ class PathContainerTest {
         PathContainer pathContainer = new PathContainer();
         pathContainer.includePathPattern("/api/reviews", PathMethod.ANY);
         pathContainer.excludePathPattern("/api/reviews", PathMethod.GET);
-        assertThat(pathContainer.notIncludedPath("/api/reviews", "GET")).isTrue();
+        assertThat(pathContainer.isNotIncludedPath("/api/reviews", "GET")).isTrue();
     }
 }
