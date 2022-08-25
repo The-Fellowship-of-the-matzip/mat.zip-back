@@ -38,7 +38,7 @@ public class PreparedStatementProxyHandlerTest {
     }
 
     @Test
-    void Request_Scope가_아닐_때_executeQuery를_호출하면_count를_증가시킨다() throws SQLException {
+    void Request_Scope가_아닐_때_executeQuery를_호출하면_count를_증가시키지_않는다() throws SQLException {
         ApiQueryCounter apiQueryCounter = new ApiQueryCounter();
         PreparedStatementProxyHandler preparedStatementProxyHandler = new PreparedStatementProxyHandler(
                 preparedStatement, apiQueryCounter);
