@@ -40,6 +40,7 @@ public class AuthConfig implements WebMvcConfigurer {
 
     private HandlerInterceptor loginOrNotInterceptor() {
         return new PathMatcherInterceptor(notLoginInterceptor)
+                .excludePathPattern("/api/restaurants/*/reviews", PathMethod.OPTIONS)
                 .includePathPattern("/api/restaurants/*/reviews", PathMethod.GET);
     }
 
