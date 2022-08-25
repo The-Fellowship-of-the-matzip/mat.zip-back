@@ -12,9 +12,6 @@ public class AuthenticationContext {
     private String principal;
 
     public String getPrincipal() {
-        if (Objects.isNull(principal)) {
-            throw new AuthenticationContextException();
-        }
         return principal;
     }
 

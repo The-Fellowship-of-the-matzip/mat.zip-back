@@ -12,26 +12,33 @@ public class ReviewResponse {
     private String content;
     private int rating;
     private String menu;
+    private boolean updatable;
 
     private ReviewResponse() {
     }
 
-    public ReviewResponse(final Long id, final ReviewAuthor author, final String content, final int rating,
-                          final String menu) {
+    public ReviewResponse(final Long id,
+                          final ReviewAuthor author,
+                          final String content,
+                          final int rating,
+                          final String menu,
+                          final boolean updatable) {
         this.id = id;
         this.author = author;
         this.content = content;
         this.rating = rating;
         this.menu = menu;
+        this.updatable = updatable;
     }
 
-    public static ReviewResponse from(final Review review) {
+    public static ReviewResponse from(final Review review, final boolean isWriter) {
         return new ReviewResponse(
                 review.getId(),
                 ReviewAuthor.from(review.getMember()),
                 review.getContent(),
                 review.getRating(),
-                review.getMenu()
+                review.getMenu(),
+                isWriter
         );
     }
 

@@ -79,6 +79,10 @@ public class Review {
         }
     }
 
+    public boolean isWriter(final String githubId) {
+        return member.isSameGithubId(githubId);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

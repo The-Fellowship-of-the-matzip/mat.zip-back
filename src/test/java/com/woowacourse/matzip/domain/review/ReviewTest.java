@@ -1,9 +1,12 @@
 package com.woowacourse.matzip.domain.review;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.exception.InvalidLengthException;
 import com.woowacourse.matzip.exception.InvalidReviewException;
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
@@ -46,5 +49,12 @@ public class ReviewTest {
                 .build())
                 .isInstanceOf(InvalidLengthException.class)
                 .hasMessage("리뷰 내용은(는) 길이가 255 이하의 값만 입력할 수 있습니다.");
+    }
+
+    @Test
+    void 작성자이다() {
+        Member member = new Member(1L, "1", "huni", "image.png");
+        Review review = new Review(1L, member, 1L, "리뷰 내용", 3, "메뉴", LocalDateTime.now());
+        assertThat(review.isWriter("1")).isTrue();
     }
 }

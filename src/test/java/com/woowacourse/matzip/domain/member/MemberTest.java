@@ -19,4 +19,10 @@ public class MemberTest {
         member.updateProfileImage("update.png");
         assertThat(member.getProfileImage()).isEqualTo("update.png");
     }
+
+    @Test
+    void github_아이디가_같다() {
+        Member member = new Member(1L, "1", "huni", "image.png");
+        assertThat(member.isSameGithubId("1")).isTrue();
+    }
 }

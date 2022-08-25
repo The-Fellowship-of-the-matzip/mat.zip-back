@@ -60,6 +60,10 @@ public class Member {
         }
     }
 
+    public boolean isSameGithubId(final String githubId) {
+        return this.githubId.equals(githubId);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
