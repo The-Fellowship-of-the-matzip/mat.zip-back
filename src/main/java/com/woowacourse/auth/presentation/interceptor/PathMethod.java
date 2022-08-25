@@ -15,7 +15,7 @@ public enum PathMethod {
         @Override
         public boolean matches(final String method) {
             return Arrays.stream(values())
-                    .filter(value -> !value.equals(ANY))
+                    .filter(value -> value != ANY)
                     .anyMatch(value -> value.name().equalsIgnoreCase(method));
         }
     };
