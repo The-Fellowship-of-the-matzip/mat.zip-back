@@ -1,0 +1,17 @@
+plugins {
+    id 'com.vaadin' version '23.1.7'
+}
+
+ext {
+    set('vaadinVersion', "23.1.7")
+}
+
+dependencies {
+    implementation 'com.vaadin:vaadin-spring-boot-starter'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
+    }
+}
