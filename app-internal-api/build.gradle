@@ -7,7 +7,9 @@ ext {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.vaadin:vaadin-spring-boot-starter'
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
 dependencyManagement {
