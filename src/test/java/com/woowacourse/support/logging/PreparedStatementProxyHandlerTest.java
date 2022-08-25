@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @ExtendWith(MockitoExtension.class)
 public class PreparedStatementProxyHandlerTest {
@@ -17,7 +20,9 @@ public class PreparedStatementProxyHandlerTest {
     private PreparedStatement preparedStatement;
 
     @Test
-    void executeQuery를_호출하면_count를_증가시킨다() throws SQLException {
+    void Request_Scope에서_executeQuery를_호출하면_count를_증가시킨다() throws SQLException {
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(new MockHttpServletRequest()));
+
         ApiQueryCounter apiQueryCounter = new ApiQueryCounter();
         PreparedStatementProxyHandler preparedStatementProxyHandler = new PreparedStatementProxyHandler(
                 preparedStatement, apiQueryCounter);
@@ -30,5 +35,21 @@ public class PreparedStatementProxyHandlerTest {
         proxy.executeQuery();
 
         assertThat(apiQueryCounter.getCount()).isOne();
+    }
+
+    @Test
+    void Request_Scope가_아닐_때_executeQuery를_호출하면_count를_증가시킨다() throws SQLException {
+        ApiQueryCounter apiQueryCounter = new ApiQueryCounter();
+        PreparedStatementProxyHandler preparedStatementProxyHandler = new PreparedStatementProxyHandler(
+                preparedStatement, apiQueryCounter);
+        PreparedStatement proxy = (PreparedStatement) Proxy.newProxyInstance(
+                preparedStatement.getClass().getClassLoader(),
+                preparedStatement.getClass().getInterfaces(),
+                preparedStatementProxyHandler
+        );
+
+        proxy.executeQuery();
+
+        assertThat(apiQueryCounter.getCount()).isZero();
     }
 }
