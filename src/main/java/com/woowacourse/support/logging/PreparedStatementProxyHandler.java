@@ -17,10 +17,15 @@ public class PreparedStatementProxyHandler implements InvocationHandler {
 
     @Override
     public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
-        if (method.getName().equals("executeQuery") && isInRequestScope()) {
+        if (isExecuteQuery(method) && isInRequestScope()) {
             apiQueryCounter.increaseCount();
         }
         return method.invoke(preparedStatement, args);
+    }
+
+    private boolean isExecuteQuery(final Method method) {
+        String methodName = method.getName();
+        return methodName.equals("executeQuery") || methodName.equals("execute") || methodName.equals("executeUpdate");
     }
 
     private boolean isInRequestScope() {
