@@ -12,10 +12,14 @@ public class CampusCacheRepository {
     }
 
     public void checkExistId(final Long id) {
-        campuses.stream()
-                .filter(campus -> campus.isSameId(id))
-                .findAny()
-                .orElseThrow(CampusNotFoundException::new);
+        if (notContainsSameId(id)) {
+            throw new CampusNotFoundException();
+        }
+    }
+
+    private boolean notContainsSameId(final Long id) {
+        return campuses.stream()
+                .noneMatch(campus -> campus.isSameId(id));
     }
 
     public List<Campus> getCampuses() {
