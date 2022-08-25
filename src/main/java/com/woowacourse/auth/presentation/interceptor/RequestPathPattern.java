@@ -2,6 +2,7 @@ package com.woowacourse.auth.presentation.interceptor;
 
 import java.util.Objects;
 import lombok.Getter;
+import org.springframework.util.PathMatcher;
 
 @Getter
 public class RequestPathPattern {
@@ -14,7 +15,11 @@ public class RequestPathPattern {
         this.method = Objects.requireNonNull(method);
     }
 
-    public boolean matchesMethod(final String pathMethod) {
+    public boolean matches(final PathMatcher pathMatcher, final String targetPath, final String pathMethod) {
+        return pathMatcher.match(path, targetPath) && matchesMethod(pathMethod);
+    }
+
+    private boolean matchesMethod(final String pathMethod) {
         return method.matches(pathMethod);
     }
 }

@@ -19,26 +19,19 @@ public class PathContainer {
 
     public boolean isNotIncludedPath(final String targetPath, final String pathMethod) {
         boolean isExcludePattern = excludePathPatterns.stream()
-                .anyMatch(pathPattern -> anyMatchPathPattern(targetPath, pathMethod, pathPattern));
+                .anyMatch(pathPattern -> pathPattern.matches(pathMatcher, targetPath, pathMethod));
 
         boolean isNotIncludePattern = includePathPatterns.stream()
-                .noneMatch(pathPattern -> anyMatchPathPattern(targetPath, pathMethod, pathPattern));
+                .noneMatch(pathPattern -> pathPattern.matches(pathMatcher, targetPath, pathMethod));
 
         return isExcludePattern || isNotIncludePattern;
-    }
-
-    private boolean anyMatchPathPattern(final String targetPath,
-                                        final String pathMethod,
-                                        final RequestPathPattern requestPathPattern) {
-        return pathMatcher.match(requestPathPattern.getPath(), targetPath) &&
-                requestPathPattern.matchesMethod(pathMethod);
     }
 
     public void includePathPattern(final String targetPath, final PathMethod pathMethod) {
         this.includePathPatterns.add(new RequestPathPattern(targetPath, pathMethod));
     }
 
-    public void excludePathPattern(String targetPath, PathMethod pathMethod) {
+    public void excludePathPattern(final String targetPath, final PathMethod pathMethod) {
         this.excludePathPatterns.add(new RequestPathPattern(targetPath, pathMethod));
     }
 }
