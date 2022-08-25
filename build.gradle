@@ -9,7 +9,6 @@ plugins {
 
 allprojects {
     apply plugin: 'java'
-    apply plugin: 'jacoco'
     apply plugin: 'org.sonarqube'
 
     group = 'com.woowacourse'
@@ -22,6 +21,7 @@ allprojects {
 }
 
 subprojects {
+    apply plugin: 'jacoco'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'org.asciidoctor.convert'
@@ -87,12 +87,12 @@ subprojects {
         }
     }
 
-}
-
-sonarqube {
-    properties {
-        property "sonar.projectKey", "The-Fellowship-of-the-matzip_mat.zip-back"
-        property "sonar.organization", "the-fellowship-of-the-matzip"
-        property "sonar.host.url", "https://sonarcloud.io"
+    sonarqube {
+        properties {
+            property "sonar.projectKey", "The-Fellowship-of-the-matzip_mat.zip-back"
+            property "sonar.organization", "the-fellowship-of-the-matzip"
+            property "sonar.host.url", "https://sonarcloud.io"
+            property 'sonar.coverage.jacoco.xmlReportPaths', '${buildDir}/reports/jacoco/test/jacocoTestReport.xml'
+        }
     }
 }
