@@ -3,6 +3,7 @@ package com.woowacourse.matzip.application;
 import com.woowacourse.matzip.application.response.ReviewResponse;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import com.woowacourse.matzip.domain.review.Review;
+import com.woowacourse.matzip.exception.RestaurantNotFoundException;
 import com.woowacourse.matzip.repository.RestaurantRepository;
 import com.woowacourse.matzip.repository.ReviewRepository;
 import java.util.List;
@@ -26,13 +27,13 @@ public class AdminReviewService {
     public List<ReviewResponse> findAll() {
         return reviewRepository.findAll()
                 .stream()
-                .map(this::getOf)
+                .map(this::toReviewResponse)
                 .collect(Collectors.toList());
     }
 
-    private ReviewResponse getOf(final Review review) {
+    private ReviewResponse toReviewResponse(final Review review) {
         Restaurant restaurant = restaurantRepository.findById(review.getRestaurantId())
-                .orElse(null);
+                .orElseThrow(RestaurantNotFoundException::new);
         return ReviewResponse.of(review, restaurant);
     }
 }
