@@ -17,7 +17,7 @@ public class RestaurantResponse {
     private final String kakaoMapUrl;
     private final String imageUrl;
 
-    public RestaurantResponse(final Long id, final String categoryName, final String campusName, final String name,
+    private RestaurantResponse(final Long id, final String categoryName, final String campusName, final String name,
                               final String address, final Long distance, final String kakaoMapUrl,
                               final String imageUrl) {
         this.id = id;
