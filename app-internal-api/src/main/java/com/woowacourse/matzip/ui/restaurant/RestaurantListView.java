@@ -4,6 +4,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.woowacourse.matzip.application.AdminRestaurantService;
+import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import com.woowacourse.matzip.ui.SideNavbarLayout;
 
@@ -22,18 +23,18 @@ public class RestaurantListView extends VerticalLayout {
         );
     }
 
-    private Grid<Restaurant> createRestaurantGrid() {
-        Grid<Restaurant> grid = new Grid<>(Restaurant.class, false);
+    private Grid<RestaurantResponse> createRestaurantGrid() {
+        Grid<RestaurantResponse> grid = new Grid<>(RestaurantResponse.class, false);
         grid.setSizeFull();
 
-        grid.addColumn(Restaurant::getId).setHeader("id");
-        grid.addColumn(Restaurant::getCategoryId).setHeader("category");
-        grid.addColumn(Restaurant::getCampusId).setHeader("campus");
-        grid.addColumn(Restaurant::getName).setHeader("name");
-        grid.addColumn(Restaurant::getAddress).setHeader("address");
-        grid.addColumn(Restaurant::getDistance).setHeader("distance");
-        grid.addColumn(Restaurant::getKakaoMapUrl).setHeader("kakao map url");
-        grid.addColumn(Restaurant::getImageUrl).setHeader("image url");
+        grid.addColumn(RestaurantResponse::getId).setHeader("id");
+        grid.addColumn(RestaurantResponse::getCategoryName).setHeader("category");
+        grid.addColumn(RestaurantResponse::getCampusName).setHeader("campus");
+        grid.addColumn(RestaurantResponse::getName).setHeader("name");
+        grid.addColumn(RestaurantResponse::getAddress).setHeader("address");
+        grid.addColumn(RestaurantResponse::getDistance).setHeader("distance");
+        grid.addColumn(RestaurantResponse::getKakaoMapUrl).setHeader("kakao map url");
+        grid.addColumn(RestaurantResponse::getImageUrl).setHeader("image url");
 
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
         grid.getColumns().forEach(col -> col.setSortable(true));
