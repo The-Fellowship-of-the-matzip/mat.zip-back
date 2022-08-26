@@ -1,6 +1,8 @@
 package com.woowacourse.matzip.ui.member;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
@@ -20,8 +22,19 @@ public class MemberListView extends VerticalLayout {
         setSizeFull();
 
         add(
-                createMemberGrid()
+                getContent()
         );
+    }
+
+    private Component getContent() {
+        Grid<Member> memberGrid = createMemberGrid();
+        MemberDetailForm memberForm = createMemberForm();
+        HorizontalLayout content = new HorizontalLayout(memberGrid, memberForm);
+        content.setFlexGrow(2, memberGrid);
+        content.setFlexGrow(1, memberForm);
+        content.addClassNames("content");
+        content.setSizeFull();
+        return content;
     }
 
     private Grid<Member> createMemberGrid() {
@@ -42,7 +55,7 @@ public class MemberListView extends VerticalLayout {
         return grid;
     }
 
-    private static Renderer<Member> createMemberProfileRenderer() {
+    private Renderer<Member> createMemberProfileRenderer() {
         return LitRenderer.<Member>of(
                 "<vaadin-horizontal-layout style=\"align-items: center;\" theme=\"spacing\">"
                         + "  <vaadin-avatar img=\"${item.profileImage}\" name=\"${item.username}\"></vaadin-avatar>"
@@ -52,5 +65,11 @@ public class MemberListView extends VerticalLayout {
                         + "</vaadin-horizontal-layout>")
                 .withProperty("profileImage", Member::getProfileImage)
                 .withProperty("username", Member::getUsername);
+    }
+
+    private MemberDetailForm createMemberForm() {
+        MemberDetailForm memberDetailForm = new MemberDetailForm();
+        memberDetailForm.setWidth("25em");
+        return memberDetailForm;
     }
 }
