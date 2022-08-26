@@ -1,8 +1,6 @@
 package com.woowacourse.matzip.ui.member;
 
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
@@ -10,8 +8,9 @@ import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.router.Route;
 import com.woowacourse.matzip.application.AdminMemberService;
 import com.woowacourse.matzip.domain.member.Member;
+import com.woowacourse.matzip.ui.SideNavbarLayout;
 
-@Route("/admin/members")
+@Route(value = "/admin/members", layout = SideNavbarLayout.class)
 public class MemberListView extends VerticalLayout {
 
     private final AdminMemberService adminMemberService;
@@ -22,19 +21,8 @@ public class MemberListView extends VerticalLayout {
         setSizeFull();
 
         add(
-                getContent()
+                createMemberGrid()
         );
-    }
-
-    private Component getContent() {
-        Grid<Member> memberGrid = createMemberGrid();
-        MemberDetailForm memberForm = createMemberForm();
-        HorizontalLayout content = new HorizontalLayout(memberGrid, memberForm);
-        content.setFlexGrow(2, memberGrid);
-        content.setFlexGrow(1, memberForm);
-        content.addClassNames("content");
-        content.setSizeFull();
-        return content;
     }
 
     private Grid<Member> createMemberGrid() {
@@ -65,11 +53,5 @@ public class MemberListView extends VerticalLayout {
                         + "</vaadin-horizontal-layout>")
                 .withProperty("profileImage", Member::getProfileImage)
                 .withProperty("username", Member::getUsername);
-    }
-
-    private MemberDetailForm createMemberForm() {
-        MemberDetailForm memberDetailForm = new MemberDetailForm();
-        memberDetailForm.setWidth("25em");
-        return memberDetailForm;
     }
 }
