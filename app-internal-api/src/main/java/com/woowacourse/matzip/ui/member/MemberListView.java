@@ -10,7 +10,7 @@ import com.woowacourse.matzip.application.AdminMemberService;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.ui.SideNavbarLayout;
 
-@Route(value = "/admin/members", layout = SideNavbarLayout.class)
+@Route(value = "/members", layout = SideNavbarLayout.class)
 public class MemberListView extends VerticalLayout {
 
     private final AdminMemberService adminMemberService;
