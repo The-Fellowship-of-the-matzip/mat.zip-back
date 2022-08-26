@@ -16,6 +16,7 @@ import com.vaadin.flow.dom.ThemeList;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.Lumo;
 import com.woowacourse.matzip.ui.member.MemberListView;
+import com.woowacourse.matzip.ui.restaurant.RestaurantListView;
 
 public class SideNavbarLayout extends AppLayout {
 
@@ -33,7 +34,8 @@ public class SideNavbarLayout extends AppLayout {
     private Tabs getTabs() {
         Tabs tabs = new Tabs();
         tabs.add(
-                createTab(VaadinIcon.USER, "유저", MemberListView.class)
+                createTab(VaadinIcon.USER, "유저", MemberListView.class),
+                createTab(VaadinIcon.SHOP, "음식점", RestaurantListView.class)
         );
         tabs.setOrientation(Tabs.Orientation.VERTICAL);
         return tabs;
