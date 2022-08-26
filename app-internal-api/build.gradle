@@ -7,8 +7,12 @@ ext {
 }
 
 dependencies {
+    implementation project(':core')
+
+    runtimeOnly 'com.h2database:h2'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.vaadin:vaadin-spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
