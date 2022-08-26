@@ -15,6 +15,15 @@ public class RestAssuredRequest {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> httpGetRequest(final String url, final String accessToken) {
+        return RestAssured
+                .given().log().all()
+                .header("Authorization", "Bearer " + accessToken)
+                .when().get(url)
+                .then().log().all()
+                .extract();
+    }
+
     public static ExtractableResponse<Response> httpPostRequest(final String url, final String accessToken,
                                                                 final Object request) {
         return RestAssured
