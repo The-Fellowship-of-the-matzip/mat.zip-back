@@ -71,7 +71,7 @@ public class ReviewServiceTest {
     }
 
     @Test
-    void 리뷰_조회시_작성자를_확인한다() {
+    void 리뷰_조회시_변경가능한지_확인한다() {
         Member ori = memberRepository.save(ORI.toMember());
         Member huni = memberRepository.save(HUNI.toMember());
         Restaurant restaurant = restaurantRepository.findAll().get(0);
