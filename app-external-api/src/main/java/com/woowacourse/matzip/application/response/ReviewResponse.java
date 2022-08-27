@@ -31,14 +31,14 @@ public class ReviewResponse {
         this.updatable = updatable;
     }
 
-    public static ReviewResponse from(final Review review, final boolean isWriter) {
+    public static ReviewResponse of(final Review review, final boolean updatable) {
         return new ReviewResponse(
                 review.getId(),
                 ReviewAuthor.from(review.getMember()),
                 review.getContent(),
                 review.getRating(),
                 review.getMenu(),
-                isWriter
+                updatable
         );
     }
 

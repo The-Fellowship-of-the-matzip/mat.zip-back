@@ -39,7 +39,7 @@ public class ReviewService {
     public ReviewsResponse findPageByRestaurantId(final String githubId, final Long restaurantId, final Pageable pageable) {
         Slice<Review> page = reviewRepository.findPageByRestaurantIdOrderByIdDesc(restaurantId, pageable);
         List<ReviewResponse> reviewResponses = page.stream()
-                .map(review -> ReviewResponse.from(review, review.isWriter(githubId)))
+                .map(review -> ReviewResponse.of(review, review.isWriter(githubId)))
                 .collect(Collectors.toList());
         return new ReviewsResponse(page.hasNext(), reviewResponses);
     }
