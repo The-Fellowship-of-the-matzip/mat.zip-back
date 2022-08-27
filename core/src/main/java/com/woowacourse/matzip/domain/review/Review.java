@@ -19,6 +19,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name = "review")
@@ -79,7 +80,7 @@ public class Review {
         }
     }
 
-    public boolean isWriter(final String githubId) {
+    public boolean isWriter(final @Nullable String githubId) {
         return member.isSameGithubId(githubId);
     }
 

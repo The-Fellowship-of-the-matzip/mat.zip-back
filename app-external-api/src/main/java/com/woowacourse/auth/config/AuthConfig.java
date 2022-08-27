@@ -1,6 +1,7 @@
 package com.woowacourse.auth.config;
 
 import com.woowacourse.auth.presentation.AuthenticationArgumentResolver;
+import com.woowacourse.auth.presentation.AuthenticationContext;
 import com.woowacourse.auth.presentation.interceptor.LoginInterceptor;
 import com.woowacourse.auth.presentation.interceptor.NotLoginInterceptor;
 import com.woowacourse.auth.presentation.interceptor.PathMatcherInterceptor;
@@ -16,13 +17,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class AuthConfig implements WebMvcConfigurer {
 
     private final LoginInterceptor loginInterceptor;
+    private final AuthenticationContext authenticationContext;
     private final NotLoginInterceptor notLoginInterceptor;
     private final AuthenticationArgumentResolver authenticationArgumentResolver;
 
     public AuthConfig(final LoginInterceptor loginInterceptor,
-                      final AuthenticationArgumentResolver authenticationArgumentResolver) {
+                      final AuthenticationArgumentResolver authenticationArgumentResolver,
+                      final AuthenticationContext authenticationContext) {
         this.loginInterceptor = loginInterceptor;
-        this.notLoginInterceptor = new NotLoginInterceptor(loginInterceptor);
+        this.authenticationContext = authenticationContext;
+        this.notLoginInterceptor = new NotLoginInterceptor(loginInterceptor, authenticationContext);
         this.authenticationArgumentResolver = authenticationArgumentResolver;
     }
 

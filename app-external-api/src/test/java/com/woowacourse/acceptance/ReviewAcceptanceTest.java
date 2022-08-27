@@ -6,6 +6,7 @@ import static com.woowacourse.acceptance.support.RestAssuredRequest.httpPostRequ
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.auth.application.dto.TokenResponse;
 import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.presentation.request.ReviewCreateRequest;
 import io.restassured.response.ExtractableResponse;
@@ -69,11 +70,14 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
     @Test
     void 리뷰_로그인_조회() {
         String accessToken = 로그인_토큰();
+        String other = httpGetRequest("/api/login?code=2").as(TokenResponse.class).getAccessToken();
         for (int i = 1; i <= 20; i++) {
             ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)");
             리뷰_생성_요청(식당_ID, accessToken, request);
         }
-        ExtractableResponse<Response> response = 리뷰_조회_요청(식당_ID, accessToken, 2, 5);
+        ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)");
+        리뷰_생성_요청(식당_ID, other, request);
+        ExtractableResponse<Response> response = 리뷰_조회_요청(식당_ID, accessToken, 0, 5);
         내_리뷰정보도_조회에_성공한다(response);
     }
 
@@ -97,7 +101,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
                 () -> assertThat(response.jsonPath().getObject(".", ReviewsResponse.class).getReviews())
                         .extracting("updatable")
-                        .containsExactly(true, true, true, true, true)
+                        .containsExactly(false, true, true, true, true)
         );
     }
 }

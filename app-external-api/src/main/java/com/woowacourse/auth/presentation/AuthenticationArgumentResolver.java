@@ -26,6 +26,9 @@ public class AuthenticationArgumentResolver implements HandlerMethodArgumentReso
     public String resolveArgument(final MethodParameter parameter, final ModelAndViewContainer mavContainer,
                                   final NativeWebRequest webRequest, final WebDataBinderFactory binderFactory)
             throws Exception {
+        if (authenticationContext.hasAnonymous()) {
+            return null;
+        }
         return authenticationContext.getPrincipal();
     }
 }
