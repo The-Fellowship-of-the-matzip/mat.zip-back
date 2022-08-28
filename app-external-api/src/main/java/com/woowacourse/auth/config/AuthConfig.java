@@ -17,7 +17,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class AuthConfig implements WebMvcConfigurer {
 
     private final LoginInterceptor loginInterceptor;
-    private final AuthenticationContext authenticationContext;
     private final NotLoginInterceptor notLoginInterceptor;
     private final AuthenticationArgumentResolver authenticationArgumentResolver;
 
@@ -25,7 +24,6 @@ public class AuthConfig implements WebMvcConfigurer {
                       final AuthenticationArgumentResolver authenticationArgumentResolver,
                       final AuthenticationContext authenticationContext) {
         this.loginInterceptor = loginInterceptor;
-        this.authenticationContext = authenticationContext;
         this.notLoginInterceptor = new NotLoginInterceptor(loginInterceptor, authenticationContext);
         this.authenticationArgumentResolver = authenticationArgumentResolver;
     }
