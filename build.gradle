@@ -1,87 +1,90 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.8'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'org.asciidoctor.convert' version '1.5.9.2'
+    id 'org.springframework.boot' version '2.6.8' apply(false)
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE' apply(false)
+    id 'org.asciidoctor.convert' version '1.5.9.2' apply(false)
     id 'java'
     id 'jacoco'
-    id "org.sonarqube" version "3.4.0.2513"
+    id "org.sonarqube" version "3.4.0.2513" apply(false)
 }
 
-apply from: 'test.gradle'
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.sonarqube'
 
-group = 'com.woowacourse'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+    group = 'com.woowacourse'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '11'
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+    repositories {
+        mavenCentral()
     }
 }
 
-repositories {
-    mavenCentral()
-}
+subprojects {
+    apply plugin: 'jacoco'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.asciidoctor.convert'
 
-ext {
-    set('snippetsDir', file("build/generated-snippets"))
-}
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    dependencies {
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
 
-    // database driver
-    runtimeOnly 'mysql:mysql-connector-java'
-    testRuntimeOnly 'com.h2database:h2'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
 
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+    bootJar {
+        enabled = false
+    }
 
-    // jwt
-    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
-    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+    jar {
+        enabled = true
+    }
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    test {
+        useJUnitPlatform()
+        finalizedBy 'jacocoTestReport'
+    }
 
-    // rest-assured
-    testImplementation 'io.rest-assured:rest-assured:4.4.0'
-    testImplementation 'io.rest-assured:spring-mock-mvc:4.4.0'
+    jacocoTestReport {
+        reports {
+            html.enabled true
+            xml.enabled true
+            csv.enabled true
+        }
+        finalizedBy 'jacocoTestCoverageVerification'
+    }
 
-    // rest-docs
-    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.5.RELEASE'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
-}
+    jacocoTestCoverageVerification {
+        violationRules {
+            rule {
+                enabled = true
+                element = 'CLASS'
 
-test {
-    outputs.dir snippetsDir
-    useJUnitPlatform()
-}
+                limit {
+                    counter = 'LINE'
+                    value = 'COVEREDRATIO'
+                    minimum = 0.0
+                }
+            }
+            rule {
+                enabled = true;
+                element = 'BUNDLE'
 
-asciidoctor {
-    inputs.dir snippetsDir
-    dependsOn test
-}
-
-task createDocument(type: Copy) {
-    dependsOn asciidoctor
-
-    from file("build/asciidoc/html5/index.html")
-    into file("src/main/resources/static")
-}
-
-task copyDocument(type: Copy) {
-    dependsOn createDocument
-
-    from file("src/main/resources/static")
-    into file("build/resources/main/static")
-}
-
-bootJar {
-    dependsOn copyDocument
+                limit {
+                    counter = 'CLASS'
+                    value = 'COVEREDRATIO'
+                    minimum = 0.0
+                }
+            }
+        }
+    }
 }
 
 sonarqube {
@@ -89,5 +92,6 @@ sonarqube {
         property "sonar.projectKey", "The-Fellowship-of-the-matzip_mat.zip-back"
         property "sonar.organization", "the-fellowship-of-the-matzip"
         property "sonar.host.url", "https://sonarcloud.io"
+        property 'sonar.coverage.jacoco.xmlReportPaths', '${buildDir}/reports/jacoco/test/jacocoTestReport.xml'
     }
 }

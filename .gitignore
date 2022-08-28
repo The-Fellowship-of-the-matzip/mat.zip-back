@@ -40,4 +40,4 @@ out/
 application-auth.yml
 
 ### rest docs ###
-/src/main/resources/static/index.html
+/app-external-api/src/main/resources/static/index.html

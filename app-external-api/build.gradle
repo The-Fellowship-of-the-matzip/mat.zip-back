@@ -1,0 +1,64 @@
+dependencies {
+    implementation project(':common')
+    implementation project(':core')
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // database driver
+    runtimeOnly 'mysql:mysql-connector-java'
+    testRuntimeOnly 'com.h2database:h2'
+
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // rest-assured
+    testImplementation 'io.rest-assured:rest-assured:4.4.0'
+    testImplementation 'io.rest-assured:spring-mock-mvc:4.4.0'
+
+    // rest-docs
+    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.5.RELEASE'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
+}
+
+ext {
+    set('snippetsDir', file("build/generated-snippets"))
+}
+
+test {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+task createDocument(type: Copy) {
+    dependsOn asciidoctor
+
+    from file("build/asciidoc/html5/index.html")
+    into file("src/main/resources/static")
+}
+
+task copyDocument(type: Copy) {
+    dependsOn createDocument
+
+    from file("src/main/resources/static")
+    into file("build/resources/main/static")
+}
+
+bootJar {
+    dependsOn copyDocument
+}
+
+jar {
+    enabled false
+}
