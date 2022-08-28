@@ -10,7 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 public class ApiQueryCountingInterceptor implements HandlerInterceptor {
 
-    private static final String QUERY_COUNT_LOG_FORMAT = "{} {}, QUERY_COUNT: {}";
+    private static final String QUERY_COUNT_LOG_FORMAT = "{} {}, STATUS CODE: {}, QUERY_COUNT: {}";
 
     private final ApiQueryCounter apiQueryCounter;
 
@@ -23,7 +23,8 @@ public class ApiQueryCountingInterceptor implements HandlerInterceptor {
                                 final Object handler, final Exception ex) {
         String requestURI = request.getRequestURI();
         String method = request.getMethod();
+        int status = response.getStatus();
         int count = apiQueryCounter.getCount();
-        log.info(QUERY_COUNT_LOG_FORMAT, method, requestURI, count);
+        log.info(QUERY_COUNT_LOG_FORMAT, method, requestURI, status, count);
     }
 }
