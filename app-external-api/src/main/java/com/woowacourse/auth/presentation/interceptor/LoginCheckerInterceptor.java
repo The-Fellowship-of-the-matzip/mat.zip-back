@@ -2,19 +2,20 @@ package com.woowacourse.auth.presentation.interceptor;
 
 import com.woowacourse.auth.presentation.AuthenticationContext;
 import com.woowacourse.auth.support.AuthorizationExtractor;
-import com.woowacourse.auth.support.MemberStatus;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-public class NotLoginInterceptor implements HandlerInterceptor {
+@Component
+public class LoginCheckerInterceptor implements HandlerInterceptor {
 
-    private final HandlerInterceptor handlerInterceptor;
+    private final LoginInterceptor loginInterceptor;
     private final AuthenticationContext authenticationContext;
 
-    public NotLoginInterceptor(final HandlerInterceptor handlerInterceptor,
-                               final AuthenticationContext authenticationContext) {
-        this.handlerInterceptor = handlerInterceptor;
+    public LoginCheckerInterceptor(final LoginInterceptor loginInterceptor,
+                                   final AuthenticationContext authenticationContext) {
+        this.loginInterceptor = loginInterceptor;
         this.authenticationContext = authenticationContext;
     }
 
@@ -25,6 +26,6 @@ public class NotLoginInterceptor implements HandlerInterceptor {
             authenticationContext.setNotLogin();
             return true;
         }
-        return handlerInterceptor.preHandle(request, response, handler);
+        return loginInterceptor.preHandle(request, response, handler);
     }
 }

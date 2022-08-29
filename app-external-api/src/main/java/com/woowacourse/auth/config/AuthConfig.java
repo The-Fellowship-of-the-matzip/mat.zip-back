@@ -1,9 +1,8 @@
 package com.woowacourse.auth.config;
 
 import com.woowacourse.auth.presentation.AuthenticationArgumentResolver;
-import com.woowacourse.auth.presentation.AuthenticationContext;
+import com.woowacourse.auth.presentation.interceptor.LoginCheckerInterceptor;
 import com.woowacourse.auth.presentation.interceptor.LoginInterceptor;
-import com.woowacourse.auth.presentation.interceptor.NotLoginInterceptor;
 import com.woowacourse.auth.presentation.interceptor.PathMatcherInterceptor;
 import com.woowacourse.auth.presentation.interceptor.PathMethod;
 import java.util.List;
@@ -17,14 +16,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class AuthConfig implements WebMvcConfigurer {
 
     private final LoginInterceptor loginInterceptor;
-    private final NotLoginInterceptor notLoginInterceptor;
+    private final LoginCheckerInterceptor loginCheckerInterceptor;
     private final AuthenticationArgumentResolver authenticationArgumentResolver;
 
     public AuthConfig(final LoginInterceptor loginInterceptor,
-                      final AuthenticationArgumentResolver authenticationArgumentResolver,
-                      final AuthenticationContext authenticationContext) {
+                      final LoginCheckerInterceptor loginCheckerInterceptor,
+                      final AuthenticationArgumentResolver authenticationArgumentResolver) {
         this.loginInterceptor = loginInterceptor;
-        this.notLoginInterceptor = new NotLoginInterceptor(loginInterceptor, authenticationContext);
+        this.loginCheckerInterceptor = loginCheckerInterceptor;
         this.authenticationArgumentResolver = authenticationArgumentResolver;
     }
 
@@ -41,7 +40,7 @@ public class AuthConfig implements WebMvcConfigurer {
     }
 
     private HandlerInterceptor loginOrNotInterceptor() {
-        return new PathMatcherInterceptor(notLoginInterceptor)
+        return new PathMatcherInterceptor(loginCheckerInterceptor)
                 .includePathPattern("/api/restaurants/*/reviews", PathMethod.GET);
     }
 
