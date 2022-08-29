@@ -17,6 +17,7 @@ import com.woowacourse.matzip.presentation.CampusController;
 import com.woowacourse.matzip.presentation.CategoryController;
 import com.woowacourse.matzip.presentation.RestaurantController;
 import com.woowacourse.matzip.presentation.ReviewController;
+import com.woowacourse.support.logging.ApiQueryCounter;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.specification.MockMvcRequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,6 +40,8 @@ import org.springframework.web.context.WebApplicationContext;
 public class Documentation {
 
     protected MockMvcRequestSpecification docsGiven;
+    @MockBean
+    protected ApiQueryCounter apiQueryCounter;
     @MockBean
     protected CategoryService categoryService;
     @MockBean
