@@ -31,7 +31,7 @@ public class ReviewDocumentation extends Documentation {
 
     @Test
     void 리뷰를_조회한다() {
-        when(reviewService.findPageByRestaurantId(any(), any())).thenReturn(REVIEWS_RESPONSE);
+        when(reviewService.findPageByRestaurantId(any(), any(), any())).thenReturn(REVIEWS_RESPONSE);
 
         docsGiven
                 .when().get("/api/restaurants/1/reviews?page=0&size=5")

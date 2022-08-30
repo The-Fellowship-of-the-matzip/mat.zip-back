@@ -101,15 +101,15 @@ public class DocumentationFixture {
             SEOLLEUNG_RESTAURANT_1, 4.0);
 
     private static final ReviewResponse REVIEW_1 = new ReviewResponse(1L, new ReviewAuthor("후니", "url"), "무가 맛있어요", 5,
-            "무닭볶음탕 (중)");
+            "무닭볶음탕 (중)", true);
     private static final ReviewResponse REVIEW_2 = new ReviewResponse(2L, new ReviewAuthor("오찌", "url"), "맛없어요.", 2,
-            "무닭볶음탕 (대)");
+            "무닭볶음탕 (대)", false);
     private static final ReviewResponse REVIEW_3 = new ReviewResponse(3L, new ReviewAuthor("태태", "url"), "평범해요.", 3,
-            "무닭볶음탕 (중)");
+            "무닭볶음탕 (중)", false);
     private static final ReviewResponse REVIEW_4 = new ReviewResponse(4L, new ReviewAuthor("샐리", "url"), "맛있어요.", 4,
-            "무닭볶음탕 (대)");
+            "무닭볶음탕 (대)", false);
     private static final ReviewResponse REVIEW_5 = new ReviewResponse(5L, new ReviewAuthor("블링", "url"), "또오고 싶어요.", 5,
-            "통마늘 닭똥집볶음");
+            "통마늘 닭똥집볶음", false);
 
     public static final ReviewsResponse REVIEWS_RESPONSE = new ReviewsResponse(
             false, List.of(REVIEW_1, REVIEW_2, REVIEW_3, REVIEW_4, REVIEW_5)

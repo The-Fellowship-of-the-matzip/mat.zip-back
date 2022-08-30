@@ -1,5 +1,6 @@
 package com.woowacourse.matzip.application;
 
+import static com.woowacourse.auth.support.GithubResponseFixtures.HUNI;
 import static com.woowacourse.auth.support.GithubResponseFixtures.ORI;
 import static com.woowacourse.matzip.support.ReviewFixtures.REVIEW_1;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -58,14 +59,33 @@ public class ReviewServiceTest {
             reviewService.createReview(member.getGithubId(), restaurant.getId(), reviewCreateRequest());
         }
 
-        ReviewsResponse page1 = reviewService.findPageByRestaurantId(restaurant.getId(), PageRequest.of(0, 2));
-        ReviewsResponse page2 = reviewService.findPageByRestaurantId(restaurant.getId(), PageRequest.of(1, 2));
+        ReviewsResponse page1 = reviewService.findPageByRestaurantId(null, restaurant.getId(), PageRequest.of(0, 2));
+        ReviewsResponse page2 = reviewService.findPageByRestaurantId(null, restaurant.getId(), PageRequest.of(1, 2));
 
         assertAll(
                 () -> assertThat(page1.getReviews()).hasSize(2),
                 () -> assertThat(page1.isHasNext()).isTrue(),
                 () -> assertThat(page2.getReviews()).hasSize(1),
                 () -> assertThat(page2.isHasNext()).isFalse()
+        );
+    }
+
+    @Test
+    void 리뷰_조회시_변경가능한지_확인한다() {
+        Member ori = memberRepository.save(ORI.toMember());
+        Member huni = memberRepository.save(HUNI.toMember());
+        Restaurant restaurant = restaurantRepository.findAll().get(0);
+        for (int i = 0; i < 3; i++) {
+            reviewService.createReview(ori.getGithubId(), restaurant.getId(), reviewCreateRequest());
+        }
+        reviewService.createReview(huni.getGithubId(), restaurant.getId(), reviewCreateRequest());
+
+        ReviewsResponse page1 = reviewService.findPageByRestaurantId(ori.getGithubId(), restaurant.getId(), PageRequest.of(0, 2));
+        ReviewsResponse page2 = reviewService.findPageByRestaurantId(ori.getGithubId(), restaurant.getId(), PageRequest.of(1, 2));
+
+        assertAll(
+                () -> assertThat(page1.getReviews()).extracting("updatable").containsExactly(false, true),
+                () -> assertThat(page2.getReviews()).extracting("updatable").containsExactly(true, true)
         );
     }
 }

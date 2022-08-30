@@ -27,7 +27,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                              final Object handler) {
         final String token = AuthorizationExtractor.extract(request)
                 .orElseThrow(TokenNotFoundException::new);
-        authenticationContext.setPrincipal(jwtTokenProvider.getPayload(token));
+        authenticationContext.setAuthenticationMember(jwtTokenProvider.getPayload(token));
         return true;
     }
 }

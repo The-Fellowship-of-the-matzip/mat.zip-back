@@ -6,6 +6,7 @@ import static com.woowacourse.acceptance.support.RestAssuredRequest.httpPostRequ
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.auth.application.dto.TokenResponse;
 import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.presentation.request.ReviewCreateRequest;
 import io.restassured.response.ExtractableResponse;
@@ -24,6 +25,10 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
     private static ExtractableResponse<Response> 리뷰_조회_요청(final Long restaurantId, final int page, final int size) {
         return httpGetRequest("/api/restaurants/" + restaurantId + "/reviews?page=" + page + "&size=" + size);
+    }
+
+    private static ExtractableResponse<Response> 리뷰_조회_요청(final Long restaurantId, final String accessToken, final int page, final int size) {
+        return httpGetRequest("/api/restaurants/" + restaurantId + "/reviews?page=" + page + "&size=" + size, accessToken);
     }
 
     @Test
@@ -62,6 +67,20 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         리뷰_조회에_성공한다(response);
     }
 
+    @Test
+    void 리뷰_로그인_조회() {
+        String accessToken = 로그인_토큰();
+        String other = httpGetRequest("/api/login?code=2").as(TokenResponse.class).getAccessToken();
+        for (int i = 1; i <= 20; i++) {
+            ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)");
+            리뷰_생성_요청(식당_ID, accessToken, request);
+        }
+        ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)");
+        리뷰_생성_요청(식당_ID, other, request);
+        ExtractableResponse<Response> response = 리뷰_조회_요청(식당_ID, accessToken, 0, 5);
+        내_리뷰정보도_조회에_성공한다(response);
+    }
+
     private void 리뷰_작성에_성공한다(final ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
     }
@@ -74,6 +93,15 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
                 () -> assertThat(response.jsonPath().getObject(".", ReviewsResponse.class).getReviews()).hasSize(5)
+        );
+    }
+
+    private void 내_리뷰정보도_조회에_성공한다(final ExtractableResponse<Response> response) {
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(response.jsonPath().getObject(".", ReviewsResponse.class).getReviews())
+                        .extracting("updatable")
+                        .containsExactly(false, true, true, true, true)
         );
     }
 }

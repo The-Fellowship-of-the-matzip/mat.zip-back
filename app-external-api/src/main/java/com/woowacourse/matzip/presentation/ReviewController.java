@@ -35,7 +35,8 @@ public class ReviewController {
 
     @GetMapping
     public ResponseEntity<ReviewsResponse> findReviews(@PathVariable final Long restaurantId,
-                                                       final Pageable pageable) {
-        return ResponseEntity.ok(reviewService.findPageByRestaurantId(restaurantId, pageable));
+                                                       final Pageable pageable,
+                                                       @AuthenticationPrincipal final String githubId) {
+        return ResponseEntity.ok(reviewService.findPageByRestaurantId(githubId, restaurantId, pageable));
     }
 }

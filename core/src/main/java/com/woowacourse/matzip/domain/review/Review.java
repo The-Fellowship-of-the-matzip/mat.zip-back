@@ -19,6 +19,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name = "review")
@@ -77,6 +78,10 @@ public class Review {
         if (rating < MIN_SCORE || rating > MAX_SCORE) {
             throw new InvalidReviewException(String.format("리뷰 점수는 %d점부터 %d점까지만 가능합니다.", MIN_SCORE, MAX_SCORE));
         }
+    }
+
+    public boolean isWriter(final @Nullable String githubId) {
+        return member.isSameGithubId(githubId);
     }
 
     @Override

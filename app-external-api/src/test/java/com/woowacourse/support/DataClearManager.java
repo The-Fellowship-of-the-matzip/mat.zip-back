@@ -18,6 +18,7 @@ public class DataClearManager implements InitializingBean {
 
     private static final String TRUNCATE_FORMAT = "TRUNCATE TABLE %s";
     private static final String ID_RESET_FORMAT = "ALTER TABLE %s ALTER COLUMN ID RESTART WITH 1";
+    private static final String REFERENTIAL_FORMAT = "SET REFERENTIAL_INTEGRITY %s";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -45,8 +46,10 @@ public class DataClearManager implements InitializingBean {
     }
 
     private void executeTruncateQuery(String tableName) {
+        entityManager.createNativeQuery(String.format(REFERENTIAL_FORMAT, "FALSE")).executeUpdate();
         entityManager.createNativeQuery(String.format(TRUNCATE_FORMAT, tableName)).executeUpdate();
         entityManager.createNativeQuery(String.format(ID_RESET_FORMAT, tableName)).executeUpdate();
+        entityManager.createNativeQuery(String.format(REFERENTIAL_FORMAT, "TRUE")).executeUpdate();
     }
 
     @Override
