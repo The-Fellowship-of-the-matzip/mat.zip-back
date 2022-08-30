@@ -3,12 +3,15 @@ package com.woowacourse.acceptance;
 import static com.woowacourse.acceptance.AuthAcceptanceTest.로그인_토큰;
 import static com.woowacourse.acceptance.support.RestAssuredRequest.httpGetRequest;
 import static com.woowacourse.acceptance.support.RestAssuredRequest.httpPostRequest;
+import static com.woowacourse.acceptance.support.RestAssuredRequest.httpPutRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.auth.application.dto.TokenResponse;
+import com.woowacourse.matzip.application.response.ReviewResponse;
 import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.presentation.request.ReviewCreateRequest;
+import com.woowacourse.matzip.presentation.request.ReviewUpdateRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
@@ -29,6 +32,10 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
     private static ExtractableResponse<Response> 리뷰_조회_요청(final Long restaurantId, final String accessToken, final int page, final int size) {
         return httpGetRequest("/api/restaurants/" + restaurantId + "/reviews?page=" + page + "&size=" + size, accessToken);
+    }
+
+    private static ExtractableResponse<Response> 리뷰_수정_요청(final Long restaurantId, final Long reviewId, final String accessToken, final ReviewUpdateRequest reviewUpdateRequest) {
+        return httpPutRequest("/api/restaurants/" + restaurantId + "/reviews/" + reviewId, accessToken, reviewUpdateRequest);
     }
 
     @Test
@@ -81,6 +88,30 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         내_리뷰정보도_조회에_성공한다(response);
     }
 
+    @Test
+    void 리뷰_수정() {
+        String accessToken = 로그인_토큰();
+        ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)");
+
+        리뷰_생성_요청(식당_ID, accessToken, request);
+        ReviewResponse reviewResponse = 리뷰_조회_요청(식당_ID, accessToken, 0, 1)
+                .as(ReviewsResponse.class)
+                .getReviews()
+                .get(0);
+
+        ExtractableResponse<Response> response = 리뷰_수정_요청(식당_ID,
+                reviewResponse.getId(),
+                accessToken,
+                new ReviewUpdateRequest("맛이 있어요.", 5, "무닭볶음탕 (대)"));
+
+        ReviewResponse updatedResponse = 리뷰_조회_요청(식당_ID, accessToken, 0, 1)
+                .as(ReviewsResponse.class)
+                .getReviews()
+                .get(0);
+
+        리뷰가_수정됨(response, updatedResponse);
+    }
+
     private void 리뷰_작성에_성공한다(final ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
     }
@@ -102,6 +133,13 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
                 () -> assertThat(response.jsonPath().getObject(".", ReviewsResponse.class).getReviews())
                         .extracting("updatable")
                         .containsExactly(false, true, true, true, true)
+        );
+    }
+
+    private void 리뷰가_수정됨(final ExtractableResponse<Response> response, final ReviewResponse updatedResponse) {
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value()),
+                () -> assertThat(updatedResponse).usingRecursiveComparison().isEqualTo(new ReviewUpdateRequest("맛이 있어요.", 5, "무닭볶음탕 (대)"))
         );
     }
 }

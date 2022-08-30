@@ -35,4 +35,20 @@ public class RestAssuredRequest {
                 .then().log().all()
                 .extract();
     }
+
+
+    public static ExtractableResponse<Response> httpPutRequest(final String url,
+                                                               final String accessToken,
+                                                                final Object request) {
+        return RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header("Authorization", "Bearer " + accessToken)
+                .body(request)
+                .when().put(url)
+                .then().log().all()
+                .extract();
+    }
+
+
 }
