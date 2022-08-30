@@ -143,7 +143,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
     }
 
     private void 리뷰_삭제에_성공한다(final ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 
     private void 리뷰_작성에_실패한다(final ExtractableResponse<Response> response) {

@@ -54,4 +54,17 @@ public class ReviewDocumentation extends Documentation {
                 .apply(document("reviewes/update"))
                 .statusCode(HttpStatus.NO_CONTENT.value());
     }
+
+    @Test
+    void 리뷰를_삭제한다() {
+        doNothing().when(reviewService).deleteReview(anyString(), anyLong());
+
+        docsGiven
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header("Authorization", "Bearer jwt.token.here")
+                .when().delete("/api/restaurants/1/reviews/1")
+                .then().log().all()
+                .apply(document("reviewes/delete"))
+                .statusCode(HttpStatus.NO_CONTENT.value());
+    }
 }
