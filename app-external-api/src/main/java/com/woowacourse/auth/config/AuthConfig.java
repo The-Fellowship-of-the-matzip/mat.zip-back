@@ -38,8 +38,9 @@ public class AuthConfig implements WebMvcConfigurer {
     private HandlerInterceptor loginInterceptor() {
         return new PathMatcherInterceptor(loginInterceptor)
                 .excludePathPattern("/**", PathMethod.OPTIONS)
-                .includePathPattern(REVIEWS_PATH, PathMethod.ANY)
-                .excludePathPattern(REVIEWS_PATH, PathMethod.GET);
+                .includePathPattern(REVIEWS_PATH, PathMethod.POST)
+                .includePathPattern(REVIEWS_PATH + "/*", PathMethod.PUT)
+                .includePathPattern(REVIEWS_PATH + "/*", PathMethod.DELETE);
     }
 
     private HandlerInterceptor loginOrNotInterceptor() {

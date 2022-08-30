@@ -4,6 +4,7 @@ import com.woowacourse.auth.support.AuthenticationPrincipal;
 import com.woowacourse.matzip.application.ReviewService;
 import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.presentation.request.ReviewCreateRequest;
+import com.woowacourse.matzip.presentation.request.ReviewUpdateRequest;
 import javax.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,5 +40,14 @@ public class ReviewController {
                                                        final Pageable pageable,
                                                        @AuthenticationPrincipal final String githubId) {
         return ResponseEntity.ok(reviewService.findPageByRestaurantId(githubId, restaurantId, pageable));
+    }
+
+    @PutMapping("/{reviewId}")
+    public ResponseEntity<Void> updateReview(@PathVariable final Long restaurantId,
+                                             @PathVariable final Long reviewId,
+                                             @AuthenticationPrincipal final String githubId,
+                                             @RequestBody @Valid final ReviewUpdateRequest reviewUpdateRequest) {
+        reviewService.updateReview(githubId, reviewId, reviewUpdateRequest);
+        return ResponseEntity.noContent().build();
     }
 }

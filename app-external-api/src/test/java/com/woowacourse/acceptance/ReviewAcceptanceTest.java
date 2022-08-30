@@ -30,12 +30,17 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         return httpGetRequest("/api/restaurants/" + restaurantId + "/reviews?page=" + page + "&size=" + size);
     }
 
-    private static ExtractableResponse<Response> 리뷰_조회_요청(final Long restaurantId, final String accessToken, final int page, final int size) {
-        return httpGetRequest("/api/restaurants/" + restaurantId + "/reviews?page=" + page + "&size=" + size, accessToken);
+    private static ExtractableResponse<Response> 리뷰_조회_요청(final Long restaurantId, final String accessToken,
+                                                          final int page, final int size) {
+        return httpGetRequest("/api/restaurants/" + restaurantId + "/reviews?page=" + page + "&size=" + size,
+                accessToken);
     }
 
-    private static ExtractableResponse<Response> 리뷰_수정_요청(final Long restaurantId, final Long reviewId, final String accessToken, final ReviewUpdateRequest reviewUpdateRequest) {
-        return httpPutRequest("/api/restaurants/" + restaurantId + "/reviews/" + reviewId, accessToken, reviewUpdateRequest);
+    private static ExtractableResponse<Response> 리뷰_수정_요청(final Long restaurantId, final Long reviewId,
+                                                          final String accessToken,
+                                                          final ReviewUpdateRequest reviewUpdateRequest) {
+        return httpPutRequest("/api/restaurants/" + restaurantId + "/reviews/" + reviewId, accessToken,
+                reviewUpdateRequest);
     }
 
     @Test
@@ -139,7 +144,9 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
     private void 리뷰가_수정됨(final ExtractableResponse<Response> response, final ReviewResponse updatedResponse) {
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value()),
-                () -> assertThat(updatedResponse).usingRecursiveComparison().isEqualTo(new ReviewUpdateRequest("맛이 있어요.", 5, "무닭볶음탕 (대)"))
+                () -> assertThat(updatedResponse.getContent()).isEqualTo("맛이 있어요."),
+                () -> assertThat(updatedResponse.getRating()).isEqualTo(5),
+                () -> assertThat(updatedResponse.getMenu()).isEqualTo("무닭볶음탕 (대)")
         );
     }
 }
