@@ -6,6 +6,7 @@ import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.review.Review;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
+import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
 import com.woowacourse.matzip.exception.ReviewNotFoundException;
 import com.woowacourse.matzip.presentation.request.ReviewCreateRequest;
@@ -24,7 +25,8 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
 
-    public ReviewService(final ReviewRepository reviewRepository, final MemberRepository memberRepository) {
+    public ReviewService(final ReviewRepository reviewRepository,
+                         final MemberRepository memberRepository) {
         this.reviewRepository = reviewRepository;
         this.memberRepository = memberRepository;
     }
@@ -61,5 +63,19 @@ public class ReviewService {
                 reviewUpdateRequest.getContent(),
                 reviewUpdateRequest.getRating(),
                 reviewUpdateRequest.getMenu());
+    }
+
+    @Transactional
+    public void deleteReview(final String githubId, final Long reviewId) {
+        Member member = memberRepository.findMemberByGithubId(githubId)
+                .orElseThrow(MemberNotFoundException::new);
+
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(ReviewNotFoundException::new);
+
+        if (!review.isWriter(member.getGithubId())) {
+            throw new ForbiddenException("리뷰를 삭제 할 권한이 없습니다.");
+        }
+        reviewRepository.delete(review);
     }
 }
