@@ -36,7 +36,6 @@ public class RestAssuredRequest {
                 .extract();
     }
 
-
     public static ExtractableResponse<Response> httpPutRequest(final String url,
                                                                final String accessToken,
                                                                 final Object request) {
@@ -46,6 +45,17 @@ public class RestAssuredRequest {
                 .header("Authorization", "Bearer " + accessToken)
                 .body(request)
                 .when().put(url)
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> httpDeleteRequest(final String url,
+                                                               final String accessToken) {
+        return RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header("Authorization", "Bearer " + accessToken)
+                .when().delete(url)
                 .then().log().all()
                 .extract();
     }

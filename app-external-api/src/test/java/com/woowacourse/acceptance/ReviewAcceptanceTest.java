@@ -1,6 +1,7 @@
 package com.woowacourse.acceptance;
 
 import static com.woowacourse.acceptance.AuthAcceptanceTest.로그인_토큰;
+import static com.woowacourse.acceptance.support.RestAssuredRequest.httpDeleteRequest;
 import static com.woowacourse.acceptance.support.RestAssuredRequest.httpGetRequest;
 import static com.woowacourse.acceptance.support.RestAssuredRequest.httpPostRequest;
 import static com.woowacourse.acceptance.support.RestAssuredRequest.httpPutRequest;
@@ -41,6 +42,11 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
                                                           final ReviewUpdateRequest reviewUpdateRequest) {
         return httpPutRequest("/api/restaurants/" + restaurantId + "/reviews/" + reviewId, accessToken,
                 reviewUpdateRequest);
+    }
+
+    private static ExtractableResponse<Response> 리뷰_삭제_요청(final Long restaurantId, final Long reviewId,
+                                                          final String accessToken) {
+        return httpDeleteRequest("/api/restaurants/" + restaurantId + "/reviews/" + reviewId, accessToken);
     }
 
     @Test
@@ -117,8 +123,27 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         리뷰가_수정됨(response, updatedResponse);
     }
 
+    @Test
+    void 리뷰가_삭제됨() {
+        String accessToken = 로그인_토큰();
+        ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)");
+
+        리뷰_생성_요청(식당_ID, accessToken, request);
+        ReviewResponse reviewResponse = 리뷰_조회_요청(식당_ID, accessToken, 0, 1)
+                .as(ReviewsResponse.class)
+                .getReviews()
+                .get(0);
+
+        ExtractableResponse<Response> response = 리뷰_삭제_요청(식당_ID, reviewResponse.getId(), accessToken);
+        리뷰_삭제에_성공한다(response);
+    }
+
     private void 리뷰_작성에_성공한다(final ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
+    }
+
+    private void 리뷰_삭제에_성공한다(final ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
     }
 
     private void 리뷰_작성에_실패한다(final ExtractableResponse<Response> response) {
