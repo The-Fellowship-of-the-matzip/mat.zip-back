@@ -4,6 +4,7 @@ import com.woowacourse.auth.exception.GithubAccessException;
 import com.woowacourse.auth.exception.InvalidTokenException;
 import com.woowacourse.auth.exception.TokenNotFoundException;
 import com.woowacourse.matzip.exception.CampusNotFoundException;
+import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.exception.InvalidCategoryException;
 import com.woowacourse.matzip.exception.InvalidLengthException;
 import com.woowacourse.matzip.exception.InvalidReviewException;
@@ -32,6 +33,11 @@ public class GlobalControllerAdvice {
     })
     public ResponseEntity<ErrorResponse> tokenExceptionHandler(final RuntimeException e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorResponse.from(e));
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorResponse> forbiddenException(final ForbiddenException e) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ErrorResponse.from(e));
     }
 
     @ExceptionHandler({

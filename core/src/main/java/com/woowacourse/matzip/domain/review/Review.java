@@ -1,6 +1,7 @@
 package com.woowacourse.matzip.domain.review;
 
 import com.woowacourse.matzip.domain.member.Member;
+import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.exception.InvalidReviewException;
 import com.woowacourse.matzip.support.LengthValidator;
 import java.time.LocalDateTime;
@@ -77,6 +78,25 @@ public class Review {
     private void validateRating(final int rating) {
         if (rating < MIN_SCORE || rating > MAX_SCORE) {
             throw new InvalidReviewException(String.format("리뷰 점수는 %d점부터 %d점까지만 가능합니다.", MIN_SCORE, MAX_SCORE));
+        }
+    }
+
+    public void update(final String githubId,
+                       final String content,
+                       final int rating,
+                       final String menu) {
+        validateOwner(githubId);
+        validateRating(rating);
+        LengthValidator.checkStringLength(menu, MAX_MENU_LENGTH, "메뉴의 이름");
+        LengthValidator.checkStringLength(content, MAX_CONTENT_LENGTH, "리뷰 내용");
+        this.content = content;
+        this.rating = rating;
+        this.menu = menu;
+    }
+
+    private void validateOwner(final String githubId) {
+        if (!isWriter(githubId)) {
+            throw new ForbiddenException("리뷰를 업데이트 할 권한이 없습니다.");
         }
     }
 
