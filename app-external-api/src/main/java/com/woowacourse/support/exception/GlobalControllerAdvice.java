@@ -11,6 +11,7 @@ import com.woowacourse.matzip.exception.InvalidReviewException;
 import com.woowacourse.matzip.exception.InvalidSortConditionException;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
 import com.woowacourse.matzip.exception.RestaurantNotFoundException;
+import com.woowacourse.matzip.exception.ReviewNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -43,7 +44,8 @@ public class GlobalControllerAdvice {
     @ExceptionHandler({
             CampusNotFoundException.class,
             MemberNotFoundException.class,
-            RestaurantNotFoundException.class
+            RestaurantNotFoundException.class,
+            ReviewNotFoundException.class
     })
     public ResponseEntity<ErrorResponse> notFoundExceptionHandler(final RuntimeException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse.from(e));
