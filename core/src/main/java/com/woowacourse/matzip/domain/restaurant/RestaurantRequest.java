@@ -1,13 +1,17 @@
 package com.woowacourse.matzip.domain.restaurant;
 
+import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.exception.AlreadyRegisteredException;
 import com.woowacourse.matzip.support.LengthValidator;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,6 +36,10 @@ public class RestaurantRequest {
     @Column(name = "name", length = MAX_NAME_LENGTH, nullable = false)
     private String name;
 
+    @JoinColumn(name = "member_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member member;
+
     @Column(name = "registered", nullable = false)
     private boolean registered;
 
@@ -40,12 +48,13 @@ public class RestaurantRequest {
 
     @Builder
     public RestaurantRequest(final Long id, final Long categoryId, final Long campusId, final String name,
-                             final boolean registered) {
+                             final Member member, final boolean registered) {
         LengthValidator.checkStringLength(name, MAX_NAME_LENGTH, "식당 이름");
         this.id = id;
         this.categoryId = categoryId;
         this.campusId = campusId;
         this.name = name;
+        this.member = member;
         this.registered = registered;
     }
 
