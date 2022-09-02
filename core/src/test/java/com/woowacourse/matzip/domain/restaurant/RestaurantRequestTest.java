@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.exception.AlreadyRegisteredException;
 import com.woowacourse.matzip.exception.InvalidLengthException;
 import org.junit.jupiter.api.Test;
@@ -23,11 +24,16 @@ class RestaurantRequestTest {
 
     @Test
     void 식당_추가_요청을_수정한다() {
+        Member member = Member.builder()
+                .githubId("githubId")
+                .build();
+
         RestaurantRequest target = RestaurantRequest.builder()
                 .id(1L)
                 .categoryId(1L)
                 .campusId(1L)
                 .name("식당")
+                .member(member)
                 .build();
 
         RestaurantRequest updateRequest = RestaurantRequest.builder()
@@ -36,21 +42,26 @@ class RestaurantRequestTest {
                 .name("변경된 식당 이름")
                 .build();
 
-        target.update(updateRequest);
+        target.update(updateRequest, "githubId");
 
         assertAll(
                 () -> assertThat(target.getId()).isEqualTo(1L),
                 () -> assertThat(target).usingRecursiveComparison()
-                        .ignoringFields("id")
+                        .ignoringFields("id", "member")
                         .isEqualTo(updateRequest)
         );
     }
 
     @Test
     void 식당_추가_요청은_id를_바꾸지_않는다() {
+        Member member = Member.builder()
+                .githubId("githubId")
+                .build();
+
         RestaurantRequest target = RestaurantRequest.builder()
                 .id(1L)
                 .name("식당")
+                .member(member)
                 .build();
 
         RestaurantRequest updateRequest = RestaurantRequest.builder()
@@ -58,7 +69,7 @@ class RestaurantRequestTest {
                 .name("식당")
                 .build();
 
-        target.update(updateRequest);
+        target.update(updateRequest, "githubId");
 
         assertThat(target.getId()).isOne();
     }

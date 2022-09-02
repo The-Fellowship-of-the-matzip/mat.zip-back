@@ -2,6 +2,7 @@ package com.woowacourse.matzip.domain.restaurant;
 
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.exception.AlreadyRegisteredException;
+import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.support.LengthValidator;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -15,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name = "restaurant_request")
@@ -58,10 +60,21 @@ public class RestaurantRequest {
         this.registered = registered;
     }
 
-    public void update(final RestaurantRequest updateRequest) {
+    public void update(final RestaurantRequest updateRequest, final String githubId) {
+        validateWriter(githubId);
         this.categoryId = updateRequest.categoryId;
         this.campusId = updateRequest.campusId;
         this.name = updateRequest.name;
+    }
+
+    private void validateWriter(final String githubId) {
+        if (!isWriter(githubId)) {
+            throw new ForbiddenException("식당 추가 요청을 수정할 권한이 없습니다.");
+        }
+    }
+
+    public boolean isWriter(final @Nullable String githubId) {
+        return member.isSameGithubId(githubId);
     }
 
     public void register() {
