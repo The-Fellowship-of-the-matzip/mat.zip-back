@@ -1,5 +1,6 @@
 package com.woowacourse.matzip.domain.restaurant;
 
+import com.woowacourse.matzip.exception.AlreadyRegisteredException;
 import com.woowacourse.matzip.support.LengthValidator;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -52,6 +53,17 @@ public class RestaurantRequest {
         this.categoryId = updateRequest.categoryId;
         this.campusId = updateRequest.campusId;
         this.name = updateRequest.name;
+    }
+
+    public void register() {
+        validateNotRegistered();
+        registered = true;
+    }
+
+    private void validateNotRegistered() {
+        if (registered) {
+            throw new AlreadyRegisteredException();
+        }
     }
 
     @Override

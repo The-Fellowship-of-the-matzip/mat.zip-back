@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.matzip.exception.AlreadyRegisteredException;
 import com.woowacourse.matzip.exception.InvalidLengthException;
 import org.junit.jupiter.api.Test;
 
@@ -60,5 +61,26 @@ class RestaurantRequestTest {
         target.update(updateRequest);
 
         assertThat(target.getId()).isOne();
+    }
+
+    @Test
+    void 식당_추가_요청을_등록_상태로_바꾼다() {
+        RestaurantRequest target = RestaurantRequest.builder()
+                .name("식당")
+                .build();
+
+        target.register();
+
+        assertThat(target.isRegistered()).isTrue();
+    }
+
+    @Test
+    void 이미_등록된_식당_추가_요청은_등록_상태로_바꿀_수_없다() {
+        RestaurantRequest target = RestaurantRequest.builder()
+                .name("식당")
+                .registered(true)
+                .build();
+
+        assertThatThrownBy(target::register).isExactlyInstanceOf(AlreadyRegisteredException.class);
     }
 }
