@@ -67,13 +67,13 @@ public class RestaurantRequest {
         this.name = updateRequest.name;
     }
 
-    private void validateWriter(final String githubId) {
+    public void validateWriter(final String githubId) {
         if (!isWriter(githubId)) {
             throw new ForbiddenException("식당 추가 요청을 수정할 권한이 없습니다.");
         }
     }
 
-    public boolean isWriter(final @Nullable String githubId) {
+    private boolean isWriter(final @Nullable String githubId) {
         return member.isSameGithubId(githubId);
     }
 
