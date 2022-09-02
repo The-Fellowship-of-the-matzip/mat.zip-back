@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.exception.AlreadyRegisteredException;
+import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.exception.InvalidLengthException;
 import org.junit.jupiter.api.Test;
 
@@ -72,6 +73,28 @@ class RestaurantRequestTest {
         target.update(updateRequest, "githubId");
 
         assertThat(target.getId()).isOne();
+    }
+
+    @Test
+    void 작성자가_아니면_식당_추가_요청을_수정할_수_없다() {
+        Member member = Member.builder()
+                .githubId("githubId")
+                .build();
+
+        RestaurantRequest target = RestaurantRequest.builder()
+                .id(1L)
+                .name("식당")
+                .member(member)
+                .build();
+
+        RestaurantRequest updateRequest = RestaurantRequest.builder()
+                .id(2L)
+                .name("식당")
+                .build();
+
+        assertThatThrownBy(() -> target.update(updateRequest, "wrongGithubId"))
+                .isExactlyInstanceOf(ForbiddenException.class)
+                .hasMessage("식당 추가 요청을 수정할 권한이 없습니다.");
     }
 
     @Test
