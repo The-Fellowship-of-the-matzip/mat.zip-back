@@ -48,6 +48,12 @@ public class RestaurantRequest {
         this.registered = registered;
     }
 
+    public void update(final RestaurantRequest updateRequest) {
+        this.categoryId = updateRequest.categoryId;
+        this.campusId = updateRequest.campusId;
+        this.name = updateRequest.name;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
