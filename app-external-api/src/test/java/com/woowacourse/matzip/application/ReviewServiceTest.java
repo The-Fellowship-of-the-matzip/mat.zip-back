@@ -8,13 +8,16 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import com.woowacourse.matzip.application.response.ReviewResponse;
 import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
+import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
 import com.woowacourse.matzip.presentation.request.ReviewCreateRequest;
+import com.woowacourse.matzip.presentation.request.ReviewUpdateRequest;
 import com.woowacourse.support.SpringServiceTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,9 @@ public class ReviewServiceTest {
 
     @Autowired
     private ReviewService reviewService;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     @Autowired
     private RestaurantRepository restaurantRepository;
@@ -87,5 +93,45 @@ public class ReviewServiceTest {
                 () -> assertThat(page1.getReviews()).extracting("updatable").containsExactly(false, true),
                 () -> assertThat(page2.getReviews()).extracting("updatable").containsExactly(true, true)
         );
+    }
+
+    @Test
+    void 리뷰를_수정한다() {
+        Member member = memberRepository.save(ORI.toMember());
+        Restaurant restaurant = restaurantRepository.findAll().get(0);
+        reviewService.createReview(member.getGithubId(), restaurant.getId(), reviewCreateRequest());
+
+        Long reviewId = reviewService.findPageByRestaurantId(member.getGithubId(), restaurant.getId(), PageRequest.of(0, 1))
+                .getReviews()
+                .get(0)
+                .getId();
+
+        ReviewUpdateRequest reviewUpdateRequest = new ReviewUpdateRequest("내용", 5, "메뉴");
+        reviewService.updateReview(member.getGithubId(), reviewId, reviewUpdateRequest);
+
+        ReviewResponse reviewResponse = reviewService.findPageByRestaurantId(member.getGithubId(), restaurant.getId(),
+                        PageRequest.of(0, 1))
+                .getReviews()
+                .get(0);
+        assertAll(
+                () -> assertThat(reviewResponse.getContent()).isEqualTo("내용"),
+                () -> assertThat(reviewResponse.getRating()).isEqualTo(5),
+                () -> assertThat(reviewResponse.getMenu()).isEqualTo("메뉴")
+        );
+    }
+
+    @Test
+    void 리뷰를_삭제한다() {
+        Member member = memberRepository.save(ORI.toMember());
+        Restaurant restaurant = restaurantRepository.findAll().get(0);
+        reviewService.createReview(member.getGithubId(), restaurant.getId(), reviewCreateRequest());
+
+        Long reviewId = reviewService.findPageByRestaurantId(member.getGithubId(), restaurant.getId(), PageRequest.of(0, 1))
+                .getReviews()
+                .get(0)
+                .getId();
+
+        reviewService.deleteReview(member.getGithubId(), reviewId);
+        assertThat(reviewRepository.findById(reviewId).isEmpty()).isTrue();
     }
 }

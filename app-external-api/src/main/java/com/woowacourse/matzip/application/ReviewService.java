@@ -6,8 +6,11 @@ import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.review.Review;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
+import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
+import com.woowacourse.matzip.exception.ReviewNotFoundException;
 import com.woowacourse.matzip.presentation.request.ReviewCreateRequest;
+import com.woowacourse.matzip.presentation.request.ReviewUpdateRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +25,8 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
 
-    public ReviewService(final ReviewRepository reviewRepository, final MemberRepository memberRepository) {
+    public ReviewService(final ReviewRepository reviewRepository,
+                         final MemberRepository memberRepository) {
         this.reviewRepository = reviewRepository;
         this.memberRepository = memberRepository;
     }
@@ -36,11 +40,42 @@ public class ReviewService {
         reviewRepository.save(review);
     }
 
-    public ReviewsResponse findPageByRestaurantId(final String githubId, final Long restaurantId, final Pageable pageable) {
+    public ReviewsResponse findPageByRestaurantId(final String githubId, final Long restaurantId,
+                                                  final Pageable pageable) {
         Slice<Review> page = reviewRepository.findPageByRestaurantIdOrderByIdDesc(restaurantId, pageable);
         List<ReviewResponse> reviewResponses = page.stream()
                 .map(review -> ReviewResponse.of(review, review.isWriter(githubId)))
                 .collect(Collectors.toList());
         return new ReviewsResponse(page.hasNext(), reviewResponses);
+    }
+
+    @Transactional
+    public void updateReview(final String githubId,
+                             final Long reviewId,
+                             final ReviewUpdateRequest reviewUpdateRequest) {
+        Member member = memberRepository.findMemberByGithubId(githubId)
+                .orElseThrow(MemberNotFoundException::new);
+
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(ReviewNotFoundException::new);
+
+        review.update(member.getGithubId(),
+                reviewUpdateRequest.getContent(),
+                reviewUpdateRequest.getRating(),
+                reviewUpdateRequest.getMenu());
+    }
+
+    @Transactional
+    public void deleteReview(final String githubId, final Long reviewId) {
+        Member member = memberRepository.findMemberByGithubId(githubId)
+                .orElseThrow(MemberNotFoundException::new);
+
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(ReviewNotFoundException::new);
+
+        if (!review.isWriter(member.getGithubId())) {
+            throw new ForbiddenException("리뷰를 삭제 할 권한이 없습니다.");
+        }
+        reviewRepository.delete(review);
     }
 }

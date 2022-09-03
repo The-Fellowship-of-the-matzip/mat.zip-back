@@ -8,3 +8,11 @@ operation::reviewes/create[snippets='http-request,http-response']
 === 리뷰 조회
 
 operation::reviewes/list[snippets='http-request,http-response']
+
+=== 리뷰 수정
+
+operation::reviewes/update[snippets='http-request,http-response']
+
+=== 리뷰 삭제
+
+operation::reviewes/delete[snippets='http-request,http-response']
