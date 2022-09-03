@@ -69,11 +69,11 @@ public class Member {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Member)) {
             return false;
         }
         Member member = (Member) o;
-        return Objects.equals(id, member.id);
+        return Objects.equals(id, member.getId());
     }
 
     @Override
