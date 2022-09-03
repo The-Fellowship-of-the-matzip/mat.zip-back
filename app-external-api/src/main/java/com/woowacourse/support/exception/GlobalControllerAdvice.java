@@ -4,12 +4,14 @@ import com.woowacourse.auth.exception.GithubAccessException;
 import com.woowacourse.auth.exception.InvalidTokenException;
 import com.woowacourse.auth.exception.TokenNotFoundException;
 import com.woowacourse.matzip.exception.CampusNotFoundException;
+import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.exception.InvalidCategoryException;
 import com.woowacourse.matzip.exception.InvalidLengthException;
 import com.woowacourse.matzip.exception.InvalidReviewException;
 import com.woowacourse.matzip.exception.InvalidSortConditionException;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
 import com.woowacourse.matzip.exception.RestaurantNotFoundException;
+import com.woowacourse.matzip.exception.ReviewNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -34,10 +36,16 @@ public class GlobalControllerAdvice {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorResponse.from(e));
     }
 
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorResponse> forbiddenException(final ForbiddenException e) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ErrorResponse.from(e));
+    }
+
     @ExceptionHandler({
             CampusNotFoundException.class,
             MemberNotFoundException.class,
-            RestaurantNotFoundException.class
+            RestaurantNotFoundException.class,
+            ReviewNotFoundException.class
     })
     public ResponseEntity<ErrorResponse> notFoundExceptionHandler(final RuntimeException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse.from(e));

@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 
 import com.woowacourse.matzip.presentation.request.ReviewCreateRequest;
+import com.woowacourse.matzip.presentation.request.ReviewUpdateRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,5 +39,32 @@ public class ReviewDocumentation extends Documentation {
                 .then().log().all()
                 .apply(document("reviewes/list"))
                 .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 리뷰를_수정한다() {
+        doNothing().when(reviewService).updateReview(anyString(), anyLong(), any(ReviewUpdateRequest.class));
+
+        docsGiven
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header("Authorization", "Bearer jwt.token.here")
+                .body(new ReviewUpdateRequest("맛있네요.", 4, "무닭볶음탕 (중)"))
+                .when().put("/api/restaurants/1/reviews/1")
+                .then().log().all()
+                .apply(document("reviewes/update"))
+                .statusCode(HttpStatus.NO_CONTENT.value());
+    }
+
+    @Test
+    void 리뷰를_삭제한다() {
+        doNothing().when(reviewService).deleteReview(anyString(), anyLong());
+
+        docsGiven
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .header("Authorization", "Bearer jwt.token.here")
+                .when().delete("/api/restaurants/1/reviews/1")
+                .then().log().all()
+                .apply(document("reviewes/delete"))
+                .statusCode(HttpStatus.NO_CONTENT.value());
     }
 }
