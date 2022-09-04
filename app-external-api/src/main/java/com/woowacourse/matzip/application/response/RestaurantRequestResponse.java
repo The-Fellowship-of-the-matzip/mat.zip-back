@@ -33,7 +33,7 @@ public class RestaurantRequestResponse {
                 restaurantRequest.getCategoryId(),
                 restaurantRequest.getName(),
                 authorGithubId,
-                authorGithubId.equals(githubId),
+                restaurantRequest.isWriter(githubId),
                 restaurantRequest.isRegistered()
         );
     }
