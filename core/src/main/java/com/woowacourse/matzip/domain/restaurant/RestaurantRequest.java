@@ -4,9 +4,11 @@ import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.exception.AlreadyRegisteredException;
 import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.support.LengthValidator;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,10 +18,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name = "restaurant_request")
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 public class RestaurantRequest {
 
@@ -44,6 +49,10 @@ public class RestaurantRequest {
 
     @Column(name = "registered", nullable = false)
     private boolean registered;
+
+    @CreatedDate
+    @Column(name = "created_at", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
 
     protected RestaurantRequest() {
     }

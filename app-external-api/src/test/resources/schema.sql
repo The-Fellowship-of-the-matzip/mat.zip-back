@@ -29,13 +29,13 @@ CREATE TABLE restaurant
 
 CREATE TABLE review
 (
-    id            bigint       NOT NULL AUTO_INCREMENT,
-    member_id     bigint       NOT NULL,
-    restaurant_id bigint       NOT NULL,
+    id            bigint      NOT NULL AUTO_INCREMENT,
+    member_id     bigint      NOT NULL,
+    restaurant_id bigint      NOT NULL,
     content       varchar(255) NULL,
-    rating        int          NOT NULL,
-    menu          varchar(20)  NOT NULL,
-    created_at    TIMESTAMP    NOT NULL,
+    rating        int         NOT NULL,
+    menu          varchar(20) NOT NULL,
+    created_at    TIMESTAMP   NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -51,4 +51,16 @@ CREATE TABLE campus
     id   bigint      NOT NULL AUTO_INCREMENT,
     name varchar(20) NOT NULL UNIQUE,
     PRIMARY KEY (id)
+);
+
+create table restaurant_request
+(
+    id          bigint      NOT NULL AUTO_INCREMENT,
+    campus_id   bigint      NOT NULL,
+    category_id bigint      NOT NULL,
+    name        varchar(20) NOT NULL,
+    registered  boolean     NOT NULL,
+    member_id   bigint      NOT NULL,
+    created_at  TIMESTAMP   NOT NULL,
+    primary key (id)
 );
