@@ -2,6 +2,8 @@ package com.woowacourse.document;
 
 import com.woowacourse.matzip.application.response.CampusResponse;
 import com.woowacourse.matzip.application.response.CategoryResponse;
+import com.woowacourse.matzip.application.response.RestaurantRequestResponse;
+import com.woowacourse.matzip.application.response.RestaurantRequestsResponse;
 import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
@@ -114,4 +116,9 @@ public class DocumentationFixture {
     public static final ReviewsResponse REVIEWS_RESPONSE = new ReviewsResponse(
             false, List.of(REVIEW_1, REVIEW_2, REVIEW_3, REVIEW_4, REVIEW_5)
     );
+    private static final RestaurantRequestResponse RESTAURANT_REQUEST = new RestaurantRequestResponse(1L, 1L, "식당",
+            "Ohzzi", false, false);
+
+    public static final RestaurantRequestsResponse RESTAURANT_REQUESTS_RESPONSE = new RestaurantRequestsResponse(
+            List.of(RESTAURANT_REQUEST), false);
 }
