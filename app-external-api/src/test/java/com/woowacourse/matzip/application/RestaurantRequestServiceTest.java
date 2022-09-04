@@ -18,6 +18,7 @@ import com.woowacourse.matzip.exception.RestaurantRequestNotFoundException;
 import com.woowacourse.matzip.presentation.request.RestaurantRequestCreateRequest;
 import com.woowacourse.matzip.presentation.request.RestaurantRequestUpdateRequest;
 import com.woowacourse.support.SpringServiceTest;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -69,7 +70,8 @@ class RestaurantRequestServiceTest {
     @Test
     void 식당_추가_요청을_수정한다() {
         Member member = memberRepository.save(ORI.toMember());
-        Long requestId = restaurantRequestRepository.save(createTestRestaurantRequest(1L, 1L, "식당", member)).getId();
+        Long requestId = restaurantRequestRepository.save(createTestRestaurantRequest(1L, 1L, "식당", member))
+                .getId();
         RestaurantRequestUpdateRequest updateRequest = new RestaurantRequestUpdateRequest(2L, "수정식당");
 
         restaurantRequestService.updateRequest(member.getGithubId(), requestId, updateRequest);
@@ -90,11 +92,41 @@ class RestaurantRequestServiceTest {
     @Test
     void 작성자가_아니면_식당_추가_요청을_수정할_수_없다() {
         Member member = memberRepository.save(ORI.toMember());
-        Long requestId = restaurantRequestRepository.save(createTestRestaurantRequest(1L, 1L, "식당", member)).getId();
+        Long requestId = restaurantRequestRepository.save(createTestRestaurantRequest(1L, 1L, "식당", member))
+                .getId();
         RestaurantRequestUpdateRequest updateRequest = new RestaurantRequestUpdateRequest(2L, "수정식당");
 
         assertThatThrownBy(() -> restaurantRequestService.updateRequest(null, requestId, updateRequest))
                 .isExactlyInstanceOf(ForbiddenException.class)
                 .hasMessage("식당 추가 요청을 수정할 권한이 없습니다.");
+    }
+
+    @Test
+    void 식당_추가_요청을_삭제한다() {
+        Member member = memberRepository.save(ORI.toMember());
+        Long requestId = restaurantRequestRepository.save(createTestRestaurantRequest(1L, 1L, "식당", member))
+                .getId();
+
+        restaurantRequestService.deleteRequest(member.getGithubId(), requestId);
+
+        Optional<RestaurantRequest> actual = restaurantRequestRepository.findById(requestId);
+        assertThat(actual).isEmpty();
+    }
+
+    @Test
+    void 존재하지_않는_식당_추가_요청을_삭제할_수_없다() {
+        assertThatThrownBy(() -> restaurantRequestService.deleteRequest(null, 1L))
+                .isExactlyInstanceOf(RestaurantRequestNotFoundException.class);
+    }
+
+    @Test
+    void 작성자가_아니면_식당_추가_요청을_삭제할_수_없다() {
+        Member member = memberRepository.save(ORI.toMember());
+        Long requestId = restaurantRequestRepository.save(createTestRestaurantRequest(1L, 1L, "식당", member))
+                .getId();
+
+        assertThatThrownBy(() -> restaurantRequestService.deleteRequest(null, requestId))
+                .isExactlyInstanceOf(ForbiddenException.class)
+                .hasMessage("식당 추가 요청을 삭제할 권한이 없습니다.");
     }
 }

@@ -5,6 +5,7 @@ import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRequest;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRequestRepository;
+import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
 import com.woowacourse.matzip.exception.RestaurantRequestNotFoundException;
 import com.woowacourse.matzip.presentation.request.RestaurantRequestCreateRequest;
@@ -47,5 +48,20 @@ public class RestaurantRequestService {
                 .orElseThrow(RestaurantRequestNotFoundException::new);
 
         target.update(updateRequest.toRestaurantRequest(), githubId);
+    }
+
+    @Transactional
+    public void deleteRequest(final String githubId, final Long requestId) {
+        RestaurantRequest target = restaurantRequestRepository.findById(requestId)
+                .orElseThrow(RestaurantRequestNotFoundException::new);
+
+        validateWriter(githubId, target);
+        restaurantRequestRepository.delete(target);
+    }
+
+    private void validateWriter(final String githubId, final RestaurantRequest target) {
+        if (!target.isWriter(githubId)) {
+            throw new ForbiddenException("식당 추가 요청을 삭제할 권한이 없습니다.");
+        }
     }
 }

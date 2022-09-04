@@ -20,7 +20,6 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name = "restaurant_request")
@@ -75,13 +74,13 @@ public class RestaurantRequest {
         this.name = updateRequest.name;
     }
 
-    public void validateWriter(final String githubId) {
+    private void validateWriter(final String githubId) {
         if (!isWriter(githubId)) {
             throw new ForbiddenException("식당 추가 요청을 수정할 권한이 없습니다.");
         }
     }
 
-    private boolean isWriter(final @Nullable String githubId) {
+    public boolean isWriter(final String githubId) {
         return member.isSameGithubId(githubId);
     }
 
