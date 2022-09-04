@@ -17,8 +17,7 @@ public class RestaurantRequestResponse {
     }
 
     public RestaurantRequestResponse(final Long id, final Long categoryId, final String name, final String author,
-                                     final boolean updatable,
-                                     final boolean registered) {
+                                     final boolean updatable, final boolean registered) {
         this.id = id;
         this.categoryId = categoryId;
         this.name = name;

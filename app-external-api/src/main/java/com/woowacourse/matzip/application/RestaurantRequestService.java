@@ -1,5 +1,6 @@
 package com.woowacourse.matzip.application;
 
+import com.woowacourse.matzip.application.response.RestaurantRequestResponse;
 import com.woowacourse.matzip.application.response.RestaurantRequestsResponse;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
@@ -10,6 +11,8 @@ import com.woowacourse.matzip.exception.MemberNotFoundException;
 import com.woowacourse.matzip.exception.RestaurantRequestNotFoundException;
 import com.woowacourse.matzip.presentation.request.RestaurantRequestCreateRequest;
 import com.woowacourse.matzip.presentation.request.RestaurantRequestUpdateRequest;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -38,7 +41,11 @@ public class RestaurantRequestService {
 
     public RestaurantRequestsResponse findPage(final String githubId, final Long campusId, final Pageable pageable) {
         Slice<RestaurantRequest> page = restaurantRequestRepository.findPageByCampusId(campusId, pageable);
-        return RestaurantRequestsResponse.of(page, githubId);
+        List<RestaurantRequestResponse> restaurantRequests = page.getContent()
+                .stream()
+                .map(restaurantRequest -> RestaurantRequestResponse.of(restaurantRequest, githubId))
+                .collect(Collectors.toList());
+        return new RestaurantRequestsResponse(restaurantRequests, page.hasNext());
     }
 
     @Transactional
