@@ -6,7 +6,9 @@ import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRequest;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRequestRepository;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
+import com.woowacourse.matzip.exception.RestaurantRequestNotFoundException;
 import com.woowacourse.matzip.presentation.request.RestaurantRequestCreateRequest;
+import com.woowacourse.matzip.presentation.request.RestaurantRequestUpdateRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -27,14 +29,23 @@ public class RestaurantRequestService {
 
     @Transactional
     public void createRequest(final String githubId, final Long campusId,
-                              final RestaurantRequestCreateRequest request) {
+                              final RestaurantRequestCreateRequest createRequest) {
         Member member = memberRepository.findMemberByGithubId(githubId).orElseThrow(MemberNotFoundException::new);
-        RestaurantRequest restaurantRequest = request.toRestaurantRequestWithMemberAndCampusId(member, campusId);
+        RestaurantRequest restaurantRequest = createRequest.toRestaurantRequestWithMemberAndCampusId(member, campusId);
         restaurantRequestRepository.save(restaurantRequest);
     }
 
     public RestaurantRequestsResponse findPage(final String githubId, final Long campusId, final Pageable pageable) {
         Slice<RestaurantRequest> page = restaurantRequestRepository.findPageByCampusId(campusId, pageable);
         return RestaurantRequestsResponse.of(page, githubId);
+    }
+
+    @Transactional
+    public void updateRequest(final String githubId, final Long requestId,
+                              final RestaurantRequestUpdateRequest updateRequest) {
+        RestaurantRequest target = restaurantRequestRepository.findById(requestId)
+                .orElseThrow(RestaurantRequestNotFoundException::new);
+
+        target.update(updateRequest.toRestaurantRequest(), githubId);
     }
 }

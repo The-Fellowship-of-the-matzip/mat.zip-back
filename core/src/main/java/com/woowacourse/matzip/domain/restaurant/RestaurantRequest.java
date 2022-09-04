@@ -72,7 +72,6 @@ public class RestaurantRequest {
     public void update(final RestaurantRequest updateRequest, final String githubId) {
         validateWriter(githubId);
         this.categoryId = updateRequest.categoryId;
-        this.campusId = updateRequest.campusId;
         this.name = updateRequest.name;
     }
 
