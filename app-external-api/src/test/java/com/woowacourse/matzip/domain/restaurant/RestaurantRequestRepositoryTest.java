@@ -25,18 +25,21 @@ class RestaurantRequestRepositoryTest {
     private RestaurantRequestRepository restaurantRequestRepository;
 
     @Test
-    void 캠퍼스별_식당_추가_요청_목록을_조회한다() {
+    void 캠퍼스별_식당_추가_요청_목록을_최신순으로_조회한다() {
         Member member = createTestMember();
         memberRepository.save(member);
-        RestaurantRequest restaurantRequest = createTestRestaurantRequest(1L, 1L, "식당", member);
-        restaurantRequestRepository.save(restaurantRequest);
+        RestaurantRequest restaurantRequest1 = createTestRestaurantRequest(1L, 1L, "식당1", member);
+        RestaurantRequest restaurantRequest2 = createTestRestaurantRequest(1L, 1L, "식당2", member);
+        restaurantRequestRepository.save(restaurantRequest1);
+        restaurantRequestRepository.save(restaurantRequest2);
 
-        Slice<RestaurantRequest> slice = restaurantRequestRepository.findPageByCampusId(1L, PageRequest.of(0, 1));
+        Slice<RestaurantRequest> slice = restaurantRequestRepository.findPageByCampusIdOrderByCreatedAtDesc(1L,
+                PageRequest.of(0, 1));
 
         assertAll(
-                () -> assertThat(slice.hasNext()).isFalse(),
+                () -> assertThat(slice.hasNext()).isTrue(),
                 () -> assertThat(slice.getContent()).hasSize(1)
-                        .containsExactly(restaurantRequest)
+                        .containsExactly(restaurantRequest2)
         );
     }
 }

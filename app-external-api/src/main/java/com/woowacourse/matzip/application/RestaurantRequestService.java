@@ -40,7 +40,8 @@ public class RestaurantRequestService {
     }
 
     public RestaurantRequestsResponse findPage(final String githubId, final Long campusId, final Pageable pageable) {
-        Slice<RestaurantRequest> page = restaurantRequestRepository.findPageByCampusId(campusId, pageable);
+        Slice<RestaurantRequest> page = restaurantRequestRepository.findPageByCampusIdOrderByCreatedAtDesc(campusId,
+                pageable);
         List<RestaurantRequestResponse> restaurantRequests = page.getContent()
                 .stream()
                 .map(restaurantRequest -> RestaurantRequestResponse.of(restaurantRequest, githubId))

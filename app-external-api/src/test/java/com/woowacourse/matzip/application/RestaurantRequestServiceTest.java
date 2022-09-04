@@ -54,9 +54,10 @@ class RestaurantRequestServiceTest {
     }
 
     @Test
-    void 캠퍼스_별_식당_추가_요청을_조회한다() {
+    void 캠퍼스_별_식당_추가_요청을_최신순으로_조회한다() {
         Member member = memberRepository.save(ORI.toMember());
-        restaurantRequestRepository.save(createTestRestaurantRequest(1L, 1L, "식당", member));
+        restaurantRequestRepository.save(createTestRestaurantRequest(1L, 1L, "식당1", member));
+        restaurantRequestRepository.save(createTestRestaurantRequest(1L, 1L, "식당2", member));
 
         RestaurantRequestsResponse response = restaurantRequestService.findPage(member.getGithubId(), 1L,
                 PageRequest.of(0, 1));
@@ -64,7 +65,10 @@ class RestaurantRequestServiceTest {
         assertAll(() -> assertThat(response.getItems()).hasSize(1)
                         .extracting("updatable")
                         .containsExactly(true), // 변경 가능한지(작성자인지) 확인
-                () -> assertThat(response.isHasNext()).isFalse());
+                () -> assertThat(response.getItems())
+                        .extracting("name")
+                        .containsExactly("식당2"),
+                () -> assertThat(response.isHasNext()).isTrue());
     }
 
     @Test
