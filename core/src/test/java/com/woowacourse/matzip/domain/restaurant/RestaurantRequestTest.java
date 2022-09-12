@@ -39,7 +39,6 @@ class RestaurantRequestTest {
 
         RestaurantRequest updateRequest = RestaurantRequest.builder()
                 .categoryId(2L)
-                .campusId(2L)
                 .name("변경된 식당 이름")
                 .build();
 
@@ -48,7 +47,7 @@ class RestaurantRequestTest {
         assertAll(
                 () -> assertThat(target.getId()).isEqualTo(1L),
                 () -> assertThat(target).usingRecursiveComparison()
-                        .ignoringFields("id", "member")
+                        .ignoringFields("id", "campusId", "member")
                         .isEqualTo(updateRequest)
         );
     }
