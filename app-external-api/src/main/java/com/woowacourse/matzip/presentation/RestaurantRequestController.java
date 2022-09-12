@@ -5,6 +5,7 @@ import com.woowacourse.matzip.application.RestaurantRequestService;
 import com.woowacourse.matzip.application.response.RestaurantRequestsResponse;
 import com.woowacourse.matzip.presentation.request.RestaurantRequestCreateRequest;
 import com.woowacourse.matzip.presentation.request.RestaurantRequestUpdateRequest;
+import javax.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class RestaurantRequestController {
     @PostMapping
     public ResponseEntity<Void> createRestaurantRequest(@PathVariable final Long campusId,
                                                         @AuthenticationPrincipal final String githubId,
-                                                        @RequestBody final RestaurantRequestCreateRequest restaurantRequestCreateRequest) {
+                                                        @Valid @RequestBody final RestaurantRequestCreateRequest restaurantRequestCreateRequest) {
         restaurantRequestService.createRequest(githubId, campusId, restaurantRequestCreateRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -46,7 +47,7 @@ public class RestaurantRequestController {
     public ResponseEntity<Void> updateRestaurantRequest(@PathVariable final Long campusId,
                                                         @PathVariable final Long requestId,
                                                         @AuthenticationPrincipal final String githubId,
-                                                        @RequestBody final RestaurantRequestUpdateRequest restaurantRequestUpdateRequest) {
+                                                        @Valid @RequestBody final RestaurantRequestUpdateRequest restaurantRequestUpdateRequest) {
         restaurantRequestService.updateRequest(githubId, requestId, restaurantRequestUpdateRequest);
         return ResponseEntity.noContent().build();
     }
