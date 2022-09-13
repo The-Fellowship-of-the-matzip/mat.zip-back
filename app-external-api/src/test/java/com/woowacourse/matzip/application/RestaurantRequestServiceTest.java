@@ -40,7 +40,7 @@ class RestaurantRequestServiceTest {
     }
 
     @Test
-    void 없는_유저가_요청할_경우_예외_발생() {
+    void 없는_유저가_식당_추가를_요청할_경우_예외_발생() {
         assertThatThrownBy(
                 () -> restaurantRequestService.createRequest("nonUser", 1L, restaurantRequestCreateRequest()));
     }
