@@ -27,7 +27,8 @@ public class RestaurantRequestResponse {
     }
 
     public static RestaurantRequestResponse of(final RestaurantRequest restaurantRequest, final String githubId) {
-        String authorGithubId = restaurantRequest.getMember().getGithubId();
+        String authorGithubId = restaurantRequest.getMember()
+                .getGithubId();
         return new RestaurantRequestResponse(
                 restaurantRequest.getId(),
                 restaurantRequest.getCategoryId(),

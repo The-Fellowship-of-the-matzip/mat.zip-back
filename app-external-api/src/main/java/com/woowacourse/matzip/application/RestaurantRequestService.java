@@ -30,7 +30,8 @@ public class RestaurantRequestService {
     @Transactional
     public void createRequest(final String githubId, final Long campusId,
                               final RestaurantRequestCreateRequest createRequest) {
-        Member member = memberRepository.findMemberByGithubId(githubId).orElseThrow(MemberNotFoundException::new);
+        Member member = memberRepository.findMemberByGithubId(githubId)
+                .orElseThrow(MemberNotFoundException::new);
         RestaurantRequest restaurantRequest = createRequest.toRestaurantRequestWithMemberAndCampusId(member, campusId);
         restaurantRequestRepository.save(restaurantRequest);
     }
