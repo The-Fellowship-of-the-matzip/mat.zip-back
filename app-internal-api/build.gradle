@@ -22,3 +22,12 @@ dependencyManagement {
         mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
     }
 }
+
+bootJar {
+    enabled = true
+}
+
+jar {
+    enabled false
+}
+
