@@ -40,11 +40,11 @@ subprojects {
     }
 
     bootJar {
-        enabled = false
+        enabled = true
     }
 
     jar {
-        enabled = true
+        enabled = false
     }
 
     test {
