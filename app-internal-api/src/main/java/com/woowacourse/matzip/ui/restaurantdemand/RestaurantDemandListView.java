@@ -1,14 +1,14 @@
 package com.woowacourse.matzip.ui.restaurantdemand;
 
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.LitRenderer;
-import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.router.Route;
 import com.woowacourse.matzip.application.AdminRestaurantDemandService;
 import com.woowacourse.matzip.application.response.RestaurantDemandResponse;
-import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.ui.SideNavbarLayout;
 
 @Route(value = "/restaurant_demands", layout = SideNavbarLayout.class)
@@ -35,6 +35,12 @@ public class RestaurantDemandListView extends VerticalLayout {
         grid.addColumn(RestaurantDemandResponse::getCampusName).setHeader("campus");
         grid.addColumn(RestaurantDemandResponse::getName).setHeader("request restaurant name");
         grid.addColumn(createMemberProfileRenderer()).setHeader("username");
+        grid.addComponentColumn(response -> {
+            if (response.isRegistered()) {
+                return VaadinIcon.CHECK_CIRCLE.create();
+            }
+            return new Span();
+        }).setHeader("is registered");
 
 //        TODO : when add create_at in RestaurantDemand
 //        grid.addColumn(new LocalDateTimeRenderer<>(Member::getCreatedAt, "yyyy-MM-dd hh:mm:ss"))

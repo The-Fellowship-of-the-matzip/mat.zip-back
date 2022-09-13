@@ -32,8 +32,8 @@ values (2, 2, '마담밍2', '서울 강남구 선릉로86길 5-4 2층', 1, 'http
 insert into restaurant (category_id, campus_id, name, address, distance, kakao_map_url, image_url)
 values (2, 2, '마담밍3', '서울 강남구 선릉로86길 5-4 3층', 1, 'https://place.map.kakao.com/18283045', 'www.image.com');
 
-insert into restaurant_request (category_id, campus_id, name, member_id)
-values (1, 2, '마담밍4', 1);
+insert into restaurant_request (category_id, campus_id, name, member_id, registered)
+values (1, 2, '마담밍4', 1, true);
 insert into restaurant_request (category_id, campus_id, name, member_id)
 values (2, 2, '마담밍5', 2);
 insert into restaurant_request (category_id, campus_id, name, member_id)
