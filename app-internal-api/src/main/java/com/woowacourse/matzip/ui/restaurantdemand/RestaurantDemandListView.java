@@ -4,6 +4,9 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.Notification.Position;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.LitRenderer;
@@ -28,12 +31,15 @@ public class RestaurantDemandListView extends VerticalLayout {
         this.restaurantDemandCreateForm = new RestaurantDemandCreateForm(categoryRepository.findAll(),
                 campusRepository.findAll());
         restaurantDemandCreateForm.setWidth("25em");
+        restaurantDemandCreateForm
+                .addListener(RestaurantDemandCreateForm.CloseEvent.class, e -> closeRestaurantCreateEditor());
         addClassName("list-view");
         setSizeFull();
 
         add(
                 getMainPageContent()
         );
+        closeRestaurantCreateEditor();
     }
 
     private Component getMainPageContent() {
@@ -67,6 +73,8 @@ public class RestaurantDemandListView extends VerticalLayout {
 //                .setHeader("created date")
 //                .setComparator(Member::getCreatedAt);
 
+        grid.addItemClickListener(event -> viewNewCreateRestaurant(event.getItem()));
+
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
         grid.getColumns().forEach(col -> col.setSortable(true));
 
@@ -84,5 +92,28 @@ public class RestaurantDemandListView extends VerticalLayout {
                         + "</vaadin-horizontal-layout>")
                 .withProperty("profileImage", value -> value.getMember().getProfileImage())
                 .withProperty("username", value -> value.getMember().getUsername());
+    }
+
+    public void viewNewCreateRestaurant(final RestaurantDemandResponse restaurantDemandResponse) {
+        if (restaurantDemandResponse == null) {
+            closeRestaurantCreateEditor();
+        }
+        assert restaurantDemandResponse != null;
+        if (restaurantDemandResponse.isRegistered()) {
+            Notification dd = Notification.show("dd", 5000, Position.TOP_CENTER);
+            dd.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            closeRestaurantCreateEditor();
+            return;
+        }
+        restaurantDemandCreateForm
+                .setRestaurantDemand(restaurantDemandResponse.getId(), restaurantDemandResponse.getName());
+        restaurantDemandCreateForm.setVisible(true);
+        addClassName("editing");
+    }
+
+    private void closeRestaurantCreateEditor() {
+        restaurantDemandCreateForm.setRestaurantDemand(null, null);
+        restaurantDemandCreateForm.setVisible(false);
+        removeClassName("editing");
     }
 }
