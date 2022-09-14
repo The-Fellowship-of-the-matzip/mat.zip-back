@@ -1,29 +1,49 @@
 package com.woowacourse.matzip.ui.restaurantdemand;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.router.Route;
 import com.woowacourse.matzip.application.AdminRestaurantDemandService;
 import com.woowacourse.matzip.application.response.RestaurantDemandResponse;
+import com.woowacourse.matzip.repository.CampusRepository;
+import com.woowacourse.matzip.repository.CategoryRepository;
 import com.woowacourse.matzip.ui.SideNavbarLayout;
 
 @Route(value = "/restaurant_demands", layout = SideNavbarLayout.class)
 public class RestaurantDemandListView extends VerticalLayout {
 
     private final AdminRestaurantDemandService adminRestaurantDemandService;
+    private final RestaurantDemandCreateForm restaurantDemandCreateForm;
 
-    public RestaurantDemandListView(final AdminRestaurantDemandService adminRestaurantDemandService) {
+    public RestaurantDemandListView(final AdminRestaurantDemandService adminRestaurantDemandService,
+                                    final CategoryRepository categoryRepository,
+                                    final CampusRepository campusRepository) {
         this.adminRestaurantDemandService = adminRestaurantDemandService;
+        this.restaurantDemandCreateForm = new RestaurantDemandCreateForm(categoryRepository.findAll(),
+                campusRepository.findAll());
+        restaurantDemandCreateForm.setWidth("25em");
         addClassName("list-view");
         setSizeFull();
 
         add(
-                createRestaurantDemandGrid()
+                getMainPageContent()
         );
+    }
+
+    private Component getMainPageContent() {
+        Grid<RestaurantDemandResponse> grid = createRestaurantDemandGrid();
+        HorizontalLayout content = new HorizontalLayout(grid, restaurantDemandCreateForm);
+        content.setFlexGrow(2, grid);
+        content.setFlexGrow(1, restaurantDemandCreateForm);
+        content.addClassNames("main-page-content");
+        content.setSizeFull();
+        return content;
     }
 
     private Grid<RestaurantDemandResponse> createRestaurantDemandGrid() {
