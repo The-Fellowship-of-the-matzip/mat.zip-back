@@ -3,7 +3,7 @@ package com.woowacourse.matzip.application.response;
 import com.woowacourse.matzip.domain.campus.Campus;
 import com.woowacourse.matzip.domain.category.Category;
 import com.woowacourse.matzip.domain.member.Member;
-import com.woowacourse.matzip.domain.restaurant.RestaurantRequest;
+import com.woowacourse.matzip.domain.restaurant.RestaurantDemand;
 import lombok.Getter;
 
 @Getter
@@ -29,15 +29,15 @@ public class RestaurantDemandResponse {
         this.registered = registered;
     }
 
-    public static RestaurantDemandResponse of(final RestaurantRequest restaurantRequest, final Category category,
+    public static RestaurantDemandResponse of(final RestaurantDemand restaurantDemand, final Category category,
                                               final Campus campus) {
         return new RestaurantDemandResponse(
-                restaurantRequest.getId(),
+                restaurantDemand.getId(),
                 category.getName(),
                 campus.getName(),
-                restaurantRequest.getName(),
-                restaurantRequest.getMember(),
-                restaurantRequest.isRegistered()
+                restaurantDemand.getName(),
+                restaurantDemand.getMember(),
+                restaurantDemand.isRegistered()
         );
     }
 }
