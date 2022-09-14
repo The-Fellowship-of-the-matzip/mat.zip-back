@@ -67,6 +67,7 @@ public class RestaurantDemandCreateForm extends FormLayout {
     }
 
     public void setRestaurantDemand(final Long id, final String name) {
+        clearAllField();
         RestaurantDemandRequest restaurantDemandRequest = new RestaurantDemandRequest(id, name);
         this.restaurantDemandRequest = restaurantDemandRequest;
         requestBinder.readBean(restaurantDemandRequest);
@@ -97,6 +98,17 @@ public class RestaurantDemandCreateForm extends FormLayout {
                 .build();
 
         fireEvent(new SaveEvent(this, restaurant, restaurantDemandRequest.getRequestId()));
+    }
+
+    private void clearAllField() {
+        requestId.clear();
+        category.clear();
+        campus.clear();
+        name.clear();
+        address.clear();
+        distance.clear();
+        kakaoMapUrl.clear();
+        imageUrl.clear();
     }
 
     // Events
