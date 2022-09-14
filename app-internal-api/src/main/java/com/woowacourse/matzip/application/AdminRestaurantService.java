@@ -19,14 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminRestaurantService {
 
     private final RestaurantRepository restaurantRepository;
-    private final CategoryRepository categoryReposiroty;
+    private final CategoryRepository categoryRepository;
     private final CampusRepository campusRepository;
 
     public AdminRestaurantService(final RestaurantRepository restaurantRepository,
-                                  final CategoryRepository categoryReposiroty,
+                                  final CategoryRepository categoryRepository,
                                   final CampusRepository campusRepository) {
         this.restaurantRepository = restaurantRepository;
-        this.categoryReposiroty = categoryReposiroty;
+        this.categoryRepository = categoryRepository;
         this.campusRepository = campusRepository;
     }
 
@@ -38,7 +38,7 @@ public class AdminRestaurantService {
     }
 
     private RestaurantResponse toRestaurantResponse(final Restaurant restaurant) {
-        Category category = categoryReposiroty.findById(restaurant.getId())
+        Category category = categoryRepository.findById(restaurant.getId())
                 .orElseThrow(CategoryNotFoundException::new);
         Campus campus = campusRepository.findById(restaurant.getCampusId())
                 .orElseThrow(CampusNotFoundException::new);

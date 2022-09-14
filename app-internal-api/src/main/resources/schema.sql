@@ -3,6 +3,7 @@ drop table if exists restaurant;
 drop table if exists review;
 drop table if exists category;
 drop table if exists campus;
+drop table if exists restaurant_request;
 
 CREATE TABLE member
 (
@@ -51,4 +52,14 @@ CREATE TABLE campus
     id   bigint      NOT NULL AUTO_INCREMENT,
     name varchar(20) NOT NULL UNIQUE,
     PRIMARY KEY (id)
+);
+
+CREATE TABLE restaurant_request
+(
+    id          bigint      NOT NULL AUTO_INCREMENT,
+    category_id bigint      NOT NULL,
+    campus_id   bigint      NOT NULL,
+    name        varchar(20) NOT NULL,
+    member_id   bigint      NOT NULL,
+    registered  boolean     NOT NULL default false
 );
