@@ -37,8 +37,8 @@ public class TestFixtureCreateUtil {
                 .build();
     }
 
-    public static RestaurantDemand createTestRestaurantRequest(Long categoryId, Long campusId, String name,
-                                                               Member member) {
+    public static RestaurantDemand createTestRestaurantDemand(Long categoryId, Long campusId, String name,
+                                                              Member member) {
         return RestaurantDemand.builder()
                 .categoryId(categoryId)
                 .campusId(campusId)

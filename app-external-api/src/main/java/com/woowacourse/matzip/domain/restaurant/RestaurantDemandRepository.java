@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RestaurantRequestRepository extends JpaRepository<RestaurantDemand, Long> {
+public interface RestaurantDemandRepository extends JpaRepository<RestaurantDemand, Long> {
 
     @EntityGraph(attributePaths = {"member"}, type = EntityGraphType.FETCH)
     Slice<RestaurantDemand> findPageByCampusIdOrderByCreatedAtDesc(Long campusId, Pageable pageable);

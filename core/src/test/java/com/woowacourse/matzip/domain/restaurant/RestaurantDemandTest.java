@@ -53,7 +53,7 @@ class RestaurantDemandTest {
     }
 
     @Test
-    void 식당_추가_요청은_id를_바꾸지_않는다() {
+    void 식당_추가_요청_수정은_id를_바꾸지_않는다() {
         Member member = Member.builder()
                 .githubId("githubId")
                 .build();
@@ -93,7 +93,29 @@ class RestaurantDemandTest {
 
         assertThatThrownBy(() -> target.update(updateRequest, "wrongGithubId"))
                 .isExactlyInstanceOf(ForbiddenException.class)
-                .hasMessage("식당 추가 요청을 수정할 권한이 없습니다.");
+                .hasMessage("식당 추가 요청에 대한 권한이 없습니다.");
+    }
+
+    @Test
+    void 등록된_식당_추가_요청은_수정할_수_없다() {
+        Member member = Member.builder()
+                .githubId("githubId")
+                .build();
+
+        RestaurantDemand target = RestaurantDemand.builder()
+                .id(1L)
+                .name("식당")
+                .member(member)
+                .registered(true)
+                .build();
+
+        RestaurantDemand updateRequest = RestaurantDemand.builder()
+                .id(2L)
+                .name("식당")
+                .build();
+
+        assertThatThrownBy(() -> target.update(updateRequest, "githubId"))
+                .isExactlyInstanceOf(AlreadyRegisteredException.class);
     }
 
     @Test
@@ -105,6 +127,16 @@ class RestaurantDemandTest {
         target.register();
 
         assertThat(target.isRegistered()).isTrue();
+    }
+
+    @Test
+    void 요청한_식당이_등록되지_않았는지_검증한다() {
+        RestaurantDemand target = RestaurantDemand.builder()
+                .name("식당")
+                .registered(true)
+                .build();
+
+        assertThatThrownBy(target::validateNotRegistered).isExactlyInstanceOf(AlreadyRegisteredException.class);
     }
 
     @Test

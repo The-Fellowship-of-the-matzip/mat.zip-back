@@ -32,7 +32,7 @@ public class RestaurantDemandController {
     public ResponseEntity<Void> createRestaurantRequest(@PathVariable final Long campusId,
                                                         @AuthenticationPrincipal final String githubId,
                                                         @Valid @RequestBody final RestaurantDemandCreateRequest restaurantDemandCreateRequest) {
-        restaurantDemandService.createRequest(githubId, campusId, restaurantDemandCreateRequest);
+        restaurantDemandService.createDemand(githubId, campusId, restaurantDemandCreateRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -48,7 +48,7 @@ public class RestaurantDemandController {
                                                         @PathVariable final Long requestId,
                                                         @AuthenticationPrincipal final String githubId,
                                                         @Valid @RequestBody final RestaurantDemandUpdateRequest restaurantDemandUpdateRequest) {
-        restaurantDemandService.updateRequest(githubId, requestId, restaurantDemandUpdateRequest);
+        restaurantDemandService.updateDemand(githubId, requestId, restaurantDemandUpdateRequest);
         return ResponseEntity.noContent().build();
     }
 
@@ -56,7 +56,7 @@ public class RestaurantDemandController {
     public ResponseEntity<Void> deleteRestaurantRequest(@PathVariable final Long campusId,
                                                         @PathVariable final Long requestId,
                                                         @AuthenticationPrincipal final String githubId) {
-        restaurantDemandService.deleteRequest(githubId, requestId);
+        restaurantDemandService.deleteDemand(githubId, requestId);
         return ResponseEntity.noContent().build();
     }
 }

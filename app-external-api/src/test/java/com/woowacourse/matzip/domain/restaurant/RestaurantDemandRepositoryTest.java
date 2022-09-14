@@ -1,7 +1,7 @@
 package com.woowacourse.matzip.domain.restaurant;
 
 import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestMember;
-import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestRestaurantRequest;
+import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestRestaurantDemand;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -22,18 +22,18 @@ class RestaurantDemandRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
-    private RestaurantRequestRepository restaurantRequestRepository;
+    private RestaurantDemandRepository restaurantDemandRepository;
 
     @Test
     void 캠퍼스별_식당_추가_요청_목록을_최신순으로_조회한다() {
         Member member = createTestMember();
         memberRepository.save(member);
-        RestaurantDemand restaurantDemand1 = createTestRestaurantRequest(1L, 1L, "식당1", member);
-        RestaurantDemand restaurantDemand2 = createTestRestaurantRequest(1L, 1L, "식당2", member);
-        restaurantRequestRepository.save(restaurantDemand1);
-        restaurantRequestRepository.save(restaurantDemand2);
+        RestaurantDemand restaurantDemand1 = createTestRestaurantDemand(1L, 1L, "식당1", member);
+        RestaurantDemand restaurantDemand2 = createTestRestaurantDemand(1L, 1L, "식당2", member);
+        restaurantDemandRepository.save(restaurantDemand1);
+        restaurantDemandRepository.save(restaurantDemand2);
 
-        Slice<RestaurantDemand> slice = restaurantRequestRepository.findPageByCampusIdOrderByCreatedAtDesc(1L,
+        Slice<RestaurantDemand> slice = restaurantDemandRepository.findPageByCampusIdOrderByCreatedAtDesc(1L,
                 PageRequest.of(0, 1));
 
         assertAll(

@@ -19,7 +19,7 @@ public class RestaurantDemandDocumentation extends Documentation {
 
     @Test
     void 식당_추가_요청을_작성한다() {
-        doNothing().when(restaurantDemandService).createRequest(anyString(), anyLong(), any());
+        doNothing().when(restaurantDemandService).createDemand(anyString(), anyLong(), any());
 
         docsGiven
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -47,7 +47,7 @@ public class RestaurantDemandDocumentation extends Documentation {
     @Test
     void 식당_추가_요청을_수정한다() {
         doNothing().when(restaurantDemandService)
-                .updateRequest(anyString(), anyLong(), any(RestaurantDemandUpdateRequest.class));
+                .updateDemand(anyString(), anyLong(), any(RestaurantDemandUpdateRequest.class));
 
         docsGiven
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -62,7 +62,7 @@ public class RestaurantDemandDocumentation extends Documentation {
     @Test
     void 식당_추가_요청을_삭제한다() {
         doNothing().when(restaurantDemandService)
-                .deleteRequest(anyString(), anyLong());
+                .deleteDemand(anyString(), anyLong());
 
         docsGiven
                 .contentType(MediaType.APPLICATION_JSON_VALUE)

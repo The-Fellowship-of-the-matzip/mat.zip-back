@@ -70,6 +70,7 @@ public class RestaurantDemand {
 
     public void update(final RestaurantDemand updateRequest, final String githubId) {
         validateWriter(githubId);
+        validateNotRegistered();
         this.categoryId = updateRequest.categoryId;
         this.name = updateRequest.name;
     }
@@ -89,7 +90,7 @@ public class RestaurantDemand {
         registered = true;
     }
 
-    private void validateNotRegistered() {
+    public void validateNotRegistered() {
         if (registered) {
             throw new AlreadyRegisteredException();
         }
