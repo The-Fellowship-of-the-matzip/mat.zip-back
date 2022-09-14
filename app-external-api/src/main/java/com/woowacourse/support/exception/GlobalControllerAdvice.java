@@ -13,12 +13,14 @@ import com.woowacourse.matzip.exception.InvalidSortConditionException;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
 import com.woowacourse.matzip.exception.RestaurantNotFoundException;
 import com.woowacourse.matzip.exception.ReviewNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalControllerAdvice {
 
@@ -74,7 +76,8 @@ public class GlobalControllerAdvice {
     @ExceptionHandler({
             Exception.class
     })
-    public ResponseEntity<ErrorResponse> internalExceptionHandler() {
+    public ResponseEntity<ErrorResponse> internalExceptionHandler(final Exception e) {
+        log.error(e.getMessage());
         return ResponseEntity.internalServerError().body(ErrorResponse.from("서버에 문제가 발생했습니다."));
     }
 }
