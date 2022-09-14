@@ -1,14 +1,14 @@
 package com.woowacourse.matzip.application;
 
-import com.woowacourse.matzip.application.response.RestaurantRequestsResponse;
+import com.woowacourse.matzip.application.response.RestaurantDemandsResponse;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
-import com.woowacourse.matzip.domain.restaurant.RestaurantRequest;
+import com.woowacourse.matzip.domain.restaurant.RestaurantDemand;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRequestRepository;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
 import com.woowacourse.matzip.exception.RestaurantRequestNotFoundException;
-import com.woowacourse.matzip.presentation.request.RestaurantRequestCreateRequest;
-import com.woowacourse.matzip.presentation.request.RestaurantRequestUpdateRequest;
+import com.woowacourse.matzip.presentation.request.RestaurantDemandCreateRequest;
+import com.woowacourse.matzip.presentation.request.RestaurantDemandUpdateRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -16,36 +16,36 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class RestaurantRequestService {
+public class RestaurantDemandService {
 
     private final RestaurantRequestRepository restaurantRequestRepository;
     private final MemberRepository memberRepository;
 
-    public RestaurantRequestService(final RestaurantRequestRepository restaurantRequestRepository,
-                                    final MemberRepository memberRepository) {
+    public RestaurantDemandService(final RestaurantRequestRepository restaurantRequestRepository,
+                                   final MemberRepository memberRepository) {
         this.restaurantRequestRepository = restaurantRequestRepository;
         this.memberRepository = memberRepository;
     }
 
     @Transactional
     public void createRequest(final String githubId, final Long campusId,
-                              final RestaurantRequestCreateRequest createRequest) {
+                              final RestaurantDemandCreateRequest createRequest) {
         Member member = memberRepository.findMemberByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
-        RestaurantRequest restaurantRequest = createRequest.toRestaurantRequestWithMemberAndCampusId(member, campusId);
-        restaurantRequestRepository.save(restaurantRequest);
+        RestaurantDemand restaurantDemand = createRequest.toRestaurantRequestWithMemberAndCampusId(member, campusId);
+        restaurantRequestRepository.save(restaurantDemand);
     }
 
-    public RestaurantRequestsResponse findPage(final String githubId, final Long campusId, final Pageable pageable) {
-        Slice<RestaurantRequest> page = restaurantRequestRepository.findPageByCampusIdOrderByCreatedAtDesc(campusId,
+    public RestaurantDemandsResponse findPage(final String githubId, final Long campusId, final Pageable pageable) {
+        Slice<RestaurantDemand> page = restaurantRequestRepository.findPageByCampusIdOrderByCreatedAtDesc(campusId,
                 pageable);
-        return RestaurantRequestsResponse.of(page, githubId);
+        return RestaurantDemandsResponse.of(page, githubId);
     }
 
     @Transactional
     public void updateRequest(final String githubId, final Long requestId,
-                              final RestaurantRequestUpdateRequest updateRequest) {
-        RestaurantRequest target = restaurantRequestRepository.findById(requestId)
+                              final RestaurantDemandUpdateRequest updateRequest) {
+        RestaurantDemand target = restaurantRequestRepository.findById(requestId)
                 .orElseThrow(RestaurantRequestNotFoundException::new);
 
         target.update(updateRequest.toRestaurantRequest(), githubId);
@@ -53,7 +53,7 @@ public class RestaurantRequestService {
 
     @Transactional
     public void deleteRequest(final String githubId, final Long requestId) {
-        RestaurantRequest target = restaurantRequestRepository.findById(requestId)
+        RestaurantDemand target = restaurantRequestRepository.findById(requestId)
                 .orElseThrow(RestaurantRequestNotFoundException::new);
         target.validateWriter(githubId);
 

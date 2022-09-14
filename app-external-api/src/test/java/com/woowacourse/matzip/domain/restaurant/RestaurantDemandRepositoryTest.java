@@ -17,7 +17,7 @@ import org.springframework.data.domain.Slice;
 
 @DataJpaTest
 @Import(JpaConfig.class)
-class RestaurantRequestRepositoryTest {
+class RestaurantDemandRepositoryTest {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -28,18 +28,18 @@ class RestaurantRequestRepositoryTest {
     void 캠퍼스별_식당_추가_요청_목록을_최신순으로_조회한다() {
         Member member = createTestMember();
         memberRepository.save(member);
-        RestaurantRequest restaurantRequest1 = createTestRestaurantRequest(1L, 1L, "식당1", member);
-        RestaurantRequest restaurantRequest2 = createTestRestaurantRequest(1L, 1L, "식당2", member);
-        restaurantRequestRepository.save(restaurantRequest1);
-        restaurantRequestRepository.save(restaurantRequest2);
+        RestaurantDemand restaurantDemand1 = createTestRestaurantRequest(1L, 1L, "식당1", member);
+        RestaurantDemand restaurantDemand2 = createTestRestaurantRequest(1L, 1L, "식당2", member);
+        restaurantRequestRepository.save(restaurantDemand1);
+        restaurantRequestRepository.save(restaurantDemand2);
 
-        Slice<RestaurantRequest> slice = restaurantRequestRepository.findPageByCampusIdOrderByCreatedAtDesc(1L,
+        Slice<RestaurantDemand> slice = restaurantRequestRepository.findPageByCampusIdOrderByCreatedAtDesc(1L,
                 PageRequest.of(0, 1));
 
         assertAll(
                 () -> assertThat(slice.hasNext()).isTrue(),
                 () -> assertThat(slice.getContent()).hasSize(1)
-                        .containsExactly(restaurantRequest2)
+                        .containsExactly(restaurantDemand2)
         );
     }
 }

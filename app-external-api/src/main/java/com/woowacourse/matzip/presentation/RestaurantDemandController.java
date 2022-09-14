@@ -1,10 +1,10 @@
 package com.woowacourse.matzip.presentation;
 
 import com.woowacourse.auth.support.AuthenticationPrincipal;
-import com.woowacourse.matzip.application.RestaurantRequestService;
-import com.woowacourse.matzip.application.response.RestaurantRequestsResponse;
-import com.woowacourse.matzip.presentation.request.RestaurantRequestCreateRequest;
-import com.woowacourse.matzip.presentation.request.RestaurantRequestUpdateRequest;
+import com.woowacourse.matzip.application.RestaurantDemandService;
+import com.woowacourse.matzip.application.response.RestaurantDemandsResponse;
+import com.woowacourse.matzip.presentation.request.RestaurantDemandCreateRequest;
+import com.woowacourse.matzip.presentation.request.RestaurantDemandUpdateRequest;
 import javax.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -19,36 +19,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/campuses/{campusId}/restaurants/requests")
-public class RestaurantRequestController {
+@RequestMapping("/api/campuses/{campusId}/restaurantDemands")
+public class RestaurantDemandController {
 
-    private final RestaurantRequestService restaurantRequestService;
+    private final RestaurantDemandService restaurantDemandService;
 
-    public RestaurantRequestController(final RestaurantRequestService restaurantRequestService) {
-        this.restaurantRequestService = restaurantRequestService;
+    public RestaurantDemandController(final RestaurantDemandService restaurantDemandService) {
+        this.restaurantDemandService = restaurantDemandService;
     }
 
     @PostMapping
     public ResponseEntity<Void> createRestaurantRequest(@PathVariable final Long campusId,
                                                         @AuthenticationPrincipal final String githubId,
-                                                        @Valid @RequestBody final RestaurantRequestCreateRequest restaurantRequestCreateRequest) {
-        restaurantRequestService.createRequest(githubId, campusId, restaurantRequestCreateRequest);
+                                                        @Valid @RequestBody final RestaurantDemandCreateRequest restaurantDemandCreateRequest) {
+        restaurantDemandService.createRequest(githubId, campusId, restaurantDemandCreateRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping
-    public ResponseEntity<RestaurantRequestsResponse> showPage(@PathVariable final Long campusId,
-                                                               @AuthenticationPrincipal final String githubId,
-                                                               final Pageable pageable) {
-        return ResponseEntity.ok(restaurantRequestService.findPage(githubId, campusId, pageable));
+    public ResponseEntity<RestaurantDemandsResponse> showPage(@PathVariable final Long campusId,
+                                                              @AuthenticationPrincipal final String githubId,
+                                                              final Pageable pageable) {
+        return ResponseEntity.ok(restaurantDemandService.findPage(githubId, campusId, pageable));
     }
 
     @PutMapping("/{requestId}")
     public ResponseEntity<Void> updateRestaurantRequest(@PathVariable final Long campusId,
                                                         @PathVariable final Long requestId,
                                                         @AuthenticationPrincipal final String githubId,
-                                                        @Valid @RequestBody final RestaurantRequestUpdateRequest restaurantRequestUpdateRequest) {
-        restaurantRequestService.updateRequest(githubId, requestId, restaurantRequestUpdateRequest);
+                                                        @Valid @RequestBody final RestaurantDemandUpdateRequest restaurantDemandUpdateRequest) {
+        restaurantDemandService.updateRequest(githubId, requestId, restaurantDemandUpdateRequest);
         return ResponseEntity.noContent().build();
     }
 
@@ -56,7 +56,7 @@ public class RestaurantRequestController {
     public ResponseEntity<Void> deleteRestaurantRequest(@PathVariable final Long campusId,
                                                         @PathVariable final Long requestId,
                                                         @AuthenticationPrincipal final String githubId) {
-        restaurantRequestService.deleteRequest(githubId, requestId);
+        restaurantDemandService.deleteRequest(githubId, requestId);
         return ResponseEntity.noContent().build();
     }
 }

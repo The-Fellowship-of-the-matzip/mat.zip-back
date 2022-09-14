@@ -2,7 +2,7 @@ package com.woowacourse.matzip.support;
 
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
-import com.woowacourse.matzip.domain.restaurant.RestaurantRequest;
+import com.woowacourse.matzip.domain.restaurant.RestaurantDemand;
 import com.woowacourse.matzip.domain.review.Review;
 
 public class TestFixtureCreateUtil {
@@ -37,9 +37,9 @@ public class TestFixtureCreateUtil {
                 .build();
     }
 
-    public static RestaurantRequest createTestRestaurantRequest(Long categoryId, Long campusId, String name,
-                                                                Member member) {
-        return RestaurantRequest.builder()
+    public static RestaurantDemand createTestRestaurantRequest(Long categoryId, Long campusId, String name,
+                                                               Member member) {
+        return RestaurantDemand.builder()
                 .categoryId(categoryId)
                 .campusId(campusId)
                 .name(name)

@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class AuthConfig implements WebMvcConfigurer {
 
     private static final String REVIEWS_PATH = "/api/restaurants/*/reviews";
-    private static final String RESTAURANT_REQUESTS_PATH = "/api/campuses/*/restaurants/requests";
+    private static final String RESTAURANT_DEMANDS_PATH = "/api/campuses/*/restaurantDemands";
 
     private final LoginInterceptor loginInterceptor;
     private final LoginCheckerInterceptor loginCheckerInterceptor;
@@ -42,15 +42,15 @@ public class AuthConfig implements WebMvcConfigurer {
                 .includePathPattern(REVIEWS_PATH, PathMethod.POST)
                 .includePathPattern(REVIEWS_PATH + "/*", PathMethod.PUT)
                 .includePathPattern(REVIEWS_PATH + "/*", PathMethod.DELETE)
-                .includePathPattern(RESTAURANT_REQUESTS_PATH, PathMethod.POST)
-                .includePathPattern(RESTAURANT_REQUESTS_PATH + "/*", PathMethod.PUT)
-                .includePathPattern(RESTAURANT_REQUESTS_PATH + "/*", PathMethod.DELETE);
+                .includePathPattern(RESTAURANT_DEMANDS_PATH, PathMethod.POST)
+                .includePathPattern(RESTAURANT_DEMANDS_PATH + "/*", PathMethod.PUT)
+                .includePathPattern(RESTAURANT_DEMANDS_PATH + "/*", PathMethod.DELETE);
     }
 
     private HandlerInterceptor loginOrNotInterceptor() {
         return new PathMatcherInterceptor(loginCheckerInterceptor)
                 .includePathPattern(REVIEWS_PATH, PathMethod.GET)
-                .includePathPattern(RESTAURANT_REQUESTS_PATH, PathMethod.GET);
+                .includePathPattern(RESTAURANT_DEMANDS_PATH, PathMethod.GET);
     }
 
     @Override

@@ -1,33 +1,30 @@
 package com.woowacourse.matzip.presentation.request;
 
-import com.woowacourse.matzip.domain.member.Member;
-import com.woowacourse.matzip.domain.restaurant.RestaurantRequest;
+import com.woowacourse.matzip.domain.restaurant.RestaurantDemand;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import lombok.Getter;
 
 @Getter
-public class RestaurantRequestCreateRequest {
+public class RestaurantDemandUpdateRequest {
 
     @Positive(message = "카테고리 id는 1 이상이어야 합니다.")
     private Long categoryId;
     @NotNull(message = "식당 이름은 null이 들어올 수 없습니다.")
     private String name;
 
-    private RestaurantRequestCreateRequest() {
+    private RestaurantDemandUpdateRequest() {
     }
 
-    public RestaurantRequestCreateRequest(final long categoryId, final String name) {
+    public RestaurantDemandUpdateRequest(final long categoryId, final String name) {
         this.categoryId = categoryId;
         this.name = name;
     }
 
-    public RestaurantRequest toRestaurantRequestWithMemberAndCampusId(final Member member, final Long campusId) {
-        return RestaurantRequest.builder()
+    public RestaurantDemand toRestaurantRequest() {
+        return RestaurantDemand.builder()
                 .categoryId(categoryId)
-                .campusId(campusId)
                 .name(name)
-                .member(member)
                 .build();
     }
 }

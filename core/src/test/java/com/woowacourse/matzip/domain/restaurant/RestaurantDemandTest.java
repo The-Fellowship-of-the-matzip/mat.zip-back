@@ -10,13 +10,13 @@ import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.exception.InvalidLengthException;
 import org.junit.jupiter.api.Test;
 
-class RestaurantRequestTest {
+class RestaurantDemandTest {
 
     @Test
     void 식당_추가_요청_생성_시_이름_길이_제한() {
         String name = "식당의 이름이 이렇게 길 수 없습니다.";
 
-        assertThatThrownBy(() -> RestaurantRequest.builder()
+        assertThatThrownBy(() -> RestaurantDemand.builder()
                 .name(name)
                 .build())
                 .isInstanceOf(InvalidLengthException.class)
@@ -29,7 +29,7 @@ class RestaurantRequestTest {
                 .githubId("githubId")
                 .build();
 
-        RestaurantRequest target = RestaurantRequest.builder()
+        RestaurantDemand target = RestaurantDemand.builder()
                 .id(1L)
                 .categoryId(1L)
                 .campusId(1L)
@@ -37,7 +37,7 @@ class RestaurantRequestTest {
                 .member(member)
                 .build();
 
-        RestaurantRequest updateRequest = RestaurantRequest.builder()
+        RestaurantDemand updateRequest = RestaurantDemand.builder()
                 .categoryId(2L)
                 .name("변경된 식당 이름")
                 .build();
@@ -58,13 +58,13 @@ class RestaurantRequestTest {
                 .githubId("githubId")
                 .build();
 
-        RestaurantRequest target = RestaurantRequest.builder()
+        RestaurantDemand target = RestaurantDemand.builder()
                 .id(1L)
                 .name("식당")
                 .member(member)
                 .build();
 
-        RestaurantRequest updateRequest = RestaurantRequest.builder()
+        RestaurantDemand updateRequest = RestaurantDemand.builder()
                 .id(2L)
                 .name("식당")
                 .build();
@@ -80,13 +80,13 @@ class RestaurantRequestTest {
                 .githubId("githubId")
                 .build();
 
-        RestaurantRequest target = RestaurantRequest.builder()
+        RestaurantDemand target = RestaurantDemand.builder()
                 .id(1L)
                 .name("식당")
                 .member(member)
                 .build();
 
-        RestaurantRequest updateRequest = RestaurantRequest.builder()
+        RestaurantDemand updateRequest = RestaurantDemand.builder()
                 .id(2L)
                 .name("식당")
                 .build();
@@ -98,7 +98,7 @@ class RestaurantRequestTest {
 
     @Test
     void 식당_추가_요청을_등록_상태로_바꾼다() {
-        RestaurantRequest target = RestaurantRequest.builder()
+        RestaurantDemand target = RestaurantDemand.builder()
                 .name("식당")
                 .build();
 
@@ -109,7 +109,7 @@ class RestaurantRequestTest {
 
     @Test
     void 이미_등록된_식당_추가_요청은_등록_상태로_바꿀_수_없다() {
-        RestaurantRequest target = RestaurantRequest.builder()
+        RestaurantDemand target = RestaurantDemand.builder()
                 .name("식당")
                 .registered(true)
                 .build();

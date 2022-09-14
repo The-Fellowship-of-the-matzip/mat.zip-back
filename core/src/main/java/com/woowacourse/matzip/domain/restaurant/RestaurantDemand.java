@@ -25,7 +25,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(name = "restaurant_request")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
-public class RestaurantRequest {
+public class RestaurantDemand {
 
     private static final int MAX_NAME_LENGTH = 20;
 
@@ -53,12 +53,12 @@ public class RestaurantRequest {
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
 
-    protected RestaurantRequest() {
+    protected RestaurantDemand() {
     }
 
     @Builder
-    public RestaurantRequest(final Long id, final Long categoryId, final Long campusId, final String name,
-                             final Member member, final boolean registered) {
+    public RestaurantDemand(final Long id, final Long categoryId, final Long campusId, final String name,
+                            final Member member, final boolean registered) {
         LengthValidator.checkStringLength(name, MAX_NAME_LENGTH, "식당 이름");
         this.id = id;
         this.categoryId = categoryId;
@@ -68,7 +68,7 @@ public class RestaurantRequest {
         this.registered = registered;
     }
 
-    public void update(final RestaurantRequest updateRequest, final String githubId) {
+    public void update(final RestaurantDemand updateRequest, final String githubId) {
         validateWriter(githubId);
         this.categoryId = updateRequest.categoryId;
         this.name = updateRequest.name;
@@ -103,7 +103,7 @@ public class RestaurantRequest {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final RestaurantRequest that = (RestaurantRequest) o;
+        final RestaurantDemand that = (RestaurantDemand) o;
         return Objects.equals(id, that.id);
     }
 

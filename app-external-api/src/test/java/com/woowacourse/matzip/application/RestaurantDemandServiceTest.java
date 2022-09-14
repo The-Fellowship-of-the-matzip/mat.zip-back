@@ -8,15 +8,15 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import com.woowacourse.matzip.application.response.RestaurantRequestsResponse;
+import com.woowacourse.matzip.application.response.RestaurantDemandsResponse;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
-import com.woowacourse.matzip.domain.restaurant.RestaurantRequest;
+import com.woowacourse.matzip.domain.restaurant.RestaurantDemand;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRequestRepository;
 import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.exception.RestaurantRequestNotFoundException;
-import com.woowacourse.matzip.presentation.request.RestaurantRequestCreateRequest;
-import com.woowacourse.matzip.presentation.request.RestaurantRequestUpdateRequest;
+import com.woowacourse.matzip.presentation.request.RestaurantDemandCreateRequest;
+import com.woowacourse.matzip.presentation.request.RestaurantDemandUpdateRequest;
 import com.woowacourse.support.SpringServiceTest;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -24,10 +24,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
 @SpringServiceTest
-class RestaurantRequestServiceTest {
+class RestaurantDemandServiceTest {
 
     @Autowired
-    private RestaurantRequestService restaurantRequestService;
+    private RestaurantDemandService restaurantDemandService;
 
     @Autowired
     private RestaurantRequestRepository restaurantRequestRepository;
@@ -35,21 +35,21 @@ class RestaurantRequestServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    private static RestaurantRequestCreateRequest restaurantRequestCreateRequest() {
-        return new RestaurantRequestCreateRequest(RESTAURANT_REQUEST_1.getCategoryId(), RESTAURANT_REQUEST_1.getName());
+    private static RestaurantDemandCreateRequest restaurantRequestCreateRequest() {
+        return new RestaurantDemandCreateRequest(RESTAURANT_REQUEST_1.getCategoryId(), RESTAURANT_REQUEST_1.getName());
     }
 
     @Test
     void 없는_유저가_식당_추가를_요청할_경우_예외_발생() {
         assertThatThrownBy(
-                () -> restaurantRequestService.createRequest("nonUser", 1L, restaurantRequestCreateRequest()));
+                () -> restaurantDemandService.createRequest("nonUser", 1L, restaurantRequestCreateRequest()));
     }
 
     @Test
     void 식당_추가_요청을_생성한다() {
         Member member = memberRepository.save(ORI.toMember());
 
-        assertDoesNotThrow(() -> restaurantRequestService.createRequest(member.getGithubId(), 1L,
+        assertDoesNotThrow(() -> restaurantDemandService.createRequest(member.getGithubId(), 1L,
                 restaurantRequestCreateRequest()));
     }
 
@@ -59,7 +59,7 @@ class RestaurantRequestServiceTest {
         restaurantRequestRepository.save(createTestRestaurantRequest(1L, 1L, "식당1", member));
         restaurantRequestRepository.save(createTestRestaurantRequest(1L, 1L, "식당2", member));
 
-        RestaurantRequestsResponse response = restaurantRequestService.findPage(member.getGithubId(), 1L,
+        RestaurantDemandsResponse response = restaurantDemandService.findPage(member.getGithubId(), 1L,
                 PageRequest.of(0, 1));
 
         assertAll(() -> assertThat(response.getItems()).hasSize(1)
@@ -76,11 +76,11 @@ class RestaurantRequestServiceTest {
         Member member = memberRepository.save(ORI.toMember());
         Long requestId = restaurantRequestRepository.save(createTestRestaurantRequest(1L, 1L, "식당", member))
                 .getId();
-        RestaurantRequestUpdateRequest updateRequest = new RestaurantRequestUpdateRequest(2L, "수정식당");
+        RestaurantDemandUpdateRequest updateRequest = new RestaurantDemandUpdateRequest(2L, "수정식당");
 
-        restaurantRequestService.updateRequest(member.getGithubId(), requestId, updateRequest);
+        restaurantDemandService.updateRequest(member.getGithubId(), requestId, updateRequest);
 
-        RestaurantRequest actual = restaurantRequestRepository.findById(requestId)
+        RestaurantDemand actual = restaurantRequestRepository.findById(requestId)
                 .get();
         assertThat(actual).usingRecursiveComparison()
                 .ignoringFields("id", "campusId", "member", "createdAt")
@@ -89,7 +89,7 @@ class RestaurantRequestServiceTest {
 
     @Test
     void 존재하지_않는_식당_추가_요청을_수정할_수_없다() {
-        assertThatThrownBy(() -> restaurantRequestService.updateRequest(null, 1L, null))
+        assertThatThrownBy(() -> restaurantDemandService.updateRequest(null, 1L, null))
                 .isExactlyInstanceOf(RestaurantRequestNotFoundException.class);
     }
 
@@ -98,11 +98,11 @@ class RestaurantRequestServiceTest {
         Member member = memberRepository.save(ORI.toMember());
         Long requestId = restaurantRequestRepository.save(createTestRestaurantRequest(1L, 1L, "식당", member))
                 .getId();
-        RestaurantRequestUpdateRequest updateRequest = new RestaurantRequestUpdateRequest(2L, "수정식당");
+        RestaurantDemandUpdateRequest updateRequest = new RestaurantDemandUpdateRequest(2L, "수정식당");
 
-        assertThatThrownBy(() -> restaurantRequestService.updateRequest(null, requestId, updateRequest))
+        assertThatThrownBy(() -> restaurantDemandService.updateRequest(null, requestId, updateRequest))
                 .isExactlyInstanceOf(ForbiddenException.class)
-                .hasMessage("식당 추가 요청을 수정할 권한이 없습니다.");
+                .hasMessage("식당 추가 요청에 대한 권한이 없습니다.");
     }
 
     @Test
@@ -111,15 +111,15 @@ class RestaurantRequestServiceTest {
         Long requestId = restaurantRequestRepository.save(createTestRestaurantRequest(1L, 1L, "식당", member))
                 .getId();
 
-        restaurantRequestService.deleteRequest(member.getGithubId(), requestId);
+        restaurantDemandService.deleteRequest(member.getGithubId(), requestId);
 
-        Optional<RestaurantRequest> actual = restaurantRequestRepository.findById(requestId);
+        Optional<RestaurantDemand> actual = restaurantRequestRepository.findById(requestId);
         assertThat(actual).isEmpty();
     }
 
     @Test
     void 존재하지_않는_식당_추가_요청을_삭제할_수_없다() {
-        assertThatThrownBy(() -> restaurantRequestService.deleteRequest(null, 1L))
+        assertThatThrownBy(() -> restaurantDemandService.deleteRequest(null, 1L))
                 .isExactlyInstanceOf(RestaurantRequestNotFoundException.class);
     }
 
@@ -129,8 +129,8 @@ class RestaurantRequestServiceTest {
         Long requestId = restaurantRequestRepository.save(createTestRestaurantRequest(1L, 1L, "식당", member))
                 .getId();
 
-        assertThatThrownBy(() -> restaurantRequestService.deleteRequest(null, requestId))
+        assertThatThrownBy(() -> restaurantDemandService.deleteRequest(null, requestId))
                 .isExactlyInstanceOf(ForbiddenException.class)
-                .hasMessage("식당 추가 요청을 삭제할 권한이 없습니다.");
+                .hasMessage("식당 추가 요청에 대한 권한이 없습니다.");
     }
 }
