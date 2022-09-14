@@ -1,0 +1,37 @@
+plugins {
+    id 'com.vaadin' version '23.1.7'
+}
+
+ext {
+    set('vaadinVersion', "23.1.7")
+}
+
+dependencies {
+    implementation project(':core')
+    implementation project(':common')
+
+    runtimeOnly 'com.h2database:h2'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.vaadin:vaadin-spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
+    }
+}
+
+vaadin {
+    productionMode = true
+}
+
+bootJar {
+    enabled = true
+}
+
+jar {
+    enabled false
+}
+
