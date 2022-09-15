@@ -54,12 +54,14 @@ CREATE TABLE campus
     PRIMARY KEY (id)
 );
 
-CREATE TABLE restaurant_request
+create table restaurant_request
 (
     id          bigint      NOT NULL AUTO_INCREMENT,
-    category_id bigint      NOT NULL,
     campus_id   bigint      NOT NULL,
+    category_id bigint      NOT NULL,
     name        varchar(20) NOT NULL,
+    registered  boolean     NOT NULL DEFAULT FALSE,
     member_id   bigint      NOT NULL,
-    registered  boolean     NOT NULL default false
+    created_at  TIMESTAMP   NOT NULL,
+    primary key (id)
 );
