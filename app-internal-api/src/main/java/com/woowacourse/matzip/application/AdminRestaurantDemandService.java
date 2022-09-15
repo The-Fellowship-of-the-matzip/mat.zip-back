@@ -38,7 +38,7 @@ public class AdminRestaurantDemandService {
     }
 
     @Transactional
-    public void updateChecked(final Long id) {
+    public void updateRegisterStatus(final Long id) {
         RestaurantDemand restaurantDemand = restaurantDemandRepository.findById(id)
                 .orElseThrow();
         restaurantDemand.register();

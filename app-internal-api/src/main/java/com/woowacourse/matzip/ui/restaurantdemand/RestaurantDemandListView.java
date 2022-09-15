@@ -131,7 +131,7 @@ public class RestaurantDemandListView extends VerticalLayout {
 
     private void saveContact(RestaurantDemandCreateForm.SaveEvent event) {
         adminRestaurantService.save(event.getRestaurant());
-        adminRestaurantDemandService.updateChecked(event.getRestaurantDemandId());
+        adminRestaurantDemandService.updateRegisterStatus(event.getRestaurantDemandId());
         closeRestaurantCreateEditor();
         updateGrid();
     }
