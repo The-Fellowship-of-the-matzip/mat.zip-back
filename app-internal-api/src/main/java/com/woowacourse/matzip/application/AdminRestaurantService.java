@@ -30,6 +30,11 @@ public class AdminRestaurantService {
         this.campusRepository = campusRepository;
     }
 
+    @Transactional
+    public void save(final Restaurant restaurant) {
+        restaurantRepository.save(restaurant);
+    }
+
     public List<RestaurantResponse> findAll() {
         List<Restaurant> restaurants = restaurantRepository.findAll();
         return restaurants.stream()
@@ -38,7 +43,7 @@ public class AdminRestaurantService {
     }
 
     private RestaurantResponse toRestaurantResponse(final Restaurant restaurant) {
-        Category category = categoryRepository.findById(restaurant.getId())
+        Category category = categoryRepository.findById(restaurant.getCategoryId())
                 .orElseThrow(CategoryNotFoundException::new);
         Campus campus = campusRepository.findById(restaurant.getCampusId())
                 .orElseThrow(CampusNotFoundException::new);

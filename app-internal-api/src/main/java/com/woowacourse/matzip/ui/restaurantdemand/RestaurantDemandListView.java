@@ -10,9 +10,11 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.LitRenderer;
+import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.router.Route;
 import com.woowacourse.matzip.application.AdminRestaurantDemandService;
+import com.woowacourse.matzip.application.AdminRestaurantService;
 import com.woowacourse.matzip.application.response.RestaurantDemandResponse;
 import com.woowacourse.matzip.repository.CampusRepository;
 import com.woowacourse.matzip.repository.CategoryRepository;
@@ -22,15 +24,22 @@ import com.woowacourse.matzip.ui.SideNavbarLayout;
 public class RestaurantDemandListView extends VerticalLayout {
 
     private final AdminRestaurantDemandService adminRestaurantDemandService;
+    private final AdminRestaurantService adminRestaurantService;
     private final RestaurantDemandCreateForm restaurantDemandCreateForm;
 
+    private final Grid<RestaurantDemandResponse> grid = createRestaurantDemandGrid();
+
     public RestaurantDemandListView(final AdminRestaurantDemandService adminRestaurantDemandService,
+                                    final AdminRestaurantService adminRestaurantService,
                                     final CategoryRepository categoryRepository,
                                     final CampusRepository campusRepository) {
         this.adminRestaurantDemandService = adminRestaurantDemandService;
+        this.adminRestaurantService = adminRestaurantService;
         this.restaurantDemandCreateForm = new RestaurantDemandCreateForm(categoryRepository.findAll(),
                 campusRepository.findAll());
         restaurantDemandCreateForm.setWidth("25em");
+        restaurantDemandCreateForm
+                .addListener(RestaurantDemandCreateForm.SaveEvent.class, this::saveContact);
         restaurantDemandCreateForm
                 .addListener(RestaurantDemandCreateForm.CloseEvent.class, e -> closeRestaurantCreateEditor());
         addClassName("list-view");
@@ -39,13 +48,13 @@ public class RestaurantDemandListView extends VerticalLayout {
         add(
                 getMainPageContent()
         );
+        updateGrid();
         closeRestaurantCreateEditor();
     }
 
     private Component getMainPageContent() {
-        Grid<RestaurantDemandResponse> grid = createRestaurantDemandGrid();
-        HorizontalLayout content = new HorizontalLayout(grid, restaurantDemandCreateForm);
-        content.setFlexGrow(2, grid);
+        HorizontalLayout content = new HorizontalLayout(this.grid, restaurantDemandCreateForm);
+        content.setFlexGrow(2, this.grid);
         content.setFlexGrow(1, restaurantDemandCreateForm);
         content.addClassNames("main-page-content");
         content.setSizeFull();
@@ -68,18 +77,21 @@ public class RestaurantDemandListView extends VerticalLayout {
             return new Span();
         }).setHeader("is registered");
 
-//        TODO : when add create_at in RestaurantDemand
-//        grid.addColumn(new LocalDateTimeRenderer<>(Member::getCreatedAt, "yyyy-MM-dd hh:mm:ss"))
-//                .setHeader("created date")
-//                .setComparator(Member::getCreatedAt);
+        grid.addColumn(new LocalDateTimeRenderer<>(RestaurantDemandResponse::getCreatedAt, "yyyy-MM-dd hh:mm:ss"))
+                .setHeader("created date")
+                .setComparator(RestaurantDemandResponse::getCreatedAt);
 
         grid.addItemClickListener(event -> viewNewCreateRestaurant(event.getItem()));
 
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
         grid.getColumns().forEach(col -> col.setSortable(true));
 
-        grid.setItems(adminRestaurantDemandService.findAll());
+
         return grid;
+    }
+
+    private void updateGrid() {
+        grid.setItems(adminRestaurantDemandService.findAll());
     }
 
     private Renderer<RestaurantDemandResponse> createMemberProfileRenderer() {
@@ -100,7 +112,7 @@ public class RestaurantDemandListView extends VerticalLayout {
         }
         assert restaurantDemandResponse != null;
         if (restaurantDemandResponse.isRegistered()) {
-            Notification dd = Notification.show("dd", 5000, Position.TOP_CENTER);
+            Notification dd = Notification.show("이미 등록된 음식점입니다.", 5000, Position.TOP_CENTER);
             dd.addThemeVariants(NotificationVariant.LUMO_ERROR);
             closeRestaurantCreateEditor();
             return;
@@ -115,5 +127,12 @@ public class RestaurantDemandListView extends VerticalLayout {
         restaurantDemandCreateForm.setRestaurantDemand(null, null);
         restaurantDemandCreateForm.setVisible(false);
         removeClassName("editing");
+    }
+
+    private void saveContact(RestaurantDemandCreateForm.SaveEvent event) {
+        adminRestaurantService.save(event.getRestaurant());
+        adminRestaurantDemandService.updateChecked(event.getRestaurantDemandId());
+        closeRestaurantCreateEditor();
+        updateGrid();
     }
 }

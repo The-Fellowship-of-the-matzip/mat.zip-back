@@ -37,8 +37,15 @@ public class AdminRestaurantDemandService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public void updateChecked(final Long id) {
+        RestaurantDemand restaurantDemand = restaurantDemandRepository.findById(id)
+                .orElseThrow();
+        restaurantDemand.register();
+    }
+
     private RestaurantDemandResponse toRestaurantResponse(final RestaurantDemand restaurantDemand) {
-        Category category = categoryRepository.findById(restaurantDemand.getId())
+        Category category = categoryRepository.findById(restaurantDemand.getCategoryId())
                 .orElseThrow(CategoryNotFoundException::new);
         Campus campus = campusRepository.findById(restaurantDemand.getCampusId())
                 .orElseThrow(CampusNotFoundException::new);
