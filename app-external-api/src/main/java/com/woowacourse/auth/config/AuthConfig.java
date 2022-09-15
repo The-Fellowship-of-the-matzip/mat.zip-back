@@ -16,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class AuthConfig implements WebMvcConfigurer {
 
     private static final String REVIEWS_PATH = "/api/restaurants/*/reviews";
+    private static final String RESTAURANT_DEMANDS_PATH = "/api/campuses/*/restaurantDemands";
 
     private final LoginInterceptor loginInterceptor;
     private final LoginCheckerInterceptor loginCheckerInterceptor;
@@ -40,12 +41,16 @@ public class AuthConfig implements WebMvcConfigurer {
                 .excludePathPattern("/**", PathMethod.OPTIONS)
                 .includePathPattern(REVIEWS_PATH, PathMethod.POST)
                 .includePathPattern(REVIEWS_PATH + "/*", PathMethod.PUT)
-                .includePathPattern(REVIEWS_PATH + "/*", PathMethod.DELETE);
+                .includePathPattern(REVIEWS_PATH + "/*", PathMethod.DELETE)
+                .includePathPattern(RESTAURANT_DEMANDS_PATH, PathMethod.POST)
+                .includePathPattern(RESTAURANT_DEMANDS_PATH + "/*", PathMethod.PUT)
+                .includePathPattern(RESTAURANT_DEMANDS_PATH + "/*", PathMethod.DELETE);
     }
 
     private HandlerInterceptor loginOrNotInterceptor() {
         return new PathMatcherInterceptor(loginCheckerInterceptor)
-                .includePathPattern(REVIEWS_PATH, PathMethod.GET);
+                .includePathPattern(REVIEWS_PATH, PathMethod.GET)
+                .includePathPattern(RESTAURANT_DEMANDS_PATH, PathMethod.GET);
     }
 
     @Override

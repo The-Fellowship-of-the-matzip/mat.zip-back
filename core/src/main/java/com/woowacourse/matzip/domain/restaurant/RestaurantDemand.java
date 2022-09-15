@@ -4,9 +4,11 @@ import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.exception.AlreadyRegisteredException;
 import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.support.LengthValidator;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,12 +18,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.lang.Nullable;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "restaurant_request")
+@EntityListeners(AuditingEntityListener.class)
 @Getter
-public class RestaurantRequest {
+public class RestaurantDemand {
 
     private static final int MAX_NAME_LENGTH = 20;
 
@@ -45,12 +49,16 @@ public class RestaurantRequest {
     @Column(name = "registered", nullable = false)
     private boolean registered;
 
-    protected RestaurantRequest() {
+    @CreatedDate
+    @Column(name = "created_at", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
+
+    protected RestaurantDemand() {
     }
 
     @Builder
-    public RestaurantRequest(final Long id, final Long categoryId, final Long campusId, final String name,
-                             final Member member, final boolean registered) {
+    public RestaurantDemand(final Long id, final Long categoryId, final Long campusId, final String name,
+                            final Member member, final boolean registered) {
         LengthValidator.checkStringLength(name, MAX_NAME_LENGTH, "식당 이름");
         this.id = id;
         this.categoryId = categoryId;
@@ -60,20 +68,20 @@ public class RestaurantRequest {
         this.registered = registered;
     }
 
-    public void update(final RestaurantRequest updateRequest, final String githubId) {
+    public void update(final RestaurantDemand updateRequest, final String githubId) {
         validateWriter(githubId);
+        validateNotRegistered();
         this.categoryId = updateRequest.categoryId;
-        this.campusId = updateRequest.campusId;
         this.name = updateRequest.name;
     }
 
     public void validateWriter(final String githubId) {
         if (!isWriter(githubId)) {
-            throw new ForbiddenException("식당 추가 요청을 수정할 권한이 없습니다.");
+            throw new ForbiddenException("식당 추가 요청에 대한 권한이 없습니다.");
         }
     }
 
-    private boolean isWriter(final @Nullable String githubId) {
+    public boolean isWriter(final String githubId) {
         return member.isSameGithubId(githubId);
     }
 
@@ -82,7 +90,7 @@ public class RestaurantRequest {
         registered = true;
     }
 
-    private void validateNotRegistered() {
+    public void validateNotRegistered() {
         if (registered) {
             throw new AlreadyRegisteredException();
         }
@@ -96,7 +104,7 @@ public class RestaurantRequest {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final RestaurantRequest that = (RestaurantRequest) o;
+        final RestaurantDemand that = (RestaurantDemand) o;
         return Objects.equals(id, that.id);
     }
 

@@ -3,6 +3,7 @@ package com.woowacourse.support.exception;
 import com.woowacourse.auth.exception.GithubAccessException;
 import com.woowacourse.auth.exception.InvalidTokenException;
 import com.woowacourse.auth.exception.TokenNotFoundException;
+import com.woowacourse.matzip.exception.AlreadyRegisteredException;
 import com.woowacourse.matzip.exception.CampusNotFoundException;
 import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.exception.InvalidCategoryException;
@@ -12,12 +13,14 @@ import com.woowacourse.matzip.exception.InvalidSortConditionException;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
 import com.woowacourse.matzip.exception.RestaurantNotFoundException;
 import com.woowacourse.matzip.exception.ReviewNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalControllerAdvice {
 
@@ -45,7 +48,8 @@ public class GlobalControllerAdvice {
             CampusNotFoundException.class,
             MemberNotFoundException.class,
             RestaurantNotFoundException.class,
-            ReviewNotFoundException.class
+            ReviewNotFoundException.class,
+            RestaurantNotFoundException.class
     })
     public ResponseEntity<ErrorResponse> notFoundExceptionHandler(final RuntimeException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse.from(e));
@@ -55,7 +59,8 @@ public class GlobalControllerAdvice {
             InvalidCategoryException.class,
             InvalidReviewException.class,
             InvalidSortConditionException.class,
-            InvalidLengthException.class
+            InvalidLengthException.class,
+            AlreadyRegisteredException.class
     })
     public ResponseEntity<ErrorResponse> businessExceptionHandler(final RuntimeException e) {
         return ResponseEntity.badRequest().body(ErrorResponse.from(e));
@@ -71,7 +76,8 @@ public class GlobalControllerAdvice {
     @ExceptionHandler({
             Exception.class
     })
-    public ResponseEntity<ErrorResponse> internalExceptionHandler() {
+    public ResponseEntity<ErrorResponse> internalExceptionHandler(final Exception e) {
+        log.error(e.getMessage());
         return ResponseEntity.internalServerError().body(ErrorResponse.from("서버에 문제가 발생했습니다."));
     }
 }

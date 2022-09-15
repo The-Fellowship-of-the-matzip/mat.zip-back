@@ -3,7 +3,7 @@ package com.woowacourse.matzip.application;
 import com.woowacourse.matzip.application.response.RestaurantDemandResponse;
 import com.woowacourse.matzip.domain.campus.Campus;
 import com.woowacourse.matzip.domain.category.Category;
-import com.woowacourse.matzip.domain.restaurant.RestaurantRequest;
+import com.woowacourse.matzip.domain.restaurant.RestaurantDemand;
 import com.woowacourse.matzip.exception.CampusNotFoundException;
 import com.woowacourse.matzip.exception.CategoryNotFoundException;
 import com.woowacourse.matzip.repository.CampusRepository;
@@ -37,11 +37,11 @@ public class AdminRestaurantDemandService {
                 .collect(Collectors.toList());
     }
 
-    private RestaurantDemandResponse toRestaurantResponse(final RestaurantRequest restaurantRequest) {
-        Category category = categoryRepository.findById(restaurantRequest.getId())
+    private RestaurantDemandResponse toRestaurantResponse(final RestaurantDemand restaurantDemand) {
+        Category category = categoryRepository.findById(restaurantDemand.getId())
                 .orElseThrow(CategoryNotFoundException::new);
-        Campus campus = campusRepository.findById(restaurantRequest.getCampusId())
+        Campus campus = campusRepository.findById(restaurantDemand.getCampusId())
                 .orElseThrow(CampusNotFoundException::new);
-        return RestaurantDemandResponse.of(restaurantRequest, category, campus);
+        return RestaurantDemandResponse.of(restaurantDemand, category, campus);
     }
 }
