@@ -12,14 +12,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import com.vaadin.flow.data.renderer.Renderer;
-import com.vaadin.flow.router.Route;
 import com.woowacourse.matzip.application.AdminRestaurantDemandService;
 import com.woowacourse.matzip.application.AdminRestaurantService;
 import com.woowacourse.matzip.application.response.RestaurantDemandResponse;
 import com.woowacourse.matzip.repository.CampusRepository;
 import com.woowacourse.matzip.repository.CategoryRepository;
-import com.woowacourse.matzip.ui.SideNavbarLayout;
-import javax.annotation.security.PermitAll;
 
 public class RestaurantDemandListView extends VerticalLayout {
 
@@ -86,7 +83,6 @@ public class RestaurantDemandListView extends VerticalLayout {
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
         grid.getColumns().forEach(col -> col.setSortable(true));
 
-
         return grid;
     }
 
@@ -109,11 +105,11 @@ public class RestaurantDemandListView extends VerticalLayout {
     public void viewNewCreateRestaurant(final RestaurantDemandResponse restaurantDemandResponse) {
         if (restaurantDemandResponse == null) {
             closeRestaurantCreateEditor();
+            return;
         }
-        assert restaurantDemandResponse != null;
         if (restaurantDemandResponse.isRegistered()) {
-            Notification dd = Notification.show("이미 등록된 음식점입니다.", 5000, Position.TOP_CENTER);
-            dd.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            Notification notification = Notification.show("이미 등록된 음식점입니다.", 5000, Position.TOP_CENTER);
+            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             closeRestaurantCreateEditor();
             return;
         }

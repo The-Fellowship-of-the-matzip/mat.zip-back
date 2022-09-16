@@ -9,7 +9,6 @@ import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.woowacourse.matzip.application.AdminAuthService;
@@ -70,7 +69,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver, Co
     private List<AuthorizedRoute> getAuthorizedRoutes() {
         List<AuthorizedRoute> routes = new ArrayList<>();
 
-        routes.add(new AuthorizedRoute("/main", MainView.class));
+        routes.add(new AuthorizedRoute(LOGIN_SUCCESS_URL, MainView.class));
         routes.add(new AuthorizedRoute("/review", ReviewListView.class));
         routes.add(new AuthorizedRoute("/restaurant_demands", RestaurantDemandListView.class));
         routes.add(new AuthorizedRoute("/restaurants", RestaurantListView.class));
