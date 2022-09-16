@@ -3,12 +3,9 @@ package com.woowacourse.matzip.ui.review;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
-import com.vaadin.flow.router.Route;
 import com.woowacourse.matzip.application.AdminReviewService;
 import com.woowacourse.matzip.application.response.ReviewResponse;
-import com.woowacourse.matzip.ui.SideNavbarLayout;
 
-@Route(value = "/reviews", layout = SideNavbarLayout.class)
 public class ReviewListView extends VerticalLayout {
 
     private final AdminReviewService adminReviewService;

@@ -2,13 +2,9 @@ package com.woowacourse.matzip.ui.restaurant;
 
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.Route;
 import com.woowacourse.matzip.application.AdminRestaurantService;
 import com.woowacourse.matzip.application.response.RestaurantResponse;
-import com.woowacourse.matzip.domain.restaurant.Restaurant;
-import com.woowacourse.matzip.ui.SideNavbarLayout;
 
-@Route(value = "/restaurants", layout = SideNavbarLayout.class)
 public class RestaurantListView extends VerticalLayout {
 
     private final AdminRestaurantService adminRestaurantService;
