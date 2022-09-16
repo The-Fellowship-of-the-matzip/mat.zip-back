@@ -19,8 +19,8 @@ import com.woowacourse.matzip.application.response.RestaurantDemandResponse;
 import com.woowacourse.matzip.repository.CampusRepository;
 import com.woowacourse.matzip.repository.CategoryRepository;
 import com.woowacourse.matzip.ui.SideNavbarLayout;
+import javax.annotation.security.PermitAll;
 
-@Route(value = "/restaurant_demands", layout = SideNavbarLayout.class)
 public class RestaurantDemandListView extends VerticalLayout {
 
     private final AdminRestaurantDemandService adminRestaurantDemandService;

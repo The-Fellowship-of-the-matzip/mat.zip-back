@@ -9,8 +9,8 @@ import com.vaadin.flow.router.Route;
 import com.woowacourse.matzip.application.AdminMemberService;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.ui.SideNavbarLayout;
+import javax.annotation.security.PermitAll;
 
-@Route(value = "/members", layout = SideNavbarLayout.class)
 public class MemberListView extends VerticalLayout {
 
     private final AdminMemberService adminMemberService;
