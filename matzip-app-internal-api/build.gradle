@@ -7,8 +7,8 @@ ext {
 }
 
 dependencies {
-    implementation project(':core')
-    implementation project(':common')
+    implementation project(':matzip-support')
+    implementation project(':matzip-core')
 
     runtimeOnly 'com.h2database:h2'
     implementation 'org.springframework.boot:spring-boot-starter-web'

@@ -1,8 +1,8 @@
 rootProject.name = 'matzip'
 
 include(
-        "app-external-api",
-        "app-internal-api",
-        "common",
-        "core"
+        "matzip-app-external-api",
+        "matzip-app-internal-api",
+        "matzip-support",
+        "matzip-core"
 )
