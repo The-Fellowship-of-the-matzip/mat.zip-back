@@ -1,5 +1,6 @@
 package com.woowacourse.matzip.domain.restaurant;
 
+import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -10,4 +11,7 @@ public interface RestaurantDemandRepository extends JpaRepository<RestaurantDema
 
     @EntityGraph(attributePaths = {"member"}, type = EntityGraphType.FETCH)
     Slice<RestaurantDemand> findPageByCampusIdOrderByCreatedAtDesc(Long campusId, Pageable pageable);
+
+    @EntityGraph(attributePaths = {"member"}, type = EntityGraphType.FETCH)
+    List<RestaurantDemand> findAll();
 }
