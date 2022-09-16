@@ -1,6 +1,6 @@
 dependencies {
-    implementation project(':common')
-    implementation project(':core')
+    implementation project(':matzip-support')
+    implementation project(':matzip-core')
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'

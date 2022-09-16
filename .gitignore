@@ -40,4 +40,4 @@ out/
 application-auth.yml
 
 ### rest docs ###
-/app-external-api/src/main/resources/static/index.html
+/matzip-app-external-api/src/main/resources/static/index.html
