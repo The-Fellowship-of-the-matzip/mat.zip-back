@@ -2,10 +2,10 @@ package com.woowacourse.matzip.application;
 
 import com.woowacourse.matzip.application.response.ReviewResponse;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
+import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import com.woowacourse.matzip.domain.review.Review;
+import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.matzip.exception.RestaurantNotFoundException;
-import com.woowacourse.matzip.repository.RestaurantRepository;
-import com.woowacourse.matzip.repository.ReviewRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;

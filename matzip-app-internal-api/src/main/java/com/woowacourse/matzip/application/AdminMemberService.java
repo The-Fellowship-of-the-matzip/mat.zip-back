@@ -1,7 +1,7 @@
 package com.woowacourse.matzip.application;
 
 import com.woowacourse.matzip.domain.member.Member;
-import com.woowacourse.matzip.repository.MemberRepository;
+import com.woowacourse.matzip.domain.member.MemberRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

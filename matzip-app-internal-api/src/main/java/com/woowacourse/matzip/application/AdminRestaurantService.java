@@ -2,13 +2,13 @@ package com.woowacourse.matzip.application;
 
 import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.domain.campus.Campus;
+import com.woowacourse.matzip.domain.campus.CampusRepository;
 import com.woowacourse.matzip.domain.category.Category;
+import com.woowacourse.matzip.domain.category.CategoryRepository;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
+import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import com.woowacourse.matzip.exception.CampusNotFoundException;
 import com.woowacourse.matzip.exception.CategoryNotFoundException;
-import com.woowacourse.matzip.repository.CampusRepository;
-import com.woowacourse.matzip.repository.CategoryRepository;
-import com.woowacourse.matzip.repository.RestaurantRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;

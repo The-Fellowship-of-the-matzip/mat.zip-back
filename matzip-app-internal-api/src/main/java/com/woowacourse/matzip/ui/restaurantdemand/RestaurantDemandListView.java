@@ -15,8 +15,8 @@ import com.vaadin.flow.data.renderer.Renderer;
 import com.woowacourse.matzip.application.AdminRestaurantDemandService;
 import com.woowacourse.matzip.application.AdminRestaurantService;
 import com.woowacourse.matzip.application.response.RestaurantDemandResponse;
-import com.woowacourse.matzip.repository.CampusRepository;
-import com.woowacourse.matzip.repository.CategoryRepository;
+import com.woowacourse.matzip.domain.campus.CampusRepository;
+import com.woowacourse.matzip.domain.category.CategoryRepository;
 
 public class RestaurantDemandListView extends VerticalLayout {
 
