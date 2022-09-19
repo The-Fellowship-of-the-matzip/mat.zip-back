@@ -27,13 +27,13 @@ public class RestaurantDemandResponse {
     }
 
     public static RestaurantDemandResponse of(final RestaurantDemand restaurantDemand, final String githubId) {
-        String authorGithubId = restaurantDemand.getMember()
-                .getGithubId();
+        String username = restaurantDemand.getMember()
+                .getUsername();
         return new RestaurantDemandResponse(
                 restaurantDemand.getId(),
                 restaurantDemand.getCategoryId(),
                 restaurantDemand.getName(),
-                authorGithubId,
+                username,
                 restaurantDemand.isWriter(githubId),
                 restaurantDemand.isRegistered()
         );
