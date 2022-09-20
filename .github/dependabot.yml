@@ -6,7 +6,6 @@ updates:
       interval: daily
       time: "14:00"
       timezone: Asia/Seoul
-    open-pull-requests-limit: 5
     reviewers:
       - Ohzzi
       - jayjaehunchoi
