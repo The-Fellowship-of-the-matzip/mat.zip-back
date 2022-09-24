@@ -61,6 +61,9 @@
 - 전체 모듈이 공통적으로 사용하는 Util, custom exception 정의
 
 ## 🧑‍💻 팀원
+<div align="center">
+    
 | [오찌](https://github.com/Ohzzi) | [오리](https://github.com/jinyoungchoi95) | [후니](https://github.com/jayjaehunchoi) |
 | :-: | :-: | :-: |
 | ![](https://github.com/Ohzzi.png?size=200) | ![](https://github.com/jinyoungchoi95.png?size=200) | ![](https://github.com/jayjaehunchoi.png?size=200) |
+</div>
