@@ -13,7 +13,7 @@
 
 </div>
 
-## 기술 스택
+## 🔨 기술 스택
 ### application
 - java 11
 - spring framework (spring boot, spring mvc)
@@ -36,7 +36,7 @@
 - aws rds
 - nginx
 
-## multi module
+## 🖋 multi module
 ![Mind Ma@2x](https://user-images.githubusercontent.com/69106910/192093358-9078672e-09ee-4368-a42f-76f43c81b53a.png)
 서버간의 의존성 분리를 위한 멀티모듈 설계
 
@@ -60,7 +60,7 @@
 - 공통 모듈 계층
 - 전체 모듈이 공통적으로 사용하는 Util, custom exception 정의
 
-## 팀원
+## 🧑‍💻 팀원
 | [오찌](https://github.com/Ohzzi) | [오리](https://github.com/jinyoungchoi95) | [후니](https://github.com/jayjaehunchoi) |
 | :-: | :-: | :-: |
 | ![](https://github.com/Ohzzi.png?size=200) | ![](https://github.com/jinyoungchoi95.png?size=200) | ![](https://github.com/jayjaehunchoi.png?size=200) |
