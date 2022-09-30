@@ -1,6 +1,6 @@
 package com.woowacourse.auth.application;
 
-import static com.woowacourse.auth.support.GithubResponseFixtures.HUNI;
+import static com.woowacourse.matzip.MemberFixtures.HUNI;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.auth.application.dto.GithubProfileResponse;

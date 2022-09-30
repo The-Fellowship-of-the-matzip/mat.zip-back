@@ -1,6 +1,6 @@
 package com.woowacourse.matzip.application;
 
-import static com.woowacourse.auth.support.GithubResponseFixtures.ORI;
+import static com.woowacourse.matzip.MemberFixtures.ORI;
 import static com.woowacourse.matzip.RestaurantRequestFixtures.RESTAURANT_REQUEST_1;
 import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestRestaurantDemand;
 import static org.assertj.core.api.Assertions.assertThat;
