@@ -1,7 +1,7 @@
 package com.woowacourse.matzip.domain.restaurant;
 
-import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestMember;
-import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestRestaurantDemand;
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestMember;
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestRestaurantDemand;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 

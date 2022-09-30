@@ -2,7 +2,7 @@ package com.woowacourse.matzip.application;
 
 import static com.woowacourse.auth.support.GithubResponseFixtures.HUNI;
 import static com.woowacourse.auth.support.GithubResponseFixtures.ORI;
-import static com.woowacourse.matzip.support.ReviewFixtures.REVIEW_1;
+import static com.woowacourse.matzip.ReviewFixtures.REVIEW_1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;

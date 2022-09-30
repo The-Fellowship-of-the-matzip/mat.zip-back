@@ -1,8 +1,8 @@
 package com.woowacourse.matzip.application;
 
-import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestMember;
-import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestRestaurant;
-import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestReview;
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestMember;
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestRestaurant;
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestReview;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
