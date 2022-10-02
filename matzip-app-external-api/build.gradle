@@ -1,6 +1,7 @@
 dependencies {
     implementation project(':matzip-support')
     implementation project(':matzip-core')
+    testImplementation testFixtures(project(':matzip-core'))
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'

@@ -15,18 +15,13 @@ public class FakeGithubController {
 
     @PostMapping("/login/oauth/access_token")
     public ResponseEntity<GithubTokenResponse> getAccessToken(@RequestBody GithubTokenRequest githubTokenRequest) {
-        String accessToken = GithubResponseFixtures.findResponseByCode(githubTokenRequest.getCode()).getAccessToken();
+        String accessToken = GithubResponseTransferUtils.parseToAccessToken(githubTokenRequest.getCode());
         return ResponseEntity.ok(new GithubTokenResponse(accessToken));
     }
 
     @GetMapping("/user")
     public ResponseEntity<GithubProfileResponse> getProfile(@RequestHeader("Authorization") String authorization) {
         String accessToken = authorization.split(" ")[1];
-        GithubResponseFixtures githubResponse = GithubResponseFixtures.findResponseByAccessToken(accessToken);
-
-        GithubProfileResponse profile = new GithubProfileResponse(githubResponse.getGithubId(),
-                githubResponse.getUsername(),
-                githubResponse.getProfileImage());
-        return ResponseEntity.ok(profile);
+        return ResponseEntity.ok(GithubResponseTransferUtils.findResponseByAccessToken(accessToken));
     }
 }

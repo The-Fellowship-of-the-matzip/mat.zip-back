@@ -1,6 +1,6 @@
-package com.woowacourse.matzip.support;
+package com.woowacourse.matzip;
 
-import static com.woowacourse.auth.support.GithubResponseFixtures.HUNI;
+import static com.woowacourse.matzip.MemberFixtures.HUNI;
 
 import com.woowacourse.matzip.domain.member.Member;
 

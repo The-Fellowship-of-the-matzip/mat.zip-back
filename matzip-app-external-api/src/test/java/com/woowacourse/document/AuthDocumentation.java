@@ -1,6 +1,6 @@
 package com.woowacourse.document;
 
-import static com.woowacourse.auth.support.GithubResponseFixtures.HUNI;
+import static com.woowacourse.matzip.MemberFixtures.HUNI;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;

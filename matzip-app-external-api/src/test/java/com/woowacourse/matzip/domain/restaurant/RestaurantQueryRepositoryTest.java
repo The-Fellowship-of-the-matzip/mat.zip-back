@@ -1,11 +1,11 @@
 package com.woowacourse.matzip.domain.restaurant;
 
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestMember;
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestRestaurant;
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestReview;
 import static com.woowacourse.matzip.domain.restaurant.RestaurantFindQueryFactory.ORDER_BY_ID_DESC;
 import static com.woowacourse.matzip.domain.restaurant.RestaurantFindQueryFactory.ORDER_BY_NAME_ASC;
 import static com.woowacourse.matzip.domain.restaurant.RestaurantFindQueryFactory.ORDER_BY_RATING_DESC;
-import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestMember;
-import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestRestaurant;
-import static com.woowacourse.matzip.support.TestFixtureCreateUtil.createTestReview;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 

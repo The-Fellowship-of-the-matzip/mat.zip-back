@@ -1,4 +1,4 @@
-package com.woowacourse.matzip.support;
+package com.woowacourse.matzip;
 
 public enum RestaurantRequestFixtures {
 
