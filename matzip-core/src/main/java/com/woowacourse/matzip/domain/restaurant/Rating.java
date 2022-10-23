@@ -9,14 +9,14 @@ import lombok.Getter;
 @Getter
 public class Rating {
 
-    @Column(name = "review_count", nullable = false)
-    private int count;
+    @Column(name = "review_count")
+    private int count = 0;
 
-    @Column(name = "review_sum", nullable = false)
-    private long sum;
+    @Column(name = "review_sum")
+    private long sum = 0;
 
-    @Column(name = "review_avg", nullable = false)
-    private float average;
+    @Column(name = "review_avg")
+    private float average = 0;
 
     protected Rating() {
     }
@@ -29,6 +29,9 @@ public class Rating {
     }
 
     private float calculateAverage(final int count, final long sum) {
+        if (count == 0) {
+            return 0;
+        }
         return (float) (sum * 100 / count) / 100;
     }
 }

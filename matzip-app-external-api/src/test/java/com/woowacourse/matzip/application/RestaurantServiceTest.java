@@ -70,11 +70,12 @@ class RestaurantServiceTest {
     void 식당_목록_조회시_평균별점도_조회한다() {
         Member member = createTestMember();
         memberRepository.save(member);
-        Restaurant restaurant = createTestRestaurant(1L, 1L, "테스트식당", "테스트주소");
-        restaurantRepository.save(restaurant);
+        Restaurant restaurant = restaurantRepository.save(createTestRestaurant(1L, 1L, "테스트식당", "테스트주소"));
         for (int i = 1; i <= 10; i++) {
             reviewRepository.save(createTestReview(member, restaurant.getId(), 4));
+            restaurant.updateReviewScore(4);
         }
+        restaurantRepository.save(restaurant);
 
         RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId("DEFAULT", 1L, 1L,
                 PageRequest.of(0, 10));
@@ -103,13 +104,15 @@ class RestaurantServiceTest {
     void 캠퍼스id가_일치하는_식당_목록을_평균_별점순으로_정렬한_페이지를_반환한다() {
         Member member = createTestMember();
         memberRepository.save(member);
-        Restaurant restaurant1 = createTestRestaurant(1L, 1L, "테스트식당1", "테스트주소1");
-        Restaurant restaurant2 = createTestRestaurant(1L, 1L, "테스트식당2", "테스트주소2");
-        restaurantRepository.saveAll(List.of(restaurant1, restaurant2));
+        Restaurant restaurant1 = restaurantRepository.save(createTestRestaurant(1L, 1L, "테스트식당1", "테스트주소1"));
+        Restaurant restaurant2 = restaurantRepository.save(createTestRestaurant(1L, 1L, "테스트식당2", "테스트주소2"));
         for (int i = 0; i < 10; i++) {
             reviewRepository.save(createTestReview(member, restaurant1.getId(), 4));
+            restaurant1.updateReviewScore(4);
             reviewRepository.save(createTestReview(member, restaurant2.getId(), 3));
+            restaurant2.updateReviewScore(3);
         }
+        restaurantRepository.saveAll(List.of(restaurant1, restaurant2));
 
         RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId("RATING", 1L, 1L,
                 PageRequest.of(0, 2));

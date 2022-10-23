@@ -43,12 +43,22 @@ public class Restaurant {
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
+    @Column(name = "review_count")
+    private int count = 0;
+
+    @Column(name = "review_sum")
+    private long sum = 0;
+
+    @Column(name = "review_avg")
+    private float average = 0;
+
     protected Restaurant() {
     }
 
     @Builder
     public Restaurant(final Long id, final Long categoryId, final Long campusId, final String name,
-                      final String address, final long distance, final String kakaoMapUrl, final String imageUrl) {
+                      final String address, final long distance, final String kakaoMapUrl, final String imageUrl,
+                      final int count, final long sum) {
         LengthValidator.checkStringLength(name, MAX_NAME_LENGTH, "식당 이름");
         this.id = id;
         this.categoryId = categoryId;
@@ -58,6 +68,22 @@ public class Restaurant {
         this.distance = distance;
         this.kakaoMapUrl = kakaoMapUrl;
         this.imageUrl = imageUrl;
+        this.count = count;
+        this.sum = sum;
+        this.average = calculateAverage(count, sum);
+    }
+
+    private float calculateAverage(final int count, final long sum) {
+        if (count == 0) {
+            return 0;
+        }
+        return (float) (sum * 100 / count) / 100;
+    }
+
+    public void updateReviewScore(final int score) {
+        this.count++;
+        this.sum += score;
+        this.average = calculateAverage(this.count, this.sum);
     }
 
     @Override

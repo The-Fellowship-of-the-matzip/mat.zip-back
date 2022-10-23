@@ -37,21 +37,60 @@ public class DocumentationFixture {
             .map(CampusResponse::from)
             .collect(Collectors.toList());
 
-    private static final Restaurant SEOLLEUNG_RESTAURANT_1 = new Restaurant(1L, 1L, 2L, "배가무닭볶음탕",
-            "서울 강남구 선릉로86길 30 1층", 1L,
-            "https://place.map.kakao.com/733513512", "www.image.com");
-    private static final Restaurant SEOLLEUNG_RESTAURANT_2 = new Restaurant(2L, 1L, 2L, "뽕나무쟁이 선릉본점",
-            "서울 강남구 역삼로65길 31", 1L,
-            "https://place.map.kakao.com/11190567", "www.image.com");
-    private static final Restaurant SEOLLEUNG_RESTAURANT_3 = new Restaurant(3L, 2L, 2L, "마담밍",
-            "서울 강남구 선릉로86길 5-4 1층", 1L,
-            "https://place.map.kakao.com/18283045", "www.image.com");
-    private static final Restaurant SEOLLEUNG_RESTAURANT_4 = new Restaurant(4L, 3L, 2L, "브라운돈까스 선릉점",
-            "서울 강남구 선릉로 520", 1L,
-            "https://place.map.kakao.com/24449739", "www.image.com");
-    private static final Restaurant SEOLLEUNG_RESTAURANT_5 = new Restaurant(5L, 3L, 2L, "윤화돈까스",
-            "서울 강남구 도곡로 221 셀라빌딩 1층", 1L,
-            "https://place.map.kakao.com/471451980", "www.image.com");
+    private static final Restaurant SEOLLEUNG_RESTAURANT_1 = Restaurant.builder()
+            .id(1L)
+            .categoryId(1L)
+            .campusId(2L)
+            .name("배가무닭볶음탕")
+            .address("서울 강남구 선릉로86길 30 1층")
+            .distance(1L)
+            .kakaoMapUrl("https://place.map.kakao.com/11190567")
+            .imageUrl("www.image.com")
+            .build();
+
+    private static final Restaurant SEOLLEUNG_RESTAURANT_2 = Restaurant.builder()
+            .id(2L)
+            .categoryId(1L)
+            .campusId(2L)
+            .name("뽕나무쟁이 선릉본점")
+            .address("서울 강남구 역삼로65길 31")
+            .distance(1L)
+            .kakaoMapUrl("https://place.map.kakao.com/11190567")
+            .imageUrl("www.image.com")
+            .build();
+
+    private static final Restaurant SEOLLEUNG_RESTAURANT_3 = Restaurant.builder()
+            .id(3L)
+            .categoryId(2L)
+            .campusId(2L)
+            .name("마담밍")
+            .address("서울 강남구 선릉로86길 5-4 1층")
+            .distance(1L)
+            .kakaoMapUrl("https://place.map.kakao.com/18283045")
+            .imageUrl("www.image.com")
+            .build();
+
+    private static final Restaurant SEOLLEUNG_RESTAURANT_4 = Restaurant.builder()
+            .id(4L)
+            .categoryId(3L)
+            .campusId(2L)
+            .name("브라운돈까스 선릉점")
+            .address("서울 강남구 선릉로 520")
+            .distance(1L)
+            .kakaoMapUrl("https://place.map.kakao.com/24449739")
+            .imageUrl("www.image.com")
+            .build();
+
+    private static final Restaurant SEOLLEUNG_RESTAURANT_5 = Restaurant.builder()
+            .id(5L)
+            .categoryId(3L)
+            .campusId(2L)
+            .name("윤화돈까스")
+            .address("서울 강남구 도곡로 221 셀라빌딩 1층")
+            .distance(1L)
+            .kakaoMapUrl("https://place.map.kakao.com/471451980")
+            .imageUrl("www.image.com")
+            .build();
 
     public static final RestaurantTitlesResponse SEOLLEUNG_RESTAURANTS_RESPONSE = new RestaurantTitlesResponse(
             false,
