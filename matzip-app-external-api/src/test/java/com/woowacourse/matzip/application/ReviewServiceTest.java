@@ -6,7 +6,6 @@ import static com.woowacourse.matzip.ReviewFixtures.REVIEW_1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.matzip.application.response.ReviewResponse;
 import com.woowacourse.matzip.application.response.ReviewsResponse;
@@ -49,12 +48,19 @@ public class ReviewServiceTest {
     }
 
     @Test
-    void 리뷰를_작성한다() {
+    void 리뷰를_작성_후_평점을_업데이트한다() {
         Member member = memberRepository.save(ORI.toMember());
         Restaurant restaurant = restaurantRepository.findAll().get(0);
+        ReviewCreateRequest reviewCreateRequest = reviewCreateRequest();
 
-        assertDoesNotThrow(
-                () -> reviewService.createReview(member.getGithubId(), restaurant.getId(), reviewCreateRequest()));
+        reviewService.createReview(member.getGithubId(), member.getId(), reviewCreateRequest);
+        Restaurant actual = restaurantRepository.findById(restaurant.getId()).get();
+
+        assertAll(
+                () -> assertThat(actual.getReviewCount()).isEqualTo(1),
+                () -> assertThat(actual.getReviewRatingSum()).isEqualTo(4),
+                () -> assertThat(actual.getReviewRatingAverage()).isEqualTo(4)
+        );
     }
 
     @Test
