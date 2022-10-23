@@ -9,7 +9,7 @@ public enum RestaurantFindQueryFactory {
 
     ORDER_BY_RATING_DESC("RATING", "select r from Restaurant r "
             + "where (r.campusId = :campusId) and (:categoryId is null or r.categoryId = :categoryId) "
-            + "order by r.average desc"),
+            + "order by r.reviewRatingAverage desc"),
     ORDER_BY_NAME_ASC("SPELL", "select r from Restaurant r "
             + "where (r.campusId = :campusId) and (:categoryId is null or r.categoryId = :categoryId) "
             + "order by r.name"),

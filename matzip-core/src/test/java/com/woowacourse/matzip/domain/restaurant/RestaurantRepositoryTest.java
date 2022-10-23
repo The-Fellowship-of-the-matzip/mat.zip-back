@@ -1,6 +1,7 @@
 package com.woowacourse.matzip.domain.restaurant;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.matzip.TestFixtureCreateUtil;
 import java.util.List;
@@ -49,5 +50,77 @@ public class RestaurantRepositoryTest {
 
         assertThat(restaurants).hasSize(2)
                 .containsAnyOf(restaurant4, restaurant5);
+    }
+
+    @Test
+    void 리뷰점수를_입력받아_레스토랑_평점을_업데이트한다() {
+        Restaurant restaurant = restaurantRepository.save(
+                TestFixtureCreateUtil.createTestRestaurant(1L, 1L, "식당sigdang 1", "주소1"));
+
+        restaurantRepository.updateRestaurantRatingByReviewInsert(restaurant.getId(), 3);
+        restaurantRepository.updateRestaurantRatingByReviewInsert(restaurant.getId(), 5);
+        Restaurant actual = restaurantRepository.findById(restaurant.getId())
+                .get();
+
+        assertAll(
+                () -> assertThat(actual.getReviewCount()).isEqualTo(2),
+                () -> assertThat(actual.getReviewRatingSum()).isEqualTo(8),
+                () -> assertThat(actual.getReviewRatingAverage()).isEqualTo(4)
+        );
+    }
+
+    @Test
+    void 리뷰삭제점수를_입력받아_레스토랑_평점을_업데이트한다() {
+        Restaurant restaurant = restaurantRepository.save(
+                TestFixtureCreateUtil.createTestRestaurant(1L, 1L, "식당sigdang 1", "주소1"));
+        restaurantRepository.updateRestaurantRatingByReviewInsert(restaurant.getId(), 3);
+        restaurantRepository.updateRestaurantRatingByReviewInsert(restaurant.getId(), 5);
+
+        restaurantRepository.updateRestaurantRatingByReviewDelete(restaurant.getId(), 5);
+        Restaurant actual = restaurantRepository.findById(restaurant.getId())
+                .get();
+
+        assertAll(
+                () -> assertThat(actual.getReviewCount()).isEqualTo(1),
+                () -> assertThat(actual.getReviewRatingSum()).isEqualTo(3),
+                () -> assertThat(actual.getReviewRatingAverage()).isEqualTo(3)
+        );
+    }
+
+    @Test
+    void 리뷰점수를_모두_삭제한값을_업데이트한다() {
+        Restaurant restaurant = restaurantRepository.save(
+                TestFixtureCreateUtil.createTestRestaurant(1L, 1L, "식당sigdang 1", "주소1"));
+        restaurantRepository.updateRestaurantRatingByReviewInsert(restaurant.getId(), 3);
+        restaurantRepository.updateRestaurantRatingByReviewInsert(restaurant.getId(), 5);
+
+        restaurantRepository.updateRestaurantRatingByReviewDelete(restaurant.getId(), 3);
+        restaurantRepository.updateRestaurantRatingByReviewDelete(restaurant.getId(), 5);
+        Restaurant actual = restaurantRepository.findById(restaurant.getId())
+                .get();
+
+        assertAll(
+                () -> assertThat(actual.getReviewCount()).isEqualTo(0),
+                () -> assertThat(actual.getReviewRatingSum()).isEqualTo(0),
+                () -> assertThat(actual.getReviewRatingAverage()).isEqualTo(0)
+        );
+    }
+
+    @Test
+    void 기존_리뷰점수를_업데이트한다() {
+        Restaurant restaurant = restaurantRepository.save(
+                TestFixtureCreateUtil.createTestRestaurant(1L, 1L, "식당sigdang 1", "주소1"));
+        restaurantRepository.updateRestaurantRatingByReviewInsert(restaurant.getId(), 3);
+        restaurantRepository.updateRestaurantRatingByReviewInsert(restaurant.getId(), 5);
+
+        restaurantRepository.updateRestaurantRatingByReviewUpdate(restaurant.getId(), -2);
+        Restaurant actual = restaurantRepository.findById(restaurant.getId())
+                .get();
+
+        assertAll(
+                () -> assertThat(actual.getReviewCount()).isEqualTo(2),
+                () -> assertThat(actual.getReviewRatingSum()).isEqualTo(6),
+                () -> assertThat(actual.getReviewRatingAverage()).isEqualTo(3)
+        );
     }
 }

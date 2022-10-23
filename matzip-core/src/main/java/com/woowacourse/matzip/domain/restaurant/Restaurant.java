@@ -44,13 +44,13 @@ public class Restaurant {
     private String imageUrl;
 
     @Column(name = "review_count")
-    private int count = 0;
+    private int reviewCount = 0;
 
     @Column(name = "review_sum")
-    private long sum = 0;
+    private long reviewRatingSum = 0;
 
     @Column(name = "review_avg")
-    private float average = 0;
+    private float reviewRatingAverage = 0;
 
     protected Restaurant() {
     }
@@ -58,7 +58,7 @@ public class Restaurant {
     @Builder
     public Restaurant(final Long id, final Long categoryId, final Long campusId, final String name,
                       final String address, final long distance, final String kakaoMapUrl, final String imageUrl,
-                      final int count, final long sum) {
+                      final int reviewCount, final long reviewRatingSum) {
         LengthValidator.checkStringLength(name, MAX_NAME_LENGTH, "식당 이름");
         this.id = id;
         this.categoryId = categoryId;
@@ -68,22 +68,22 @@ public class Restaurant {
         this.distance = distance;
         this.kakaoMapUrl = kakaoMapUrl;
         this.imageUrl = imageUrl;
-        this.count = count;
-        this.sum = sum;
-        this.average = calculateAverage(count, sum);
+        this.reviewCount = reviewCount;
+        this.reviewRatingSum = reviewRatingSum;
+        this.reviewRatingAverage = calculateAverage(reviewCount, reviewRatingSum);
     }
 
-    private float calculateAverage(final int count, final long sum) {
-        if (count == 0) {
+    private float calculateAverage(final int reviewCount, final long sum) {
+        if (reviewCount == 0) {
             return 0;
         }
-        return (float) (sum * 100 / count) / 100;
+        return (float) (sum * 100 / reviewCount) / 100;
     }
 
     public void updateReviewScore(final int score) {
-        this.count++;
-        this.sum += score;
-        this.average = calculateAverage(this.count, this.sum);
+        this.reviewCount++;
+        this.reviewRatingSum += score;
+        this.reviewRatingAverage = calculateAverage(this.reviewCount, this.reviewRatingSum);
     }
 
     @Override

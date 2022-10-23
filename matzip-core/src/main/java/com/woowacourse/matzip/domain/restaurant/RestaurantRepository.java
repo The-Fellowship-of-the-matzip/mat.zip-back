@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
@@ -18,4 +19,28 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     List<Restaurant> findRandomsByCampusId(Long campusId, int size);
 
     Slice<Restaurant> findPageByCampusIdAndNameContainingIgnoreCase(Long campusId, String name, Pageable pageable);
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query(value = "update Restaurant r "
+            + "set r.reviewCount = r.reviewCount + 1, "
+            + "r.reviewRatingSum = r.reviewRatingSum + :rating, "
+            + "r.reviewRatingAverage = (r.reviewRatingSum + :rating) / cast((r.reviewCount + 1) as float) "
+            + "where r.id = :id")
+    void updateRestaurantRatingByReviewInsert(Long id, long rating);
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query(value = "update Restaurant r "
+            + "set r.reviewRatingAverage = case r.reviewCount when 1 then 0 "
+            + "else ((r.reviewRatingSum - :rating) / cast((r.reviewCount - 1) as float)) end , "
+            + "r.reviewCount = r.reviewCount - 1, "
+            + "r.reviewRatingSum = r.reviewRatingSum - :rating "
+            + "where r.id = :id")
+    void updateRestaurantRatingByReviewDelete(Long id, long rating);
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query(value = "update Restaurant r "
+            + "set r.reviewRatingAverage = (r.reviewRatingSum + :ratingGap) / cast(r.reviewCount as float), "
+            + "r.reviewRatingSum = r.reviewRatingSum + :ratingGap "
+            + "where r.id = :id")
+    void updateRestaurantRatingByReviewUpdate(Long id, long ratingGap);
 }
