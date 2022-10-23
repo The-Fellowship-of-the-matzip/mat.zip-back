@@ -82,5 +82,6 @@ public class ReviewService {
             throw new ForbiddenException("리뷰를 삭제 할 권한이 없습니다.");
         }
         reviewRepository.delete(review);
+        restaurantRepository.updateRestaurantRatingByReviewDelete(review.getRestaurantId(), review.getRating());
     }
 }

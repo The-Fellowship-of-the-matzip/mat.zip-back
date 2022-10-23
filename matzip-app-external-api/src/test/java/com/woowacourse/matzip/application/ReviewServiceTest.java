@@ -127,7 +127,7 @@ public class ReviewServiceTest {
     }
 
     @Test
-    void 리뷰를_삭제한다() {
+    void 리뷰를_삭제_후_식당데이터를_업데이트한다() {
         Member member = memberRepository.save(ORI.toMember());
         Restaurant restaurant = restaurantRepository.findAll().get(0);
         reviewService.createReview(member.getGithubId(), restaurant.getId(), reviewCreateRequest());
@@ -138,6 +138,13 @@ public class ReviewServiceTest {
                 .getId();
 
         reviewService.deleteReview(member.getGithubId(), reviewId);
-        assertThat(reviewRepository.findById(reviewId).isEmpty()).isTrue();
+        Restaurant actual = restaurantRepository.findById(restaurant.getId()).get();
+
+        assertAll(
+                () -> assertThat(reviewRepository.findById(reviewId).isEmpty()).isTrue(),
+                () -> assertThat(actual.getReviewCount()).isEqualTo(0),
+                () -> assertThat(actual.getReviewRatingSum()).isEqualTo(0),
+                () -> assertThat(actual.getReviewRatingAverage()).isEqualTo(0)
+        );
     }
 }
