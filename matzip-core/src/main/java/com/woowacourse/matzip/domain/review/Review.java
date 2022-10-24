@@ -104,6 +104,10 @@ public class Review {
         return member.isSameGithubId(githubId);
     }
 
+    public long reviewGap(final int rating) {
+        return this.rating - rating;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

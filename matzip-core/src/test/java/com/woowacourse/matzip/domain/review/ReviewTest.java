@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -121,4 +122,14 @@ public class ReviewTest {
                 .hasMessage("리뷰 점수는 1점부터 5점까지만 가능합니다.");
     }
 
+    @ParameterizedTest
+    @CsvSource(value = {"4,-1", "3,0", "2,1"})
+    void 리뷰_점수_차를_반환한다(final int rating, final long expected) {
+        Member huni = new Member(1L, "1", "huni", "image.png");
+        Review review = new Review(1L, huni, 1L, "리뷰 내용", 3, "메뉴", LocalDateTime.now());
+
+        long actual = review.reviewGap(rating);
+
+        assertThat(actual).isEqualTo(expected);
+    }
 }
