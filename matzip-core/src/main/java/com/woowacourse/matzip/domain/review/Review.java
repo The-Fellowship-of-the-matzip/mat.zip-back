@@ -105,6 +105,7 @@ public class Review {
     }
 
     public long reviewGap(final int rating) {
+        validateRating(rating);
         return this.rating - rating;
     }
 
