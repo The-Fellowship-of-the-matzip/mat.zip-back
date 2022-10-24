@@ -63,11 +63,14 @@ public class ReviewService {
 
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(ReviewNotFoundException::new);
-
+        long reviewGap = review.reviewGap(reviewUpdateRequest.getRating());
         review.update(member.getGithubId(),
                 reviewUpdateRequest.getContent(),
                 reviewUpdateRequest.getRating(),
                 reviewUpdateRequest.getMenu());
+        if (reviewGap != 0) {
+            restaurantRepository.updateRestaurantRatingByReviewUpdate(review.getRestaurantId(), reviewGap);
+        }
     }
 
     @Transactional
