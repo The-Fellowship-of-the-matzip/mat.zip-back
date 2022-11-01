@@ -20,10 +20,10 @@ public class RestaurantAcceptanceTest extends AcceptanceTest {
         return httpGetRequest("/api/campuses/" + campusId + "/restaurants?page=" + page + "&size=" + size);
     }
 
-    private static ExtractableResponse<Response> 캠퍼스_식당_페이지_정렬_기준_변경해서_조회_요청(final Long campusId, final int page,
+    private static ExtractableResponse<Response> 캠퍼스_식당_페이지_정렬_기준_변경해서_조회_요청(final Long campusId, final Long categoryId, final int page,
                                                                              final int size, final String filter) {
         return httpGetRequest(
-                "/api/campuses/" + campusId + "/restaurants?page=" + page + "&size=" + size + "&filter=" + filter);
+                "/api/campuses/" + campusId + "/restaurants?page=" + page + "&size=" + size + "&filter=" + filter + "&categoryId=" +  categoryId);
     }
 
     private static ExtractableResponse<Response> 캠퍼스_카테고리_식당_0페이지_조회_요청(Long campusId, Long categoryId) {
@@ -53,8 +53,8 @@ public class RestaurantAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 선릉캠퍼스_식당_목록의_0페이지를_이름_순으로_조회한다() {
-        ExtractableResponse<Response> response = 캠퍼스_식당_페이지_정렬_기준_변경해서_조회_요청(선릉캠퍼스_ID, 1, 2, "spell");
-        식당이_정렬되어_있다(response, "마담밍3", "배가무닭볶음탕");
+        ExtractableResponse<Response> response = 캠퍼스_식당_페이지_정렬_기준_변경해서_조회_요청(선릉캠퍼스_ID, 2L, 1, 2, "spell");
+        식당이_정렬되어_있다(response, "마담밍3");
     }
 
     @Test

@@ -64,9 +64,9 @@ public class RestaurantQueryRepositoryTest {
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
 
         String query = ORDER_BY_NAME_ASC.getQuery();
-        Slice<Restaurant> page1 = restaurantQueryRepository.findPageByCampusIdAndCategoryId(query, 1L, null,
+        Slice<Restaurant> page1 = restaurantQueryRepository.findPageByCampusIdAndCategoryId(query, 1L, 1L,
                 PageRequest.of(0, 2));
-        Slice<Restaurant> page2 = restaurantQueryRepository.findPageByCampusIdAndCategoryId(query, 1L, null,
+        Slice<Restaurant> page2 = restaurantQueryRepository.findPageByCampusIdAndCategoryId(query, 1L, 1L,
                 PageRequest.of(1, 2));
 
         assertAll(
@@ -93,7 +93,7 @@ public class RestaurantQueryRepositoryTest {
     void 캠퍼스id가_일치하는_식당을_별점순으로_페이징해서_반환한다() {
         Restaurant restaurant1 = createTestRestaurant(1L, 1L, "식당1", "주소1");
         Restaurant restaurant2 = createTestRestaurant(1L, 1L, "식당2", "주소2");
-        Restaurant restaurant3 = createTestRestaurant(2L, 1L, "식당3", "주소3");
+        Restaurant restaurant3 = createTestRestaurant(1L, 1L, "식당3", "주소3");
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
 
         Member member = createTestMember();
@@ -104,7 +104,7 @@ public class RestaurantQueryRepositoryTest {
         }
 
         String query = ORDER_BY_RATING_DESC.getQuery();
-        Slice<Restaurant> page = restaurantQueryRepository.findPageByCampusIdAndCategoryId(query, 1L, null,
+        Slice<Restaurant> page = restaurantQueryRepository.findPageByCampusIdAndCategoryId(query, 1L, 1L,
                 PageRequest.of(0, 3));
         assertThat(page.getContent()).containsExactly(restaurant1, restaurant2, restaurant3);
     }
