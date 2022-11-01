@@ -6,6 +6,7 @@ import static com.woowacourse.matzip.ReviewFixtures.REVIEW_1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.matzip.application.response.ReviewResponse;
 import com.woowacourse.matzip.application.response.ReviewsResponse;
@@ -48,19 +49,12 @@ public class ReviewServiceTest {
     }
 
     @Test
-    void 리뷰를_작성_후_평점을_업데이트한다() {
+    void 리뷰를_작성한다() {
         Member member = memberRepository.save(ORI.toMember());
         Restaurant restaurant = restaurantRepository.findAll().get(0);
-        ReviewCreateRequest reviewCreateRequest = reviewCreateRequest();
 
-        reviewService.createReview(member.getGithubId(), member.getId(), reviewCreateRequest);
-        Restaurant actual = restaurantRepository.findById(restaurant.getId()).get();
-
-        assertAll(
-                () -> assertThat(actual.getReviewCount()).isEqualTo(1),
-                () -> assertThat(actual.getReviewRatingSum()).isEqualTo(4),
-                () -> assertThat(actual.getReviewRatingAverage()).isEqualTo(4)
-        );
+        assertDoesNotThrow(
+                () -> reviewService.createReview(member.getGithubId(), restaurant.getId(), reviewCreateRequest()));
     }
 
     @Test
@@ -102,7 +96,7 @@ public class ReviewServiceTest {
     }
 
     @Test
-    void 리뷰를_수정하고_평점이_업데이트된다() {
+    void 리뷰를_수정한다() {
         Member member = memberRepository.save(ORI.toMember());
         Restaurant restaurant = restaurantRepository.findAll().get(0);
         reviewService.createReview(member.getGithubId(), restaurant.getId(), reviewCreateRequest());
@@ -119,20 +113,15 @@ public class ReviewServiceTest {
                         PageRequest.of(0, 1))
                 .getReviews()
                 .get(0);
-        Restaurant restaurant1 = restaurantRepository.findById(restaurant.getId())
-                .get();
-
         assertAll(
                 () -> assertThat(reviewResponse.getContent()).isEqualTo("내용"),
                 () -> assertThat(reviewResponse.getRating()).isEqualTo(5),
-                () -> assertThat(reviewResponse.getMenu()).isEqualTo("메뉴"),
-                () -> assertThat(restaurant1.getReviewRatingAverage()).isEqualTo(5),
-                () -> assertThat(restaurant1.getReviewRatingSum()).isEqualTo(5)
+                () -> assertThat(reviewResponse.getMenu()).isEqualTo("메뉴")
         );
     }
 
     @Test
-    void 리뷰를_삭제_후_식당데이터를_업데이트한다() {
+    void 리뷰를_삭제한다() {
         Member member = memberRepository.save(ORI.toMember());
         Restaurant restaurant = restaurantRepository.findAll().get(0);
         reviewService.createReview(member.getGithubId(), restaurant.getId(), reviewCreateRequest());
@@ -143,13 +132,6 @@ public class ReviewServiceTest {
                 .getId();
 
         reviewService.deleteReview(member.getGithubId(), reviewId);
-        Restaurant actual = restaurantRepository.findById(restaurant.getId()).get();
-
-        assertAll(
-                () -> assertThat(reviewRepository.findById(reviewId).isEmpty()).isTrue(),
-                () -> assertThat(actual.getReviewCount()).isEqualTo(0),
-                () -> assertThat(actual.getReviewRatingSum()).isEqualTo(0),
-                () -> assertThat(actual.getReviewRatingAverage()).isEqualTo(0)
-        );
+        assertThat(reviewRepository.findById(reviewId).isEmpty()).isTrue();
     }
 }
