@@ -106,7 +106,7 @@ public class Review {
 
     public long reviewGap(final int rating) {
         validateRating(rating);
-        return rating - this.rating;
+        return Math.subtractExact(rating, this.rating);
     }
 
     @Override
