@@ -4,6 +4,7 @@ import com.woowacourse.matzip.application.response.ReviewResponse;
 import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
+import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import com.woowacourse.matzip.domain.review.Review;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.matzip.exception.ForbiddenException;
@@ -24,11 +25,14 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
+    private final RestaurantRepository restaurantRepository;
 
     public ReviewService(final ReviewRepository reviewRepository,
-                         final MemberRepository memberRepository) {
+                         final MemberRepository memberRepository,
+                         final RestaurantRepository restaurantRepository) {
         this.reviewRepository = reviewRepository;
         this.memberRepository = memberRepository;
+        this.restaurantRepository = restaurantRepository;
     }
 
     @Transactional
@@ -38,6 +42,7 @@ public class ReviewService {
                 .orElseThrow(MemberNotFoundException::new);
         Review review = reviewCreateRequest.toReviewWithMemberAndRestaurantId(member, restaurantId);
         reviewRepository.save(review);
+        restaurantRepository.updateRestaurantRatingByReviewInsert(restaurantId, review.getRating());
     }
 
     public ReviewsResponse findPageByRestaurantId(final String githubId, final Long restaurantId,
@@ -58,11 +63,14 @@ public class ReviewService {
 
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(ReviewNotFoundException::new);
-
+        int reviewGap = review.calculateGap(reviewUpdateRequest.getRating());
         review.update(member.getGithubId(),
                 reviewUpdateRequest.getContent(),
                 reviewUpdateRequest.getRating(),
                 reviewUpdateRequest.getMenu());
+        if (reviewGap != 0) {
+            restaurantRepository.updateRestaurantRatingByReviewUpdate(review.getRestaurantId(), reviewGap);
+        }
     }
 
     @Transactional
@@ -77,5 +85,6 @@ public class ReviewService {
             throw new ForbiddenException("리뷰를 삭제 할 권한이 없습니다.");
         }
         reviewRepository.delete(review);
+        restaurantRepository.updateRestaurantRatingByReviewDelete(review.getRestaurantId(), review.getRating());
     }
 }

@@ -19,6 +19,22 @@ public class TestFixtureCreateUtil {
                 .build();
     }
 
+    public static Restaurant createTestRestaurant(final Restaurant restaurant, final int reviewCount, final long reviewRatingSum, final float reviewRatingAverage) {
+        return Restaurant.builder()
+                .id(restaurant.getId())
+                .categoryId(restaurant.getCategoryId())
+                .campusId(restaurant.getCampusId())
+                .name(restaurant.getName())
+                .address(restaurant.getAddress())
+                .distance(restaurant.getDistance())
+                .kakaoMapUrl(restaurant.getKakaoMapUrl())
+                .imageUrl(restaurant.getImageUrl())
+                .reviewCount(reviewCount)
+                .reviewRatingSum(reviewRatingSum)
+                .reviewRatingAverage(reviewRatingAverage)
+                .build();
+    }
+
     public static Member createTestMember() {
         return Member.builder()
                 .githubId("githubId")

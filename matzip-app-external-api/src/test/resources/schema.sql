@@ -25,6 +25,9 @@ CREATE TABLE restaurant
     distance      bigint       NOT NULL,
     kakao_map_url varchar(255) NOT NULL,
     image_url     varchar(255) NOT NULL,
+    review_count  int          NOT NULL default 0,
+    review_sum    bigint       NOT NULL default 0,
+    review_avg    float        NOT NULL default 0.0,
     PRIMARY KEY (id)
 );
 

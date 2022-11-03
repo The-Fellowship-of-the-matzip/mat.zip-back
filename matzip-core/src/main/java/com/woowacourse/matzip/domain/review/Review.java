@@ -104,6 +104,11 @@ public class Review {
         return member.isSameGithubId(githubId);
     }
 
+    public int calculateGap(final int rating) {
+        validateRating(rating);
+        return Math.subtractExact(rating, this.rating);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
