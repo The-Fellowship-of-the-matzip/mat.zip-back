@@ -77,7 +77,8 @@ public class Restaurant {
         if (reviewCount == 0) {
             return 0;
         }
-        return (float) (sum * 100 / reviewCount) / 100;
+
+        return (((float) (sum * 100)) / reviewCount) / 100;
     }
 
     public void updateReviewScore(final int score) {
