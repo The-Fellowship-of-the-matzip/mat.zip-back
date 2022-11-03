@@ -44,13 +44,13 @@ public class Restaurant {
     private String imageUrl;
 
     @Column(name = "review_count")
-    private int reviewCount = 0;
+    private int reviewCount;
 
     @Column(name = "review_sum")
-    private long reviewRatingSum = 0;
+    private long reviewRatingSum;
 
     @Column(name = "review_avg")
-    private float reviewRatingAverage = 0;
+    private float reviewRatingAverage;
 
     protected Restaurant() {
     }
