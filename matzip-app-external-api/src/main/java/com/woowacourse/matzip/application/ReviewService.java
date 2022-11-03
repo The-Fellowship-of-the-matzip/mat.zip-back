@@ -63,7 +63,7 @@ public class ReviewService {
 
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(ReviewNotFoundException::new);
-        long reviewGap = review.calculateGap(reviewUpdateRequest.getRating());
+        int reviewGap = review.calculateGap(reviewUpdateRequest.getRating());
         review.update(member.getGithubId(),
                 reviewUpdateRequest.getContent(),
                 reviewUpdateRequest.getRating(),

@@ -128,7 +128,7 @@ public class ReviewTest {
         Member huni = new Member(1L, "1", "huni", "image.png");
         Review review = new Review(1L, huni, 1L, "리뷰 내용", 3, "메뉴", LocalDateTime.now());
 
-        long actual = review.calculateGap(rating);
+        int actual = review.calculateGap(rating);
 
         assertThat(actual).isEqualTo(expected);
     }

@@ -104,7 +104,7 @@ public class Review {
         return member.isSameGithubId(githubId);
     }
 
-    public long calculateGap(final int rating) {
+    public int calculateGap(final int rating) {
         validateRating(rating);
         return Math.subtractExact(rating, this.rating);
     }
