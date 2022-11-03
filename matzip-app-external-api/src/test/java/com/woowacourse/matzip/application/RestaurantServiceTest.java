@@ -73,8 +73,8 @@ class RestaurantServiceTest {
         Restaurant restaurant = restaurantRepository.save(createTestRestaurant(1L, 1L, "테스트식당", "테스트주소"));
         for (int i = 1; i <= 10; i++) {
             reviewRepository.save(createTestReview(member, restaurant.getId(), 4));
-            restaurant.updateReviewScore(4);
         }
+        restaurantRepository.save(createTestRestaurant(restaurant, 10, 40, 4.0f));
         restaurantRepository.save(restaurant);
 
         RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId("DEFAULT", 1L, 1L,
@@ -108,11 +108,10 @@ class RestaurantServiceTest {
         Restaurant restaurant2 = restaurantRepository.save(createTestRestaurant(1L, 1L, "테스트식당2", "테스트주소2"));
         for (int i = 0; i < 10; i++) {
             reviewRepository.save(createTestReview(member, restaurant1.getId(), 4));
-            restaurant1.updateReviewScore(4);
             reviewRepository.save(createTestReview(member, restaurant2.getId(), 3));
-            restaurant2.updateReviewScore(3);
         }
-        restaurantRepository.saveAll(List.of(restaurant1, restaurant2));
+        restaurantRepository.save(createTestRestaurant(restaurant1, 10, 40, 4.0f));
+        restaurantRepository.save(createTestRestaurant(restaurant2, 10, 30, 3.0f));
 
         RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId("RATING", 1L, 1L,
                 PageRequest.of(0, 2));

@@ -58,7 +58,7 @@ public class Restaurant {
     @Builder
     public Restaurant(final Long id, final Long categoryId, final Long campusId, final String name,
                       final String address, final long distance, final String kakaoMapUrl, final String imageUrl,
-                      final int reviewCount, final long reviewRatingSum) {
+                      final int reviewCount, final long reviewRatingSum, final float reviewRatingAverage) {
         LengthValidator.checkStringLength(name, MAX_NAME_LENGTH, "식당 이름");
         this.id = id;
         this.categoryId = categoryId;
@@ -70,21 +70,7 @@ public class Restaurant {
         this.imageUrl = imageUrl;
         this.reviewCount = reviewCount;
         this.reviewRatingSum = reviewRatingSum;
-        this.reviewRatingAverage = calculateAverage(reviewCount, reviewRatingSum);
-    }
-
-    private float calculateAverage(final int reviewCount, final long sum) {
-        if (reviewCount == 0) {
-            return 0;
-        }
-
-        return (((float) (sum * 100)) / reviewCount) / 100;
-    }
-
-    public void updateReviewScore(final int score) {
-        this.reviewCount++;
-        this.reviewRatingSum += score;
-        this.reviewRatingAverage = calculateAverage(this.reviewCount, this.reviewRatingSum);
+        this.reviewRatingAverage = reviewRatingAverage;
     }
 
     @Override
