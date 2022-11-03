@@ -100,9 +100,9 @@ public class RestaurantRepositoryTest {
                 .get();
 
         assertAll(
-                () -> assertThat(actual.getReviewCount()).isEqualTo(0),
-                () -> assertThat(actual.getReviewRatingSum()).isEqualTo(0),
-                () -> assertThat(actual.getReviewRatingAverage()).isEqualTo(0)
+                () -> assertThat(actual.getReviewCount()).isZero(),
+                () -> assertThat(actual.getReviewRatingSum()).isZero(),
+                () -> assertThat(actual.getReviewRatingAverage()).isZero()
         );
     }
 
