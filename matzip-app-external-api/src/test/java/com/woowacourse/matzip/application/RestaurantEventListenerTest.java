@@ -13,6 +13,7 @@ import com.woowacourse.matzip.domain.review.Review;
 import com.woowacourse.matzip.domain.review.ReviewCreateEvent;
 import com.woowacourse.matzip.domain.review.ReviewDeleteEvent;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
+import com.woowacourse.matzip.domain.review.ReviewUpdateEvent;
 import com.woowacourse.support.SpringServiceTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,35 @@ class RestaurantEventListenerTest {
                 () -> assertThat(actual.getReviewCount()).isZero(),
                 () -> assertThat(actual.getReviewRatingSum()).isZero(),
                 () -> assertThat(actual.getReviewRatingAverage()).isZero()
+        );
+    }
+
+    @Test
+    void 리뷰_수정_이벤트를_바탕으로_음식점_정보를_수정한다() {
+        Restaurant restaurant = restaurantRepository.save(
+                Restaurant.builder()
+                        .campusId(1L)
+                        .categoryId(1L)
+                        .name("음식점")
+                        .address("주소")
+                        .kakaoMapUrl("URL")
+                        .imageUrl("이미지 주소")
+                        .distance(0)
+                        .reviewCount(1)
+                        .reviewRatingSum(5)
+                        .reviewRatingAverage(5.0f)
+                        .build()
+        );
+        ReviewUpdateEvent event = new ReviewUpdateEvent(restaurant.getId(), -3);
+
+        restaurantEventListener.updateRestaurantByReviewUpdate(event);
+
+        Restaurant actual = restaurantRepository.findById(restaurant.getId())
+                .orElseThrow();
+        assertAll(
+                () -> assertThat(actual.getReviewCount()).isOne(),
+                () -> assertThat(actual.getReviewRatingSum()).isEqualTo(2),
+                () -> assertThat(actual.getReviewRatingAverage()).isEqualTo(2.0f)
         );
     }
 }

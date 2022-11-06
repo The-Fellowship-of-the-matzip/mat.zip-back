@@ -3,6 +3,7 @@ package com.woowacourse.matzip.application;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import com.woowacourse.matzip.domain.review.ReviewCreateEvent;
 import com.woowacourse.matzip.domain.review.ReviewDeleteEvent;
+import com.woowacourse.matzip.domain.review.ReviewUpdateEvent;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,5 +34,14 @@ public class RestaurantEventListener {
         Long restaurantId = event.getRestaurantId();
         int rating = event.getRating();
         restaurantRepository.updateRestaurantByReviewDelete(restaurantId, rating);
+    }
+
+    @Async
+    @Transactional
+    @TransactionalEventListener
+    public void updateRestaurantByReviewUpdate(final ReviewUpdateEvent event) {
+        Long restaurantId = event.getRestaurantId();
+        int ratingGap = event.getRatingGap();
+        restaurantRepository.updateRestaurantByReviewUpdate(restaurantId, ratingGap);
     }
 }
