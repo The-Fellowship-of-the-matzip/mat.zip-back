@@ -6,7 +6,10 @@ import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import com.woowacourse.matzip.domain.review.Review;
+import com.woowacourse.matzip.domain.review.ReviewCreateEvent;
+import com.woowacourse.matzip.domain.review.ReviewDeleteEvent;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
+import com.woowacourse.matzip.domain.review.ReviewUpdateEvent;
 import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
 import com.woowacourse.matzip.exception.ReviewNotFoundException;
@@ -14,6 +17,7 @@ import com.woowacourse.matzip.presentation.request.ReviewCreateRequest;
 import com.woowacourse.matzip.presentation.request.ReviewUpdateRequest;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -25,14 +29,13 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
-    private final RestaurantRepository restaurantRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
-    public ReviewService(final ReviewRepository reviewRepository,
-                         final MemberRepository memberRepository,
-                         final RestaurantRepository restaurantRepository) {
+    public ReviewService(final ReviewRepository reviewRepository, final MemberRepository memberRepository,
+                         final ApplicationEventPublisher applicationEventPublisher) {
         this.reviewRepository = reviewRepository;
         this.memberRepository = memberRepository;
-        this.restaurantRepository = restaurantRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Transactional
@@ -42,7 +45,7 @@ public class ReviewService {
                 .orElseThrow(MemberNotFoundException::new);
         Review review = reviewCreateRequest.toReviewWithMemberAndRestaurantId(member, restaurantId);
         reviewRepository.save(review);
-        restaurantRepository.updateRestaurantByReviewInsert(restaurantId, review.getRating());
+        publishEvent(new ReviewCreateEvent(restaurantId, review.getRating()));
     }
 
     public ReviewsResponse findPageByRestaurantId(final String githubId, final Long restaurantId,
@@ -69,7 +72,7 @@ public class ReviewService {
                 reviewUpdateRequest.getRating(),
                 reviewUpdateRequest.getMenu());
         if (reviewGap != 0) {
-            restaurantRepository.updateRestaurantByReviewUpdate(review.getRestaurantId(), reviewGap);
+            publishEvent(new ReviewUpdateEvent(review.getRestaurantId(), reviewGap));
         }
     }
 
@@ -85,6 +88,10 @@ public class ReviewService {
             throw new ForbiddenException("리뷰를 삭제 할 권한이 없습니다.");
         }
         reviewRepository.delete(review);
-        restaurantRepository.updateRestaurantByReviewDelete(review.getRestaurantId(), review.getRating());
+        publishEvent(new ReviewDeleteEvent(review.getRestaurantId(), review.getRating()));
+    }
+
+    private void publishEvent(final Object event) {
+        applicationEventPublisher.publishEvent(event);
     }
 }
