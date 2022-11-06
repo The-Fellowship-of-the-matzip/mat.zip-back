@@ -42,7 +42,7 @@ public class ReviewService {
                 .orElseThrow(MemberNotFoundException::new);
         Review review = reviewCreateRequest.toReviewWithMemberAndRestaurantId(member, restaurantId);
         reviewRepository.save(review);
-        restaurantRepository.updateRestaurantRatingByReviewInsert(restaurantId, review.getRating());
+        restaurantRepository.updateRestaurantByReviewInsert(restaurantId, review.getRating());
     }
 
     public ReviewsResponse findPageByRestaurantId(final String githubId, final Long restaurantId,
@@ -69,7 +69,7 @@ public class ReviewService {
                 reviewUpdateRequest.getRating(),
                 reviewUpdateRequest.getMenu());
         if (reviewGap != 0) {
-            restaurantRepository.updateRestaurantRatingByReviewUpdate(review.getRestaurantId(), reviewGap);
+            restaurantRepository.updateRestaurantByReviewUpdate(review.getRestaurantId(), reviewGap);
         }
     }
 
@@ -85,6 +85,6 @@ public class ReviewService {
             throw new ForbiddenException("리뷰를 삭제 할 권한이 없습니다.");
         }
         reviewRepository.delete(review);
-        restaurantRepository.updateRestaurantRatingByReviewDelete(review.getRestaurantId(), review.getRating());
+        restaurantRepository.updateRestaurantByReviewDelete(review.getRestaurantId(), review.getRating());
     }
 }

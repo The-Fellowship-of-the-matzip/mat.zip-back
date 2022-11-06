@@ -57,8 +57,8 @@ public class RestaurantRepositoryTest {
         Restaurant restaurant = restaurantRepository.save(
                 TestFixtureCreateUtil.createTestRestaurant(1L, 1L, "식당sigdang 1", "주소1"));
 
-        restaurantRepository.updateRestaurantRatingByReviewInsert(restaurant.getId(), 3);
-        restaurantRepository.updateRestaurantRatingByReviewInsert(restaurant.getId(), 5);
+        restaurantRepository.updateRestaurantByReviewInsert(restaurant.getId(), 3);
+        restaurantRepository.updateRestaurantByReviewInsert(restaurant.getId(), 5);
         Restaurant actual = restaurantRepository.findById(restaurant.getId())
                 .get();
 
@@ -73,10 +73,10 @@ public class RestaurantRepositoryTest {
     void 리뷰삭제점수를_입력받아_레스토랑_평점을_업데이트한다() {
         Restaurant restaurant = restaurantRepository.save(
                 TestFixtureCreateUtil.createTestRestaurant(1L, 1L, "식당sigdang 1", "주소1"));
-        restaurantRepository.updateRestaurantRatingByReviewInsert(restaurant.getId(), 3);
-        restaurantRepository.updateRestaurantRatingByReviewInsert(restaurant.getId(), 5);
+        restaurantRepository.updateRestaurantByReviewInsert(restaurant.getId(), 3);
+        restaurantRepository.updateRestaurantByReviewInsert(restaurant.getId(), 5);
 
-        restaurantRepository.updateRestaurantRatingByReviewDelete(restaurant.getId(), 5);
+        restaurantRepository.updateRestaurantByReviewDelete(restaurant.getId(), 5);
         Restaurant actual = restaurantRepository.findById(restaurant.getId())
                 .get();
 
@@ -91,11 +91,11 @@ public class RestaurantRepositoryTest {
     void 리뷰점수를_모두_삭제한값을_업데이트한다() {
         Restaurant restaurant = restaurantRepository.save(
                 TestFixtureCreateUtil.createTestRestaurant(1L, 1L, "식당sigdang 1", "주소1"));
-        restaurantRepository.updateRestaurantRatingByReviewInsert(restaurant.getId(), 3);
-        restaurantRepository.updateRestaurantRatingByReviewInsert(restaurant.getId(), 5);
+        restaurantRepository.updateRestaurantByReviewInsert(restaurant.getId(), 3);
+        restaurantRepository.updateRestaurantByReviewInsert(restaurant.getId(), 5);
 
-        restaurantRepository.updateRestaurantRatingByReviewDelete(restaurant.getId(), 3);
-        restaurantRepository.updateRestaurantRatingByReviewDelete(restaurant.getId(), 5);
+        restaurantRepository.updateRestaurantByReviewDelete(restaurant.getId(), 3);
+        restaurantRepository.updateRestaurantByReviewDelete(restaurant.getId(), 5);
         Restaurant actual = restaurantRepository.findById(restaurant.getId())
                 .get();
 
@@ -110,10 +110,10 @@ public class RestaurantRepositoryTest {
     void 기존_리뷰점수를_업데이트한다() {
         Restaurant restaurant = restaurantRepository.save(
                 TestFixtureCreateUtil.createTestRestaurant(1L, 1L, "식당sigdang 1", "주소1"));
-        restaurantRepository.updateRestaurantRatingByReviewInsert(restaurant.getId(), 3);
-        restaurantRepository.updateRestaurantRatingByReviewInsert(restaurant.getId(), 5);
+        restaurantRepository.updateRestaurantByReviewInsert(restaurant.getId(), 3);
+        restaurantRepository.updateRestaurantByReviewInsert(restaurant.getId(), 5);
 
-        restaurantRepository.updateRestaurantRatingByReviewUpdate(restaurant.getId(), -2);
+        restaurantRepository.updateRestaurantByReviewUpdate(restaurant.getId(), -2);
         Restaurant actual = restaurantRepository.findById(restaurant.getId())
                 .get();
 
