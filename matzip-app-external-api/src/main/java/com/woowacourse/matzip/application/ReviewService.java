@@ -7,7 +7,6 @@ import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.review.Review;
 import com.woowacourse.matzip.domain.review.ReviewDeletedEvent;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
-import com.woowacourse.matzip.domain.review.ReviewUpdatedEvent;
 import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
 import com.woowacourse.matzip.exception.ReviewNotFoundException;
@@ -69,7 +68,7 @@ public class ReviewService {
                 reviewUpdateRequest.getRating(),
                 reviewUpdateRequest.getMenu());
         if (reviewGap != 0) {
-            publishEvent(new ReviewUpdatedEvent(review.getRestaurantId(), reviewGap));
+            reviewRepository.save(review);
         }
     }
 

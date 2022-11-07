@@ -91,6 +91,7 @@ public class Review extends AbstractAggregateRoot<Review> {
         validateRating(rating);
         LengthValidator.checkStringLength(menu, MAX_MENU_LENGTH, "메뉴의 이름");
         LengthValidator.checkStringLength(content, MAX_CONTENT_LENGTH, "리뷰 내용");
+        registerEvent(new ReviewUpdatedEvent(restaurantId, calculateGap(rating)));
         this.content = content;
         this.rating = rating;
         this.menu = menu;
