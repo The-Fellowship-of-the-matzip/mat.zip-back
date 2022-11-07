@@ -1,18 +1,12 @@
 package com.woowacourse.matzip.application;
 
-import static com.woowacourse.matzip.RestaurantFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.woowacourse.matzip.RestaurantFixture;
-import com.woowacourse.matzip.domain.member.Member;
-import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
-import com.woowacourse.matzip.domain.review.Review;
 import com.woowacourse.matzip.domain.review.ReviewCreateEvent;
 import com.woowacourse.matzip.domain.review.ReviewDeleteEvent;
-import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.matzip.domain.review.ReviewUpdateEvent;
 import com.woowacourse.support.SpringServiceTest;
 import org.junit.jupiter.api.Test;
@@ -42,7 +36,7 @@ class RestaurantEventListenerTest {
         );
         ReviewCreateEvent event = new ReviewCreateEvent(restaurant.getId(), 5);
 
-        restaurantEventListener.updateRestaurantByReviewCreate(event);
+        restaurantEventListener.handleReviewCreateEvent(event);
 
         Restaurant actual = restaurantRepository.findById(restaurant.getId())
                 .orElseThrow();
@@ -71,7 +65,7 @@ class RestaurantEventListenerTest {
         );
         ReviewDeleteEvent event = new ReviewDeleteEvent(restaurant.getId(), 5);
 
-        restaurantEventListener.updateRestaurantByReviewDelete(event);
+        restaurantEventListener.handleReviewDeleteEvent(event);
 
         Restaurant actual = restaurantRepository.findById(restaurant.getId())
                 .orElseThrow();
@@ -100,7 +94,7 @@ class RestaurantEventListenerTest {
         );
         ReviewUpdateEvent event = new ReviewUpdateEvent(restaurant.getId(), -3);
 
-        restaurantEventListener.updateRestaurantByReviewUpdate(event);
+        restaurantEventListener.handleReviewUpdateEvent(event);
 
         Restaurant actual = restaurantRepository.findById(restaurant.getId())
                 .orElseThrow();

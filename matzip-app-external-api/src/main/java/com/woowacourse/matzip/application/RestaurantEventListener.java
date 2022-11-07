@@ -21,7 +21,7 @@ public class RestaurantEventListener {
     @Async
     @Transactional
     @TransactionalEventListener
-    public void updateRestaurantByReviewCreate(final ReviewCreateEvent event) {
+    public void handleReviewCreateEvent(final ReviewCreateEvent event) {
         Long restaurantId = event.getRestaurantId();
         int rating = event.getRating();
         restaurantRepository.updateRestaurantByReviewInsert(restaurantId, rating);
@@ -30,7 +30,7 @@ public class RestaurantEventListener {
     @Async
     @Transactional
     @TransactionalEventListener
-    public void updateRestaurantByReviewDelete(final ReviewDeleteEvent event) {
+    public void handleReviewDeleteEvent(final ReviewDeleteEvent event) {
         Long restaurantId = event.getRestaurantId();
         int rating = event.getRating();
         restaurantRepository.updateRestaurantByReviewDelete(restaurantId, rating);
@@ -39,7 +39,7 @@ public class RestaurantEventListener {
     @Async
     @Transactional
     @TransactionalEventListener
-    public void updateRestaurantByReviewUpdate(final ReviewUpdateEvent event) {
+    public void handleReviewUpdateEvent(final ReviewUpdateEvent event) {
         Long restaurantId = event.getRestaurantId();
         int ratingGap = event.getRatingGap();
         restaurantRepository.updateRestaurantByReviewUpdate(restaurantId, ratingGap);
