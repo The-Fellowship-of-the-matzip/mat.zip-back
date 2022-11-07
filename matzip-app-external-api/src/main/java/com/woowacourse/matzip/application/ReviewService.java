@@ -4,12 +4,11 @@ import com.woowacourse.matzip.application.response.ReviewResponse;
 import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
-import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import com.woowacourse.matzip.domain.review.Review;
-import com.woowacourse.matzip.domain.review.ReviewCreateEvent;
-import com.woowacourse.matzip.domain.review.ReviewDeleteEvent;
+import com.woowacourse.matzip.domain.review.ReviewCreatedEvent;
+import com.woowacourse.matzip.domain.review.ReviewDeletedEvent;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
-import com.woowacourse.matzip.domain.review.ReviewUpdateEvent;
+import com.woowacourse.matzip.domain.review.ReviewUpdatedEvent;
 import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
 import com.woowacourse.matzip.exception.ReviewNotFoundException;
@@ -45,7 +44,7 @@ public class ReviewService {
                 .orElseThrow(MemberNotFoundException::new);
         Review review = reviewCreateRequest.toReviewWithMemberAndRestaurantId(member, restaurantId);
         reviewRepository.save(review);
-        publishEvent(new ReviewCreateEvent(restaurantId, review.getRating()));
+        publishEvent(new ReviewCreatedEvent(restaurantId, review.getRating()));
     }
 
     public ReviewsResponse findPageByRestaurantId(final String githubId, final Long restaurantId,
@@ -72,7 +71,7 @@ public class ReviewService {
                 reviewUpdateRequest.getRating(),
                 reviewUpdateRequest.getMenu());
         if (reviewGap != 0) {
-            publishEvent(new ReviewUpdateEvent(review.getRestaurantId(), reviewGap));
+            publishEvent(new ReviewUpdatedEvent(review.getRestaurantId(), reviewGap));
         }
     }
 
@@ -88,7 +87,7 @@ public class ReviewService {
             throw new ForbiddenException("리뷰를 삭제 할 권한이 없습니다.");
         }
         reviewRepository.delete(review);
-        publishEvent(new ReviewDeleteEvent(review.getRestaurantId(), review.getRating()));
+        publishEvent(new ReviewDeletedEvent(review.getRestaurantId(), review.getRating()));
     }
 
     private void publishEvent(final Object event) {

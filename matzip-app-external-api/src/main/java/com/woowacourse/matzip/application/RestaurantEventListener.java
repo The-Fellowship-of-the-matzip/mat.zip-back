@@ -1,8 +1,8 @@
 package com.woowacourse.matzip.application;
 
-import com.woowacourse.matzip.domain.review.ReviewCreateEvent;
-import com.woowacourse.matzip.domain.review.ReviewDeleteEvent;
-import com.woowacourse.matzip.domain.review.ReviewUpdateEvent;
+import com.woowacourse.matzip.domain.review.ReviewCreatedEvent;
+import com.woowacourse.matzip.domain.review.ReviewDeletedEvent;
+import com.woowacourse.matzip.domain.review.ReviewUpdatedEvent;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -18,21 +18,21 @@ public class RestaurantEventListener {
     }
 
     @TransactionalEventListener
-    public void handleReviewCreateEvent(final ReviewCreateEvent event) {
+    public void handleReviewCreateEvent(final ReviewCreatedEvent event) {
         Long restaurantId = event.getRestaurantId();
         int rating = event.getRating();
         restaurantService.updateWhenReviewCreate(restaurantId, rating);
     }
 
     @TransactionalEventListener
-    public void handleReviewDeleteEvent(final ReviewDeleteEvent event) {
+    public void handleReviewDeleteEvent(final ReviewDeletedEvent event) {
         Long restaurantId = event.getRestaurantId();
         int rating = event.getRating();
         restaurantService.updateWhenReviewDelete(restaurantId, rating);
     }
 
     @TransactionalEventListener
-    public void handleReviewUpdateEvent(final ReviewUpdateEvent event) {
+    public void handleReviewUpdateEvent(final ReviewUpdatedEvent event) {
         Long restaurantId = event.getRestaurantId();
         int ratingGap = event.getRatingGap();
         restaurantService.updateWhenReviewUpdate(restaurantId, ratingGap);
