@@ -16,7 +16,7 @@ public class RestaurantEventListener {
         this.restaurantService = restaurantService;
     }
 
-    @Async
+    @Async(value = "asyncTaskExecutor")
     @TransactionalEventListener
     public void handleReviewCreateEvent(final ReviewCreateEvent event) {
         Long restaurantId = event.getRestaurantId();
@@ -24,7 +24,7 @@ public class RestaurantEventListener {
         restaurantService.updateWhenReviewCreate(restaurantId, rating);
     }
 
-    @Async
+    @Async(value = "asyncTaskExecutor")
     @TransactionalEventListener
     public void handleReviewDeleteEvent(final ReviewDeleteEvent event) {
         Long restaurantId = event.getRestaurantId();
@@ -32,7 +32,7 @@ public class RestaurantEventListener {
         restaurantService.updateWhenReviewDelete(restaurantId, rating);
     }
 
-    @Async
+    @Async(value = "asyncTaskExecutor")
     @TransactionalEventListener
     public void handleReviewUpdateEvent(final ReviewUpdateEvent event) {
         Long restaurantId = event.getRestaurantId();
