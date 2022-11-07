@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component
+@Async(value = "asyncTaskExecutor")
 public class RestaurantEventListener {
 
     private final RestaurantService restaurantService;
@@ -16,7 +17,6 @@ public class RestaurantEventListener {
         this.restaurantService = restaurantService;
     }
 
-    @Async(value = "asyncTaskExecutor")
     @TransactionalEventListener
     public void handleReviewCreateEvent(final ReviewCreateEvent event) {
         Long restaurantId = event.getRestaurantId();
@@ -24,7 +24,6 @@ public class RestaurantEventListener {
         restaurantService.updateWhenReviewCreate(restaurantId, rating);
     }
 
-    @Async(value = "asyncTaskExecutor")
     @TransactionalEventListener
     public void handleReviewDeleteEvent(final ReviewDeleteEvent event) {
         Long restaurantId = event.getRestaurantId();
@@ -32,7 +31,6 @@ public class RestaurantEventListener {
         restaurantService.updateWhenReviewDelete(restaurantId, rating);
     }
 
-    @Async(value = "asyncTaskExecutor")
     @TransactionalEventListener
     public void handleReviewUpdateEvent(final ReviewUpdateEvent event) {
         Long restaurantId = event.getRestaurantId();
