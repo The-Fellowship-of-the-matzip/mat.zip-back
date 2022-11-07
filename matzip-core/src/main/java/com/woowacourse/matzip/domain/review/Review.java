@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.domain.AbstractAggregateRoot;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.lang.Nullable;
 
@@ -26,7 +27,7 @@ import org.springframework.lang.Nullable;
 @Table(name = "review")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
-public class Review {
+public class Review extends AbstractAggregateRoot<Review> {
 
     private static final int MIN_SCORE = 1;
     private static final int MAX_SCORE = 5;
@@ -73,6 +74,7 @@ public class Review {
         this.rating = rating;
         this.menu = menu;
         this.createdAt = createdAt;
+        registerEvent(new ReviewCreatedEvent(restaurantId, rating));
     }
 
     private void validateRating(final int rating) {
