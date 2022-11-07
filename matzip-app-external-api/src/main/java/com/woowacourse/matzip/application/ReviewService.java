@@ -5,7 +5,6 @@ import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.review.Review;
-import com.woowacourse.matzip.domain.review.ReviewDeletedEvent;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
@@ -14,7 +13,6 @@ import com.woowacourse.matzip.presentation.request.ReviewCreateRequest;
 import com.woowacourse.matzip.presentation.request.ReviewUpdateRequest;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -26,13 +24,10 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
-    private final ApplicationEventPublisher applicationEventPublisher;
 
-    public ReviewService(final ReviewRepository reviewRepository, final MemberRepository memberRepository,
-                         final ApplicationEventPublisher applicationEventPublisher) {
+    public ReviewService(final ReviewRepository reviewRepository, final MemberRepository memberRepository) {
         this.reviewRepository = reviewRepository;
         this.memberRepository = memberRepository;
-        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Transactional
@@ -83,11 +78,7 @@ public class ReviewService {
         if (!review.isWriter(member.getGithubId())) {
             throw new ForbiddenException("리뷰를 삭제 할 권한이 없습니다.");
         }
+        review.readyForDelete();
         reviewRepository.delete(review);
-        publishEvent(new ReviewDeletedEvent(review.getRestaurantId(), review.getRating()));
-    }
-
-    private void publishEvent(final Object event) {
-        applicationEventPublisher.publishEvent(event);
     }
 }

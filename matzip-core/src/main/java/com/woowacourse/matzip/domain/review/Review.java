@@ -112,6 +112,10 @@ public class Review extends AbstractAggregateRoot<Review> {
         return Math.subtractExact(rating, this.rating);
     }
 
+    public void readyForDelete() {
+        registerEvent(new ReviewDeletedEvent(restaurantId, rating));
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
