@@ -1,5 +1,6 @@
 package com.woowacourse.matzip.domain.review;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -14,6 +15,8 @@ public interface ReviewRepository extends Repository<Review, Long>, ReviewDelete
     Review save(Review review);
 
     Optional<Review> findById(Long reviewId);
+
+    List<Review> findAll();
 
     @Query(
             value = "select avg(r.rating) from Review r where (r.restaurantId = :restaurantId)"
