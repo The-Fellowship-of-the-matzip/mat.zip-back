@@ -22,9 +22,9 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query(value = "update Restaurant r "
-            + "set r.reviewCount = r.reviewCount + 1, "
-            + "r.reviewRatingSum = r.reviewRatingSum + :rating, "
-            + "r.reviewRatingAverage = (r.reviewRatingSum + :rating) / cast((r.reviewCount + 1) as float) "
+            + "set r.reviewRatingAverage = (r.reviewRatingSum + :rating) / cast((r.reviewCount + 1) as float), "
+            + "r.reviewCount = r.reviewCount + 1, "
+            + "r.reviewRatingSum = r.reviewRatingSum + :rating "
             + "where r.id = :id")
     void updateRestaurantByReviewInsert(Long id, long rating);
 
