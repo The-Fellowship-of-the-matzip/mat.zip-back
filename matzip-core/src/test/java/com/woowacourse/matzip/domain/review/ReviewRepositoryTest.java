@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -102,5 +103,26 @@ class ReviewRepositoryTest {
                 .build());
 
         assertThat(review.getCreatedAt()).isAfter(currentTime);
+    }
+
+    @Test
+    void 리뷰_삭제() {
+        Member member = Member.builder()
+                .githubId("githubId")
+                .username("username")
+                .profileImage("url")
+                .build();
+        Review review = reviewRepository.save(Review.builder()
+                .member(memberRepository.save(member))
+                .restaurantId(1L)
+                .content("맛있어요")
+                .rating(5)
+                .menu("족발")
+                .build());
+
+        reviewRepository.delete(review);
+
+        Optional<Review> actual = reviewRepository.findById(review.getId());
+        assertThat(actual).isEmpty();
     }
 }

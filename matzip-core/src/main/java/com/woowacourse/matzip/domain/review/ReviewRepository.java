@@ -5,11 +5,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
-public interface ReviewRepository extends JpaRepository<Review, Long> {
+public interface ReviewRepository extends Repository<Review, Long>, ReviewDeleteRepository {
+
+    Review save(Review review);
+
+    Optional<Review> findById(Long reviewId);
 
     @Query(
             value = "select avg(r.rating) from Review r where (r.restaurantId = :restaurantId)"

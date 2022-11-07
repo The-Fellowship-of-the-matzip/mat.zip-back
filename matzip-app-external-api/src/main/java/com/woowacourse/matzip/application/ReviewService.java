@@ -78,7 +78,6 @@ public class ReviewService {
         if (!review.isWriter(member.getGithubId())) {
             throw new ForbiddenException("리뷰를 삭제 할 권한이 없습니다.");
         }
-        review.readyForDelete();
         reviewRepository.delete(review);
     }
 }
