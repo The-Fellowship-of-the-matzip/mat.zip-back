@@ -83,4 +83,19 @@ public class RestaurantService {
     private Pageable toIdDescSortPageable(final Pageable pageable) {
         return PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), SortCondition.DEFAULT.getValue());
     }
+
+    @Transactional
+    public void updateWhenReviewCreate(final Long id, final int rating) {
+        restaurantRepository.updateRestaurantByReviewInsert(id, rating);
+    }
+
+    @Transactional
+    public void updateWhenReviewDelete(final Long id, final int rating) {
+        restaurantRepository.updateRestaurantByReviewDelete(id, rating);
+    }
+
+    @Transactional
+    public void updateWhenReviewUpdate(final Long id, final int ratingGap) {
+        restaurantRepository.updateRestaurantByReviewUpdate(id, ratingGap);
+    }
 }
