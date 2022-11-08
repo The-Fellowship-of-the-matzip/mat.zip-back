@@ -57,14 +57,11 @@ public class ReviewService {
 
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(ReviewNotFoundException::new);
-        int reviewGap = review.calculateGap(reviewUpdateRequest.getRating());
         review.update(member.getGithubId(),
                 reviewUpdateRequest.getContent(),
                 reviewUpdateRequest.getRating(),
                 reviewUpdateRequest.getMenu());
-        if (reviewGap != 0) {
-            reviewRepository.save(review);
-        }
+        reviewRepository.save(review);
     }
 
     @Transactional
