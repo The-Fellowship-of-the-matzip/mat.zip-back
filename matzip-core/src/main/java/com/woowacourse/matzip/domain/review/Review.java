@@ -35,11 +35,6 @@ public class Review extends AbstractAggregateRoot<Review> {
     private static final int MAX_MENU_LENGTH = 20;
     private static final int MAX_CONTENT_LENGTH = 255;
 
-    @PreRemove
-    private void publishDeletedEvent() {
-        registerEvent(new ReviewDeletedEvent(restaurantId, rating));
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -116,6 +111,11 @@ public class Review extends AbstractAggregateRoot<Review> {
     public int calculateGap(final int rating) {
         validateRating(rating);
         return Math.subtractExact(rating, this.rating);
+    }
+
+    @PreRemove
+    private void publishDeletedEvent() {
+        registerEvent(new ReviewDeletedEvent(restaurantId, rating));
     }
 
     @Override
