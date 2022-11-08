@@ -114,7 +114,7 @@ public class Review extends AbstractAggregateRoot<Review> {
     }
 
     @PreRemove
-    private void publishDeletedEvent() {
+    private void registerDeletedEvent() {
         registerEvent(new ReviewDeletedEvent(restaurantId, rating));
     }
 
