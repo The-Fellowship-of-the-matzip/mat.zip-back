@@ -86,8 +86,10 @@ public class ReviewServiceTest {
         }
         reviewService.createReview(huni.getGithubId(), restaurant.getId(), reviewCreateRequest());
 
-        ReviewsResponse page1 = reviewService.findPageByRestaurantId(ori.getGithubId(), restaurant.getId(), PageRequest.of(0, 2));
-        ReviewsResponse page2 = reviewService.findPageByRestaurantId(ori.getGithubId(), restaurant.getId(), PageRequest.of(1, 2));
+        ReviewsResponse page1 = reviewService.findPageByRestaurantId(ori.getGithubId(), restaurant.getId(),
+                PageRequest.of(0, 2));
+        ReviewsResponse page2 = reviewService.findPageByRestaurantId(ori.getGithubId(), restaurant.getId(),
+                PageRequest.of(1, 2));
 
         assertAll(
                 () -> assertThat(page1.getReviews()).extracting("updatable").containsExactly(false, true),
@@ -101,7 +103,8 @@ public class ReviewServiceTest {
         Restaurant restaurant = restaurantRepository.findAll().get(0);
         reviewService.createReview(member.getGithubId(), restaurant.getId(), reviewCreateRequest());
 
-        Long reviewId = reviewService.findPageByRestaurantId(member.getGithubId(), restaurant.getId(), PageRequest.of(0, 1))
+        Long reviewId = reviewService.findPageByRestaurantId(member.getGithubId(), restaurant.getId(),
+                        PageRequest.of(0, 1))
                 .getReviews()
                 .get(0)
                 .getId();
@@ -126,12 +129,15 @@ public class ReviewServiceTest {
         Restaurant restaurant = restaurantRepository.findAll().get(0);
         reviewService.createReview(member.getGithubId(), restaurant.getId(), reviewCreateRequest());
 
-        Long reviewId = reviewService.findPageByRestaurantId(member.getGithubId(), restaurant.getId(), PageRequest.of(0, 1))
+        Long reviewId = reviewService.findPageByRestaurantId(member.getGithubId(), restaurant.getId(),
+                        PageRequest.of(0, 1))
                 .getReviews()
                 .get(0)
                 .getId();
 
         reviewService.deleteReview(member.getGithubId(), reviewId);
+
         assertThat(reviewRepository.findById(reviewId).isEmpty()).isTrue();
     }
 }
+

@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,6 +34,11 @@ public class Review extends AbstractAggregateRoot<Review> {
     private static final int MAX_SCORE = 5;
     private static final int MAX_MENU_LENGTH = 20;
     private static final int MAX_CONTENT_LENGTH = 255;
+
+    @PreRemove
+    private void publishDeletedEvent() {
+        registerEvent(new ReviewDeletedEvent(restaurantId, rating));
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -110,10 +116,6 @@ public class Review extends AbstractAggregateRoot<Review> {
     public int calculateGap(final int rating) {
         validateRating(rating);
         return Math.subtractExact(rating, this.rating);
-    }
-
-    protected void readyForDelete() {
-        registerEvent(new ReviewDeletedEvent(restaurantId, rating));
     }
 
     @Override
