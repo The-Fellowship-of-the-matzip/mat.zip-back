@@ -108,7 +108,7 @@ public class Review extends AbstractAggregateRoot<Review> {
         return member.isSameGithubId(githubId);
     }
 
-    public int calculateGap(final int rating) {
+    private int calculateGap(final int rating) {
         validateRating(rating);
         return Math.subtractExact(rating, this.rating);
     }
