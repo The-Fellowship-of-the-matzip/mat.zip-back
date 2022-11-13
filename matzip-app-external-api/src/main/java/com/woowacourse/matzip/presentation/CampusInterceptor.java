@@ -1,6 +1,6 @@
 package com.woowacourse.matzip.presentation;
 
-import com.woowacourse.matzip.domain.campus.CampusCacheRepository;
+import com.woowacourse.matzip.infrastructure.campus.CampusCacheRepository;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -1,5 +1,6 @@
-package com.woowacourse.matzip.domain.restaurant;
+package com.woowacourse.matzip.infrastructure.restaurant;
 
+import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

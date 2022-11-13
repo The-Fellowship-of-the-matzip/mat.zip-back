@@ -1,5 +1,6 @@
-package com.woowacourse.matzip.domain.campus;
+package com.woowacourse.matzip.infrastructure.campus;
 
+import com.woowacourse.matzip.domain.campus.Campus;
 import com.woowacourse.matzip.exception.CampusNotFoundException;
 import java.util.List;
 

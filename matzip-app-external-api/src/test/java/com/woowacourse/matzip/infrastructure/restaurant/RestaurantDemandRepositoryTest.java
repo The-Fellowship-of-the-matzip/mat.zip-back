@@ -1,4 +1,4 @@
-package com.woowacourse.matzip.domain.restaurant;
+package com.woowacourse.matzip.infrastructure.restaurant;
 
 import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestMember;
 import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestRestaurantDemand;
@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
+import com.woowacourse.matzip.domain.restaurant.RestaurantDemand;
+import com.woowacourse.matzip.domain.restaurant.RestaurantDemandRepository;
 import com.woowacourse.support.config.JpaConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

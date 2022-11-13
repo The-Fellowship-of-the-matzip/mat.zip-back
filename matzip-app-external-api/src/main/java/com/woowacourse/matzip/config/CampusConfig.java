@@ -1,7 +1,7 @@
 package com.woowacourse.matzip.config;
 
-import com.woowacourse.matzip.domain.campus.CampusCacheRepository;
 import com.woowacourse.matzip.domain.campus.CampusRepository;
+import com.woowacourse.matzip.infrastructure.campus.CampusCacheRepository;
 import com.woowacourse.matzip.presentation.CampusInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,8 +20,8 @@ public class CampusConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(new CampusInterceptor(campusCacheRepository()))
-            .addPathPatterns("/api/campuses/**")
-            .excludePathPatterns("/api/campuses");
+                .addPathPatterns("/api/campuses/**")
+                .excludePathPatterns("/api/campuses");
     }
 
     @Bean

@@ -1,7 +1,7 @@
 package com.woowacourse.matzip.application;
 
 import com.woowacourse.matzip.application.response.CampusResponse;
-import com.woowacourse.matzip.domain.campus.CampusCacheRepository;
+import com.woowacourse.matzip.infrastructure.campus.CampusCacheRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;

@@ -7,9 +7,9 @@ import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANT
 import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANTS_SORT_BY_RATING_RESPONSE;
 import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANTS_SORT_BY_SPELL_RESPONSE;
 import static com.woowacourse.document.DocumentationFixture.SEOLLEUNG_RESTAURANT_RESPONSE_1;
-import static com.woowacourse.matzip.domain.restaurant.RestaurantFindQueryFactory.ORDER_BY_ID_DESC;
-import static com.woowacourse.matzip.domain.restaurant.RestaurantFindQueryFactory.ORDER_BY_NAME_ASC;
-import static com.woowacourse.matzip.domain.restaurant.RestaurantFindQueryFactory.ORDER_BY_RATING_DESC;
+import static com.woowacourse.matzip.infrastructure.restaurant.RestaurantFindQueryFactory.ORDER_BY_ID_DESC;
+import static com.woowacourse.matzip.infrastructure.restaurant.RestaurantFindQueryFactory.ORDER_BY_NAME_ASC;
+import static com.woowacourse.matzip.infrastructure.restaurant.RestaurantFindQueryFactory.ORDER_BY_RATING_DESC;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
