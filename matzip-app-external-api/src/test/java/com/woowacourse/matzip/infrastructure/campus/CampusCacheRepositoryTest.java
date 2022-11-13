@@ -1,8 +1,9 @@
-package com.woowacourse.matzip.domain.campus;
+package com.woowacourse.matzip.infrastructure.campus;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import com.woowacourse.matzip.domain.campus.Campus;
 import com.woowacourse.matzip.exception.CampusNotFoundException;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +15,8 @@ public class CampusCacheRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        campusCacheRepository = new CampusCacheRepository(List.of(new Campus(1L, "JAMSIL"), new Campus(2L, "SEOLLEUNG")));
+        campusCacheRepository = new CampusCacheRepository(
+                List.of(new Campus(1L, "JAMSIL"), new Campus(2L, "SEOLLEUNG")));
     }
 
     @Test

@@ -1,16 +1,18 @@
-package com.woowacourse.matzip.domain.restaurant;
+package com.woowacourse.matzip.infrastructure.restaurant;
 
 import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestMember;
 import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestRestaurant;
 import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestReview;
-import static com.woowacourse.matzip.domain.restaurant.RestaurantFindQueryFactory.ORDER_BY_ID_DESC;
-import static com.woowacourse.matzip.domain.restaurant.RestaurantFindQueryFactory.ORDER_BY_NAME_ASC;
-import static com.woowacourse.matzip.domain.restaurant.RestaurantFindQueryFactory.ORDER_BY_RATING_DESC;
+import static com.woowacourse.matzip.infrastructure.restaurant.RestaurantFindQueryFactory.ORDER_BY_ID_DESC;
+import static com.woowacourse.matzip.infrastructure.restaurant.RestaurantFindQueryFactory.ORDER_BY_NAME_ASC;
+import static com.woowacourse.matzip.infrastructure.restaurant.RestaurantFindQueryFactory.ORDER_BY_RATING_DESC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
+import com.woowacourse.matzip.domain.restaurant.Restaurant;
+import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.support.config.JpaConfig;
 import java.util.List;

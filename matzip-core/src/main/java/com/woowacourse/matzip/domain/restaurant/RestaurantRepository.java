@@ -22,11 +22,11 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query(value = "update Restaurant r "
-            + "set r.reviewCount = r.reviewCount + 1, "
-            + "r.reviewRatingSum = r.reviewRatingSum + :rating, "
-            + "r.reviewRatingAverage = (r.reviewRatingSum + :rating) / cast((r.reviewCount + 1) as float) "
+            + "set r.reviewRatingAverage = (r.reviewRatingSum + :rating) / cast((r.reviewCount + 1) as float), "
+            + "r.reviewCount = r.reviewCount + 1, "
+            + "r.reviewRatingSum = r.reviewRatingSum + :rating "
             + "where r.id = :id")
-    void updateRestaurantRatingByReviewInsert(Long id, long rating);
+    void updateRestaurantByReviewInsert(Long id, long rating);
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query(value = "update Restaurant r "
@@ -35,12 +35,12 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
             + "r.reviewCount = r.reviewCount - 1, "
             + "r.reviewRatingSum = r.reviewRatingSum - :rating "
             + "where r.id = :id")
-    void updateRestaurantRatingByReviewDelete(Long id, long rating);
+    void updateRestaurantByReviewDelete(Long id, long rating);
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query(value = "update Restaurant r "
             + "set r.reviewRatingAverage = (r.reviewRatingSum + :ratingGap) / cast(r.reviewCount as float), "
             + "r.reviewRatingSum = r.reviewRatingSum + :ratingGap "
             + "where r.id = :id")
-    void updateRestaurantRatingByReviewUpdate(Long id, long ratingGap);
+    void updateRestaurantByReviewUpdate(Long id, long ratingGap);
 }

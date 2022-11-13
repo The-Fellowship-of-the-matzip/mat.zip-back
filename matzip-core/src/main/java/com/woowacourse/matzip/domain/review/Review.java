@@ -15,10 +15,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.domain.AbstractAggregateRoot;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.lang.Nullable;
 
@@ -26,7 +28,7 @@ import org.springframework.lang.Nullable;
 @Table(name = "review")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
-public class Review {
+public class Review extends AbstractAggregateRoot<Review> {
 
     private static final int MIN_SCORE = 1;
     private static final int MAX_SCORE = 5;
@@ -73,6 +75,7 @@ public class Review {
         this.rating = rating;
         this.menu = menu;
         this.createdAt = createdAt;
+        registerEvent(new ReviewCreatedEvent(restaurantId, rating));
     }
 
     private void validateRating(final int rating) {
@@ -89,6 +92,7 @@ public class Review {
         validateRating(rating);
         LengthValidator.checkStringLength(menu, MAX_MENU_LENGTH, "메뉴의 이름");
         LengthValidator.checkStringLength(content, MAX_CONTENT_LENGTH, "리뷰 내용");
+        registerEvent(new ReviewUpdatedEvent(restaurantId, calculateGap(rating)));
         this.content = content;
         this.rating = rating;
         this.menu = menu;
@@ -104,9 +108,14 @@ public class Review {
         return member.isSameGithubId(githubId);
     }
 
-    public int calculateGap(final int rating) {
+    private int calculateGap(final int rating) {
         validateRating(rating);
         return Math.subtractExact(rating, this.rating);
+    }
+
+    @PreRemove
+    private void registerDeletedEvent() {
+        registerEvent(new ReviewDeletedEvent(restaurantId, rating));
     }
 
     @Override

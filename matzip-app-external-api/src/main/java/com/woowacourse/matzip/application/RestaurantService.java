@@ -4,12 +4,12 @@ import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
-import com.woowacourse.matzip.domain.restaurant.RestaurantFindQueryFactory;
-import com.woowacourse.matzip.domain.restaurant.RestaurantQueryRepository;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import com.woowacourse.matzip.domain.restaurant.SortCondition;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.matzip.exception.RestaurantNotFoundException;
+import com.woowacourse.matzip.infrastructure.restaurant.RestaurantFindQueryFactory;
+import com.woowacourse.matzip.infrastructure.restaurant.RestaurantQueryRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.PageRequest;
@@ -82,5 +82,20 @@ public class RestaurantService {
 
     private Pageable toIdDescSortPageable(final Pageable pageable) {
         return PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), SortCondition.DEFAULT.getValue());
+    }
+
+    @Transactional
+    public void updateWhenReviewCreate(final Long id, final int rating) {
+        restaurantRepository.updateRestaurantByReviewInsert(id, rating);
+    }
+
+    @Transactional
+    public void updateWhenReviewDelete(final Long id, final int rating) {
+        restaurantRepository.updateRestaurantByReviewDelete(id, rating);
+    }
+
+    @Transactional
+    public void updateWhenReviewUpdate(final Long id, final int ratingGap) {
+        restaurantRepository.updateRestaurantByReviewUpdate(id, ratingGap);
     }
 }

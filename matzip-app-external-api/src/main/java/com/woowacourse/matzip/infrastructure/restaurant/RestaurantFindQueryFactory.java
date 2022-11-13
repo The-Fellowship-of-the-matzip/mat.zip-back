@@ -1,4 +1,4 @@
-package com.woowacourse.matzip.domain.restaurant;
+package com.woowacourse.matzip.infrastructure.restaurant;
 
 import com.woowacourse.matzip.exception.InvalidSortConditionException;
 import java.util.Arrays;
