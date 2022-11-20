@@ -1,4 +1,9 @@
 spring:
+  batch:
+    job:
+      names: reviewFailoverJob
+    jdbc:
+      initialize-schema: always # 1회 사용 후 never로 변경
   jpa:
     hibernate:
       ddl-auto: none
