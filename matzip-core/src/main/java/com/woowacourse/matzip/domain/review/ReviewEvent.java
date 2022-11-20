@@ -34,6 +34,9 @@ public class ReviewEvent {
     @Column(name = "review_id", nullable = false)
     private Long reviewId;
 
+    @Column(name = "restaurant_id", nullable = false)
+    private Long restaurantId;
+
     @Column(name = "rating_gap", nullable = false)
     private int ratingGap;
 
@@ -61,12 +64,14 @@ public class ReviewEvent {
 
     public ReviewEvent(final Long id,
                        final Long reviewId,
+                       final Long restaurantId,
                        final int ratingGap,
                        final int reviewCount,
                        final LocalDate executionDate,
                        final EventStatus eventStatus) {
         this.id = id;
         this.reviewId = reviewId;
+        this.restaurantId = restaurantId;
         this.ratingGap = ratingGap;
         this.reviewCount = reviewCount;
         this.executionDate = executionDate;
@@ -74,14 +79,30 @@ public class ReviewEvent {
     }
 
     public ReviewEvent(final Long reviewId,
+                       final Long restaurantId,
                        final int ratingGap,
                        final int reviewCount,
                        final LocalDate executionDate,
                        final EventStatus eventStatus) {
-        this.reviewId = reviewId;
-        this.ratingGap = ratingGap;
-        this.reviewCount = reviewCount;
-        this.executionDate = executionDate;
-        this.eventStatus = eventStatus;
+        this(null, reviewId, restaurantId, ratingGap, reviewCount, executionDate, eventStatus);
+    }
+
+    public void complete() {
+        this.eventStatus = EventStatus.COMPLETE;
+    }
+
+    @Override
+    public String toString() {
+        return "ReviewEvent{" +
+                "id=" + id +
+                ", reviewId=" + reviewId +
+                ", restaurantId=" + restaurantId +
+                ", ratingGap=" + ratingGap +
+                ", reviewCount=" + reviewCount +
+                ", executionDate=" + executionDate +
+                ", eventStatus=" + eventStatus +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                '}';
     }
 }

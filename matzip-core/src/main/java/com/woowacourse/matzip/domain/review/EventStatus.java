@@ -1,6 +1,6 @@
 package com.woowacourse.matzip.domain.review;
 
-enum EventStatus {
+public enum EventStatus {
 
     PUBLISHED,
     COMPLETE,
