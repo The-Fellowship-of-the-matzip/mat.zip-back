@@ -1,0 +1,9 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  profiles:
+    include: auth,prod
+server:
+  port: 8080
