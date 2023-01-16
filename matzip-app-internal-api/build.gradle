@@ -1,5 +1,5 @@
 plugins {
-    id 'com.vaadin' version '23.2.5'
+    id 'com.vaadin' version '23.3.3'
 }
 
 ext {
