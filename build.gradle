@@ -4,7 +4,7 @@ plugins {
     id 'org.asciidoctor.convert' version '2.4.0' apply(false)
     id 'java-library'
     id 'jacoco'
-    id "org.sonarqube" version "3.4.0.2513" apply(false)
+    id "org.sonarqube" version "4.0.0.2929" apply(false)
 }
 
 allprojects {
