@@ -12,6 +12,7 @@ public class ReviewResponse {
     private String content;
     private int rating;
     private String menu;
+    private String imageUrl;
     private boolean updatable;
 
     private ReviewResponse() {
@@ -22,12 +23,14 @@ public class ReviewResponse {
                           final String content,
                           final int rating,
                           final String menu,
+                          final String imageUrl,
                           final boolean updatable) {
         this.id = id;
         this.author = author;
         this.content = content;
         this.rating = rating;
         this.menu = menu;
+        this.imageUrl = imageUrl;
         this.updatable = updatable;
     }
 
@@ -38,6 +41,7 @@ public class ReviewResponse {
                 review.getContent(),
                 review.getRating(),
                 review.getMenu(),
+                review.getImageUrl(),
                 updatable
         );
     }

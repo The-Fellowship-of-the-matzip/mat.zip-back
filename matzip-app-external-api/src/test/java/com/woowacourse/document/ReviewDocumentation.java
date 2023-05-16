@@ -23,7 +23,7 @@ public class ReviewDocumentation extends Documentation {
         docsGiven
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header("Authorization", "Bearer jwt.token.here")
-                .body(new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)"))
+                .body(new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)", "https://image.matzip.today/1.png"))
                 .when().post("/api/restaurants/1/reviews")
                 .then().log().all()
                 .apply(document("reviewes/create"))
