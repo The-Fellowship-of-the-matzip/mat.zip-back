@@ -1,9 +1,58 @@
 spring:
+  profiles:
+    active:
+      - local
+    group:
+      local:
+        - web-local
+        - db-local
+      prod:
+        - web-prod
+        - db-prod
+
+---
+spring:
+  config:
+    activate:
+      on-profile: web-local
+  application:
+    name: matzip-web-app-external-api
   jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
     hibernate:
       ddl-auto: none
     open-in-view: false
-  profiles:
-    include: auth,prod
+github:
+  client:
+    id: github_client_id
+    secret: github_client_secret
+  url:
+    access-token: http://localhost:8080/login/oauth/access_token
+    profile: http://localhost:8080/user
+
+security:
+  jwt:
+    token:
+      secret-key: testtesttesttesttestteststestkey
+      expire-length: 3600000
+
 server:
   port: 8080
+
+---
+spring:
+  config:
+    activate:
+      on-profile: db-local
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:matzip-local;MODE=MYSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  sql:
+    init:
+      schema-locations: classpath*:schema-local.sql
+      data-locations: classpath*:data-local.sql
