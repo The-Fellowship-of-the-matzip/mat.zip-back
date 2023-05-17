@@ -8,6 +8,7 @@ dependencies {
 
     // database driver
     runtimeOnly 'mysql:mysql-connector-java'
+    runtimeOnly 'com.h2database:h2'
     testRuntimeOnly 'com.h2database:h2'
 
     // jwt
