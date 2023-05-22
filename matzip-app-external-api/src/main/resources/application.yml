@@ -5,5 +5,9 @@ spring:
     open-in-view: false
   profiles:
     include: auth,prod
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
 server:
   port: 8080
+  shutdown: graceful
+
