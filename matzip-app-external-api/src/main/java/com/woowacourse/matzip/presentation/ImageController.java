@@ -2,7 +2,6 @@ package com.woowacourse.matzip.presentation;
 
 import com.woowacourse.matzip.application.ImageService;
 import com.woowacourse.matzip.application.response.ImageResponse;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

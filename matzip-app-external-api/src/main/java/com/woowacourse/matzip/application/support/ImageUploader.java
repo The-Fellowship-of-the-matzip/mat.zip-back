@@ -2,12 +2,10 @@ package com.woowacourse.matzip.application.support;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.CopyObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.woowacourse.matzip.domain.image.Image;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +24,7 @@ public class ImageUploader {
     }
 
     public Image uploadImage(final MultipartFile imageFile) {
+        validateImageFile(imageFile);
         ObjectMetadata objectMetaData = parseObjectMetadata(imageFile);
 
         String originalFilename = imageFile.getOriginalFilename();
@@ -37,14 +36,24 @@ public class ImageUploader {
                 .build();
     }
 
-    private ObjectMetadata parseObjectMetadata(final MultipartFile imageFile) {
+    private void validateImageFile(final MultipartFile imageFile) {
         String contentType = imageFile.getContentType();
-        if (!contentType.contains(IMAGE)) {
+        if (contentType == null) {
             throw new IllegalArgumentException();
         }
+        if (isImageContent(contentType)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private boolean isImageContent(final String contentType) {
+        return !contentType.contains(IMAGE);
+    }
+
+    private ObjectMetadata parseObjectMetadata(final MultipartFile imageFile) {
         long size = imageFile.getSize();
         ObjectMetadata objectMetaData = new ObjectMetadata();
-        objectMetaData.setContentType(contentType);
+        objectMetaData.setContentType(imageFile.getContentType());
         objectMetaData.setContentLength(size);
         return objectMetaData;
     }
