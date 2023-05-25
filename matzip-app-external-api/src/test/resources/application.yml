@@ -29,3 +29,15 @@ security:
 
 server:
   port: 8180
+
+cloud:
+  aws:
+    credentials:
+      access-key: access-key
+      secret-key: secret-key
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    s3:
+      bucket: matzip-image
