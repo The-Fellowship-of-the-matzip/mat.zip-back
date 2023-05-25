@@ -8,7 +8,7 @@ dependencies {
 
     // database driver
     runtimeOnly 'mysql:mysql-connector-java'
-    testRuntimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.h2database:h2'
 
     // jwt
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
