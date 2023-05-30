@@ -1,6 +1,8 @@
 package com.woowacourse.matzip.domain.review;
 
 import java.util.Optional;
+
+import com.woowacourse.matzip.domain.member.Member;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -18,4 +20,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @EntityGraph(attributePaths = {"member"}, type = EntityGraphType.FETCH)
     Slice<Review> findPageByRestaurantIdOrderByIdDesc(Long restaurantId, Pageable pageable);
+
+    Long countByMember(Member member);
 }

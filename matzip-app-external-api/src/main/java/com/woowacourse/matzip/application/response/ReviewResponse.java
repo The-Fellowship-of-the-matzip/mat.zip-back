@@ -31,10 +31,10 @@ public class ReviewResponse {
         this.updatable = updatable;
     }
 
-    public static ReviewResponse of(final Review review, final boolean updatable) {
+    public static ReviewResponse of(final Review review, final boolean updatable, final Long reviewCount) {
         return new ReviewResponse(
                 review.getId(),
-                ReviewAuthor.from(review.getMember()),
+                ReviewAuthor.of(review.getMember(), reviewCount),
                 review.getContent(),
                 review.getRating(),
                 review.getMenu(),
@@ -47,17 +47,19 @@ public class ReviewResponse {
 
         private String username;
         private String profileImage;
+        private Long reviewCount;
 
         private ReviewAuthor() {
         }
 
-        public ReviewAuthor(final String username, final String profileImage) {
+        public ReviewAuthor(final String username, final String profileImage, final Long reviewCount) {
             this.username = username;
             this.profileImage = profileImage;
+            this.reviewCount = reviewCount;
         }
 
-        public static ReviewAuthor from(final Member member) {
-            return new ReviewAuthor(member.getUsername(), member.getProfileImage());
+        public static ReviewAuthor of(final Member member, final Long reviewCount) {
+            return new ReviewAuthor(member.getUsername(), member.getProfileImage(), reviewCount);
         }
     }
 }
