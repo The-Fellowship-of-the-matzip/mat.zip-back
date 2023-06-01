@@ -1,0 +1,3 @@
+[submodule "matzip-app-external-api/src/main/resources/prod"]
+	path = matzip-app-external-api/src/main/resources/prod
+	url = https://github.com/The-Fellowship-of-the-matzip/submodule-back.git
