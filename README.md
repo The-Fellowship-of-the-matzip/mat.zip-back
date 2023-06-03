@@ -41,12 +41,12 @@
 서버간의 의존성 분리를 위한 멀티모듈 설계
 
 ### [matzip-app-external-app](https://github.com/The-Fellowship-of-the-matzip/mat.zip-back/tree/main/matzip-app-external-api)
-- 어플리케이션 모듈 계층
-- 외부에서 사용해야하는 어플리케이션 정의 (사용자 api)
+- 애플리케이션 모듈 계층
+- 외부에서 사용해야하는 애플리케이션 정의 (사용자 api)
 
 ### [matzip-app-internal-app](https://github.com/The-Fellowship-of-the-matzip/mat.zip-back/tree/main/matzip-app-internal-api)
-- 어플리케이션 모듈 계층
-- 내부에서 사용해야하는 어플리케이션 정의 (어드민)
+- 애플리케이션 모듈 계층
+- 내부에서 사용해야하는 애플리케이션 정의 (어드민)
 
 ### matzip-secret-submodule
 - 내부 모듈 계층
@@ -60,10 +60,34 @@
 - 공통 모듈 계층
 - 전체 모듈이 공통적으로 사용하는 Util, custom exception 정의
 
+## prod 환경 submodule 설정
+### submodule 최초 설정
+
+```shell
+git submodule init
+git submodule update
+```
+
+### submodule 업데이트
+
+```shell
+git submodule update --remote
+```
+
 ## 🧑‍💻 팀원
+
+### 우아한테크코스 4기
 <div align="center">
     
 | [오찌](https://github.com/Ohzzi) | [오리](https://github.com/jinyoungchoi95) | [후니](https://github.com/jayjaehunchoi) |
 | :-: | :-: | :-: |
 | ![](https://github.com/Ohzzi.png?size=200) | ![](https://github.com/jinyoungchoi95.png?size=200) | ![](https://github.com/jayjaehunchoi.png?size=200) |
+</div>
+
+### 우아한테크코스 5기
+<div align="center">
+
+| [베로](https://github.com/Cyma-s) | [체인저](https://github.com/beer-2000) | [주드](https://github.com/kevstevie) |
+| :-: | :-: | :-: |
+| ![](https://github.com/Cyma-s.png?size=200) | ![](https://github.com/beer-2000.png?size=200) | ![](https://github.com/kevstevie.png?size=200) |
 </div>
