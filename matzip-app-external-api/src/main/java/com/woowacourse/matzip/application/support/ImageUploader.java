@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.woowacourse.matzip.domain.image.Image;
+import com.woowacourse.matzip.domain.image.ImageExtension;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,23 +24,16 @@ public class ImageUploader {
     }
 
     public Image uploadImage(final MultipartFile imageFile) {
-        validateImageFile(imageFile);
         ObjectMetadata objectMetaData = parseObjectMetadata(imageFile);
-
         String originalFilename = imageFile.getOriginalFilename();
+        ImageExtension.validateExtension(originalFilename);
+
         uploadImageToS3(imageFile, objectMetaData, originalFilename);
         String imagePath = amazonS3.getUrl(bucketName, originalFilename).toString();
 
         return Image.builder()
                 .imageUrl(imagePath)
                 .build();
-    }
-
-    private void validateImageFile(final MultipartFile imageFile) {
-        String contentType = imageFile.getContentType();
-        if (contentType == null) {
-            throw new IllegalArgumentException();
-        }
     }
 
     private ObjectMetadata parseObjectMetadata(final MultipartFile imageFile) {
