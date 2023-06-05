@@ -279,7 +279,7 @@ class RestaurantServiceTest {
 
         final RestaurantTitleResponse restaurantTitleResponse = restaurantService.findRandomsByCampusId(1L, 1).get(0);
 
-        assertThat(restaurantTitleResponse.getReviewCount()).isEqualTo(0);
+        assertThat(restaurantTitleResponse.getReviewCount()).isZero();
     }
 
     @Test
