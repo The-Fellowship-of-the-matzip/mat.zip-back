@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+@Transactional(readOnly = true)
 @Service
-@Transactional
 public class ImageService {
 
     private final ImageRepository imageRepository;
@@ -20,6 +20,7 @@ public class ImageService {
         this.imageUploader = imageUploader;
     }
 
+    @Transactional
     public ImageResponse uploadImage(final MultipartFile imageFile) {
         Image image = imageUploader.uploadImage(imageFile);
         imageRepository.save(image);

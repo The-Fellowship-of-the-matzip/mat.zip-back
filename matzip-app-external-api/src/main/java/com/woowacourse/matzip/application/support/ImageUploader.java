@@ -14,7 +14,6 @@ import java.io.IOException;
 @Component
 public class ImageUploader {
 
-    private static final String IMAGE = "image";
     private final AmazonS3 amazonS3;
     private final String bucketName;
 
@@ -41,13 +40,6 @@ public class ImageUploader {
         if (contentType == null) {
             throw new IllegalArgumentException();
         }
-        if (isImageContent(contentType)) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private boolean isImageContent(final String contentType) {
-        return !contentType.contains(IMAGE);
     }
 
     private ObjectMetadata parseObjectMetadata(final MultipartFile imageFile) {

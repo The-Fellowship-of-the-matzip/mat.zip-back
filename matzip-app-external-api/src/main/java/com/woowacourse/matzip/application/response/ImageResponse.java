@@ -4,7 +4,7 @@ public class ImageResponse {
 
     private String imageUrl;
 
-    public ImageResponse() {
+    private ImageResponse() {
     }
 
     public ImageResponse(final String imageUrl) {
