@@ -1,5 +1,6 @@
 package com.woowacourse.matzip.presentation;
 
+import com.woowacourse.auth.support.AuthenticationPrincipal;
 import com.woowacourse.matzip.application.ImageService;
 import com.woowacourse.matzip.application.response.ImageResponse;
 import lombok.NonNull;
@@ -21,7 +22,8 @@ public class ImageController {
     }
 
     @PostMapping
-    public ResponseEntity<ImageResponse> uploadImage(@NonNull @RequestPart final MultipartFile imageFile) {
+    public ResponseEntity<ImageResponse> uploadImage(@RequestPart final MultipartFile imageFile,
+                                                     @AuthenticationPrincipal final String githubId) {
         ImageResponse imageResponse = imageService.uploadImage(imageFile);
         return ResponseEntity.ok(imageResponse);
     }
