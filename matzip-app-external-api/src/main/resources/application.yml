@@ -1,5 +1,26 @@
 spring:
+  profiles:
+    active:
+      - local
+    group:
+      local:
+        - web-local
+        - db-local
+  config:
+    import: classpath:prod/application.yml
+
+---
+spring:
+  config:
+    activate:
+      on-profile: web-local
+  application:
+    name: matzip-web-app-external-api
   jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
     hibernate:
       ddl-auto: none
     open-in-view: false
@@ -10,4 +31,3 @@ spring:
 server:
   port: 8080
   shutdown: graceful
-
