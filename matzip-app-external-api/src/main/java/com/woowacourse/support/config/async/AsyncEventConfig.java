@@ -15,7 +15,7 @@ public class AsyncEventConfig {
         threadPoolTaskExecutor.setCorePoolSize(10);
         threadPoolTaskExecutor.setMaxPoolSize(20);
         threadPoolTaskExecutor.setQueueCapacity(25);
-        threadPoolTaskExecutor.setWaitForTasksToCompleteOnShutdown(true);
+        threadPoolTaskExecutor.setAwaitTerminationMillis(15000);
         threadPoolTaskExecutor.initialize();
         return threadPoolTaskExecutor;
     }
