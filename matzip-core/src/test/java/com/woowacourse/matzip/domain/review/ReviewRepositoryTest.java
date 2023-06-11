@@ -136,7 +136,7 @@ class ReviewRepositoryTest {
                     .menu("족발" + i)
                     .build());
         }
-        var reviewCountByMemberIds = reviewRepository.findReviewCountByMemberIds(List.of(member.getId(), member2.getId()));
+        var reviewCountByMemberIds = reviewRepository.countReviewsByMemberIds(List.of(member.getId(), member2.getId()));
 
         assertAll(
                 () -> assertThat(reviewCountByMemberIds.get(0).getReviewCount()).isEqualTo(10),

@@ -50,7 +50,7 @@ public class ReviewService {
 
         List<Long> memberIds = getMemberIds(page);
         Map<Long, Long> reviewCountByMemberIds = new ReviewCountByMemberIdsDto(
-                reviewRepository.findReviewCountByMemberIds(memberIds)
+                reviewRepository.countReviewsByMemberIds(memberIds)
         ).toMap();
 
         List<ReviewResponse> reviewResponses = page.stream()
