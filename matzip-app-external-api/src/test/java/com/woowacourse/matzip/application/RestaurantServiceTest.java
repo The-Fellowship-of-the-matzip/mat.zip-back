@@ -1,12 +1,5 @@
 package com.woowacourse.matzip.application;
 
-import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestMember;
-import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestRestaurant;
-import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestReview;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
-
 import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
@@ -17,10 +10,18 @@ import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.matzip.exception.RestaurantNotFoundException;
 import com.woowacourse.support.SpringServiceTest;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+
+import java.util.List;
+
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestMember;
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestRestaurant;
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestReview;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @SpringServiceTest
 class RestaurantServiceTest {
@@ -257,5 +258,72 @@ class RestaurantServiceTest {
                 () -> assertThat(actual.getReviewRatingSum()).isEqualTo(2),
                 () -> assertThat(actual.getReviewRatingAverage()).isEqualTo(2.0f)
         );
+    }
+
+    @Test
+    void 리뷰가_없는_식당을_포함한_목록을_조회한다() {
+        restaurantRepository.save(
+                Restaurant.builder()
+                        .campusId(1L)
+                        .categoryId(1L)
+                        .name("음식점")
+                        .address("주소")
+                        .kakaoMapUrl("URL")
+                        .imageUrl("이미지 주소")
+                        .distance(0)
+                        .reviewCount(0)
+                        .reviewRatingSum(5)
+                        .reviewRatingAverage(5.0f)
+                        .build()
+        );
+
+        final RestaurantTitleResponse restaurantTitleResponse = restaurantService.findRandomsByCampusId(1L, 1).get(0);
+
+        assertThat(restaurantTitleResponse.getReviewCount()).isZero();
+    }
+
+    @Test
+    void 식당_목록_조회시_리뷰개수를_함께_반환한다() {
+
+        restaurantRepository.save(
+                Restaurant.builder()
+                        .campusId(1L)
+                        .categoryId(1L)
+                        .name("음식점")
+                        .address("주소")
+                        .kakaoMapUrl("URL")
+                        .imageUrl("이미지 주소")
+                        .distance(0)
+                        .reviewCount(4)
+                        .reviewRatingSum(5)
+                        .reviewRatingAverage(5.0f)
+                        .build()
+        );
+
+        restaurantRepository.save(
+                Restaurant.builder()
+                        .campusId(1L)
+                        .categoryId(1L)
+                        .name("음식점")
+                        .address("주소2")
+                        .kakaoMapUrl("URL")
+                        .imageUrl("이미지 주소")
+                        .distance(0)
+                        .reviewCount(3)
+                        .reviewRatingSum(5)
+                        .reviewRatingAverage(5.0f)
+                        .build()
+        );
+
+        final List<RestaurantTitleResponse> response = restaurantService.findByCampusIdAndCategoryId(
+                "DEFAULT",
+                1L,
+                1L,
+                PageRequest.of(0, 3
+                )).getRestaurants();
+
+        assertThat(response)
+                .extracting(RestaurantTitleResponse::getReviewCount)
+                .containsExactlyInAnyOrder(4, 3);
     }
 }
