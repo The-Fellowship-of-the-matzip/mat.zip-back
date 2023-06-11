@@ -5,22 +5,27 @@ import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.review.Review;
+import com.woowacourse.matzip.domain.review.ReviewCountByMemberIdsDto;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
 import com.woowacourse.matzip.exception.ReviewNotFoundException;
 import com.woowacourse.matzip.presentation.request.ReviewCreateRequest;
 import com.woowacourse.matzip.presentation.request.ReviewUpdateRequest;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional(readOnly = true)
 public class ReviewService {
+
+    private static final Long ZERO_REVIEW = 0L;
 
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
@@ -42,14 +47,29 @@ public class ReviewService {
     public ReviewsResponse findPageByRestaurantId(final String githubId, final Long restaurantId,
                                                   final Pageable pageable) {
         Slice<Review> page = reviewRepository.findPageByRestaurantIdOrderByIdDesc(restaurantId, pageable);
+
+        List<Long> memberIds = getMemberIds(page);
+        Map<Long, Long> reviewCountByMemberIds = new ReviewCountByMemberIdsDto(
+                reviewRepository.findReviewCountByMemberIds(memberIds)
+        ).toMap();
+
         List<ReviewResponse> reviewResponses = page.stream()
-                .map(review -> createReviewResponse(githubId, review))
+                .map(review -> createReviewResponse(githubId, review, reviewCountByMemberIds))
                 .collect(Collectors.toList());
         return new ReviewsResponse(page.hasNext(), reviewResponses);
     }
 
-    private ReviewResponse createReviewResponse(final String githubId, final Review review) {
-        return ReviewResponse.of(review, review.isWriter(githubId), reviewRepository.countByMember(review.getMember()));
+    private List<Long> getMemberIds(final Slice<Review> page) {
+        return page.stream()
+                .map(Review::getMember)
+                .map(Member::getId)
+                .collect(Collectors.toList());
+    }
+
+    private ReviewResponse createReviewResponse(final String githubId,
+                                                final Review review,
+                                                final Map<Long, Long> reviewCountByMemberIds) {
+        return ReviewResponse.of(review, review.isWriter(githubId), reviewCountByMemberIds.getOrDefault(review.getMember().getId(), ZERO_REVIEW));
     }
 
     @Transactional
