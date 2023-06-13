@@ -6,6 +6,9 @@ spring:
       local:
         - web-local
         - db-local
+      prod:
+        - web-prod
+        - db-prod
   config:
     import: classpath:prod/application.yml
 
