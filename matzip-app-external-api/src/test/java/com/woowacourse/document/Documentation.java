@@ -7,6 +7,7 @@ import com.woowacourse.auth.application.AuthService;
 import com.woowacourse.auth.application.JwtTokenProvider;
 import com.woowacourse.auth.presentation.AuthController;
 import com.woowacourse.auth.presentation.AuthenticationContext;
+import com.woowacourse.matzip.application.BookmarkService;
 import com.woowacourse.matzip.application.CampusService;
 import com.woowacourse.matzip.application.CategoryService;
 import com.woowacourse.matzip.application.RestaurantDemandService;
@@ -14,6 +15,7 @@ import com.woowacourse.matzip.application.RestaurantService;
 import com.woowacourse.matzip.application.ReviewService;
 import com.woowacourse.matzip.config.CampusConfig;
 import com.woowacourse.matzip.domain.campus.CampusRepository;
+import com.woowacourse.matzip.presentation.BookmarkController;
 import com.woowacourse.matzip.presentation.CampusController;
 import com.woowacourse.matzip.presentation.CategoryController;
 import com.woowacourse.matzip.presentation.RestaurantController;
@@ -37,7 +39,8 @@ import org.springframework.web.context.WebApplicationContext;
         RestaurantController.class,
         ReviewController.class,
         AuthController.class,
-        RestaurantDemandController.class
+        RestaurantDemandController.class,
+        BookmarkController.class
 })
 @ExtendWith(RestDocumentationExtension.class)
 public class Documentation {
@@ -55,6 +58,8 @@ public class Documentation {
     protected RestaurantService restaurantService;
     @MockBean
     protected RestaurantDemandService restaurantDemandService;
+    @MockBean
+    protected BookmarkService bookmarkService;
     @MockBean
     protected AuthService authService;
     @MockBean
