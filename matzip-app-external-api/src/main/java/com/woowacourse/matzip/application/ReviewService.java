@@ -25,8 +25,6 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class ReviewService {
 
-    private static final Long ZERO_REVIEW = 0L;
-
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
 
