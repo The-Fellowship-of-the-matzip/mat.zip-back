@@ -1,5 +1,12 @@
 package com.woowacourse.matzip.application;
 
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestMember;
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestRestaurant;
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestReview;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
@@ -10,18 +17,10 @@ import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.matzip.exception.RestaurantNotFoundException;
 import com.woowacourse.support.SpringServiceTest;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-
-import java.util.List;
-
-import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestMember;
-import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestRestaurant;
-import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestReview;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 @SpringServiceTest
 class RestaurantServiceTest {
@@ -37,9 +36,9 @@ class RestaurantServiceTest {
 
     @Test
     void 캠퍼스id가_일치하는_식당_목록_페이지를_최신순으로_반환한다() {
-        RestaurantTitlesResponse page1 = restaurantService.findByCampusIdAndCategoryId("DEFAULT", 2L, null,
+        RestaurantTitlesResponse page1 = restaurantService.findByCampusIdAndCategoryId(null, "DEFAULT", 2L, null,
                 PageRequest.of(0, 2));
-        RestaurantTitlesResponse page2 = restaurantService.findByCampusIdAndCategoryId("DEFAULT", 2L, null,
+        RestaurantTitlesResponse page2 = restaurantService.findByCampusIdAndCategoryId(null, "DEFAULT", 2L, null,
                 PageRequest.of(1, 2));
 
         assertAll(
@@ -56,7 +55,7 @@ class RestaurantServiceTest {
 
     @Test
     void 캠퍼스id와_카테고리id가_일치하는_식당_목록_페이지를_반환한다() {
-        RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId("DEFAULT", 2L, 1L,
+        RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId(null, "DEFAULT", 2L, 1L,
                 PageRequest.of(0, 2));
 
         assertAll(
@@ -78,7 +77,7 @@ class RestaurantServiceTest {
         restaurantRepository.save(createTestRestaurant(restaurant, 10, 40, 4.0f));
         restaurantRepository.save(restaurant);
 
-        RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId("DEFAULT", 1L, 1L,
+        RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId(null, "DEFAULT", 1L, 1L,
                 PageRequest.of(0, 10));
 
         assertThat(response.getRestaurants()).hasSize(1)
@@ -93,7 +92,7 @@ class RestaurantServiceTest {
         Restaurant restaurant3 = createTestRestaurant(1L, 1L, "나식당", "테스트주소3");
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
 
-        RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId("SPELL", 1L, 1L,
+        RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId(null, "SPELL", 1L, 1L,
                 PageRequest.of(0, 3));
 
         assertThat(response.getRestaurants()).hasSize(3)
@@ -114,7 +113,7 @@ class RestaurantServiceTest {
         restaurantRepository.save(createTestRestaurant(restaurant1, 10, 40, 4.0f));
         restaurantRepository.save(createTestRestaurant(restaurant2, 10, 30, 3.0f));
 
-        RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId("RATING", 1L, 1L,
+        RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId(null, "RATING", 1L, 1L,
                 PageRequest.of(0, 2));
 
         assertThat(response.getRestaurants()).hasSize(2)
@@ -124,7 +123,7 @@ class RestaurantServiceTest {
 
     @Test
     void 무작위로_지정한_캠퍼스의_지정한_개수의_식당_목록을_조회한다() {
-        List<RestaurantTitleResponse> responses = restaurantService.findRandomsByCampusId(2L, 2);
+        List<RestaurantTitleResponse> responses = restaurantService.findRandomsByCampusId(null, 2L, 2);
 
         assertThat(responses).hasSize(2)
                 .extracting("name")
@@ -136,19 +135,20 @@ class RestaurantServiceTest {
         Restaurant restaurant = createTestRestaurant(1L, 1L, "테스트식당", "테스트주소");
         restaurantRepository.save(restaurant);
 
-        RestaurantResponse response = restaurantService.findById(restaurant.getId());
+        RestaurantResponse response = restaurantService.findById(null, restaurant.getId());
 
         assertAll(
                 () -> assertThat(response).usingRecursiveComparison()
-                        .ignoringFields("rating")
+                        .ignoringFields("rating", "saved")
                         .isEqualTo(restaurant),
-                () -> assertThat(response.getRating()).isEqualTo(0.0)
+                () -> assertThat(response.getRating()).isEqualTo(0.0),
+                () -> assertThat(response.isSaved()).isFalse()
         );
     }
 
     @Test
     void 존재하지_않는_id로_조회하면_예외를_반환한다() {
-        assertThatThrownBy(() -> restaurantService.findById(Long.MAX_VALUE))
+        assertThatThrownBy(() -> restaurantService.findById(null, Long.MAX_VALUE))
                 .isInstanceOf(RestaurantNotFoundException.class);
     }
 
@@ -161,10 +161,14 @@ class RestaurantServiceTest {
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3, restaurant4));
 
         RestaurantTitlesResponse response1 = restaurantService.findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(
-                1L, "테스트",
+                null,
+                1L,
+                "테스트",
                 PageRequest.of(0, 2));
         RestaurantTitlesResponse response2 = restaurantService.findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(
-                1L, "테스트",
+                null,
+                1L,
+                "테스트",
                 PageRequest.of(1, 2));
 
         assertAll(
@@ -277,7 +281,8 @@ class RestaurantServiceTest {
                         .build()
         );
 
-        final RestaurantTitleResponse restaurantTitleResponse = restaurantService.findRandomsByCampusId(1L, 1).get(0);
+        final RestaurantTitleResponse restaurantTitleResponse = restaurantService.findRandomsByCampusId(null, 1L, 1)
+                .get(0);
 
         assertThat(restaurantTitleResponse.getReviewCount()).isZero();
     }
@@ -316,6 +321,7 @@ class RestaurantServiceTest {
         );
 
         final List<RestaurantTitleResponse> response = restaurantService.findByCampusIdAndCategoryId(
+                null,
                 "DEFAULT",
                 1L,
                 1L,

@@ -2,7 +2,7 @@ package com.woowacourse.acceptance;
 
 import static com.woowacourse.acceptance.AuthAcceptanceTest.로그인_토큰;
 import static com.woowacourse.acceptance.support.RestAssuredRequest.httpDeleteRequest;
-import static com.woowacourse.acceptance.support.RestAssuredRequest.httpPostRequestWithoutBody;
+import static com.woowacourse.acceptance.support.RestAssuredRequest.httpPostRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.restassured.response.ExtractableResponse;
@@ -18,7 +18,7 @@ public class BookmarkAcceptanceTest extends AcceptanceTest {
     private static final Long 식당_ID_3 = 3L;
 
     private static ExtractableResponse<Response> 북마크_저장_요청(final Long restaurantId, final String accessToken) {
-        return httpPostRequestWithoutBody("/api/restaurants/" + restaurantId + "/bookmarks", accessToken);
+        return httpPostRequest("/api/restaurants/" + restaurantId + "/bookmarks", accessToken);
     }
 
     private static ExtractableResponse<Response> 북마크_삭제_요청(final Long restaurantId, final String accessToken) {

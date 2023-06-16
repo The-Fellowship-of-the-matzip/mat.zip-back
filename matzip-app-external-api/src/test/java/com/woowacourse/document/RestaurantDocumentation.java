@@ -23,7 +23,7 @@ public class RestaurantDocumentation extends Documentation {
 
     @Test
     void 선릉캠퍼스_식당_목록의_0페이지를_최신순으로_조회한다() {
-        when(restaurantService.findByCampusIdAndCategoryId(eq(ORDER_BY_ID_DESC.getQuery()), eq(2L), eq(null),
+        when(restaurantService.findByCampusIdAndCategoryId(eq(null), eq(ORDER_BY_ID_DESC.getQuery()), eq(2L), eq(null),
                 any(Pageable.class))).thenReturn(SEOLLEUNG_RESTAURANTS_RESPONSE);
 
         docsGiven
@@ -35,7 +35,7 @@ public class RestaurantDocumentation extends Documentation {
 
     @Test
     void 선릉캠퍼스_식당_목록의_0페이지를_가나다순으로_조회한다() {
-        when(restaurantService.findByCampusIdAndCategoryId(eq(ORDER_BY_NAME_ASC.getQuery()), eq(2L), eq(null),
+        when(restaurantService.findByCampusIdAndCategoryId(eq(null), eq(ORDER_BY_NAME_ASC.getQuery()), eq(2L), eq(null),
                 any(Pageable.class))).thenReturn(SEOLLEUNG_RESTAURANTS_SORT_BY_SPELL_RESPONSE);
 
         docsGiven
@@ -47,7 +47,8 @@ public class RestaurantDocumentation extends Documentation {
 
     @Test
     void 선릉캠퍼스_식당_목록의_0페이지를_별점순으로_조회한다() {
-        when(restaurantService.findByCampusIdAndCategoryId(eq(ORDER_BY_RATING_DESC.getQuery()), eq(2L), eq(null),
+        when(restaurantService.findByCampusIdAndCategoryId(eq(null), eq(ORDER_BY_RATING_DESC.getQuery()), eq(2L),
+                eq(null),
                 any(Pageable.class))).thenReturn(SEOLLEUNG_RESTAURANTS_SORT_BY_RATING_RESPONSE);
 
         docsGiven
@@ -59,7 +60,7 @@ public class RestaurantDocumentation extends Documentation {
 
     @Test
     void 선릉캠퍼스_한식_식당_목록의_0페이지를_최신순으로_조회한다() {
-        when(restaurantService.findByCampusIdAndCategoryId(eq(ORDER_BY_ID_DESC.getQuery()), eq(2L), eq(1L),
+        when(restaurantService.findByCampusIdAndCategoryId(eq(null), eq(ORDER_BY_ID_DESC.getQuery()), eq(2L), eq(1L),
                 any(Pageable.class))).thenReturn(SEOLLEUNG_KOREAN_RESTAURANTS_RESPONSE);
 
         docsGiven
@@ -71,7 +72,7 @@ public class RestaurantDocumentation extends Documentation {
 
     @Test
     void 선릉캠퍼스_식당_목록을_2개_무작위로_조회한다() {
-        when(restaurantService.findRandomsByCampusId(2L, 2)).thenReturn(
+        when(restaurantService.findRandomsByCampusId(null, 2L, 2)).thenReturn(
                 SEOLLEUNG_RESTAURANTS_RANDOM_2_RESPONSE);
 
         docsGiven
@@ -83,7 +84,7 @@ public class RestaurantDocumentation extends Documentation {
 
     @Test
     void 선릉캠퍼스_식당_1의_상세_정보를_조회한다() {
-        when(restaurantService.findById(1L)).thenReturn(SEOLLEUNG_RESTAURANT_RESPONSE_1);
+        when(restaurantService.findById(null, 1L)).thenReturn(SEOLLEUNG_RESTAURANT_RESPONSE_1);
 
         docsGiven
                 .when().get("/api/restaurants/1")
@@ -94,7 +95,7 @@ public class RestaurantDocumentation extends Documentation {
 
     @Test
     void 선릉캠퍼스_식당을_이름으로_검색한다() {
-        when(restaurantService.findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(eq(1L), eq("돈까스"),
+        when(restaurantService.findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(eq(null), eq(1L), eq("돈까스"),
                 any(Pageable.class)))
                 .thenReturn(SEOLLEUNG_PORT_CUTLET_RESTAURANTS_RESPONSE);
 

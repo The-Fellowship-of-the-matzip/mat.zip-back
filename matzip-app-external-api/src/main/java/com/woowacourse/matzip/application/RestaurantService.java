@@ -1,16 +1,21 @@
 package com.woowacourse.matzip.application;
 
+import com.woowacourse.auth.presentation.AuthenticationContext;
 import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
+import com.woowacourse.matzip.domain.member.Member;
+import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import com.woowacourse.matzip.domain.restaurant.SortCondition;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
+import com.woowacourse.matzip.exception.MemberNotFoundException;
 import com.woowacourse.matzip.exception.RestaurantNotFoundException;
 import com.woowacourse.matzip.infrastructure.restaurant.RestaurantFindQueryFactory;
 import com.woowacourse.matzip.infrastructure.restaurant.RestaurantQueryRepository;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,57 +30,75 @@ public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final RestaurantQueryRepository restaurantQueryRepository;
     private final ReviewRepository reviewRepository;
+    private final MemberRepository memberRepository;
+    private final AuthenticationContext authenticationContext;
 
     public RestaurantService(RestaurantRepository restaurantRepository,
                              RestaurantQueryRepository restaurantQueryRepository,
-                             ReviewRepository reviewRepository) {
+                             ReviewRepository reviewRepository, MemberRepository memberRepository,
+                             AuthenticationContext authenticationContext) {
         this.restaurantRepository = restaurantRepository;
         this.restaurantQueryRepository = restaurantQueryRepository;
         this.reviewRepository = reviewRepository;
+        this.memberRepository = memberRepository;
+        this.authenticationContext = authenticationContext;
     }
 
-    public RestaurantTitlesResponse findByCampusIdAndCategoryId(final String sortCondition, final Long campusId,
-                                                                final Long categoryId, final Pageable pageable) {
+    public RestaurantTitlesResponse findByCampusIdAndCategoryId(final String githubId, final String sortCondition,
+                                                                final Long campusId, final Long categoryId,
+                                                                final Pageable pageable) {
         String restaurantFindQuery = RestaurantFindQueryFactory.from(sortCondition);
         Slice<Restaurant> restaurants = restaurantQueryRepository.findPageByCampusIdAndCategoryId(restaurantFindQuery,
                 campusId, categoryId, pageable);
-        return toRestaurantTitlesResponse(restaurants);
+        return toRestaurantTitlesResponse(githubId, restaurants);
     }
 
-    private RestaurantTitlesResponse toRestaurantTitlesResponse(Slice<Restaurant> page) {
+    private RestaurantTitlesResponse toRestaurantTitlesResponse(final String githubId, Slice<Restaurant> page) {
         List<RestaurantTitleResponse> restaurantTitleResponses = page.stream()
-                .map(this::toResponseTitleResponse)
+                .map(restaurant -> toResponseTitleResponse(githubId, restaurant))
                 .collect(Collectors.toList());
         return new RestaurantTitlesResponse(page.hasNext(), restaurantTitleResponses);
     }
 
-    private RestaurantTitleResponse toResponseTitleResponse(final Restaurant restaurant) {
+    private RestaurantTitleResponse toResponseTitleResponse(final String githubId, final Restaurant restaurant) {
         double rating = reviewRepository.findAverageRatingUsingRestaurantId(restaurant.getId())
                 .orElse(0.0);
-        return RestaurantTitleResponse.of(restaurant, rating);
+        return RestaurantTitleResponse.of(restaurant, rating, isBookmarked(githubId, restaurant.getId()));
     }
 
-    public List<RestaurantTitleResponse> findRandomsByCampusId(final Long campusId, final int size) {
+    public List<RestaurantTitleResponse> findRandomsByCampusId(final String githubId, final Long campusId,
+                                                               final int size) {
         return restaurantRepository.findRandomsByCampusId(campusId, size)
                 .stream()
-                .map(this::toResponseTitleResponse)
+                .map(restaurant -> toResponseTitleResponse(githubId, restaurant))
                 .collect(Collectors.toList());
     }
 
-    public RestaurantResponse findById(final Long restaurantId) {
+    public RestaurantResponse findById(final String githubId, final Long restaurantId) {
         return RestaurantResponse.of(
                 restaurantRepository.findById(restaurantId)
                         .orElseThrow(RestaurantNotFoundException::new),
                 reviewRepository.findAverageRatingUsingRestaurantId(restaurantId)
-                        .orElse(0.0)
-        );
+                        .orElse(0.0),
+                isBookmarked(githubId, restaurantId));
     }
 
-    public RestaurantTitlesResponse findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(final Long campusId,
+    private boolean isBookmarked(final String githubId, final Long restaurantId) {
+        if (Objects.isNull(githubId)) {
+            return false;
+        }
+        Member member = memberRepository.findMemberByGithubId(githubId)
+                .orElseThrow(MemberNotFoundException::new);
+        return member.hasBookmarkOf(restaurantId);
+    }
+
+    public RestaurantTitlesResponse findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(final String githubId,
+                                                                                              final Long campusId,
                                                                                               final String name,
                                                                                               final Pageable pageable) {
         Pageable pageableById = toIdDescSortPageable(pageable);
         return toRestaurantTitlesResponse(
+                githubId,
                 restaurantRepository.findPageByCampusIdAndNameContainingIgnoreCase(campusId, name, pageableById)
         );
     }

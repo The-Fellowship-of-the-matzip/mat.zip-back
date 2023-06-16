@@ -18,6 +18,8 @@ public class AuthConfig implements WebMvcConfigurer {
     private static final String REVIEWS_PATH = "/api/restaurants/*/reviews";
     private static final String RESTAURANT_DEMANDS_PATH = "/api/campuses/*/restaurantDemands";
     private static final String BOOKMARK_PATH = "/api/restaurants/*/bookmarks";
+    private static final String RESTAURANT_PATH = "/api/restaurants/*";
+    private static final String RESTAURANTS_PATH = "/api/campuses/*/restaurants";
 
     private final LoginInterceptor loginInterceptor;
     private final LoginCheckerInterceptor loginCheckerInterceptor;
@@ -53,7 +55,10 @@ public class AuthConfig implements WebMvcConfigurer {
     private HandlerInterceptor loginOrNotInterceptor() {
         return new PathMatcherInterceptor(loginCheckerInterceptor)
                 .includePathPattern(REVIEWS_PATH, PathMethod.GET)
-                .includePathPattern(RESTAURANT_DEMANDS_PATH, PathMethod.GET);
+                .includePathPattern(RESTAURANT_DEMANDS_PATH, PathMethod.GET)
+                .includePathPattern(RESTAURANT_PATH, PathMethod.GET)
+                .includePathPattern(RESTAURANTS_PATH, PathMethod.GET)
+                .includePathPattern(RESTAURANTS_PATH + "/*", PathMethod.GET);
     }
 
     @Override

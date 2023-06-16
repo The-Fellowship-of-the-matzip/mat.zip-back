@@ -90,6 +90,15 @@ public class Member {
         throw new BookmarkNotFoundException();
     }
 
+    public boolean hasBookmarkOf(Long restaurantId) {
+        for (Restaurant restaurant : this.bookmarks) {
+            if (restaurant.getId().equals(restaurantId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
