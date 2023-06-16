@@ -138,6 +138,15 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         리뷰_삭제에_성공한다(response);
     }
 
+    @Test
+    void 리뷰_작성개수_조회() {
+        for (int i = 1; i <= 10; i++) {
+            리뷰_작성();
+        }
+        ExtractableResponse<Response> response = 리뷰_조회_요청(1L, 0, 1);
+        사용자의_리뷰개수가_일치한다(response, 10L);
+    }
+
     private void 리뷰_작성에_성공한다(final ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
     }
@@ -173,5 +182,10 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
                 () -> assertThat(updatedResponse.getRating()).isEqualTo(5),
                 () -> assertThat(updatedResponse.getMenu()).isEqualTo("무닭볶음탕 (대)")
         );
+    }
+
+    private void 사용자의_리뷰개수가_일치한다(final ExtractableResponse<Response> response, final Long expectedReviewCount) {
+        ReviewsResponse reviewsResponse = response.as(ReviewsResponse.class);
+        assertThat(reviewsResponse.getReviews().get(0).getAuthor().getReviewCount()).isEqualTo(expectedReviewCount);
     }
 }
