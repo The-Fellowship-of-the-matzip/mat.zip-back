@@ -1,0 +1,10 @@
+[[Bookmark]]
+== 북마크
+
+=== 북마크 등록
+
+operation::bookmarks/create[snippets='http-request,http-response']
+
+=== 북마크 삭제
+
+operation::bookmarks/delete[snippets='http-request,http-response']
