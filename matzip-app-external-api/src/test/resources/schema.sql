@@ -4,6 +4,7 @@ drop table if exists review;
 drop table if exists category;
 drop table if exists campus;
 drop table if exists restaurant_request;
+drop table if exists member_bookmarks;
 
 CREATE TABLE member
 (
