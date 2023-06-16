@@ -32,4 +32,15 @@ public class BookmarkServiceTest {
                 () -> bookmarkService.createBookmark(member.getGithubId(), restaurant.getId())
         );
     }
+
+    @Test
+    void 북마크를_삭제한다() {
+        Member member = memberRepository.save(ORI.toMember());
+        Restaurant restaurant = restaurantRepository.findAll().get(0);
+        bookmarkService.createBookmark(member.getGithubId(), restaurant.getId());
+
+        assertDoesNotThrow(
+                () -> bookmarkService.deleteBookmark(member.getGithubId(), restaurant.getId())
+        );
+    }
 }

@@ -2,6 +2,7 @@ package com.woowacourse.matzip.domain.member;
 
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import com.woowacourse.matzip.exception.AlreadyBookmarkedException;
+import com.woowacourse.matzip.exception.BookmarkNotFoundException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ public class Member {
     @Column(name = "profile_image", nullable = false)
     private String profileImage;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Restaurant> bookmarks = new ArrayList<>();
 
     @CreatedDate
@@ -79,6 +80,14 @@ public class Member {
             throw new AlreadyBookmarkedException();
         }
         this.bookmarks.add(restaurant);
+    }
+
+    public void deleteBookmark(Restaurant restaurant) {
+        if (this.bookmarks.contains(restaurant)) {
+            this.bookmarks.remove(restaurant);
+            return;
+        }
+        throw new BookmarkNotFoundException();
     }
 
     @Override

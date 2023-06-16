@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.woowacourse.matzip.RestaurantFixture;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import com.woowacourse.matzip.exception.AlreadyBookmarkedException;
+import com.woowacourse.matzip.exception.BookmarkNotFoundException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -61,6 +62,30 @@ public class MemberTest {
 
             assertThatThrownBy(() -> member.addBookmark(restaurant))
                     .isInstanceOf(AlreadyBookmarkedException.class);
+        }
+    }
+
+    @Nested
+    class 북마크_삭제 {
+
+        @Test
+        void 북마크를_삭제한다() {
+            Member member = new Member(1L, "1", "huni", "image.png");
+            Restaurant restaurant = RestaurantFixture.RESTAURANT_1.toRestaurantWithCategoryIdAndCampusId(1L, 1L);
+            member.addBookmark(restaurant);
+
+            member.deleteBookmark(restaurant);
+            assertThat(member.getBookmarks()).hasSize(0);
+        }
+
+        @Test
+        void 존재하지_않는_북마크를_삭제하면_예외가_발생한다() {
+            Member member = new Member(1L, "1", "huni", "image.png");
+            Restaurant restaurant = RestaurantFixture.RESTAURANT_1.toRestaurantWithCategoryIdAndCampusId(1L, 1L);
+
+            assertThatThrownBy(() -> member.deleteBookmark(restaurant))
+                    .isInstanceOf(BookmarkNotFoundException.class);
+
         }
     }
 }

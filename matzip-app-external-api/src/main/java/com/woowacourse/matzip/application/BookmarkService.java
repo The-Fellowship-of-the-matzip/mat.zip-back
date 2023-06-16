@@ -33,6 +33,11 @@ public class BookmarkService {
 
     @Transactional
     public void deleteBookmark(final String githubId, final Long restaurantId) {
-
+        Member member = memberRepository.findMemberByGithubId(githubId)
+                .orElseThrow(MemberNotFoundException::new);
+        Restaurant restaurantToBookmark = restaurantRepository.findById(restaurantId)
+                .orElseThrow(RestaurantNotFoundException::new);
+        member.deleteBookmark(restaurantToBookmark);
+        memberRepository.save(member);
     }
 }
