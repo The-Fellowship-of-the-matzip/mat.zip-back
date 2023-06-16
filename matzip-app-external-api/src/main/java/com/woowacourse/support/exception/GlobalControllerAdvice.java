@@ -3,6 +3,7 @@ package com.woowacourse.support.exception;
 import com.woowacourse.auth.exception.GithubAccessException;
 import com.woowacourse.auth.exception.InvalidTokenException;
 import com.woowacourse.auth.exception.TokenNotFoundException;
+import com.woowacourse.matzip.exception.AlreadyBookmarkedException;
 import com.woowacourse.matzip.exception.AlreadyRegisteredException;
 import com.woowacourse.matzip.exception.CampusNotFoundException;
 import com.woowacourse.matzip.exception.ForbiddenException;
@@ -60,7 +61,8 @@ public class GlobalControllerAdvice {
             InvalidReviewException.class,
             InvalidSortConditionException.class,
             InvalidLengthException.class,
-            AlreadyRegisteredException.class
+            AlreadyRegisteredException.class,
+            AlreadyBookmarkedException.class
     })
     public ResponseEntity<ErrorResponse> businessExceptionHandler(final RuntimeException e) {
         return ResponseEntity.badRequest().body(ErrorResponse.from(e));

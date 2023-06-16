@@ -17,6 +17,7 @@ public class AuthConfig implements WebMvcConfigurer {
 
     private static final String REVIEWS_PATH = "/api/restaurants/*/reviews";
     private static final String RESTAURANT_DEMANDS_PATH = "/api/campuses/*/restaurantDemands";
+    private static final String BOOKMARK_PATH = "/api/restaurants/*/bookmarks";
 
     private final LoginInterceptor loginInterceptor;
     private final LoginCheckerInterceptor loginCheckerInterceptor;
@@ -44,7 +45,9 @@ public class AuthConfig implements WebMvcConfigurer {
                 .includePathPattern(REVIEWS_PATH + "/*", PathMethod.DELETE)
                 .includePathPattern(RESTAURANT_DEMANDS_PATH, PathMethod.POST)
                 .includePathPattern(RESTAURANT_DEMANDS_PATH + "/*", PathMethod.PUT)
-                .includePathPattern(RESTAURANT_DEMANDS_PATH + "/*", PathMethod.DELETE);
+                .includePathPattern(RESTAURANT_DEMANDS_PATH + "/*", PathMethod.DELETE)
+                .includePathPattern(BOOKMARK_PATH, PathMethod.POST)
+                .includePathPattern(BOOKMARK_PATH, PathMethod.DELETE);
     }
 
     private HandlerInterceptor loginOrNotInterceptor() {

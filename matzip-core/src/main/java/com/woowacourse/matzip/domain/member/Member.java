@@ -1,13 +1,20 @@
 package com.woowacourse.matzip.domain.member;
 
+import com.woowacourse.matzip.domain.restaurant.Restaurant;
+import com.woowacourse.matzip.exception.AlreadyBookmarkedException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,6 +39,9 @@ public class Member {
 
     @Column(name = "profile_image", nullable = false)
     private String profileImage;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Restaurant> bookmarks = new ArrayList<>();
 
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)
@@ -62,6 +72,13 @@ public class Member {
 
     public boolean isSameGithubId(final String githubId) {
         return this.githubId.equals(githubId);
+    }
+
+    public void addBookmark(Restaurant restaurant) {
+        if (this.bookmarks.contains(restaurant)) {
+            throw new AlreadyBookmarkedException();
+        }
+        this.bookmarks.add(restaurant);
     }
 
     @Override

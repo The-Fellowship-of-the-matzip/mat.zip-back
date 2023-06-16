@@ -68,3 +68,9 @@ create table restaurant_request
     created_at  TIMESTAMP   NOT NULL,
     primary key (id)
 );
+
+create table member_bookmarks
+(
+    member_id    bigint NOT NULL,
+    bookmarks_id bigint NOT NULL
+);
