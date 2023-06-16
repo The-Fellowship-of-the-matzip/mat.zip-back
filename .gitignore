@@ -41,3 +41,11 @@ application-auth.yml
 
 ### rest docs ###
 /matzip-app-external-api/src/main/resources/static/index.html
+
+### build files ###
+/matzip-app-internal-api/frontend/index.html
+/matzip-app-internal-api/frontend/generated/index.ts
+/matzip-app-internal-api/package.json
+/matzip-app-internal-api/frontend/generated/vaadin-featureflags.ts
+/matzip-app-internal-api/vite.config.ts
+/matzip-app-internal-api/vite.generated.ts
