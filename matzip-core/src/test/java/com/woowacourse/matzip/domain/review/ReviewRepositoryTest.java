@@ -159,4 +159,11 @@ class ReviewRepositoryTest {
                 .extracting(ReviewCountByMemberIdDto::getReviewCount)
                 .isEmpty();
     }
+
+    @Test
+    void 리뷰개수_조회시_빈_인자를_받는_경우() {
+        var reviewCountByMemberIds = reviewRepository.countReviewsByMemberIds(List.of());
+
+        assertThat(reviewCountByMemberIds).isEmpty();
+    }
 }
