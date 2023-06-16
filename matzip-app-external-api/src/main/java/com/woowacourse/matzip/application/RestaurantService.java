@@ -1,6 +1,5 @@
 package com.woowacourse.matzip.application;
 
-import com.woowacourse.auth.presentation.AuthenticationContext;
 import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
@@ -31,17 +30,14 @@ public class RestaurantService {
     private final RestaurantQueryRepository restaurantQueryRepository;
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
-    private final AuthenticationContext authenticationContext;
 
     public RestaurantService(RestaurantRepository restaurantRepository,
                              RestaurantQueryRepository restaurantQueryRepository,
-                             ReviewRepository reviewRepository, MemberRepository memberRepository,
-                             AuthenticationContext authenticationContext) {
+                             ReviewRepository reviewRepository, MemberRepository memberRepository) {
         this.restaurantRepository = restaurantRepository;
         this.restaurantQueryRepository = restaurantQueryRepository;
         this.reviewRepository = reviewRepository;
         this.memberRepository = memberRepository;
-        this.authenticationContext = authenticationContext;
     }
 
     public RestaurantTitlesResponse findByCampusIdAndCategoryId(final String githubId, final String sortCondition,
