@@ -1,5 +1,7 @@
 package com.woowacourse.acceptance;
 
+import static com.woowacourse.acceptance.AuthAcceptanceTest.로그인_토큰;
+import static com.woowacourse.acceptance.BookmarkAcceptanceTest.북마크_저장_요청;
 import static com.woowacourse.acceptance.support.RestAssuredRequest.httpGetRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -15,15 +17,18 @@ public class RestaurantAcceptanceTest extends AcceptanceTest {
     private static final Long 선릉캠퍼스_ID = 2L;
     private static final Long 한식_ID = 1L;
     private static final Long 식당_1_ID = 1L;
+    private static final Long 식당_2_ID = 2L;
 
     private static ExtractableResponse<Response> 캠퍼스_식당_페이지_조회_요청(final Long campusId, final int page, final int size) {
         return httpGetRequest("/api/campuses/" + campusId + "/restaurants?page=" + page + "&size=" + size);
     }
 
-    private static ExtractableResponse<Response> 캠퍼스_식당_페이지_정렬_기준_변경해서_조회_요청(final Long campusId, final Long categoryId, final int page,
+    private static ExtractableResponse<Response> 캠퍼스_식당_페이지_정렬_기준_변경해서_조회_요청(final Long campusId, final Long categoryId,
+                                                                             final int page,
                                                                              final int size, final String filter) {
         return httpGetRequest(
-                "/api/campuses/" + campusId + "/restaurants?page=" + page + "&size=" + size + "&filter=" + filter + "&categoryId=" +  categoryId);
+                "/api/campuses/" + campusId + "/restaurants?page=" + page + "&size=" + size + "&filter=" + filter
+                        + "&categoryId=" + categoryId);
     }
 
     private static ExtractableResponse<Response> 캠퍼스_카테고리_식당_0페이지_조회_요청(Long campusId, Long categoryId) {
@@ -43,6 +48,10 @@ public class RestaurantAcceptanceTest extends AcceptanceTest {
                                                           final String name) {
         return httpGetRequest(
                 "/api/campuses/" + campusId + "/restaurants/search?page=" + page + "&size=" + size + "&name=" + name);
+    }
+
+    private static ExtractableResponse<Response> 북마크_된_식당_목록_검색_요청(final String accessToken) {
+        return httpGetRequest("/api/restaurants/bookmarks", accessToken);
     }
 
     @Test
@@ -79,6 +88,16 @@ public class RestaurantAcceptanceTest extends AcceptanceTest {
     void 선릉캠퍼스_식당을_이름으로_검색한다() {
         ExtractableResponse<Response> response = 식당_검색_요청(선릉캠퍼스_ID, 0, 2, "마담밍");
         식당_검색에_성공한다(response, "마담밍3", "마담밍2");
+    }
+
+    @Test
+    void 북마크_된_식당_목록을_조회한다() {
+        String accessToken = 로그인_토큰();
+        북마크_저장_요청(식당_1_ID, accessToken);
+        북마크_저장_요청(식당_2_ID, accessToken);
+
+        ExtractableResponse<Response> response = 북마크_된_식당_목록_검색_요청(accessToken);
+        식당_조회에_성공한다(response);
     }
 
     private void 식당_조회에_성공한다(final ExtractableResponse<Response> response) {

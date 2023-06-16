@@ -17,7 +17,7 @@ public class BookmarkAcceptanceTest extends AcceptanceTest {
     private static final Long 식당_ID_2 = 2L;
     private static final Long 식당_ID_3 = 3L;
 
-    private static ExtractableResponse<Response> 북마크_저장_요청(final Long restaurantId, final String accessToken) {
+    public static ExtractableResponse<Response> 북마크_저장_요청(final Long restaurantId, final String accessToken) {
         return httpPostRequest("/api/restaurants/" + restaurantId + "/bookmarks", accessToken);
     }
 

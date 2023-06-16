@@ -105,4 +105,16 @@ public class RestaurantDocumentation extends Documentation {
                 .apply(document("restaurants/search"))
                 .statusCode(HttpStatus.OK.value());
     }
+
+    @Test
+    void 북마크_된_식당_목록을_조회한다() {
+        when(restaurantService.findBookmarkedRestaurants("1")).thenReturn(SEOLLEUNG_RESTAURANTS_RANDOM_2_RESPONSE);
+
+        docsGiven
+                .header("Authorization", "Bearer jwt.token.here")
+                .when().get("/api/restaurants/bookmarks")
+                .then().log().all()
+                .apply(document("restaurants/list-bookmark"))
+                .statusCode(HttpStatus.OK.value());
+    }
 }

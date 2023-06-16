@@ -49,3 +49,8 @@ application-auth.yml
 /matzip-app-internal-api/frontend/generated/vaadin-featureflags.ts
 /matzip-app-internal-api/vite.config.ts
 /matzip-app-internal-api/vite.generated.ts
+/matzip-app-internal-api/frontend/generated/
+/matzip-app-internal-api/node_modules/
+/matzip-app-internal-api/package-lock.json
+/matzip-app-internal-api/tsconfig.json
+/matzip-app-internal-api/types.d.ts

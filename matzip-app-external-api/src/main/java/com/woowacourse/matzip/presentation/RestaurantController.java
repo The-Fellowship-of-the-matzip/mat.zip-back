@@ -60,4 +60,10 @@ public class RestaurantController {
                                                              @AuthenticationPrincipal final String githubId) {
         return ResponseEntity.ok(restaurantService.findById(githubId, restaurantId));
     }
+
+    @GetMapping("/restaurants/bookmarks")
+    public ResponseEntity<List<RestaurantTitleResponse>> showBookmarkedRestaurants(
+            @AuthenticationPrincipal final String githubId) {
+        return ResponseEntity.ok(restaurantService.findBookmarkedRestaurants(githubId));
+    }
 }

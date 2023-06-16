@@ -103,6 +103,15 @@ public class RestaurantService {
         return PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), SortCondition.DEFAULT.getValue());
     }
 
+    public List<RestaurantTitleResponse> findBookmarkedRestaurants(String githubId) {
+        Member member = memberRepository.findMemberByGithubId(githubId)
+                .orElseThrow(MemberNotFoundException::new);
+        return member.getBookmarks()
+                .stream()
+                .map(restaurant -> toResponseTitleResponse(githubId, restaurant))
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public void updateWhenReviewCreate(final Long id, final int rating) {
         restaurantRepository.updateRestaurantByReviewInsert(id, rating);
