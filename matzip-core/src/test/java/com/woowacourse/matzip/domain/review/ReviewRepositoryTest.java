@@ -143,4 +143,20 @@ class ReviewRepositoryTest {
                 () -> assertThat(reviewCountByMemberIds.get(1).getReviewCount()).isEqualTo(5)
         );
     }
+
+    @Test
+    void 리뷰가_없는_멤버의_리뷰개수를_조회한다() {
+        Member member = Member.builder()
+                .githubId("githubId")
+                .username("username")
+                .profileImage("url")
+                .build();
+        memberRepository.save(member);
+
+        var reviewCountByMemberIds = reviewRepository.countReviewsByMemberIds(List.of(member.getId()));
+
+        assertThat(reviewCountByMemberIds)
+                .extracting(ReviewCountByMemberIdDto::getReviewCount)
+                .isEmpty();
+    }
 }
