@@ -136,7 +136,7 @@ class ReviewRepositoryTest {
                     .menu("족발" + i)
                     .build());
         }
-        var reviewCountByMemberIds = reviewRepository.countReviewsByMemberIds(List.of(member.getId(), member2.getId()));
+        var reviewCountByMemberIds = reviewRepository.findMemberReviewInfosByMemberIds(List.of(member.getId(), member2.getId()));
 
         assertAll(
                 () -> assertThat(reviewCountByMemberIds.get(0).getReviewCount()).isEqualTo(10),
@@ -153,17 +153,46 @@ class ReviewRepositoryTest {
                 .build();
         memberRepository.save(member);
 
-        var reviewCountByMemberIds = reviewRepository.countReviewsByMemberIds(List.of(member.getId()));
+        var reviewCountByMemberIds = reviewRepository.findMemberReviewInfosByMemberIds(List.of(member.getId()));
 
         assertThat(reviewCountByMemberIds)
-                .extracting(ReviewCountByMemberIdDto::getReviewCount)
+                .extracting(ReviewInfoByMember::getReviewCount)
                 .isEmpty();
     }
 
     @Test
     void 리뷰개수_조회시_빈_인자를_받는_경우() {
-        var reviewCountByMemberIds = reviewRepository.countReviewsByMemberIds(List.of());
+        var reviewCountByMemberIds = reviewRepository.findMemberReviewInfosByMemberIds(List.of());
 
         assertThat(reviewCountByMemberIds).isEmpty();
+    }
+
+    @Test
+    void 리뷰_작성자의_평균_별점을_조회한다() {
+        Member member = memberRepository.save(Member.builder()
+                .githubId("githubId")
+                .username("username")
+                .profileImage("url")
+                .build());
+
+        reviewRepository.save(Review.builder()
+                .member(memberRepository.save(member))
+                .restaurantId(1L)
+                .content("맛있어요")
+                .rating(4)
+                .menu("족발")
+                .build());
+
+        reviewRepository.save(Review.builder()
+                .member(memberRepository.save(member))
+                .restaurantId(1L)
+                .content("맛있어요")
+                .rating(1)
+                .menu("족발2")
+                .build());
+
+        var memberReviewInfosByMemberIds = reviewRepository.findMemberReviewInfosByMemberIds(List.of(member.getId()));
+
+        assertThat(memberReviewInfosByMemberIds.get(0).getAverageRating()).isEqualTo(2.5d);
     }
 }

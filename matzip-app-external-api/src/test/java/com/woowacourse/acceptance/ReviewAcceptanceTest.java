@@ -147,6 +147,15 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         사용자의_리뷰개수가_일치한다(response, 10L);
     }
 
+    @Test
+    void 리뷰_평균_별점_조회() {
+        for (int i = 1; i <= 10; i++) {
+            리뷰_작성();
+        }
+        ExtractableResponse<Response> response = 리뷰_조회_요청(1L, 0, 1);
+        사용자의_평균별점이_일치한다(response, 4d);
+    }
+
     private void 리뷰_작성에_성공한다(final ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
     }
@@ -187,5 +196,10 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
     private void 사용자의_리뷰개수가_일치한다(final ExtractableResponse<Response> response, final Long expectedReviewCount) {
         ReviewsResponse reviewsResponse = response.as(ReviewsResponse.class);
         assertThat(reviewsResponse.getReviews().get(0).getAuthor().getReviewCount()).isEqualTo(expectedReviewCount);
+    }
+
+    private void 사용자의_평균별점이_일치한다(final ExtractableResponse<Response> response, final Double expectedRating) {
+        ReviewsResponse reviewsResponse = response.as(ReviewsResponse.class);
+        assertThat(reviewsResponse.getReviews().get(0).getAuthor().getAverageRating()).isEqualTo(expectedRating);
     }
 }
