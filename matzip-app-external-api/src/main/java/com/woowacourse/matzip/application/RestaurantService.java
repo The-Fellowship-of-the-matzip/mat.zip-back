@@ -15,7 +15,6 @@ import com.woowacourse.matzip.exception.RestaurantNotFoundException;
 import com.woowacourse.matzip.infrastructure.restaurant.RestaurantFindQueryFactory;
 import com.woowacourse.matzip.infrastructure.restaurant.RestaurantQueryRepository;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -84,7 +83,7 @@ public class RestaurantService {
     }
 
     private boolean isBookmarked(final String githubId, final Long restaurantId) {
-        if (Objects.isNull(githubId)) {
+        if (githubId == null) {
             return false;
         }
         Member member = memberRepository.findMemberByGithubId(githubId)
