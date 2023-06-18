@@ -39,6 +39,7 @@ public class Member {
     @Column(name = "profile_image", nullable = false)
     private String profileImage;
 
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Bookmark> bookmarks = new ArrayList<>();
 
