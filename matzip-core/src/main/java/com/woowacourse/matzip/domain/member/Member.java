@@ -1,8 +1,6 @@
 package com.woowacourse.matzip.domain.member;
 
-import com.woowacourse.matzip.domain.restaurant.Restaurant;
-import com.woowacourse.matzip.exception.AlreadyBookmarkedException;
-import com.woowacourse.matzip.exception.BookmarkNotFoundException;
+import com.woowacourse.matzip.domain.bookmark.Bookmark;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +39,8 @@ public class Member {
     @Column(name = "profile_image", nullable = false)
     private String profileImage;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Restaurant> bookmarks = new ArrayList<>();
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)
@@ -73,30 +71,6 @@ public class Member {
 
     public boolean isSameGithubId(final String githubId) {
         return this.githubId.equals(githubId);
-    }
-
-    public void addBookmark(Restaurant restaurant) {
-        if (this.bookmarks.contains(restaurant)) {
-            throw new AlreadyBookmarkedException();
-        }
-        this.bookmarks.add(restaurant);
-    }
-
-    public void deleteBookmark(Restaurant restaurant) {
-        if (this.bookmarks.contains(restaurant)) {
-            this.bookmarks.remove(restaurant);
-            return;
-        }
-        throw new BookmarkNotFoundException();
-    }
-
-    public boolean hasBookmarkOf(Long restaurantId) {
-        for (Restaurant restaurant : this.bookmarks) {
-            if (restaurant.getId().equals(restaurantId)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override

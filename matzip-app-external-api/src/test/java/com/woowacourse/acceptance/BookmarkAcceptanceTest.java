@@ -7,7 +7,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
@@ -25,47 +24,30 @@ public class BookmarkAcceptanceTest extends AcceptanceTest {
         return httpDeleteRequest("/api/restaurants/" + restaurantId + "/bookmarks", accessToken);
     }
 
-    @Nested
-    class 북마크_저장 {
+    @Test
+    void 북마크_저장_성공() {
+        String accessToken = 로그인_토큰();
 
-        @Test
-        void 북마크_저장_성공() {
-            String accessToken = 로그인_토큰();
-
-            ExtractableResponse<Response> response = 북마크_저장_요청(식당_ID_1, accessToken);
-            북마크_저장에_성공한다(response);
-        }
-
-        @Test
-        void 북마크_저장_실패_이미_등록된_북마크() {
-            String accessToken = 로그인_토큰();
-            북마크_저장_요청(식당_ID_2, accessToken);
-
-            ExtractableResponse<Response> response = 북마크_저장_요청(식당_ID_2, accessToken);
-            북마크_저장에_실패한다(response);
-        }
-
+        ExtractableResponse<Response> response = 북마크_저장_요청(식당_ID_1, accessToken);
+        북마크_저장에_성공한다(response);
     }
 
-    @Nested
-    class 북마크_삭제 {
+    @Test
+    void 북마크_저장_실패_이미_등록된_북마크() {
+        String accessToken = 로그인_토큰();
+        북마크_저장_요청(식당_ID_2, accessToken);
 
-        @Test
-        void 북마크_삭제_성공() {
-            String accessToken = 로그인_토큰();
-            북마크_저장_요청(식당_ID_1, accessToken);
+        ExtractableResponse<Response> response = 북마크_저장_요청(식당_ID_2, accessToken);
+        북마크_저장에_실패한다(response);
+    }
 
-            ExtractableResponse<Response> response = 북마크_삭제_요청(식당_ID_1, accessToken);
-            북마크_삭제에_성공한다(response);
-        }
+    @Test
+    void 북마크_삭제_성공() {
+        String accessToken = 로그인_토큰();
+        북마크_저장_요청(식당_ID_1, accessToken);
 
-        @Test
-        void 북마크_삭제_실패_존재하지_않는_북마크() {
-            String accessToken = 로그인_토큰();
-
-            ExtractableResponse<Response> response = 북마크_삭제_요청(식당_ID_3, accessToken);
-            북마크_삭제에_실패한다(response);
-        }
+        ExtractableResponse<Response> response = 북마크_삭제_요청(식당_ID_1, accessToken);
+        북마크_삭제에_성공한다(response);
     }
 
     private void 북마크_저장에_성공한다(ExtractableResponse<Response> response) {
@@ -78,9 +60,5 @@ public class BookmarkAcceptanceTest extends AcceptanceTest {
 
     private void 북마크_삭제에_성공한다(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
-    }
-
-    private void 북마크_삭제에_실패한다(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 }

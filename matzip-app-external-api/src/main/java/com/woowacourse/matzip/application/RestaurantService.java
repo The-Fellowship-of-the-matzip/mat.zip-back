@@ -3,6 +3,7 @@ package com.woowacourse.matzip.application;
 import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
+import com.woowacourse.matzip.domain.bookmark.BookmarkRepository;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
@@ -30,14 +31,17 @@ public class RestaurantService {
     private final RestaurantQueryRepository restaurantQueryRepository;
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
+    private final BookmarkRepository bookmarkRepository;
 
     public RestaurantService(RestaurantRepository restaurantRepository,
                              RestaurantQueryRepository restaurantQueryRepository,
-                             ReviewRepository reviewRepository, MemberRepository memberRepository) {
+                             ReviewRepository reviewRepository, MemberRepository memberRepository,
+                             BookmarkRepository bookmarkRepository) {
         this.restaurantRepository = restaurantRepository;
         this.restaurantQueryRepository = restaurantQueryRepository;
         this.reviewRepository = reviewRepository;
         this.memberRepository = memberRepository;
+        this.bookmarkRepository = bookmarkRepository;
     }
 
     public RestaurantTitlesResponse findByCampusIdAndCategoryId(final String githubId, final String sortCondition,
@@ -85,7 +89,8 @@ public class RestaurantService {
         }
         Member member = memberRepository.findMemberByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
-        return member.hasBookmarkOf(restaurantId);
+        return bookmarkRepository.findBookmarkByMemberIdAndRestaurantId(member.getId(), restaurantId)
+                .isPresent();
     }
 
     public RestaurantTitlesResponse findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(final String githubId,
@@ -108,7 +113,7 @@ public class RestaurantService {
                 .orElseThrow(MemberNotFoundException::new);
         return member.getBookmarks()
                 .stream()
-                .map(restaurant -> toResponseTitleResponse(githubId, restaurant))
+                .map(bookmark -> toResponseTitleResponse(githubId, bookmark.getRestaurant()))
                 .collect(Collectors.toList());
     }
 

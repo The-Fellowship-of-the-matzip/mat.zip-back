@@ -26,7 +26,7 @@ public class BookmarkServiceTest {
     @Test
     void 북마크를_저장한다() {
         Member member = memberRepository.save(ORI.toMember());
-        Restaurant restaurant = restaurantRepository.findAll().get(0);
+        Restaurant restaurant = restaurantRepository.findAll().get(2);
 
         assertDoesNotThrow(
                 () -> bookmarkService.createBookmark(member.getGithubId(), restaurant.getId())
@@ -36,7 +36,7 @@ public class BookmarkServiceTest {
     @Test
     void 북마크를_삭제한다() {
         Member member = memberRepository.save(ORI.toMember());
-        Restaurant restaurant = restaurantRepository.findAll().get(0);
+        Restaurant restaurant = restaurantRepository.findAll().get(3);
         bookmarkService.createBookmark(member.getGithubId(), restaurant.getId());
 
         assertDoesNotThrow(

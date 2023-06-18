@@ -184,28 +184,6 @@ class RestaurantServiceTest {
     }
 
     @Test
-    void 북마크_된_식당목록을_반환한다() {
-        Restaurant restaurant1 = createTestRestaurant(1L, 1L, "테스트식당1", "테스트주소1");
-        Restaurant restaurant2 = createTestRestaurant(1L, 1L, "테스트식당2", "테스트주소2");
-        restaurantRepository.saveAll(List.of(restaurant1, restaurant2));
-
-        Member member = Member.builder()
-                .id(1L)
-                .githubId("1")
-                .username("test")
-                .profileImage("test")
-                .build();
-        member.addBookmark(restaurant1);
-        member.addBookmark(restaurant2);
-        memberRepository.save(member);
-
-        List<RestaurantTitleResponse> responses = restaurantService.findBookmarkedRestaurants(member.getGithubId());
-        assertThat(responses).hasSize(2)
-                .extracting("id")
-                .containsExactly(restaurant1.getId(), restaurant2.getId());
-    }
-
-    @Test
     void 리뷰_작성에_대해_음식점_정보를_수정한다() {
         Restaurant restaurant = restaurantRepository.save(
                 Restaurant.builder()

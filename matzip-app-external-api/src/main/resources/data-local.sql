@@ -27,3 +27,5 @@ values (2, 2, '마담밍3', '서울 강남구 선릉로86길 5-4 3층', 1, 'http
 
 insert into member (id, github_id, profile_image, username, created_at)
 values (1, 1, 'test', 'test', current_date);
+insert into member (id, github_id, profile_image, username, created_at)
+values (2, 2, 'test2', 'test2', current_date);

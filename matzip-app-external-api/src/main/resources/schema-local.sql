@@ -4,6 +4,7 @@ drop table if exists review;
 drop table if exists category;
 drop table if exists campus;
 drop table if exists restaurant_request;
+drop table if exists bookmark;
 
 CREATE TABLE member
 (
@@ -69,9 +70,13 @@ create table restaurant_request
     primary key (id)
 );
 
-create table member_bookmarks
+create table bookmark
 (
-    member_id    bigint NOT NULL,
-    bookmarks_id bigint NOT NULL
+    id            bigint      NOT NULL AUTO_INCREMENT,
+    member_id     bigint      NOT NULL,
+    restaurant_id bigint      NOT NULL,
+    primary key (id)
 );
+
+alter table bookmark add constraint unique_member_restaurant unique (member_id, restaurant_id);
 
