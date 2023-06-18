@@ -17,11 +17,11 @@ public class BookmarkAcceptanceTest extends AcceptanceTest {
     private static final Long 식당_ID_3 = 3L;
 
     public static ExtractableResponse<Response> 북마크_저장_요청(final Long restaurantId, final String accessToken) {
-        return httpPostRequest("/api/restaurants/" + restaurantId + "/bookmarks", accessToken);
+        return httpPostRequest("/api/bookmarks/restaurants/" + restaurantId, accessToken);
     }
 
     private static ExtractableResponse<Response> 북마크_삭제_요청(final Long restaurantId, final String accessToken) {
-        return httpDeleteRequest("/api/restaurants/" + restaurantId + "/bookmarks", accessToken);
+        return httpDeleteRequest("/api/bookmarks/restaurants/" + restaurantId, accessToken);
     }
 
     @Test

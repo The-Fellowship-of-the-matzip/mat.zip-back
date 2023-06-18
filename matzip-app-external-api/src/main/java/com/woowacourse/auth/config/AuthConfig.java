@@ -17,7 +17,7 @@ public class AuthConfig implements WebMvcConfigurer {
 
     private static final String REVIEWS_PATH = "/api/restaurants/*/reviews";
     private static final String RESTAURANT_DEMANDS_PATH = "/api/campuses/*/restaurantDemands";
-    private static final String BOOKMARK_PATH = "/api/restaurants/*/bookmarks";
+    private static final String BOOKMARK_PATH = "/api/bookmarks/restaurants/*";
     private static final String RESTAURANT_PATH = "/api/restaurants/*";
     private static final String RESTAURANTS_PATH = "/api/campuses/*/restaurants";
 

@@ -18,7 +18,7 @@ public class BookmarkDocumentation extends Documentation {
         docsGiven
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header("Authorization", "Bearer jwt.token.here")
-                .when().post("/api/restaurants/1/bookmarks")
+                .when().post("/api/bookmarks/restaurants/1")
                 .then().log().all()
                 .apply(document("bookmarks/create"))
                 .statusCode(HttpStatus.CREATED.value());
@@ -31,7 +31,7 @@ public class BookmarkDocumentation extends Documentation {
         docsGiven
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .header("Authorization", "Bearer jwt.token.here")
-                .when().delete("/api/restaurants/1/bookmarks")
+                .when().delete("/api/bookmarks/restaurants/1")
                 .then().log().all()
                 .apply(document("bookmarks/delete"))
                 .statusCode(HttpStatus.NO_CONTENT.value());
