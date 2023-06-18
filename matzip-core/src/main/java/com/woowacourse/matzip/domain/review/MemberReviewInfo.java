@@ -1,6 +1,6 @@
 package com.woowacourse.matzip.domain.review;
 
-public interface ReviewInfoByMember {
+public interface MemberReviewInfo {
     Long getMemberId();
     Long getReviewCount();
     Double getAverageRating();

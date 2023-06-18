@@ -25,5 +25,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             value = "select r.member.id as memberId, count(r.member.id) as reviewCount, avg(r.rating) as averageRating " +
                     "from Review r where r.member.id in :memberIds  group by r.member.id"
     )
-    List<ReviewInfoByMember> findMemberReviewInfosByMemberIds(List<Long> memberIds);
+    List<MemberReviewInfo> findMemberReviewInfosByMemberIds(List<Long> memberIds);
 }

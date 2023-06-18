@@ -1,6 +1,6 @@
 package com.woowacourse.matzip.domain.review;
 
-public class DefaultReviewInfo implements ReviewInfoByMember {
+public class DefaultReviewInfoReviewInfo implements MemberReviewInfo {
     @Override
     public Long getMemberId() {
         return null;

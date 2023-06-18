@@ -5,8 +5,8 @@ import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.review.Review;
-import com.woowacourse.matzip.domain.review.ReviewInfoByMember;
-import com.woowacourse.matzip.domain.review.ReviewInfoByMembers;
+import com.woowacourse.matzip.domain.review.MemberReviewInfo;
+import com.woowacourse.matzip.domain.review.MemberReviewInfos;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
@@ -46,15 +46,19 @@ public class ReviewService {
                                                   final Pageable pageable) {
         Slice<Review> page = reviewRepository.findPageByRestaurantIdOrderByIdDesc(restaurantId, pageable);
 
-        List<Long> memberIds = getMemberIds(page);
-        ReviewInfoByMembers reviewInfoByMembers = new ReviewInfoByMembers(
-                reviewRepository.findMemberReviewInfosByMemberIds(memberIds)
-        );
+        MemberReviewInfos memberReviewInfos = getReviewInfoByMembersInPage(page);
 
         List<ReviewResponse> reviewResponses = page.stream()
-                .map(review -> createReviewResponse(githubId, review, reviewInfoByMembers.findById(review.getMember().getId())))
+                .map(review -> createReviewResponse(githubId, review, memberReviewInfos.findByMemberId(review.getMember().getId())))
                 .collect(Collectors.toList());
         return new ReviewsResponse(page.hasNext(), reviewResponses);
+    }
+
+    private MemberReviewInfos getReviewInfoByMembersInPage(final Slice<Review> page) {
+        List<Long> memberIds = getMemberIds(page);
+        return new MemberReviewInfos(
+                reviewRepository.findMemberReviewInfosByMemberIds(memberIds)
+        );
     }
 
     private List<Long> getMemberIds(final Slice<Review> page) {
@@ -66,8 +70,8 @@ public class ReviewService {
 
     private ReviewResponse createReviewResponse(final String githubId,
                                                 final Review review,
-                                                final ReviewInfoByMember reviewInfoByMember) {
-        return ReviewResponse.of(review, review.isWriter(githubId), reviewInfoByMember.getReviewCount(), reviewInfoByMember.getAverageRating());
+                                                final MemberReviewInfo memberReviewInfo) {
+        return ReviewResponse.of(review, review.isWriter(githubId), memberReviewInfo.getReviewCount(), memberReviewInfo.getAverageRating());
     }
 
     @Transactional

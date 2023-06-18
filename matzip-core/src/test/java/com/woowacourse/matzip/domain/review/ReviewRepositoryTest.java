@@ -145,7 +145,7 @@ class ReviewRepositoryTest {
     }
 
     @Test
-    void 리뷰가_없는_멤버의_리뷰개수를_조회한다() {
+    void 리뷰가_없는_멤버의_리뷰정보를_조회한다() {
         Member member = Member.builder()
                 .githubId("githubId")
                 .username("username")
@@ -153,10 +153,9 @@ class ReviewRepositoryTest {
                 .build();
         memberRepository.save(member);
 
-        var reviewCountByMemberIds = reviewRepository.findMemberReviewInfosByMemberIds(List.of(member.getId()));
+        var reviewInfosByMemberIds = reviewRepository.findMemberReviewInfosByMemberIds(List.of(member.getId()));
 
-        assertThat(reviewCountByMemberIds)
-                .extracting(ReviewInfoByMember::getReviewCount)
+        assertThat(reviewInfosByMemberIds)
                 .isEmpty();
     }
 
