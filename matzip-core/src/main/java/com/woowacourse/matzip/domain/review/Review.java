@@ -55,6 +55,9 @@ public class Review extends AbstractAggregateRoot<Review> {
     @Column(name = "menu", length = MAX_MENU_LENGTH, nullable = false)
     private String menu;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
@@ -64,7 +67,7 @@ public class Review extends AbstractAggregateRoot<Review> {
 
     @Builder
     public Review(final Long id, final Member member, final Long restaurantId, final String content, final int rating,
-                  final String menu, final LocalDateTime createdAt) {
+                  final String menu, final String imageUrl, final LocalDateTime createdAt) {
         validateRating(rating);
         LengthValidator.checkStringLength(menu, MAX_MENU_LENGTH, "메뉴의 이름");
         LengthValidator.checkStringLength(content, MAX_CONTENT_LENGTH, "리뷰 내용");
@@ -74,6 +77,7 @@ public class Review extends AbstractAggregateRoot<Review> {
         this.content = content;
         this.rating = rating;
         this.menu = menu;
+        this.imageUrl = imageUrl;
         this.createdAt = createdAt;
         registerEvent(new ReviewCreatedEvent(restaurantId, rating));
     }

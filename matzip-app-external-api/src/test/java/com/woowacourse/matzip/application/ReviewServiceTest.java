@@ -39,7 +39,7 @@ public class ReviewServiceTest {
     private MemberRepository memberRepository;
 
     private static ReviewCreateRequest reviewCreateRequest() {
-        return new ReviewCreateRequest(REVIEW_1.getContent(), REVIEW_1.getScore(), REVIEW_1.getMenu());
+        return new ReviewCreateRequest(REVIEW_1.getContent(), REVIEW_1.getScore(), REVIEW_1.getMenu(), REVIEW_1.getImageUrl());
     }
 
     @Test
