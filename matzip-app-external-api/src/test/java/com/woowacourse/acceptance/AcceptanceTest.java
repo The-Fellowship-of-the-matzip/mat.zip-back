@@ -2,6 +2,7 @@ package com.woowacourse.acceptance;
 
 import static com.woowacourse.matzip.config.Profile.TEST;
 
+import com.woowacourse.support.DataClearManager;
 import com.woowacourse.support.SpringAcceptanceTest;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
