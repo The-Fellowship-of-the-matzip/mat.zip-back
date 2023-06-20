@@ -8,12 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.woowacourse.auth.application.dto.GithubProfileResponse;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
-import com.woowacourse.support.SpringServiceTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@SpringServiceTest
-public class MemberServiceTest {
+public class MemberServiceTest extends ServiceTest {
 
     @Autowired
     private MemberService memberService;

@@ -1,5 +1,12 @@
 package com.woowacourse.matzip.application;
 
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestMember;
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestRestaurant;
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestReview;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
@@ -9,22 +16,12 @@ import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.matzip.exception.RestaurantNotFoundException;
-import com.woowacourse.support.SpringServiceTest;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
-import java.util.List;
-
-import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestMember;
-import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestRestaurant;
-import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestReview;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
-
-@SpringServiceTest
-class RestaurantServiceTest {
+class RestaurantServiceTest extends ServiceTest {
 
     @Autowired
     private RestaurantService restaurantService;

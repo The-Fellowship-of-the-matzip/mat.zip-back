@@ -18,13 +18,11 @@ import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
 import com.woowacourse.matzip.presentation.request.ReviewCreateRequest;
 import com.woowacourse.matzip.presentation.request.ReviewUpdateRequest;
-import com.woowacourse.support.SpringServiceTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
-@SpringServiceTest
-public class ReviewServiceTest {
+public class ReviewServiceTest extends ServiceTest {
 
     @Autowired
     private ReviewService reviewService;
