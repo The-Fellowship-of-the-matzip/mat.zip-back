@@ -1,6 +1,8 @@
 package com.woowacourse.matzip.domain.review;
 
+import java.util.List;
 import java.util.Optional;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -18,4 +20,10 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @EntityGraph(attributePaths = {"member"}, type = EntityGraphType.FETCH)
     Slice<Review> findPageByRestaurantIdOrderByIdDesc(Long restaurantId, Pageable pageable);
+
+    @Query(
+            value = "select r.member.id as memberId, count(r.member.id) as reviewCount " +
+                    "from Review r where r.member.id in :memberIds  group by r.member.id"
+    )
+    List<ReviewCountByMemberIdDto> countReviewsByMemberIds(List<Long> memberIds);
 }
