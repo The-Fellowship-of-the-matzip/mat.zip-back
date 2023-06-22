@@ -20,6 +20,7 @@ import java.util.UUID;
 public class ImageService {
 
     private static final String EXTENSION_DELIMITER = ".";
+    private static final String CLOUDFRONT_URL = "https://image.matzip.today/";
 
     private final S3Client s3Client;
     private final String bucketName;
@@ -33,12 +34,13 @@ public class ImageService {
     public ImageUploadResponse uploadImage(final MultipartFile file) {
         String extension = validateExtension(file);
         PutObjectRequest request = createRequest(file, extension);
+        String key = createKey(extension);
         try {
             s3Client.putObject(request, RequestBody.fromBytes(file.getBytes()));
         } catch (IOException e) {
             throw new UploadFailedException();
         }
-        return new ImageUploadResponse("aaa");
+        return new ImageUploadResponse(CLOUDFRONT_URL + key);
     }
 
     private String validateExtension(final MultipartFile file) {
@@ -47,9 +49,12 @@ public class ImageService {
         return ImageExtension.validateExtension(extension);
     }
 
-    private PutObjectRequest createRequest(final MultipartFile file, final String extension) {
+    private String createKey(final String extension) {
         String uuid = UUID.randomUUID().toString();
-        String key = uuid + EXTENSION_DELIMITER + extension;
+        return uuid + EXTENSION_DELIMITER + extension;
+    }
+
+    private PutObjectRequest createRequest(final MultipartFile file, final String key) {
         return PutObjectRequest.builder()
                 .bucket(bucketName)
                 .key(key)
