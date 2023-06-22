@@ -1,5 +1,8 @@
 package com.woowacourse.matzip.application.response;
 
+import lombok.Getter;
+
+@Getter
 public class ImageUploadResponse {
 
     private String imageUrl;
@@ -9,9 +12,5 @@ public class ImageUploadResponse {
 
     public ImageUploadResponse(final String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
     }
 }
