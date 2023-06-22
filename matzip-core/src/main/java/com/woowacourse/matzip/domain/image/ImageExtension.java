@@ -13,6 +13,8 @@ public enum ImageExtension {
         Arrays.stream(values())
                 .filter(imageExtension -> imageExtension.name().equalsIgnoreCase(extension))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("업로드 할 수 없는 확장자명입니다."));
+                .orElseThrow(() -> {
+                    throw new IllegalArgumentException("업로드 할 수 없는 확장자명입니다.");
+                });
     }
 }
