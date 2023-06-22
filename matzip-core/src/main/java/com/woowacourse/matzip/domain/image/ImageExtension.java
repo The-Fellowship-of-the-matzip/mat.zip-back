@@ -9,12 +9,13 @@ public enum ImageExtension {
     WEBP,
     GIF;
 
-    public static void validateExtension(final String extension) {
-        Arrays.stream(values())
-                .filter(imageExtension -> imageExtension.name().equalsIgnoreCase(extension))
+    public static String validateExtension(final String extension) {
+        return Arrays.stream(values())
+                .map(imageExtension -> imageExtension.name().toLowerCase())
+                .filter(imageExtension -> imageExtension.equalsIgnoreCase(extension))
                 .findFirst()
-                .orElseThrow(() -> {
-                    throw new IllegalArgumentException("업로드 할 수 없는 확장자명입니다.");
-                });
+                .orElseThrow(() ->
+                        new IllegalArgumentException("업로드 할 수 없는 확장자명입니다.")
+                );
     }
 }

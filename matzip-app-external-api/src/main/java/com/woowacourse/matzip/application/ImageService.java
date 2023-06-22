@@ -41,6 +41,12 @@ public class ImageService {
         return new ImageUploadResponse("aaa");
     }
 
+    private String validateExtension(final MultipartFile file) {
+        String originalFilename = file.getOriginalFilename();
+        String extension = Objects.requireNonNull(originalFilename).substring(originalFilename.lastIndexOf('.') + 1);
+        return ImageExtension.validateExtension(extension);
+    }
+
     private PutObjectRequest createRequest(final MultipartFile file, final String extension) {
         String uuid = UUID.randomUUID().toString();
         String key = uuid + EXTENSION_DELIMITER + extension;
@@ -49,12 +55,5 @@ public class ImageService {
                 .key(key)
                 .contentLength(file.getSize())
                 .build();
-    }
-
-    private String validateExtension(final MultipartFile file) {
-        String originalFilename = file.getOriginalFilename();
-        String extension = Objects.requireNonNull(originalFilename).substring(originalFilename.lastIndexOf('.') + 1);
-        ImageExtension.validateExtension(extension);
-        return extension;
     }
 }
