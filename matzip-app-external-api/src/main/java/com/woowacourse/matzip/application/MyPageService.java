@@ -39,7 +39,7 @@ public class MyPageService {
                 .orElseThrow(MemberNotFoundException::new);
 
         // TODO: 2023/06/15 reviewRepository 리뷰 개수, 평균 별점 가져오기
-        int reviewCount = reviewRepository.countReviewsByMemberIds(List.of(currentMember.getId())).size();
+        int reviewCount = reviewRepository.findMemberReviewInfosByMemberIds(List.of(currentMember.getId())).size();
         Double averageRating = 0.0;
 
         return ProfileResponse.of(currentMember, reviewCount, averageRating);

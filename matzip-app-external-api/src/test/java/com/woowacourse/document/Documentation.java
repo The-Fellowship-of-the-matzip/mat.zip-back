@@ -10,6 +10,7 @@ import com.woowacourse.auth.presentation.AuthenticationContext;
 import com.woowacourse.matzip.application.BookmarkService;
 import com.woowacourse.matzip.application.CampusService;
 import com.woowacourse.matzip.application.CategoryService;
+import com.woowacourse.matzip.application.MyPageService;
 import com.woowacourse.matzip.application.RestaurantDemandService;
 import com.woowacourse.matzip.application.RestaurantService;
 import com.woowacourse.matzip.application.ReviewService;
@@ -18,6 +19,7 @@ import com.woowacourse.matzip.domain.campus.CampusRepository;
 import com.woowacourse.matzip.presentation.BookmarkController;
 import com.woowacourse.matzip.presentation.CampusController;
 import com.woowacourse.matzip.presentation.CategoryController;
+import com.woowacourse.matzip.presentation.MyPageController;
 import com.woowacourse.matzip.presentation.RestaurantController;
 import com.woowacourse.matzip.presentation.RestaurantDemandController;
 import com.woowacourse.matzip.presentation.ReviewController;
@@ -40,7 +42,8 @@ import org.springframework.web.context.WebApplicationContext;
         ReviewController.class,
         AuthController.class,
         RestaurantDemandController.class,
-        BookmarkController.class
+        BookmarkController.class,
+        MyPageController.class
 })
 @ExtendWith(RestDocumentationExtension.class)
 public class Documentation {
@@ -70,6 +73,8 @@ public class Documentation {
     protected AuthenticationContext authenticationContext;
     @MockBean
     protected CampusRepository campusRepository;
+    @MockBean
+    protected MyPageService myPageService;
 
     @BeforeEach
     void setDocsGiven(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {

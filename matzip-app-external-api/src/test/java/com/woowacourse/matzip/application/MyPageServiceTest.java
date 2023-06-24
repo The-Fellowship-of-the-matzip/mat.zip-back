@@ -34,7 +34,7 @@ class MyPageServiceTest {
         리뷰_작성(member);
 
         ProfileResponse profileResponse = myPageService.findProfile(member.getGithubId());
-        int expectedReviewCount = reviewRepository.countReviewsByMemberIds(List.of(member.getId())).size();
+        int expectedReviewCount = reviewRepository.findMemberReviewInfosByMemberIds(List.of(member.getId())).size();
 
         assertAll(
                 () -> assertThat(profileResponse.getUsername()).isEqualTo(member.getUsername()),
@@ -64,6 +64,6 @@ class MyPageServiceTest {
     }
 
     private void 리뷰_작성(Member member) {
-        reviewRepository.save(new Review(null, member, 1L, "맛있어요", 5, "메뉴", null));
+        reviewRepository.save(new Review(null, member, 1L, "맛있어요", 5, "메뉴", null, null));
     }
 }

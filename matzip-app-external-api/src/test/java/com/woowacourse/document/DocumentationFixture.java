@@ -2,6 +2,10 @@ package com.woowacourse.document;
 
 import com.woowacourse.matzip.application.response.CampusResponse;
 import com.woowacourse.matzip.application.response.CategoryResponse;
+import com.woowacourse.matzip.application.response.MyReviewResponse;
+import com.woowacourse.matzip.application.response.MyReviewResponse.RestaurantShortInfo;
+import com.woowacourse.matzip.application.response.MyReviewsResponse;
+import com.woowacourse.matzip.application.response.ProfileResponse;
 import com.woowacourse.matzip.application.response.RestaurantDemandResponse;
 import com.woowacourse.matzip.application.response.RestaurantDemandsResponse;
 import com.woowacourse.matzip.application.response.RestaurantResponse;
@@ -13,7 +17,6 @@ import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.domain.campus.Campus;
 import com.woowacourse.matzip.domain.category.Category;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -161,4 +164,20 @@ public class DocumentationFixture {
 
     public static final RestaurantDemandsResponse RESTAURANT_REQUESTS_RESPONSE = new RestaurantDemandsResponse(
             List.of(RESTAURANT_REQUEST), false);
+
+    private static final MyReviewResponse MY_REVIEW_1 = new MyReviewResponse(1L,
+            new RestaurantShortInfo(SEOLLEUNG_RESTAURANT_1.getId(), SEOLLEUNG_RESTAURANT_1.getName(),
+                    SEOLLEUNG_RESTAURANT_1.getImageUrl()), "맛있어요", 4, "무닭볶음탕 (대)", true);
+
+    private static final MyReviewResponse MY_REVIEW_2 = new MyReviewResponse(2L,
+            new RestaurantShortInfo(SEOLLEUNG_RESTAURANT_2.getId(), SEOLLEUNG_RESTAURANT_2.getName(),
+                    SEOLLEUNG_RESTAURANT_2.getImageUrl()), "맛없어요", 1, "뽕나무 1인분", true);
+
+    public static final ProfileResponse MY_PROFILE_RESPONSE = new ProfileResponse(
+            "베로", "url", 2, 2.5
+    );
+
+    public static final MyReviewsResponse MY_REVIEWS_RESPONSE = new MyReviewsResponse(
+            false, List.of(MY_REVIEW_1, MY_REVIEW_2)
+    );
 }
