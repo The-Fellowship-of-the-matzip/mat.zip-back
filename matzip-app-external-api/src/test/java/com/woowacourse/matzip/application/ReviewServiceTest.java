@@ -109,7 +109,7 @@ public class ReviewServiceTest {
                 .get(0)
                 .getId();
 
-        ReviewUpdateRequest reviewUpdateRequest = new ReviewUpdateRequest("내용", 5, "메뉴");
+        ReviewUpdateRequest reviewUpdateRequest = new ReviewUpdateRequest("내용", 5, "메뉴", "https://image.matzip.today/1.png");
         reviewService.updateReview(member.getGithubId(), reviewId, reviewUpdateRequest);
 
         ReviewResponse reviewResponse = reviewService.findPageByRestaurantId(member.getGithubId(), restaurant.getId(),

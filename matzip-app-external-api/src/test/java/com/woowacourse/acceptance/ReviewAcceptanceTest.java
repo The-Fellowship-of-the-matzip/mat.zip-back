@@ -113,7 +113,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = 리뷰_수정_요청(식당_ID,
                 reviewResponse.getId(),
                 accessToken,
-                new ReviewUpdateRequest("맛이 있어요.", 5, "무닭볶음탕 (대)"));
+                new ReviewUpdateRequest("맛이 있어요.", 5, "무닭볶음탕 (대)", "https://image.matzip.today/1.png"));
 
         ReviewResponse updatedResponse = 리뷰_조회_요청(식당_ID, accessToken, 0, 1)
                 .as(ReviewsResponse.class)
