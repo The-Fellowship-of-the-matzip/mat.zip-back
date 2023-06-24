@@ -1,5 +1,6 @@
 package com.woowacourse.matzip.domain.review;
 
+import com.woowacourse.matzip.domain.member.Member;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,4 +27,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
                     "from Review r where r.member.id in :memberIds  group by r.member.id"
     )
     List<MemberReviewInfo> findMemberReviewInfosByMemberIds(List<Long> memberIds);
+
+    Slice<Review> findPageByMemberOrderByIdDesc(Member member, Pageable pageable);
 }
