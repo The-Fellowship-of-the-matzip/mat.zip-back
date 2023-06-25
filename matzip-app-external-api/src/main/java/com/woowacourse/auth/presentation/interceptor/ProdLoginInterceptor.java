@@ -1,7 +1,7 @@
 package com.woowacourse.auth.presentation.interceptor;
 
-import static com.woowacourse.matzip.config.Profile.PROD;
-import static com.woowacourse.matzip.config.Profile.TEST;
+import static com.woowacourse.matzip.environment.ProfileUtil.PROD;
+import static com.woowacourse.matzip.environment.ProfileUtil.TEST;
 
 import com.woowacourse.auth.application.JwtTokenProvider;
 import com.woowacourse.auth.exception.TokenNotFoundException;
