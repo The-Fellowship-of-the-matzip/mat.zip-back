@@ -18,11 +18,13 @@ import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
 import com.woowacourse.matzip.presentation.request.ReviewCreateRequest;
 import com.woowacourse.matzip.presentation.request.ReviewUpdateRequest;
+import com.woowacourse.support.SpringServiceTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
-public class ReviewServiceTest extends ServiceTest {
+@SpringServiceTest
+public class ReviewServiceTest {
 
     @Autowired
     private ReviewService reviewService;
@@ -144,7 +146,8 @@ public class ReviewServiceTest extends ServiceTest {
         Restaurant restaurant = restaurantRepository.findAll().get(0);
         reviewService.createReview(member.getGithubId(), restaurant.getId(), reviewCreateRequest());
 
-        Long reviewCount = reviewService.findPageByRestaurantId(member.getGithubId(), restaurant.getId(), PageRequest.of(0, 1))
+        Long reviewCount = reviewService.findPageByRestaurantId(member.getGithubId(), restaurant.getId(),
+                        PageRequest.of(0, 1))
                 .getReviews()
                 .get(0)
                 .getAuthor()

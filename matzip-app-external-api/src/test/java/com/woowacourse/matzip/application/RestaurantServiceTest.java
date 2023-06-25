@@ -16,12 +16,14 @@ import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.matzip.exception.RestaurantNotFoundException;
+import com.woowacourse.support.SpringServiceTest;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
-class RestaurantServiceTest extends ServiceTest {
+@SpringServiceTest
+class RestaurantServiceTest {
 
     @Autowired
     private RestaurantService restaurantService;

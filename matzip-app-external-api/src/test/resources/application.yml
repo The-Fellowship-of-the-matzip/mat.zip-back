@@ -1,7 +1,6 @@
 spring:
-  config:
-    activate:
-      on-profile: test
+  profiles:
+    active: test
   jpa:
     properties:
       hibernate:

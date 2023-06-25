@@ -18,12 +18,14 @@ import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.exception.RestaurantDemandNotFoundException;
 import com.woowacourse.matzip.presentation.request.RestaurantDemandCreateRequest;
 import com.woowacourse.matzip.presentation.request.RestaurantDemandUpdateRequest;
+import com.woowacourse.support.SpringServiceTest;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
-class RestaurantDemandServiceTest extends ServiceTest {
+@SpringServiceTest
+class RestaurantDemandServiceTest {
 
     @Autowired
     private RestaurantDemandService restaurantDemandService;

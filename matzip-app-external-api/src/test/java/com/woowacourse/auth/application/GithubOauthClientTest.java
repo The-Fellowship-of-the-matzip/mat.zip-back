@@ -1,7 +1,6 @@
 package com.woowacourse.auth.application;
 
 import static com.woowacourse.matzip.MemberFixtures.HUNI;
-import static com.woowacourse.matzip.config.Profile.TEST;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.auth.application.dto.GithubProfileResponse;
@@ -9,9 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.test.context.ActiveProfiles;
 
-@ActiveProfiles(TEST)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 public class GithubOauthClientTest {
 
