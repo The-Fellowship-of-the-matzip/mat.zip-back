@@ -146,7 +146,8 @@ public class ReviewServiceTest {
         Restaurant restaurant = restaurantRepository.findAll().get(0);
         reviewService.createReview(member.getGithubId(), restaurant.getId(), reviewCreateRequest());
 
-        Long reviewCount = reviewService.findPageByRestaurantId(member.getGithubId(), restaurant.getId(), PageRequest.of(0, 1))
+        Long reviewCount = reviewService.findPageByRestaurantId(member.getGithubId(), restaurant.getId(),
+                        PageRequest.of(0, 1))
                 .getReviews()
                 .get(0)
                 .getAuthor()
