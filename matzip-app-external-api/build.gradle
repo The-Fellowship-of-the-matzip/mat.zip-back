@@ -25,6 +25,11 @@ dependencies {
     asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.6.RELEASE'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
+
+    // aws
+    implementation platform('software.amazon.awssdk:bom:2.20.56')
+    implementation 'software.amazon.awssdk:s3'
+    implementation 'software.amazon.awssdk:aws-crt-client'
 }
 
 ext {

@@ -39,7 +39,7 @@ public class ReviewServiceTest {
     private MemberRepository memberRepository;
 
     private static ReviewCreateRequest reviewCreateRequest() {
-        return new ReviewCreateRequest(REVIEW_1.getContent(), REVIEW_1.getScore(), REVIEW_1.getMenu());
+        return new ReviewCreateRequest(REVIEW_1.getContent(), REVIEW_1.getScore(), REVIEW_1.getMenu(), REVIEW_1.getImageUrl());
     }
 
     @Test
@@ -109,7 +109,7 @@ public class ReviewServiceTest {
                 .get(0)
                 .getId();
 
-        ReviewUpdateRequest reviewUpdateRequest = new ReviewUpdateRequest("내용", 5, "메뉴");
+        ReviewUpdateRequest reviewUpdateRequest = new ReviewUpdateRequest("내용", 5, "메뉴", "https://image.matzip.today/1.png");
         reviewService.updateReview(member.getGithubId(), reviewId, reviewUpdateRequest);
 
         ReviewResponse reviewResponse = reviewService.findPageByRestaurantId(member.getGithubId(), restaurant.getId(),

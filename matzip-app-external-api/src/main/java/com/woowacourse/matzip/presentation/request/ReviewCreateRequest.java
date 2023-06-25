@@ -11,14 +11,16 @@ public class ReviewCreateRequest {
     private int rating;
     @NotNull(message = "리뷰 메뉴는 null이 들어올 수 없습니다.")
     private String menu;
+    private String imageUrl;
 
     private ReviewCreateRequest() {
     }
 
-    public ReviewCreateRequest(final String content, final int rating, final String menu) {
+    public ReviewCreateRequest(final String content, final int rating, final String menu, final String imageUrl) {
         this.content = content;
         this.rating = rating;
         this.menu = menu;
+        this.imageUrl = imageUrl;
     }
 
     public Review toReviewWithMemberAndRestaurantId(final Member member, final Long restaurantId) {
@@ -28,6 +30,7 @@ public class ReviewCreateRequest {
                 .content(content)
                 .rating(rating)
                 .menu(menu)
+                .imageUrl(imageUrl)
                 .build();
     }
 
@@ -41,5 +44,9 @@ public class ReviewCreateRequest {
 
     public String getMenu() {
         return menu;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 }
