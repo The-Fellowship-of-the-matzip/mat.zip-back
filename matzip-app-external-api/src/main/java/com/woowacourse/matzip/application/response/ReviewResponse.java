@@ -12,6 +12,7 @@ public class ReviewResponse {
     private String content;
     private int rating;
     private String menu;
+    private String imageUrl;
     private boolean updatable;
 
     private ReviewResponse() {
@@ -22,22 +23,25 @@ public class ReviewResponse {
                           final String content,
                           final int rating,
                           final String menu,
+                          final String imageUrl,
                           final boolean updatable) {
         this.id = id;
         this.author = author;
         this.content = content;
         this.rating = rating;
         this.menu = menu;
+        this.imageUrl = imageUrl;
         this.updatable = updatable;
     }
 
-    public static ReviewResponse of(final Review review, final boolean updatable) {
+    public static ReviewResponse of(final Review review, final boolean updatable, final Long reviewCount, final Double averageRating) {
         return new ReviewResponse(
                 review.getId(),
-                ReviewAuthor.from(review.getMember()),
+                ReviewAuthor.of(review.getMember(), reviewCount, averageRating),
                 review.getContent(),
                 review.getRating(),
                 review.getMenu(),
+                review.getImageUrl(),
                 updatable
         );
     }
@@ -47,17 +51,21 @@ public class ReviewResponse {
 
         private String username;
         private String profileImage;
+        private Long reviewCount;
+        private Double averageRating;
 
         private ReviewAuthor() {
         }
 
-        public ReviewAuthor(final String username, final String profileImage) {
+        public ReviewAuthor(final String username, final String profileImage, final Long reviewCount, final Double averageRating) {
             this.username = username;
             this.profileImage = profileImage;
+            this.reviewCount = reviewCount;
+            this.averageRating = averageRating;
         }
 
-        public static ReviewAuthor from(final Member member) {
-            return new ReviewAuthor(member.getUsername(), member.getProfileImage());
+        public static ReviewAuthor of(final Member member, final Long reviewCount, final Double averageRating) {
+            return new ReviewAuthor(member.getUsername(), member.getProfileImage(), reviewCount, averageRating);
         }
     }
 }

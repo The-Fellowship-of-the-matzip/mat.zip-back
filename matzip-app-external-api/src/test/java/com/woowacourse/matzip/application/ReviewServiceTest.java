@@ -39,7 +39,7 @@ public class ReviewServiceTest {
     private MemberRepository memberRepository;
 
     private static ReviewCreateRequest reviewCreateRequest() {
-        return new ReviewCreateRequest(REVIEW_1.getContent(), REVIEW_1.getScore(), REVIEW_1.getMenu());
+        return new ReviewCreateRequest(REVIEW_1.getContent(), REVIEW_1.getScore(), REVIEW_1.getMenu(), REVIEW_1.getImageUrl());
     }
 
     @Test
@@ -109,7 +109,7 @@ public class ReviewServiceTest {
                 .get(0)
                 .getId();
 
-        ReviewUpdateRequest reviewUpdateRequest = new ReviewUpdateRequest("내용", 5, "메뉴");
+        ReviewUpdateRequest reviewUpdateRequest = new ReviewUpdateRequest("내용", 5, "메뉴", "https://image.matzip.today/1.png");
         reviewService.updateReview(member.getGithubId(), reviewId, reviewUpdateRequest);
 
         ReviewResponse reviewResponse = reviewService.findPageByRestaurantId(member.getGithubId(), restaurant.getId(),
@@ -138,6 +138,22 @@ public class ReviewServiceTest {
         reviewService.deleteReview(member.getGithubId(), reviewId);
 
         assertThat(reviewRepository.findById(reviewId).isEmpty()).isTrue();
+    }
+
+    @Test
+    void 작성_리뷰_개수를_조회한다() {
+        Member member = memberRepository.save(ORI.toMember());
+        Restaurant restaurant = restaurantRepository.findAll().get(0);
+        reviewService.createReview(member.getGithubId(), restaurant.getId(), reviewCreateRequest());
+
+        Long reviewCount = reviewService.findPageByRestaurantId(member.getGithubId(), restaurant.getId(),
+                        PageRequest.of(0, 1))
+                .getReviews()
+                .get(0)
+                .getAuthor()
+                .getReviewCount();
+
+        assertThat(reviewCount).isOne();
     }
 }
 

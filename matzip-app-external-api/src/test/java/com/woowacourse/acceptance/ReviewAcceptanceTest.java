@@ -52,7 +52,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
     @Test
     void 리뷰_작성() {
         String accessToken = 로그인_토큰();
-        ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)");
+        ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)", "https://image.matzip.today/1.png");
 
         ExtractableResponse<Response> response = 리뷰_생성_요청(식당_ID, accessToken, request);
         리뷰_작성에_성공한다(response);
@@ -61,7 +61,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
     @Test
     void 리뷰_작성_시_null_리뷰() {
         String accessToken = 로그인_토큰();
-        ReviewCreateRequest request = new ReviewCreateRequest(null, 4, "무닭볶음탕 (중)");
+        ReviewCreateRequest request = new ReviewCreateRequest(null, 4, "무닭볶음탕 (중)", "https://image.matzip.today/1.png");
 
         ExtractableResponse<Response> response = 리뷰_생성_요청(식당_ID, accessToken, request);
         리뷰_작성에_실패한다(response);
@@ -70,7 +70,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
     @Test
     void 리뷰_작성_시_null_메뉴() {
         String accessToken = 로그인_토큰();
-        ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, null);
+        ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, null, "https://image.matzip.today/1.png");
 
         ExtractableResponse<Response> response = 리뷰_생성_요청(식당_ID, accessToken, request);
         리뷰_작성에_실패한다(response);
@@ -90,10 +90,10 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         String accessToken = 로그인_토큰();
         String other = httpGetRequest("/api/login?code=2").as(TokenResponse.class).getAccessToken();
         for (int i = 1; i <= 20; i++) {
-            ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)");
+            ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)", "https://image.matzip.today/1.png");
             리뷰_생성_요청(식당_ID, accessToken, request);
         }
-        ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)");
+        ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)", "https://image.matzip.today/1.png");
         리뷰_생성_요청(식당_ID, other, request);
         ExtractableResponse<Response> response = 리뷰_조회_요청(식당_ID, accessToken, 0, 5);
         내_리뷰정보도_조회에_성공한다(response);
@@ -102,7 +102,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
     @Test
     void 리뷰_수정() {
         String accessToken = 로그인_토큰();
-        ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)");
+        ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)", "https://image.matzip.today/1.png");
 
         리뷰_생성_요청(식당_ID, accessToken, request);
         ReviewResponse reviewResponse = 리뷰_조회_요청(식당_ID, accessToken, 0, 1)
@@ -113,7 +113,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = 리뷰_수정_요청(식당_ID,
                 reviewResponse.getId(),
                 accessToken,
-                new ReviewUpdateRequest("맛이 있어요.", 5, "무닭볶음탕 (대)"));
+                new ReviewUpdateRequest("맛이 있어요.", 5, "무닭볶음탕 (대)", "https://image.matzip.today/1.png"));
 
         ReviewResponse updatedResponse = 리뷰_조회_요청(식당_ID, accessToken, 0, 1)
                 .as(ReviewsResponse.class)
@@ -126,7 +126,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
     @Test
     void 리뷰가_삭제됨() {
         String accessToken = 로그인_토큰();
-        ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)");
+        ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)", "https://image.matzip.today/1.png");
 
         리뷰_생성_요청(식당_ID, accessToken, request);
         ReviewResponse reviewResponse = 리뷰_조회_요청(식당_ID, accessToken, 0, 1)
@@ -136,6 +136,24 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         ExtractableResponse<Response> response = 리뷰_삭제_요청(식당_ID, reviewResponse.getId(), accessToken);
         리뷰_삭제에_성공한다(response);
+    }
+
+    @Test
+    void 리뷰_작성개수_조회() {
+        for (int i = 1; i <= 10; i++) {
+            리뷰_작성();
+        }
+        ExtractableResponse<Response> response = 리뷰_조회_요청(1L, 0, 1);
+        사용자의_리뷰개수가_일치한다(response, 10L);
+    }
+
+    @Test
+    void 리뷰_평균_별점_조회() {
+        for (int i = 1; i <= 10; i++) {
+            리뷰_작성();
+        }
+        ExtractableResponse<Response> response = 리뷰_조회_요청(1L, 0, 1);
+        사용자의_평균별점이_일치한다(response, 4d);
     }
 
     private void 리뷰_작성에_성공한다(final ExtractableResponse<Response> response) {
@@ -173,5 +191,15 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
                 () -> assertThat(updatedResponse.getRating()).isEqualTo(5),
                 () -> assertThat(updatedResponse.getMenu()).isEqualTo("무닭볶음탕 (대)")
         );
+    }
+
+    private void 사용자의_리뷰개수가_일치한다(final ExtractableResponse<Response> response, final Long expectedReviewCount) {
+        ReviewsResponse reviewsResponse = response.as(ReviewsResponse.class);
+        assertThat(reviewsResponse.getReviews().get(0).getAuthor().getReviewCount()).isEqualTo(expectedReviewCount);
+    }
+
+    private void 사용자의_평균별점이_일치한다(final ExtractableResponse<Response> response, final Double expectedRating) {
+        ReviewsResponse reviewsResponse = response.as(ReviewsResponse.class);
+        assertThat(reviewsResponse.getReviews().get(0).getAuthor().getAverageRating()).isEqualTo(expectedRating);
     }
 }
