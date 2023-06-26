@@ -8,21 +8,21 @@ public class ProfileResponse {
 
     private String username;
     private String profileImage;
-    private Integer reviewCount;
-    private Double ratingAverage;
+    private Long reviewCount;
+    private Double averageRating;
 
     private ProfileResponse() {
     }
 
-    public ProfileResponse(final String username, final String profileImage, final Integer reviewCount,
-                           final Double ratingAverage) {
+    public ProfileResponse(final String username, final String profileImage, final Long reviewCount,
+                           final Double averageRating) {
         this.username = username;
         this.profileImage = profileImage;
         this.reviewCount = reviewCount;
-        this.ratingAverage = ratingAverage;
+        this.averageRating = averageRating;
     }
 
-    public static ProfileResponse of(final Member member, final Integer reviewCount, final Double ratingAverage) {
+    public static ProfileResponse of(final Member member, final Long reviewCount, final Double ratingAverage) {
         return new ProfileResponse(member.getUsername(), member.getProfileImage(), reviewCount, ratingAverage);
     }
 }

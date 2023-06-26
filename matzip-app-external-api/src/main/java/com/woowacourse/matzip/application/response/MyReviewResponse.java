@@ -12,22 +12,25 @@ public class MyReviewResponse {
     private String content;
     private int rating;
     private String menu;
+    private String imageUrl;
     private boolean updatable;
 
     private MyReviewResponse() {
     }
 
     public MyReviewResponse(final Long id,
-                             final RestaurantShortInfo restaurant,
-                             final String content,
-                             final int rating,
-                             final String menu,
-                             final boolean updatable) {
+                            final RestaurantShortInfo restaurant,
+                            final String content,
+                            final int rating,
+                            final String menu,
+                            final String imageUrl,
+                            final boolean updatable) {
         this.id = id;
         this.restaurant = restaurant;
         this.content = content;
         this.rating = rating;
         this.menu = menu;
+        this.imageUrl = imageUrl;
         this.updatable = updatable;
     }
 
@@ -38,6 +41,7 @@ public class MyReviewResponse {
                 review.getContent(),
                 review.getRating(),
                 review.getMenu(),
+                review.getImageUrl(),
                 true
         );
     }

@@ -8,10 +8,10 @@ import com.woowacourse.matzip.application.response.MyReviewsResponse;
 import com.woowacourse.matzip.application.response.ProfileResponse;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
+import com.woowacourse.matzip.domain.review.MemberReviewInfo;
 import com.woowacourse.matzip.domain.review.Review;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.support.SpringServiceTest;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -34,14 +34,13 @@ class MyPageServiceTest {
         리뷰_작성(member);
 
         ProfileResponse profileResponse = myPageService.findProfile(member.getGithubId());
-        int expectedReviewCount = reviewRepository.findMemberReviewInfosByMemberIds(List.of(member.getId())).size();
+        MemberReviewInfo memberReviewInfo = reviewRepository.findMemberReviewInfoByMemberId(member.getId());
 
         assertAll(
                 () -> assertThat(profileResponse.getUsername()).isEqualTo(member.getUsername()),
                 () -> assertThat(profileResponse.getProfileImage()).isEqualTo(member.getProfileImage()),
-                () -> assertThat(profileResponse.getReviewCount()).isEqualTo(expectedReviewCount)
-//                () -> assertThat(profileResponse.getRatingAverage()).isEqualTo(expectedReviewCount)
-                // TODO: 2023/06/16 expectedRatingAverage 추가
+                () -> assertThat(profileResponse.getReviewCount()).isEqualTo(memberReviewInfo.getReviewCount()),
+                () -> assertThat(profileResponse.getAverageRating()).isEqualTo(memberReviewInfo.getAverageRating())
         );
     }
 

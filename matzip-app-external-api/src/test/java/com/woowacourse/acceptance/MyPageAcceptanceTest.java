@@ -42,7 +42,8 @@ public class MyPageAcceptanceTest extends AcceptanceTest {
 
     private void 리뷰_작성() {
         String accessToken = 로그인_토큰();
-        ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)");
+        ReviewCreateRequest request = new ReviewCreateRequest("맛있네요.", 4, "무닭볶음탕 (중)",
+                "https://image.matzip.today/1.png");
 
         리뷰_생성_요청(식당_ID, accessToken, request);
     }

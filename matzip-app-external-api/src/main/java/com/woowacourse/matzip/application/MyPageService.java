@@ -7,6 +7,7 @@ import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
+import com.woowacourse.matzip.domain.review.MemberReviewInfo;
 import com.woowacourse.matzip.domain.review.Review;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
@@ -38,11 +39,8 @@ public class MyPageService {
         Member currentMember = memberRepository.findMemberByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
 
-        // TODO: 2023/06/15 reviewRepository 리뷰 개수, 평균 별점 가져오기
-        int reviewCount = reviewRepository.findMemberReviewInfosByMemberIds(List.of(currentMember.getId())).size();
-        Double averageRating = 0.0;
-
-        return ProfileResponse.of(currentMember, reviewCount, averageRating);
+        MemberReviewInfo memberReviewInfo = reviewRepository.findMemberReviewInfoByMemberId(currentMember.getId());
+        return ProfileResponse.of(currentMember, memberReviewInfo.getReviewCount(), memberReviewInfo.getAverageRating());
     }
 
     public MyReviewsResponse findPageByMember(final String githubId, final Pageable pageable) {
