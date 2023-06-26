@@ -5,7 +5,8 @@ import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.review.Review;
-import com.woowacourse.matzip.domain.review.ReviewCountByMemberIdsDto;
+import com.woowacourse.matzip.domain.review.MemberReviewInfo;
+import com.woowacourse.matzip.domain.review.MemberReviewInfos;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
 import com.woowacourse.matzip.exception.ForbiddenException;
 import com.woowacourse.matzip.exception.MemberNotFoundException;
@@ -18,14 +19,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
 public class ReviewService {
-
-    private static final Long ZERO_REVIEW = 0L;
 
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
@@ -48,15 +46,19 @@ public class ReviewService {
                                                   final Pageable pageable) {
         Slice<Review> page = reviewRepository.findPageByRestaurantIdOrderByIdDesc(restaurantId, pageable);
 
-        List<Long> memberIds = getMemberIds(page);
-        Map<Long, Long> reviewCountByMemberIds = new ReviewCountByMemberIdsDto(
-                reviewRepository.countReviewsByMemberIds(memberIds)
-        ).toMap();
+        MemberReviewInfos memberReviewInfos = getReviewInfoByMembersInPage(page);
 
         List<ReviewResponse> reviewResponses = page.stream()
-                .map(review -> createReviewResponse(githubId, review, reviewCountByMemberIds))
+                .map(review -> createReviewResponse(githubId, review, memberReviewInfos.findByMemberId(review.getMember().getId())))
                 .collect(Collectors.toList());
         return new ReviewsResponse(page.hasNext(), reviewResponses);
+    }
+
+    private MemberReviewInfos getReviewInfoByMembersInPage(final Slice<Review> page) {
+        List<Long> memberIds = getMemberIds(page);
+        return new MemberReviewInfos(
+                reviewRepository.findMemberReviewInfosByMemberIds(memberIds)
+        );
     }
 
     private List<Long> getMemberIds(final Slice<Review> page) {
@@ -68,8 +70,8 @@ public class ReviewService {
 
     private ReviewResponse createReviewResponse(final String githubId,
                                                 final Review review,
-                                                final Map<Long, Long> reviewCountByMemberIds) {
-        return ReviewResponse.of(review, review.isWriter(githubId), reviewCountByMemberIds.getOrDefault(review.getMember().getId(), ZERO_REVIEW));
+                                                final MemberReviewInfo memberReviewInfo) {
+        return ReviewResponse.of(review, review.isWriter(githubId), memberReviewInfo.getReviewCount(), memberReviewInfo.getAverageRating());
     }
 
     @Transactional

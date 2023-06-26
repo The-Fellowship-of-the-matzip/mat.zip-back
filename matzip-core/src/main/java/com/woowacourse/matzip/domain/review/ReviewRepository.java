@@ -22,8 +22,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Slice<Review> findPageByRestaurantIdOrderByIdDesc(Long restaurantId, Pageable pageable);
 
     @Query(
-            value = "select r.member.id as memberId, count(r.member.id) as reviewCount " +
+            value = "select r.member.id as memberId, count(r.member.id) as reviewCount, avg(r.rating) as averageRating " +
                     "from Review r where r.member.id in :memberIds  group by r.member.id"
     )
-    List<ReviewCountByMemberIdDto> countReviewsByMemberIds(List<Long> memberIds);
+    List<MemberReviewInfo> findMemberReviewInfosByMemberIds(List<Long> memberIds);
 }
