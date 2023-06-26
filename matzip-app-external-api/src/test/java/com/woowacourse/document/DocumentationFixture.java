@@ -2,6 +2,10 @@ package com.woowacourse.document;
 
 import com.woowacourse.matzip.application.response.CampusResponse;
 import com.woowacourse.matzip.application.response.CategoryResponse;
+import com.woowacourse.matzip.application.response.MyReviewResponse;
+import com.woowacourse.matzip.application.response.MyReviewResponse.RestaurantShortInfo;
+import com.woowacourse.matzip.application.response.MyReviewsResponse;
+import com.woowacourse.matzip.application.response.ProfileResponse;
 import com.woowacourse.matzip.application.response.RestaurantDemandResponse;
 import com.woowacourse.matzip.application.response.RestaurantDemandsResponse;
 import com.woowacourse.matzip.application.response.RestaurantResponse;
@@ -13,7 +17,6 @@ import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.domain.campus.Campus;
 import com.woowacourse.matzip.domain.category.Category;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -142,15 +145,20 @@ public class DocumentationFixture {
     public static final RestaurantResponse SEOLLEUNG_RESTAURANT_RESPONSE_1 = RestaurantResponse.of(
             SEOLLEUNG_RESTAURANT_1, 4.0, false);
 
-    private static final ReviewResponse REVIEW_1 = new ReviewResponse(1L, new ReviewAuthor("후니", "url", 1L, 3d), "무가 맛있어요", 5,
+    private static final ReviewResponse REVIEW_1 = new ReviewResponse(1L, new ReviewAuthor("후니", "url", 1L, 3d),
+            "무가 맛있어요", 5,
             "무닭볶음탕 (중)", "https://image.matzip.today/1.png", true);
-    private static final ReviewResponse REVIEW_2 = new ReviewResponse(2L, new ReviewAuthor("오찌", "url", 1L, 3d), "맛없어요.", 2,
+    private static final ReviewResponse REVIEW_2 = new ReviewResponse(2L, new ReviewAuthor("오찌", "url", 1L, 3d),
+            "맛없어요.", 2,
             "무닭볶음탕 (대)", "https://image.matzip.today/1.png", false);
-    private static final ReviewResponse REVIEW_3 = new ReviewResponse(3L, new ReviewAuthor("태태", "url", 1L, 3d), "평범해요.", 3,
+    private static final ReviewResponse REVIEW_3 = new ReviewResponse(3L, new ReviewAuthor("태태", "url", 1L, 3d),
+            "평범해요.", 3,
             "무닭볶음탕 (중)", "https://image.matzip.today/1.png", false);
-    private static final ReviewResponse REVIEW_4 = new ReviewResponse(4L, new ReviewAuthor("샐리", "url", 1L, 3d), "맛있어요.", 4,
+    private static final ReviewResponse REVIEW_4 = new ReviewResponse(4L, new ReviewAuthor("샐리", "url", 1L, 3d),
+            "맛있어요.", 4,
             "무닭볶음탕 (대)", "https://image.matzip.today/1.png", false);
-    private static final ReviewResponse REVIEW_5 = new ReviewResponse(5L, new ReviewAuthor("블링", "url", 1L, 3d), "또오고 싶어요.", 5,
+    private static final ReviewResponse REVIEW_5 = new ReviewResponse(5L, new ReviewAuthor("블링", "url", 1L, 3d),
+            "또오고 싶어요.", 5,
             "통마늘 닭똥집볶음", "https://image.matzip.today/1.png", false);
 
     public static final ReviewsResponse REVIEWS_RESPONSE = new ReviewsResponse(
@@ -161,4 +169,22 @@ public class DocumentationFixture {
 
     public static final RestaurantDemandsResponse RESTAURANT_REQUESTS_RESPONSE = new RestaurantDemandsResponse(
             List.of(RESTAURANT_REQUEST), false);
+
+    private static final MyReviewResponse MY_REVIEW_1 = new MyReviewResponse(1L,
+            new RestaurantShortInfo(SEOLLEUNG_RESTAURANT_1.getId(), SEOLLEUNG_RESTAURANT_1.getName(),
+                    SEOLLEUNG_RESTAURANT_1.getImageUrl()), "맛있어요", 4, "무닭볶음탕 (대)",
+            "https://image.matzip.today/1.png", true);
+
+    private static final MyReviewResponse MY_REVIEW_2 = new MyReviewResponse(2L,
+            new RestaurantShortInfo(SEOLLEUNG_RESTAURANT_2.getId(), SEOLLEUNG_RESTAURANT_2.getName(),
+                    SEOLLEUNG_RESTAURANT_2.getImageUrl()), "맛없어요", 1, "뽕나무 1인분",
+            "https://image.matzip.today/1.png", true);
+
+    public static final ProfileResponse MY_PROFILE_RESPONSE = new ProfileResponse(
+            "베로", "url", 2L, 2.5
+    );
+
+    public static final MyReviewsResponse MY_REVIEWS_RESPONSE = new MyReviewsResponse(
+            false, List.of(MY_REVIEW_1, MY_REVIEW_2)
+    );
 }

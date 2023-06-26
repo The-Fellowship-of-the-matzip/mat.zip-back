@@ -22,7 +22,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
     private static final Long 식당_ID = 1L;
 
-    private static ExtractableResponse<Response> 리뷰_생성_요청(final Long restaurantId, final String accessToken,
+    public static ExtractableResponse<Response> 리뷰_생성_요청(final Long restaurantId, final String accessToken,
                                                           final ReviewCreateRequest request) {
         return httpPostRequest("/api/restaurants/" + restaurantId + "/reviews", accessToken, request);
     }

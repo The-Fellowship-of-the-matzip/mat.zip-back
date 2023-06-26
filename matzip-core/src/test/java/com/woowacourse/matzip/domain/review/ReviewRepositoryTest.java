@@ -7,7 +7,6 @@ import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -136,7 +135,8 @@ class ReviewRepositoryTest {
                     .menu("족발" + i)
                     .build());
         }
-        var reviewCountByMemberIds = reviewRepository.findMemberReviewInfosByMemberIds(List.of(member.getId(), member2.getId()));
+        var reviewCountByMemberIds = reviewRepository.findMemberReviewInfosByMemberIds(
+                List.of(member.getId(), member2.getId()));
 
         assertAll(
                 () -> assertThat(reviewCountByMemberIds.get(0).getReviewCount()).isEqualTo(10),
@@ -193,5 +193,35 @@ class ReviewRepositoryTest {
         var memberReviewInfosByMemberIds = reviewRepository.findMemberReviewInfosByMemberIds(List.of(member.getId()));
 
         assertThat(memberReviewInfosByMemberIds.get(0).getAverageRating()).isEqualTo(2.5d);
+    }
+
+    @Test
+    void 멤버의_리뷰를_조회한다() {
+        Member member = Member.builder()
+                .githubId("githubId")
+                .username("username")
+                .profileImage("url")
+                .build();
+        memberRepository.save(member);
+
+        for (int i = 1; i <= 20; i++) {
+            reviewRepository.save(Review.builder()
+                    .member(member)
+                    .restaurantId(1L)
+                    .content("맛있어요")
+                    .rating(4)
+                    .menu("족발" + i)
+                    .build());
+        }
+
+        Slice<Review> firstMyReviewPage = reviewRepository.findPageByMemberOrderByIdDesc(member, PageRequest.of(0, 5));
+        Slice<Review> secondMyReviewPage = reviewRepository.findPageByMemberOrderByIdDesc(member, PageRequest.of(1, 5));
+
+        assertAll(
+                () -> assertThat(firstMyReviewPage).hasSize(5),
+                () -> assertThat(firstMyReviewPage.getContent().get(0).getMenu()).isEqualTo("족발20"),
+                () -> assertThat(secondMyReviewPage).hasSize(5),
+                () -> assertThat(secondMyReviewPage.getContent().get(0).getMenu()).isEqualTo("족발15")
+        );
     }
 }

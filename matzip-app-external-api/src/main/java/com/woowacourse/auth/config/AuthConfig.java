@@ -17,6 +17,7 @@ public class AuthConfig implements WebMvcConfigurer {
 
     private static final String REVIEWS_PATH = "/api/restaurants/*/reviews";
     private static final String RESTAURANT_DEMANDS_PATH = "/api/campuses/*/restaurantDemands";
+    private static final String MY_PAGE_PATH = "/api/mypage";
     private static final String BOOKMARK_PATH = "/api/bookmarks/restaurants/*";
     private static final String RESTAURANT_PATH = "/api/restaurants/*";
     private static final String RESTAURANTS_PATH = "/api/campuses/*/restaurants";
@@ -49,6 +50,7 @@ public class AuthConfig implements WebMvcConfigurer {
                 .includePathPattern(RESTAURANT_DEMANDS_PATH, PathMethod.POST)
                 .includePathPattern(RESTAURANT_DEMANDS_PATH + "/*", PathMethod.PUT)
                 .includePathPattern(RESTAURANT_DEMANDS_PATH + "/*", PathMethod.DELETE)
+                .includePathPattern(MY_PAGE_PATH + "/*", PathMethod.GET)
                 .includePathPattern(BOOKMARK_PATH, PathMethod.POST)
                 .includePathPattern(BOOKMARK_PATH, PathMethod.DELETE)
                 .includePathPattern(IMAGE_UPLOAD_PATH, PathMethod.POST);

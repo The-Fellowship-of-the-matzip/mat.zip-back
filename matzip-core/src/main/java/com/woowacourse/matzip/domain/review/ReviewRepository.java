@@ -1,5 +1,6 @@
 package com.woowacourse.matzip.domain.review;
 
+import com.woowacourse.matzip.domain.member.Member;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,4 +27,12 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
                     "from Review r where r.member.id in :memberIds  group by r.member.id"
     )
     List<MemberReviewInfo> findMemberReviewInfosByMemberIds(List<Long> memberIds);
+
+    @Query(
+            value = "select r.member.id as memberId, count(r.member.id) as reviewCount, avg(r.rating) as averageRating " +
+                    "from Review r where r.member.id = :memberId  group by r.member.id"
+    )
+    MemberReviewInfo findMemberReviewInfoByMemberId(Long memberId);
+
+    Slice<Review> findPageByMemberOrderByIdDesc(Member member, Pageable pageable);
 }

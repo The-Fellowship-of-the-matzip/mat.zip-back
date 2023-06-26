@@ -1,0 +1,11 @@
+[[MyPage]]
+== 마이 페이지
+
+=== 내 정보 조회
+
+operation::mypage/profile[snippets='http-request,http-response']
+
+=== 내 리뷰 조회
+
+operation::mypage/reviews[snippets='http-request,http-response']
+
