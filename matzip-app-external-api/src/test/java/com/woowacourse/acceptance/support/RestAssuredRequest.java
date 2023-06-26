@@ -24,6 +24,15 @@ public class RestAssuredRequest {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> httpPostRequest(final String url, final String accessToken) {
+        return RestAssured
+                .given().log().all()
+                .header("Authorization", "Bearer " + accessToken)
+                .when().post(url)
+                .then().log().all()
+                .extract();
+    }
+
     public static ExtractableResponse<Response> httpPostRequest(final String url, final String accessToken,
                                                                 final Object request) {
         return RestAssured
@@ -38,7 +47,7 @@ public class RestAssuredRequest {
 
     public static ExtractableResponse<Response> httpPutRequest(final String url,
                                                                final String accessToken,
-                                                                final Object request) {
+                                                               final Object request) {
         return RestAssured
                 .given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -50,7 +59,7 @@ public class RestAssuredRequest {
     }
 
     public static ExtractableResponse<Response> httpDeleteRequest(final String url,
-                                                               final String accessToken) {
+                                                                  final String accessToken) {
         return RestAssured
                 .given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)

@@ -25,6 +25,7 @@ values (2, 2, '마담밍2', '서울 강남구 선릉로86길 5-4 2층', 1, 'http
 insert into restaurant (category_id, campus_id, name, address, distance, kakao_map_url, image_url)
 values (2, 2, '마담밍3', '서울 강남구 선릉로86길 5-4 3층', 1, 'https://place.map.kakao.com/18283045', 'www.image.com');
 
-insert into member (id, github_id, username, profile_image, created_at)
-values (1, '1', '테스트이름', 'image.com', CURRENT_DATE);
-
+insert into member (id, github_id, profile_image, username, created_at)
+values (1, 1, 'test', 'test', current_date);
+insert into member (id, github_id, profile_image, username, created_at)
+values (2, 2, 'test2', 'test2', current_date);
