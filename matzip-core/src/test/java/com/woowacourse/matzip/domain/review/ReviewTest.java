@@ -56,7 +56,7 @@ public class ReviewTest {
     @Test
     void 작성자이다() {
         Member member = new Member(1L, "1", "huni", "image.png");
-        Review review = new Review(1L, member, 1L, "리뷰 내용", 3, "메뉴", LocalDateTime.now());
+        Review review = new Review(1L, member, 1L, "리뷰 내용", 3, "메뉴", "https://image.matzip.today/1.png", LocalDateTime.now());
         assertThat(review.isWriter("1")).isTrue();
     }
 
@@ -65,7 +65,7 @@ public class ReviewTest {
     @ValueSource(strings = "2")
     void 작성자가_아니다(String githubId) {
         Member member = new Member(1L, "1", "huni", "image.png");
-        Review review = new Review(1L, member, 1L, "리뷰 내용", 3, "메뉴", LocalDateTime.now());
+        Review review = new Review(1L, member, 1L, "리뷰 내용", 3, "메뉴", "https://image.matzip.today/1.png", LocalDateTime.now());
         assertThat(review.isWriter(githubId)).isFalse();
     }
 
@@ -73,7 +73,7 @@ public class ReviewTest {
     void 업데이트_권한이_없어_실패한다() {
         Member huni = new Member(1L, "1", "huni", "image.png");
         Member ori = new Member(2L, "2", "ori", "image.png");
-        Review review = new Review(1L, huni, 1L, "리뷰 내용", 3, "메뉴", LocalDateTime.now());
+        Review review = new Review(1L, huni, 1L, "리뷰 내용", 3, "메뉴", "https://image.matzip.today/1.png", LocalDateTime.now());
 
         assertThatThrownBy(
                 () -> review.update(ori.getGithubId(), "리뷰 내용 2", 4, "메뉴 2")
@@ -88,7 +88,7 @@ public class ReviewTest {
                 .mapToObj(index -> "a")
                 .collect(Collectors.joining());
         Member huni = new Member(1L, "1", "huni", "image.png");
-        Review review = new Review(1L, huni, 1L, "리뷰 내용", 3, "메뉴", LocalDateTime.now());
+        Review review = new Review(1L, huni, 1L, "리뷰 내용", 3, "메뉴", "https://image.matzip.today/1.png", LocalDateTime.now());
 
         assertThatThrownBy(
                 () -> review.update(huni.getGithubId(), content, 4, "메뉴")
@@ -101,7 +101,7 @@ public class ReviewTest {
     void 업데이트시_리뷰_메뉴_길이제한() {
         String menu = "리뷰의 메뉴 이름이 이렇게 길 수 없습니다.";
         Member huni = new Member(1L, "1", "huni", "image.png");
-        Review review = new Review(1L, huni, 1L, "리뷰 내용", 3, "메뉴", LocalDateTime.now());
+        Review review = new Review(1L, huni, 1L, "리뷰 내용", 3, "메뉴", "https://image.matzip.today/1.png", LocalDateTime.now());
 
         assertThatThrownBy(
                 () -> review.update(huni.getGithubId(), "리뷰 내용", 4, menu)
@@ -114,7 +114,7 @@ public class ReviewTest {
     @ValueSource(ints = {0, 6})
     void 업데이트시_별점_범위제한인_경우_예외발생(final int score) {
         Member huni = new Member(1L, "1", "huni", "image.png");
-        Review review = new Review(1L, huni, 1L, "리뷰 내용", 3, "메뉴", LocalDateTime.now());
+        Review review = new Review(1L, huni, 1L, "리뷰 내용", 3, "메뉴", "https://image.matzip.today/1.png", LocalDateTime.now());
 
         assertThatThrownBy(() -> review.update(huni.getGithubId(), "리뷰 내용", score, "메뉴 2"))
                 .isInstanceOf(InvalidReviewException.class)

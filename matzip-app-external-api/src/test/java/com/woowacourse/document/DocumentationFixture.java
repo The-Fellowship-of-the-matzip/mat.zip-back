@@ -13,6 +13,7 @@ import com.woowacourse.matzip.application.response.ReviewsResponse;
 import com.woowacourse.matzip.domain.campus.Campus;
 import com.woowacourse.matzip.domain.category.Category;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -142,15 +143,15 @@ public class DocumentationFixture {
             SEOLLEUNG_RESTAURANT_1, 4.0);
 
     private static final ReviewResponse REVIEW_1 = new ReviewResponse(1L, new ReviewAuthor("후니", "url", 1L, 3d), "무가 맛있어요", 5,
-            "무닭볶음탕 (중)", true);
+            "무닭볶음탕 (중)", "https://image.matzip.today/1.png", true);
     private static final ReviewResponse REVIEW_2 = new ReviewResponse(2L, new ReviewAuthor("오찌", "url", 1L, 3d), "맛없어요.", 2,
-            "무닭볶음탕 (대)", false);
+            "무닭볶음탕 (대)", "https://image.matzip.today/1.png", false);
     private static final ReviewResponse REVIEW_3 = new ReviewResponse(3L, new ReviewAuthor("태태", "url", 1L, 3d), "평범해요.", 3,
-            "무닭볶음탕 (중)", false);
+            "무닭볶음탕 (중)", "https://image.matzip.today/1.png", false);
     private static final ReviewResponse REVIEW_4 = new ReviewResponse(4L, new ReviewAuthor("샐리", "url", 1L, 3d), "맛있어요.", 4,
-            "무닭볶음탕 (대)", false);
+            "무닭볶음탕 (대)", "https://image.matzip.today/1.png", false);
     private static final ReviewResponse REVIEW_5 = new ReviewResponse(5L, new ReviewAuthor("블링", "url", 1L, 3d), "또오고 싶어요.", 5,
-            "통마늘 닭똥집볶음", false);
+            "통마늘 닭똥집볶음", "https://image.matzip.today/1.png", false);
 
     public static final ReviewsResponse REVIEWS_RESPONSE = new ReviewsResponse(
             false, List.of(REVIEW_1, REVIEW_2, REVIEW_3, REVIEW_4, REVIEW_5)

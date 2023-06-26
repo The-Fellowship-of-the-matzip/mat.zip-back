@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: test
   jpa:
     properties:
       hibernate:
@@ -26,6 +28,18 @@ security:
     token:
       secret-key: testtesttesttesttestteststestkey
       expire-length: 3600000
+
+cloud:
+  aws:
+    s3:
+      bucket: matzip-image
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    credentials:
+      access-key: access-key
+      secret-key: secret-key
 
 server:
   port: 8180
