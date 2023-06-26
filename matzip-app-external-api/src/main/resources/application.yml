@@ -1,7 +1,5 @@
 spring:
   profiles:
-    active:
-      - local
     group:
       local:
         - web-local
