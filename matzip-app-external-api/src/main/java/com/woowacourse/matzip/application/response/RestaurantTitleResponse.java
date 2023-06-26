@@ -8,6 +8,7 @@ public class RestaurantTitleResponse {
 
     private Long id;
     private String name;
+    private String address;
     private long distance;
     private double rating;
     private String imageUrl;
@@ -17,10 +18,11 @@ public class RestaurantTitleResponse {
     private RestaurantTitleResponse() {
     }
 
-    private RestaurantTitleResponse(Long id, String name, long distance, double rating, String imageUrl,
-                                    int reviewCount, final boolean saved) {
+    private RestaurantTitleResponse(Long id, String name, String address, long distance, double rating, String imageUrl,
+                                    int reviewCount, boolean saved) {
         this.id = id;
         this.name = name;
+        this.address = address;
         this.distance = distance;
         this.rating = rating;
         this.imageUrl = imageUrl;
@@ -31,6 +33,7 @@ public class RestaurantTitleResponse {
     public static RestaurantTitleResponse of(final Restaurant restaurant, final double rating, final boolean saved) {
         return new RestaurantTitleResponse(restaurant.getId(),
                 restaurant.getName(),
+                restaurant.getAddress(),
                 restaurant.getDistance(),
                 rating,
                 restaurant.getImageUrl(),
