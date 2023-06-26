@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     @Query(
-            value = "select id, category_id, campus_id, name, address, distance, kakao_map_url, image_url, review_count, review_sum, review_avg, "
+            value = "select id, category_id, campus_id, name, address, distance, kakao_map_url, image_url, review_count, review_sum, review_avg "
                     + "from restaurant "
                     + "where campus_id = ? "
                     + "order by rand() limit ?",
