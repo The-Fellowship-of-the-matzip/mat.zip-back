@@ -81,7 +81,7 @@ public class GlobalControllerAdvice {
             Exception.class
     })
     public ResponseEntity<ErrorResponse> internalExceptionHandler(final Exception e) {
-        log.error(e.getMessage());
+        log.error(e.getMessage(), e);
         return ResponseEntity.internalServerError().body(ErrorResponse.from("서버에 문제가 발생했습니다."));
     }
 }
