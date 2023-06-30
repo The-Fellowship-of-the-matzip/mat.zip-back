@@ -13,14 +13,14 @@ public class RestaurantResponse {
     private double rating;
     private String kakaoMapUrl;
     private String imageUrl;
-    private boolean saved;
+    private boolean liked;
 
     private RestaurantResponse() {
     }
 
     private RestaurantResponse(final Long id, final String name, final String address, final long distance,
                                final double rating, final String kakaoMapUrl, final String imageUrl,
-                               final boolean saved) {
+                               final boolean liked) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -28,10 +28,10 @@ public class RestaurantResponse {
         this.rating = rating;
         this.kakaoMapUrl = kakaoMapUrl;
         this.imageUrl = imageUrl;
-        this.saved = saved;
+        this.liked = liked;
     }
 
-    public static RestaurantResponse of(final Restaurant restaurant, final double rating, final boolean saved) {
+    public static RestaurantResponse of(final Restaurant restaurant, final double rating, final boolean liked) {
         return new RestaurantResponse(restaurant.getId(),
                 restaurant.getName(),
                 restaurant.getAddress(),
@@ -39,10 +39,10 @@ public class RestaurantResponse {
                 rating,
                 restaurant.getKakaoMapUrl(),
                 restaurant.getImageUrl(),
-                saved);
+                liked);
     }
 
-    public void setSaved(boolean saved) {
-        this.saved = saved;
+    public void setLiked(boolean liked) {
+        this.liked = liked;
     }
 }

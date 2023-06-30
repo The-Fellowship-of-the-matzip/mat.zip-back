@@ -13,13 +13,13 @@ public class RestaurantTitleResponse {
     private double rating;
     private String imageUrl;
     private int reviewCount;
-    private boolean saved;
+    private boolean liked;
 
     private RestaurantTitleResponse() {
     }
 
     private RestaurantTitleResponse(Long id, String name, String address, long distance, double rating, String imageUrl,
-                                    int reviewCount, boolean saved) {
+                                    int reviewCount, boolean liked) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -27,10 +27,10 @@ public class RestaurantTitleResponse {
         this.rating = rating;
         this.imageUrl = imageUrl;
         this.reviewCount = reviewCount;
-        this.saved = saved;
+        this.liked = liked;
     }
 
-    public static RestaurantTitleResponse of(final Restaurant restaurant, final double rating, final boolean saved) {
+    public static RestaurantTitleResponse of(final Restaurant restaurant, final double rating, final boolean liked) {
         return new RestaurantTitleResponse(restaurant.getId(),
                 restaurant.getName(),
                 restaurant.getAddress(),
@@ -38,7 +38,7 @@ public class RestaurantTitleResponse {
                 rating,
                 restaurant.getImageUrl(),
                 restaurant.getReviewCount(),
-                saved
+                liked
         );
     }
 }
