@@ -62,7 +62,7 @@ public class RestaurantService {
     private RestaurantTitleResponse toResponseTitleResponse(final String githubId, final Restaurant restaurant) {
         double rating = reviewRepository.findAverageRatingUsingRestaurantId(restaurant.getId())
                 .orElse(0.0);
-        return RestaurantTitleResponse.of(restaurant, rating, isBookmarked(githubId, restaurant.getId()));
+        return new RestaurantTitleResponse(restaurant, rating, isBookmarked(githubId, restaurant.getId()));
     }
 
     public List<RestaurantTitleResponse> findRandomsByCampusId(final String githubId, final Long campusId,
