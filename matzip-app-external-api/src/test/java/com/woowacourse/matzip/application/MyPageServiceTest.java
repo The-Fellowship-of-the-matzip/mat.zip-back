@@ -8,6 +8,7 @@ import com.woowacourse.matzip.application.response.MyReviewsResponse;
 import com.woowacourse.matzip.application.response.ProfileResponse;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
+import com.woowacourse.matzip.domain.review.DefaultReviewInfo;
 import com.woowacourse.matzip.domain.review.MemberReviewInfo;
 import com.woowacourse.matzip.domain.review.Review;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
@@ -34,7 +35,8 @@ class MyPageServiceTest {
         리뷰_작성(member);
 
         ProfileResponse profileResponse = myPageService.findProfile(member.getGithubId());
-        MemberReviewInfo memberReviewInfo = reviewRepository.findMemberReviewInfoByMemberId(member.getId());
+        MemberReviewInfo memberReviewInfo = reviewRepository.findMemberReviewInfoByMemberId(member.getId())
+                .orElse(DefaultReviewInfo.getInstance());
 
         assertAll(
                 () -> assertThat(profileResponse.getUsername()).isEqualTo(member.getUsername()),
@@ -59,6 +61,18 @@ class MyPageServiceTest {
                 () -> assertThat(page1.isHasNext()).isTrue(),
                 () -> assertThat(page2.getReviews()).hasSize(2),
                 () -> assertThat(page2.isHasNext()).isFalse()
+        );
+    }
+
+    @Test
+    void 리뷰를_작성하지_않은_멤버의_리뷰정보_조회() {
+        Member member = memberRepository.save(HUNI.toMember());
+
+        ProfileResponse profile = myPageService.findProfile(member.getGithubId());
+
+        assertAll(
+                () -> assertThat(profile.getReviewCount()).isZero(),
+                () -> assertThat(profile.getAverageRating()).isZero()
         );
     }
 
