@@ -13,13 +13,14 @@ public class RestaurantResponse {
     private double rating;
     private String kakaoMapUrl;
     private String imageUrl;
+    private int reviewCount;
     private boolean liked;
 
     private RestaurantResponse() {
     }
 
     private RestaurantResponse(final Long id, final String name, final String address, final long distance,
-                               final double rating, final String kakaoMapUrl, final String imageUrl,
+                               final double rating, final String kakaoMapUrl, final String imageUrl, final int reviewCount,
                                final boolean liked) {
         this.id = id;
         this.name = name;
@@ -28,6 +29,7 @@ public class RestaurantResponse {
         this.rating = rating;
         this.kakaoMapUrl = kakaoMapUrl;
         this.imageUrl = imageUrl;
+        this.reviewCount = reviewCount;
         this.liked = liked;
     }
 
@@ -39,6 +41,7 @@ public class RestaurantResponse {
                 rating,
                 restaurant.getKakaoMapUrl(),
                 restaurant.getImageUrl(),
+                restaurant.getReviewCount(),
                 liked);
     }
 
