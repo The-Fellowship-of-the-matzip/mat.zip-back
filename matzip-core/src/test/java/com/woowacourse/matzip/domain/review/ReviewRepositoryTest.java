@@ -7,6 +7,9 @@ import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -223,5 +226,18 @@ class ReviewRepositoryTest {
                 () -> assertThat(secondMyReviewPage).hasSize(5),
                 () -> assertThat(secondMyReviewPage.getContent().get(0).getMenu()).isEqualTo("족발15")
         );
+    }
+
+    @Test
+    void 리뷰가_없는_멤버의_리뷰정보_조회() {
+        Member member = memberRepository.save(Member.builder()
+                .githubId("githubId")
+                .username("username")
+                .profileImage("url")
+                .build());
+
+        Optional<MemberReviewInfo> memberReviewInfoByMemberId = reviewRepository.findMemberReviewInfoByMemberId(member.getId());
+
+        assertThat(memberReviewInfoByMemberId).isNotNull();
     }
 }
