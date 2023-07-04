@@ -7,7 +7,7 @@ import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import com.woowacourse.matzip.domain.restaurant.RestaurantRepository;
-import com.woowacourse.matzip.domain.review.DefaultReviewInfoReviewInfo;
+import com.woowacourse.matzip.domain.review.DefaultReviewInfo;
 import com.woowacourse.matzip.domain.review.MemberReviewInfo;
 import com.woowacourse.matzip.domain.review.Review;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
@@ -41,7 +41,7 @@ public class MyPageService {
                 .orElseThrow(MemberNotFoundException::new);
 
         MemberReviewInfo memberReviewInfo = reviewRepository.findMemberReviewInfoByMemberId(currentMember.getId())
-                .orElse(new DefaultReviewInfoReviewInfo());
+                .orElse(DefaultReviewInfo.getInstance());
         return ProfileResponse.of(currentMember, memberReviewInfo.getReviewCount(), memberReviewInfo.getAverageRating());
     }
 

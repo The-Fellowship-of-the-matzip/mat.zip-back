@@ -8,7 +8,7 @@ import com.woowacourse.matzip.application.response.MyReviewsResponse;
 import com.woowacourse.matzip.application.response.ProfileResponse;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
-import com.woowacourse.matzip.domain.review.DefaultReviewInfoReviewInfo;
+import com.woowacourse.matzip.domain.review.DefaultReviewInfo;
 import com.woowacourse.matzip.domain.review.MemberReviewInfo;
 import com.woowacourse.matzip.domain.review.Review;
 import com.woowacourse.matzip.domain.review.ReviewRepository;
@@ -36,7 +36,7 @@ class MyPageServiceTest {
 
         ProfileResponse profileResponse = myPageService.findProfile(member.getGithubId());
         MemberReviewInfo memberReviewInfo = reviewRepository.findMemberReviewInfoByMemberId(member.getId())
-                .orElse(new DefaultReviewInfoReviewInfo());
+                .orElse(DefaultReviewInfo.getInstance());
 
         assertAll(
                 () -> assertThat(profileResponse.getUsername()).isEqualTo(member.getUsername()),

@@ -13,6 +13,6 @@ public class MemberReviewInfos {
         return memberReviewInfos.stream()
                 .filter(reviewInfoByMember -> reviewInfoByMember.getMemberId().equals(memberId))
                 .findAny()
-                .orElse(new DefaultReviewInfoReviewInfo());
+                .orElse(DefaultReviewInfo.getInstance());
     }
 }
