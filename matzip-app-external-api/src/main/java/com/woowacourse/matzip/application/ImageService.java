@@ -33,8 +33,8 @@ public class ImageService {
     @Transactional
     public ImageUploadResponse uploadImage(final MultipartFile file) {
         String extension = validateExtension(file);
-        PutObjectRequest request = createRequest(file, extension);
         String key = createKey(extension);
+        PutObjectRequest request = createRequest(file, key);
         try {
             s3Client.putObject(request, RequestBody.fromBytes(file.getBytes()));
         } catch (IOException e) {
