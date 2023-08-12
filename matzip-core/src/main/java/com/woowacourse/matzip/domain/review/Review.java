@@ -79,7 +79,7 @@ public class Review extends AbstractAggregateRoot<Review> {
         this.menu = menu;
         this.imageUrl = imageUrl;
         this.createdAt = createdAt;
-        registerEvent(new ReviewCreatedEvent(restaurantId, rating));
+        registerEvent(new ReviewCreatedEvent(restaurantId, rating, imageUrl));
     }
 
     private void validateRating(final int rating) {
@@ -119,7 +119,7 @@ public class Review extends AbstractAggregateRoot<Review> {
 
     @PreRemove
     private void registerDeletedEvent() {
-        registerEvent(new ReviewDeletedEvent(restaurantId, rating));
+        registerEvent(new ReviewDeletedEvent(restaurantId, rating, imageUrl));
     }
 
     @Override
