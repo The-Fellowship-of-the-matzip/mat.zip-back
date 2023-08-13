@@ -80,15 +80,19 @@ public class ImageService {
 
     @Transactional
     public void deleteUsingImage(final String imageUrl) {
-        String key = imageUrl.substring(CLOUDFRONT_URL.length());
-        unusedImageRepository.deleteByKey(key);
+        if (imageUrl != null) {
+            String key = imageUrl.substring(CLOUDFRONT_URL.length());
+            unusedImageRepository.deleteByKey(key);
+        }
     }
 
     @Transactional
     public void deleteImageWhenReviewDeleted(final String imageUrl) {
-        String key = imageUrl.substring(CLOUDFRONT_URL.length());
-        DeleteObjectRequest request = createDeleteRequest(key);
-        s3Client.deleteObject(request);
+        if (imageUrl != null) {
+            String key = imageUrl.substring(CLOUDFRONT_URL.length());
+            DeleteObjectRequest request = createDeleteRequest(key);
+            s3Client.deleteObject(request);
+        }
     }
 
     private DeleteObjectRequest createDeleteRequest(final String key) {
