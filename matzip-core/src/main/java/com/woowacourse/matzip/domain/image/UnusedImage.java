@@ -24,8 +24,8 @@ public class UnusedImage {
     @Id
     private Long id;
 
-    @Column(name = "key", nullable = false)
-    private String key;
+    @Column(name = "image_url", nullable = false)
+    private String imageUrl;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)
@@ -35,9 +35,9 @@ public class UnusedImage {
     }
 
     @Builder
-    public UnusedImage(final Long id, final String key, final LocalDateTime createdAt) {
+    public UnusedImage(final Long id, final String imageUrl, final LocalDateTime createdAt) {
         this.id = id;
-        this.key = key;
+        this.imageUrl = imageUrl;
         this.createdAt = createdAt;
     }
 }
