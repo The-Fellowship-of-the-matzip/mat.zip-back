@@ -1,7 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.7.5' apply(false)
     id 'io.spring.dependency-management' version '1.1.0' apply(false)
-    id 'org.asciidoctor.convert' version '2.4.0' apply(false)
+    id 'org.asciidoctor.jvm.convert' version '2.4.0' apply(false)
     id 'java-library'
     id 'jacoco'
     id "org.sonarqube" version "3.4.0.2513" apply(false)
@@ -13,7 +13,7 @@ allprojects {
 
     group = 'com.woowacourse'
     version = '0.0.1-SNAPSHOT'
-    sourceCompatibility = '11'
+    sourceCompatibility = '17'
 
     repositories {
         mavenCentral()
@@ -24,12 +24,13 @@ subprojects {
     apply plugin: 'jacoco'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'org.asciidoctor.convert'
+    apply plugin: 'org.asciidoctor.jvm.convert'
 
     configurations {
         compileOnly {
             extendsFrom annotationProcessor
         }
+        asciidoctorExtensions
     }
 
     dependencies {
