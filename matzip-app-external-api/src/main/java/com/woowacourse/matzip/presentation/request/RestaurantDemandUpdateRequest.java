@@ -1,8 +1,8 @@
 package com.woowacourse.matzip.presentation.request;
 
 import com.woowacourse.matzip.domain.restaurant.RestaurantDemand;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 
 @Getter

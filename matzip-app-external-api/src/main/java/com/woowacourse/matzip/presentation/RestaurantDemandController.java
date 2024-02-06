@@ -5,7 +5,7 @@ import com.woowacourse.matzip.application.RestaurantDemandService;
 import com.woowacourse.matzip.application.response.RestaurantDemandsResponse;
 import com.woowacourse.matzip.presentation.request.RestaurantDemandCreateRequest;
 import com.woowacourse.matzip.presentation.request.RestaurantDemandUpdateRequest;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
