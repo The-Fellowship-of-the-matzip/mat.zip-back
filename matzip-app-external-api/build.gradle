@@ -43,6 +43,7 @@ test {
 
 asciidoctor {
     inputs.dir snippetsDir
+    configurations 'asciidoctorExtensions'
     dependsOn test
 }
 
