@@ -1,7 +1,7 @@
 package com.woowacourse;
 
 import java.util.TimeZone;
-import jakarta.annotation.PostConstruct;
+import javax.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

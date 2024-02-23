@@ -1,7 +1,7 @@
 package com.woowacourse.auth.support;
 
 import java.util.Optional;
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.util.Strings;
 
 public class AuthorizationExtractor {

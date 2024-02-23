@@ -2,8 +2,8 @@ package com.woowacourse.matzip.presentation;
 
 import com.woowacourse.matzip.infrastructure.campus.CampusCacheRepository;
 import java.util.Map;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 

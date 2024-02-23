@@ -2,7 +2,7 @@ package com.woowacourse.matzip.presentation.request;
 
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.review.Review;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 
 public class ReviewCreateRequest {
 

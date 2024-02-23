@@ -2,8 +2,8 @@ package com.woowacourse.matzip.infrastructure.restaurant;
 
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import java.util.List;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
