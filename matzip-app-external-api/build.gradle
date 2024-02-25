@@ -50,7 +50,7 @@ asciidoctor {
 task createDocument(type: Copy) {
     dependsOn asciidoctor
 
-    from file("build/asciidoc/html5/index.html")
+    from file("build/docs/asciidoc/index.html")
     into file("src/main/resources/static")
 }
 
