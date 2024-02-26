@@ -3,14 +3,15 @@
 :toc: left
 :toclevels: 2
 :sectlinks:
+:prefix: src/docs/asciidoc
 
 == Mat-Zip
 
-include::auth.adoc[]
-include::campus.adoc[]
-include::category.adoc[]
-include::restaurant.adoc[]
-include::review.adoc[]
-include::restaurantDemand.adoc[]
-include::bookmark.adoc[]
-include::mypage.adoc[]
+include::{prefix}/auth.adoc[]
+include::{prefix}/campus.adoc[]
+include::{prefix}/category.adoc[]
+include::{prefix}/restaurant.adoc[]
+include::{prefix}/review.adoc[]
+include::{prefix}/restaurantDemand.adoc[]
+include::{prefix}/bookmark.adoc[]
+include::{prefix}/mypage.adoc[]
