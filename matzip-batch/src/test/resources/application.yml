@@ -1,0 +1,19 @@
+spring:
+  batch:
+    job:
+      names: reviewFailoverJob
+    jdbc:
+      initialize-schema: always
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:matzip-batch;MODE=MYSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
