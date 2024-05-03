@@ -1,0 +1,14 @@
+spring:
+  batch:
+    job:
+      names: reviewFailoverJob
+    jdbc:
+      initialize-schema: always # 1회 사용 후 never로 변경
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  profiles:
+    include: auth,prod
+server:
+  port: 8080
