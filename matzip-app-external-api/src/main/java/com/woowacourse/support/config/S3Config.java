@@ -3,10 +3,15 @@ package com.woowacourse.support.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import software.amazon.awssdk.auth.credentials.SystemPropertyCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 
+import static com.woowacourse.matzip.environment.ProfileUtil.LOCAL;
+import static com.woowacourse.matzip.environment.ProfileUtil.PROD;
+
+@Profile({LOCAL, PROD})
 @Configuration
 public class S3Config {
 
