@@ -1,5 +1,6 @@
 package com.woowacourse.matzip.application;
 
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestBookmark;
 import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestMember;
 import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestRestaurant;
 import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestReview;
@@ -10,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
+import com.woowacourse.matzip.domain.bookmark.BookmarkRepository;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
@@ -33,6 +35,8 @@ class RestaurantServiceTest {
     private RestaurantRepository restaurantRepository;
     @Autowired
     private ReviewRepository reviewRepository;
+    @Autowired
+    private BookmarkRepository bookmarkRepository;
 
     @Test
     void 캠퍼스id가_일치하는_식당_목록_페이지를_최신순으로_반환한다() {
@@ -331,5 +335,24 @@ class RestaurantServiceTest {
         assertThat(response)
                 .extracting(RestaurantTitleResponse::getReviewCount)
                 .containsExactlyInAnyOrder(4, 3);
+    }
+
+    @Test
+    void 식당_목록_조회시_북마크수도_조회한다() {
+        Restaurant restaurant = restaurantRepository.save(createTestRestaurant(1L, 1L, "테스트식당", "테스트주소"));
+
+        for (int i = 1; i <= 3; i++) {
+            Member member = createTestMember("githubId" + i);
+            memberRepository.save(member);
+
+            bookmarkRepository.save(createTestBookmark(member, restaurant));
+        }
+
+        RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId(null, "DEFAULT", 1L, 1L,
+                PageRequest.of(0, 10));
+
+        assertThat(response.getRestaurants()).hasSize(1)
+                .extracting(RestaurantTitleResponse::getBookmarkCount)
+                .containsExactly(3);
     }
 }
