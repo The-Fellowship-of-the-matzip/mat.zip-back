@@ -18,7 +18,6 @@ import com.woowacourse.matzip.domain.campus.Campus;
 import com.woowacourse.matzip.domain.category.Category;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class DocumentationFixture {
@@ -32,14 +31,14 @@ public class DocumentationFixture {
     public static final List<CategoryResponse> CATEGORY_RESPONSES = Stream.of(CATEGORY_1, CATEGORY_2, CATEGORY_3,
                     CATEGORY_4, CATEGORY_5)
             .map(CategoryResponse::from)
-            .collect(Collectors.toList());
+            .toList();
 
     private static final Campus CAMPUS_1 = new Campus(1L, "잠실");
     private static final Campus CAMPUS_2 = new Campus(2L, "선릉");
 
     public static final List<CampusResponse> CAMPUS_RESPONSES = Stream.of(CAMPUS_1, CAMPUS_2)
             .map(CampusResponse::from)
-            .collect(Collectors.toList());
+            .toList();
 
     private static final Restaurant SEOLLEUNG_RESTAURANT_1 = Restaurant.builder()
             .id(1L)
@@ -101,7 +100,7 @@ public class DocumentationFixture {
             Stream.of(SEOLLEUNG_RESTAURANT_5, SEOLLEUNG_RESTAURANT_4, SEOLLEUNG_RESTAURANT_3, SEOLLEUNG_RESTAURANT_2,
                             SEOLLEUNG_RESTAURANT_1)
                     .map(restaurant -> new RestaurantTitleResponse(restaurant, 4, false, 1))
-                    .collect(Collectors.toList())
+                    .toList()
     );
 
     public static final RestaurantTitlesResponse SEOLLEUNG_RESTAURANTS_SORT_BY_SPELL_RESPONSE = new RestaurantTitlesResponse(
@@ -109,7 +108,7 @@ public class DocumentationFixture {
             Stream.of(SEOLLEUNG_RESTAURANT_3, SEOLLEUNG_RESTAURANT_1, SEOLLEUNG_RESTAURANT_4, SEOLLEUNG_RESTAURANT_2,
                             SEOLLEUNG_RESTAURANT_5)
                     .map(restaurant -> new RestaurantTitleResponse(restaurant, 4, false, 1))
-                    .collect(Collectors.toList())
+                    .toList()
     );
 
     public static final RestaurantTitlesResponse SEOLLEUNG_RESTAURANTS_SORT_BY_RATING_RESPONSE = new RestaurantTitlesResponse(
@@ -127,20 +126,20 @@ public class DocumentationFixture {
             false,
             Stream.of(SEOLLEUNG_RESTAURANT_5, SEOLLEUNG_RESTAURANT_4)
                     .map(restaurant -> new RestaurantTitleResponse(restaurant, 4, false, 1))
-                    .collect(Collectors.toList())
+                    .toList()
     );
 
     public static final RestaurantTitlesResponse SEOLLEUNG_KOREAN_RESTAURANTS_RESPONSE = new RestaurantTitlesResponse(
             false,
             Stream.of(SEOLLEUNG_RESTAURANT_3, SEOLLEUNG_RESTAURANT_2)
                     .map(restaurant -> new RestaurantTitleResponse(restaurant, 4, false, 1))
-                    .collect(Collectors.toList())
+                    .toList()
     );
 
     public static final List<RestaurantTitleResponse> SEOLLEUNG_RESTAURANTS_RANDOM_2_RESPONSE = Stream.of(
                     SEOLLEUNG_RESTAURANT_1, SEOLLEUNG_RESTAURANT_3)
             .map(restaurant -> new RestaurantTitleResponse(restaurant, 4, false, 1))
-            .collect(Collectors.toList());
+            .toList();
 
     public static final RestaurantResponse SEOLLEUNG_RESTAURANT_RESPONSE_1 = RestaurantResponse.of(
             SEOLLEUNG_RESTAURANT_1, 4.0, false, 1);

@@ -15,7 +15,6 @@ import com.woowacourse.matzip.exception.RestaurantNotFoundException;
 import com.woowacourse.matzip.infrastructure.restaurant.RestaurantFindQueryFactory;
 import com.woowacourse.matzip.infrastructure.restaurant.RestaurantQueryRepository;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -55,7 +54,7 @@ public class RestaurantService {
     private RestaurantTitlesResponse toRestaurantTitlesResponse(final String githubId, Slice<Restaurant> page) {
         List<RestaurantTitleResponse> restaurantTitleResponses = page.stream()
                 .map(restaurant -> toResponseTitleResponse(githubId, restaurant))
-                .collect(Collectors.toList());
+                .toList();
         return new RestaurantTitlesResponse(page.hasNext(), restaurantTitleResponses);
     }
 
@@ -72,7 +71,7 @@ public class RestaurantService {
         return restaurantRepository.findRandomsByCampusId(campusId, size)
                 .stream()
                 .map(restaurant -> toResponseTitleResponse(githubId, restaurant))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public RestaurantResponse findById(final String githubId, final Long restaurantId) {
@@ -116,7 +115,7 @@ public class RestaurantService {
         return member.getBookmarks()
                 .stream()
                 .map(bookmark -> toResponseTitleResponse(githubId, bookmark.getRestaurant()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional
