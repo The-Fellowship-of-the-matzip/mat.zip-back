@@ -143,7 +143,7 @@ public class DocumentationFixture {
             .collect(Collectors.toList());
 
     public static final RestaurantResponse SEOLLEUNG_RESTAURANT_RESPONSE_1 = RestaurantResponse.of(
-            SEOLLEUNG_RESTAURANT_1, 4.0, false);
+            SEOLLEUNG_RESTAURANT_1, 4.0, false, 1);
 
     private static final ReviewResponse REVIEW_1 = new ReviewResponse(1L, new ReviewAuthor("후니", "url", 1L, 3d),
             "무가 맛있어요", 5,

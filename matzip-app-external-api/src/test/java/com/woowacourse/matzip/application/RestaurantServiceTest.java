@@ -143,7 +143,7 @@ class RestaurantServiceTest {
 
         assertAll(
                 () -> assertThat(response).usingRecursiveComparison()
-                        .ignoringFields("rating", "liked")
+                        .ignoringFields("rating", "liked", "bookmarkCount")
                         .isEqualTo(restaurant),
                 () -> assertThat(response.getRating()).isEqualTo(0.0),
                 () -> assertThat(response.isLiked()).isFalse()
