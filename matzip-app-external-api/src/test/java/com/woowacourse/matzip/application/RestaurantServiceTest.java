@@ -146,7 +146,8 @@ class RestaurantServiceTest {
                         .ignoringFields("rating", "liked", "bookmarkCount")
                         .isEqualTo(restaurant),
                 () -> assertThat(response.getRating()).isEqualTo(0.0),
-                () -> assertThat(response.isLiked()).isFalse()
+                () -> assertThat(response.isLiked()).isFalse(),
+                () -> assertThat(response.getBookmarkCount()).isZero()
         );
     }
 
