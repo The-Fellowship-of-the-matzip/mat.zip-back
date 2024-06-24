@@ -21,15 +21,19 @@ public class BookmarkController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createBookmark(@PathVariable final Long restaurantId,
-                                               @AuthenticationPrincipal final String githubId) {
+    public ResponseEntity<Void> createBookmark(
+            @PathVariable final Long restaurantId,
+            @AuthenticationPrincipal final String githubId
+    ) {
         bookmarkService.createBookmark(githubId, restaurantId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteBookmark(@PathVariable final Long restaurantId,
-                                               @AuthenticationPrincipal final String githubId) {
+    public ResponseEntity<Void> deleteBookmark(
+            @PathVariable final Long restaurantId,
+            @AuthenticationPrincipal final String githubId
+    ) {
         bookmarkService.deleteBookmark(githubId, restaurantId);
         return ResponseEntity.noContent().build();
     }
