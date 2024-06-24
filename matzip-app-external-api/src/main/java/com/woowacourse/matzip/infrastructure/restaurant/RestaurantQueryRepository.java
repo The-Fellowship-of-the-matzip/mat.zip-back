@@ -34,11 +34,11 @@ public class RestaurantQueryRepository {
         return new SliceImpl<>(restaurants, pageable, hasNext);
     }
 
-    private int calculateStartIndex(Pageable pageable) {
+    private int calculateStartIndex(final Pageable pageable) {
         return pageable.getPageNumber() * pageable.getPageSize();
     }
 
-    private boolean isHasNext(Pageable pageable, List<Restaurant> restaurants) {
+    private boolean isHasNext(final Pageable pageable, final List<Restaurant> restaurants) {
         return restaurants.size() == pageable.getPageSize() + 1;
     }
 }

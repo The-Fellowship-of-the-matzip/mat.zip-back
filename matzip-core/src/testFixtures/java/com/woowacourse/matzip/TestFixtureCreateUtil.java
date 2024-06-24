@@ -8,7 +8,12 @@ import com.woowacourse.matzip.domain.review.Review;
 
 public class TestFixtureCreateUtil {
 
-    public static Restaurant createTestRestaurant(Long categoryId, Long campusId, String name, String address) {
+    public static Restaurant createTestRestaurant(
+            final Long categoryId,
+            final Long campusId,
+            final String name,
+            final String address
+    ) {
         return Restaurant.builder()
                 .categoryId(categoryId)
                 .campusId(campusId)
@@ -20,7 +25,13 @@ public class TestFixtureCreateUtil {
                 .build();
     }
 
-    public static Restaurant createTestRestaurant(Long categoryId, Long campusId, String name, String address, long distance) {
+    public static Restaurant createTestRestaurant(
+            final Long categoryId,
+            final Long campusId,
+            final String name,
+            final String address,
+            final long distance
+    ) {
         return Restaurant.builder()
                 .categoryId(categoryId)
                 .campusId(campusId)
@@ -32,7 +43,12 @@ public class TestFixtureCreateUtil {
                 .build();
     }
 
-    public static Restaurant createTestRestaurant(final Restaurant restaurant, final int reviewCount, final long reviewRatingSum, final float reviewRatingAverage) {
+    public static Restaurant createTestRestaurant(
+            final Restaurant restaurant,
+            final int reviewCount,
+            final long reviewRatingSum,
+            final float reviewRatingAverage
+    ) {
         return Restaurant.builder()
                 .id(restaurant.getId())
                 .categoryId(restaurant.getCategoryId())
@@ -63,7 +79,7 @@ public class TestFixtureCreateUtil {
                 .build();
     }
 
-    public static Review createTestReview(Member member, Long restaurantId, int rating) {
+    public static Review createTestReview(final Member member, final Long restaurantId, final int rating) {
         return Review.builder()
                 .member(member)
                 .restaurantId(restaurantId)
@@ -73,8 +89,12 @@ public class TestFixtureCreateUtil {
                 .build();
     }
 
-    public static RestaurantDemand createTestRestaurantDemand(Long categoryId, Long campusId, String name,
-                                                              Member member) {
+    public static RestaurantDemand createTestRestaurantDemand(
+            final Long categoryId,
+            final Long campusId,
+            final String name,
+            final Member member
+    ) {
         return RestaurantDemand.builder()
                 .categoryId(categoryId)
                 .campusId(campusId)

@@ -32,10 +32,13 @@ public class RestaurantService {
     private final MemberRepository memberRepository;
     private final BookmarkRepository bookmarkRepository;
 
-    public RestaurantService(RestaurantRepository restaurantRepository,
-                             RestaurantQueryRepository restaurantQueryRepository,
-                             ReviewRepository reviewRepository, MemberRepository memberRepository,
-                             BookmarkRepository bookmarkRepository) {
+    public RestaurantService(
+            final RestaurantRepository restaurantRepository,
+            final RestaurantQueryRepository restaurantQueryRepository,
+            final ReviewRepository reviewRepository,
+            final MemberRepository memberRepository,
+            final BookmarkRepository bookmarkRepository
+    ) {
         this.restaurantRepository = restaurantRepository;
         this.restaurantQueryRepository = restaurantQueryRepository;
         this.reviewRepository = reviewRepository;
@@ -43,16 +46,20 @@ public class RestaurantService {
         this.bookmarkRepository = bookmarkRepository;
     }
 
-    public RestaurantTitlesResponse findByCampusIdAndCategoryId(final String githubId, final String sortCondition,
-                                                                final Long campusId, final Long categoryId,
-                                                                final Pageable pageable) {
+    public RestaurantTitlesResponse findByCampusIdAndCategoryId(
+            final String githubId,
+            final String sortCondition,
+            final Long campusId,
+            final Long categoryId,
+            final Pageable pageable
+    ) {
         String restaurantFindQuery = RestaurantFindQueryFactory.from(sortCondition);
         Slice<Restaurant> restaurants = restaurantQueryRepository.findPageByCampusIdAndCategoryId(restaurantFindQuery,
                 campusId, categoryId, pageable);
         return toRestaurantTitlesResponse(githubId, restaurants);
     }
 
-    private RestaurantTitlesResponse toRestaurantTitlesResponse(final String githubId, Slice<Restaurant> page) {
+    private RestaurantTitlesResponse toRestaurantTitlesResponse(final String githubId, final Slice<Restaurant> page) {
         List<RestaurantTitleResponse> restaurantTitleResponses = page.stream()
                 .map(restaurant -> toResponseTitleResponse(githubId, restaurant))
                 .collect(Collectors.toList());
@@ -65,8 +72,7 @@ public class RestaurantService {
         return new RestaurantTitleResponse(restaurant, rating, isBookmarked(githubId, restaurant.getId()));
     }
 
-    public List<RestaurantTitleResponse> findRandomsByCampusId(final String githubId, final Long campusId,
-                                                               final int size) {
+    public List<RestaurantTitleResponse> findRandomsByCampusId(final String githubId, final Long campusId, final int size) {
         return restaurantRepository.findRandomsByCampusId(campusId, size)
                 .stream()
                 .map(restaurant -> toResponseTitleResponse(githubId, restaurant))
@@ -92,10 +98,12 @@ public class RestaurantService {
                 .isPresent();
     }
 
-    public RestaurantTitlesResponse findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(final String githubId,
-                                                                                              final Long campusId,
-                                                                                              final String name,
-                                                                                              final Pageable pageable) {
+    public RestaurantTitlesResponse findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(
+            final String githubId,
+            final Long campusId,
+            final String name,
+            final Pageable pageable
+    ) {
         Pageable pageableById = toIdDescSortPageable(pageable);
         return toRestaurantTitlesResponse(
                 githubId,
@@ -107,7 +115,7 @@ public class RestaurantService {
         return PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), SortCondition.DEFAULT.getValue());
     }
 
-    public List<RestaurantTitleResponse> findBookmarkedRestaurants(String githubId) {
+    public List<RestaurantTitleResponse> findBookmarkedRestaurants(final String githubId) {
         Member member = memberRepository.findMemberByGithubId(githubId)
                 .orElseThrow(MemberNotFoundException::new);
         return member.getBookmarks()
