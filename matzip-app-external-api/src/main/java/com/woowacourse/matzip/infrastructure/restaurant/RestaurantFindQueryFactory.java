@@ -19,7 +19,7 @@ public enum RestaurantFindQueryFactory {
     ORDER_BY_DISTANCE_ASC("DISTANCE", """
             select r from Restaurant r
             where r.campusId = :campusId and r.categoryId = :categoryId
-            order by r.distance
+            order by r.distance, r.name asc
             """),
     ORDER_BY_BOOKMARK_COUNT_DESC("BOOKMARK", """
             select r from Restaurant r
