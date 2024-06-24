@@ -16,6 +16,11 @@ public enum RestaurantFindQueryFactory {
     ORDER_BY_ID_DESC("DEFAULT", "select r from Restaurant r "
             + "where (r.campusId = :campusId) and (:categoryId is null or r.categoryId = :categoryId) "
             + "order by r.id desc"),
+    ORDER_BY_DISTANCE_ASC("DISTANCE", """
+            select r from Restaurant r
+            where r.campusId = :campusId and r.categoryId = :categoryId
+            order by r.distance
+            """),
     ;
 
     private final String key;

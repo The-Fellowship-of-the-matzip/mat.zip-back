@@ -19,6 +19,18 @@ public class TestFixtureCreateUtil {
                 .build();
     }
 
+    public static Restaurant createTestRestaurant(Long categoryId, Long campusId, String name, String address, long distance) {
+        return Restaurant.builder()
+                .categoryId(categoryId)
+                .campusId(campusId)
+                .name(name)
+                .address(address)
+                .distance(distance)
+                .kakaoMapUrl("테스트URL")
+                .imageUrl("테스트URL")
+                .build();
+    }
+
     public static Restaurant createTestRestaurant(final Restaurant restaurant, final int reviewCount, final long reviewRatingSum, final float reviewRatingAverage) {
         return Restaurant.builder()
                 .id(restaurant.getId())

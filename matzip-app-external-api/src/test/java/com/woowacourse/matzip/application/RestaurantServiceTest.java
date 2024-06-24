@@ -122,6 +122,22 @@ class RestaurantServiceTest {
     }
 
     @Test
+    void 캠퍼스id와_카테고리id가_일치하는_식당을_가까운_거리순으로_페이징해서_반환한다() {
+        Restaurant restaurant1 = createTestRestaurant(1L, 1L, "식당1", "주소1", 5);
+        Restaurant restaurant2 = createTestRestaurant(1L, 1L, "식당2", "주소2", 7);
+        Restaurant restaurant3 = createTestRestaurant(1L, 1L, "식당3", "주소3", 6);
+        restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
+
+        RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId(null, "DISTANCE", 1L, 1L,
+                PageRequest.of(0, 3));
+
+        assertThat(response.getRestaurants()).hasSize(3)
+                .extracting("id")
+                .containsExactly(restaurant1.getId(), restaurant3.getId(), restaurant2.getId());
+    }
+
+
+    @Test
     void 무작위로_지정한_캠퍼스의_지정한_개수의_식당_목록을_조회한다() {
         List<RestaurantTitleResponse> responses = restaurantService.findRandomsByCampusId(null, 2L, 2);
 
