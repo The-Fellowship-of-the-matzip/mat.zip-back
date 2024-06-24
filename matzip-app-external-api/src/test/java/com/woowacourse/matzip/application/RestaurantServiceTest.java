@@ -1,5 +1,7 @@
 package com.woowacourse.matzip.application;
 
+import static com.woowacourse.matzip.MemberFixtures.HUNI;
+import static com.woowacourse.matzip.MemberFixtures.ORI;
 import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestMember;
 import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestRestaurant;
 import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestReview;
@@ -27,6 +29,8 @@ class RestaurantServiceTest {
 
     @Autowired
     private RestaurantService restaurantService;
+    @Autowired
+    private BookmarkService bookmarkService;
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
@@ -136,6 +140,27 @@ class RestaurantServiceTest {
                 .containsExactly(restaurant1.getId(), restaurant3.getId(), restaurant2.getId());
     }
 
+    @Test
+    void 캠퍼스id와_카테고리id가_일치하는_식당을_찜수가_많은순으로_페이징해서_반환한다() {
+        Restaurant restaurant1 = createTestRestaurant(1L, 1L, "식당1", "주소1");
+        Restaurant restaurant2 = createTestRestaurant(1L, 1L, "식당2", "주소2");
+        Restaurant restaurant3 = createTestRestaurant(1L, 1L, "식당3", "주소3");
+        restaurantRepository.saveAll(List.of(restaurant1, restaurant2, restaurant3));
+
+        Member ori = memberRepository.save(ORI.toMember());
+        Member huni = memberRepository.save(HUNI.toMember());
+        bookmarkService.createBookmark(ori.getGithubId(), restaurant1.getId());
+        bookmarkService.createBookmark(ori.getGithubId(), restaurant2.getId());
+        bookmarkService.createBookmark(huni.getGithubId(), restaurant2.getId());
+        bookmarkService.createBookmark(ori.getGithubId(), restaurant3.getId());
+
+        RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId(null, "BOOKMARK", 1L, 1L,
+                PageRequest.of(0, 3));
+
+        assertThat(response.getRestaurants()).hasSize(3)
+                .extracting("id")
+                .containsExactly(restaurant2.getId(), restaurant1.getId(), restaurant3.getId());
+    }
 
     @Test
     void 무작위로_지정한_캠퍼스의_지정한_개수의_식당_목록을_조회한다() {

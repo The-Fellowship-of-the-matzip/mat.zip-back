@@ -1,5 +1,6 @@
 package com.woowacourse.matzip;
 
+import com.woowacourse.matzip.domain.bookmark.Bookmark;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import com.woowacourse.matzip.domain.restaurant.RestaurantDemand;
@@ -52,6 +53,13 @@ public class TestFixtureCreateUtil {
                 .githubId("githubId")
                 .username("username")
                 .profileImage("url")
+                .build();
+    }
+
+    public static Bookmark createTestBookmark(final Member member, final Restaurant restaurant) {
+        return Bookmark.builder()
+                .member(member)
+                .restaurant(restaurant)
                 .build();
     }
 
