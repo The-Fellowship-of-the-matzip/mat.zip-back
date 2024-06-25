@@ -1,6 +1,7 @@
 package com.woowacourse.matzip.application;
 
 import com.woowacourse.matzip.application.response.RestaurantResponse;
+import com.woowacourse.matzip.application.response.RestaurantSearchesResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
 import com.woowacourse.matzip.domain.bookmark.BookmarkRepository;
@@ -90,6 +91,12 @@ public class RestaurantService {
                 .orElseThrow(MemberNotFoundException::new);
         return bookmarkRepository.findBookmarkByMemberIdAndRestaurantId(member.getId(), restaurantId)
                 .isPresent();
+    }
+
+    public RestaurantSearchesResponse findByRestaurantNamePrefix(final Long campusId, final String namePrefix, final Pageable pageable) {
+        List<Restaurant> restaurants = restaurantRepository.findByNamePrefix(campusId, namePrefix, pageable);
+
+        return RestaurantSearchesResponse.from(restaurants);
     }
 
     public RestaurantTitlesResponse findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(final String githubId,

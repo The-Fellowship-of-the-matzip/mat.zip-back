@@ -6,6 +6,7 @@ import static com.woowacourse.acceptance.support.RestAssuredRequest.httpGetReque
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.matzip.application.response.RestaurantSearchesResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -54,6 +55,11 @@ public class RestaurantAcceptanceTest extends AcceptanceTest {
         return httpGetRequest("/api/restaurants/bookmarks", accessToken);
     }
 
+    private static ExtractableResponse<Response> 캠퍼스_식당_자동_완성_검색_요청(final Long campusId, final String namePrefix) {
+        return httpGetRequest(
+                "/api/campuses/" + campusId + "/restaurants/search/autocomplete?namePrefix=" + namePrefix);
+    }
+
     @Test
     void 선릉캠퍼스_식당_목록의_0페이지를_조회하고_다음_페이지가_있는지_확인한다() {
         ExtractableResponse<Response> response = 캠퍼스_식당_페이지_조회_요청(선릉캠퍼스_ID, 0, 1);
@@ -100,6 +106,12 @@ public class RestaurantAcceptanceTest extends AcceptanceTest {
         식당_조회에_성공한다(response);
     }
 
+    @Test
+    void 선릉캠퍼스_식당_중_입력받은_접두사로_시작하는_이름의_식당을_최대_5개_조회한다() {
+        ExtractableResponse<Response> response = 캠퍼스_식당_자동_완성_검색_요청(선릉캠퍼스_ID, "마");
+        식당_자동완성_검색에_성공한다(response, 3, "마담밍", "마담밍2", "마담밍3");
+    }
+
     private void 식당_조회에_성공한다(final ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
@@ -125,6 +137,15 @@ public class RestaurantAcceptanceTest extends AcceptanceTest {
                 () -> assertThat(response.as(RestaurantTitlesResponse.class).getRestaurants()).extracting("name")
                         .containsExactly(names),
                 () -> assertThat(response.as(RestaurantTitlesResponse.class).isHasNext()).isTrue()
+        );
+    }
+
+    private void 식당_자동완성_검색에_성공한다(final ExtractableResponse<Response> response, int size, String... names) {
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(response.as(RestaurantSearchesResponse.class).getRestaurants()).extracting("name")
+                        .contains(names),
+                () -> assertThat(response.as(RestaurantSearchesResponse.class).getRestaurants()).hasSize(size)
         );
     }
 }

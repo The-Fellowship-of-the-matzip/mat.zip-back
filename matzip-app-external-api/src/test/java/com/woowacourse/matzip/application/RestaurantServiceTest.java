@@ -8,6 +8,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.matzip.application.response.RestaurantResponse;
+import com.woowacourse.matzip.application.response.RestaurantSearchResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
 import com.woowacourse.matzip.domain.member.Member;
@@ -21,6 +22,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @SpringServiceTest
 class RestaurantServiceTest {
@@ -331,5 +333,18 @@ class RestaurantServiceTest {
         assertThat(response)
                 .extracting(RestaurantTitleResponse::getReviewCount)
                 .containsExactlyInAnyOrder(4, 3);
+    }
+
+    @Test
+    void 캠퍼스의_식당_중_입력받은_접두사로_시작하는_이름의_식당을_조회한다() {
+        List<RestaurantSearchResponse> response = restaurantService.findByRestaurantNamePrefix(
+                2L,
+                "마",
+                Pageable.ofSize(5)
+        ).getRestaurants();
+
+        assertThat(response).hasSize(3)
+                .extracting("name")
+                .containsAnyOf("마담밍", "마담밍2", "마담밍3");
     }
 }
