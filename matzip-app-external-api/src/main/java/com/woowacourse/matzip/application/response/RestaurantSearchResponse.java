@@ -8,7 +8,7 @@ public class RestaurantSearchResponse {
     private Long id;
     private String name;
 
-    public RestaurantSearchResponse() {
+    private RestaurantSearchResponse() {
     }
 
     public RestaurantSearchResponse(Long id, String name) {

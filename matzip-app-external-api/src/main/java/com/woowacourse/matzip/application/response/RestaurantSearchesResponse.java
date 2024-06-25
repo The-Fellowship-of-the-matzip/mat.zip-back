@@ -7,9 +7,9 @@ import java.util.List;
 
 @Getter
 public class RestaurantSearchesResponse {
-    List<RestaurantSearchResponse> restaurants;
+    private List<RestaurantSearchResponse> restaurants;
 
-    public RestaurantSearchesResponse() {
+    private RestaurantSearchesResponse() {
     }
 
     public RestaurantSearchesResponse(List<RestaurantSearchResponse> restaurants) {
