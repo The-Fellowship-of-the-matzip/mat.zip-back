@@ -94,7 +94,7 @@ public class RestaurantService {
     }
 
     public RestaurantSearchesResponse findByRestaurantNamePrefix(final Long campusId, final String namePrefix, final Pageable pageable) {
-        List<Restaurant> restaurants = restaurantRepository.findByNamePrefix(campusId, namePrefix, pageable);
+        List<Restaurant> restaurants = restaurantRepository.findByNamePrefixOrderByLikeDesc(campusId, namePrefix, pageable);
 
         return RestaurantSearchesResponse.from(restaurants);
     }

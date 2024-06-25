@@ -36,7 +36,7 @@ public class BookmarkServiceTest {
     @Test
     void 북마크를_삭제한다() {
         Member member = memberRepository.save(ORI.toMember());
-        Restaurant restaurant = restaurantRepository.findAll().get(3);
+        Restaurant restaurant = restaurantRepository.findAll().get(2);
         bookmarkService.createBookmark(member.getGithubId(), restaurant.getId());
 
         assertDoesNotThrow(

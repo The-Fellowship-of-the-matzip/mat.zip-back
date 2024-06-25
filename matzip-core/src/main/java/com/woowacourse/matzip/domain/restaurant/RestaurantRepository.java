@@ -23,8 +23,12 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     @Query("select r " +
             "from Restaurant r " +
-            "where r.campusId = :campusId and r.name like CONCAT(:namePrefix, '%')")
-    List<Restaurant> findByNamePrefix(Long campusId, String namePrefix, Pageable pageable);
+            "left join Bookmark b on b.restaurant = r " +
+            "where r.campusId = :campusId and r.name like CONCAT(:namePrefix, '%') " +
+            "group by r " +
+            "order by count(b) desc"
+    )
+    List<Restaurant> findByNamePrefixOrderByLikeDesc(Long campusId, String namePrefix, Pageable pageable);
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query(value = "update Restaurant r "

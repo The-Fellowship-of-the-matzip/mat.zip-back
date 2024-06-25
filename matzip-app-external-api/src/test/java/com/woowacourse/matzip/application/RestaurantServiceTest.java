@@ -336,7 +336,7 @@ class RestaurantServiceTest {
     }
 
     @Test
-    void 캠퍼스의_식당_중_입력받은_접두사로_시작하는_이름의_식당을_조회한다() {
+    void 캠퍼스의_식당_중_입력받은_접두사로_시작하는_이름의_식당을_좋아요_기준_내림차순으로_조회한다() {
         List<RestaurantSearchResponse> response = restaurantService.findByRestaurantNamePrefix(
                 2L,
                 "마",
