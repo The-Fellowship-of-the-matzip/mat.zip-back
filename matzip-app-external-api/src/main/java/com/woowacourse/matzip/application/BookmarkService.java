@@ -21,8 +21,8 @@ public class BookmarkService {
     private final RestaurantRepository restaurantRepository;
     private final BookmarkRepository bookmarkRepository;
 
-    public BookmarkService(MemberRepository memberRepository, RestaurantRepository restaurantRepository,
-                           BookmarkRepository bookmarkRepository) {
+    public BookmarkService(final MemberRepository memberRepository, final RestaurantRepository restaurantRepository,
+                           final BookmarkRepository bookmarkRepository) {
         this.memberRepository = memberRepository;
         this.restaurantRepository = restaurantRepository;
         this.bookmarkRepository = bookmarkRepository;

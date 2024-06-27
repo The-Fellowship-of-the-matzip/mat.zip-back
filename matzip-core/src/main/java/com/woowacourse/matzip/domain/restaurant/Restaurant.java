@@ -56,9 +56,19 @@ public class Restaurant {
     }
 
     @Builder
-    public Restaurant(final Long id, final Long categoryId, final Long campusId, final String name,
-                      final String address, final long distance, final String kakaoMapUrl, final String imageUrl,
-                      final int reviewCount, final long reviewRatingSum, final float reviewRatingAverage) {
+    public Restaurant(
+            final Long id,
+            final Long categoryId,
+            final Long campusId,
+            final String name,
+            final String address,
+            final long distance,
+            final String kakaoMapUrl,
+            final String imageUrl,
+            final int reviewCount,
+            final long reviewRatingSum,
+            final float reviewRatingAverage
+    ) {
         LengthValidator.checkStringLength(name, MAX_NAME_LENGTH, "식당 이름");
         this.id = id;
         this.categoryId = categoryId;
