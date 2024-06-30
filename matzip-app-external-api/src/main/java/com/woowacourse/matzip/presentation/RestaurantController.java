@@ -26,27 +26,33 @@ public class RestaurantController {
     }
 
     @GetMapping("/campuses/{campusId}/restaurants")
-    public ResponseEntity<RestaurantTitlesResponse> showPage(@PathVariable final Long campusId,
-                                                             @AuthenticationPrincipal final String githubId,
-                                                             @RequestParam(required = false) final Long categoryId,
-                                                             @RequestParam(value = "filter", defaultValue = "DEFAULT") final String filterName,
-                                                             final Pageable pageable) {
+    public ResponseEntity<RestaurantTitlesResponse> showPage(
+            @PathVariable final Long campusId,
+            @AuthenticationPrincipal final String githubId,
+            @RequestParam(required = false) final Long categoryId,
+            @RequestParam(value = "filter", defaultValue = "DEFAULT") final String filterName,
+            final Pageable pageable
+    ) {
         return ResponseEntity.ok(
                 restaurantService.findByCampusIdAndCategoryId(githubId, filterName, campusId, categoryId, pageable));
     }
 
     @GetMapping("/campuses/{campusId}/restaurants/random")
-    public ResponseEntity<List<RestaurantTitleResponse>> showRandoms(@PathVariable final Long campusId,
-                                                                     @AuthenticationPrincipal final String githubId,
-                                                                     @RequestParam final int size) {
+    public ResponseEntity<List<RestaurantTitleResponse>> showRandoms(
+            @PathVariable final Long campusId,
+            @AuthenticationPrincipal final String githubId,
+            @RequestParam final int size
+    ) {
         return ResponseEntity.ok(restaurantService.findRandomsByCampusId(githubId, campusId, size));
     }
 
     @GetMapping("/campuses/{campusId}/restaurants/search")
-    public ResponseEntity<RestaurantTitlesResponse> searchRestaurantsPage(@PathVariable final Long campusId,
-                                                                          @AuthenticationPrincipal final String githubId,
-                                                                          @RequestParam final String name,
-                                                                          final Pageable pageable) {
+    public ResponseEntity<RestaurantTitlesResponse> searchRestaurantsPage(
+            @PathVariable final Long campusId,
+            @AuthenticationPrincipal final String githubId,
+            @RequestParam final String name,
+            final Pageable pageable
+    ) {
         return ResponseEntity.ok(
                 restaurantService.findTitlesByCampusIdAndNameContainingIgnoreCaseIdDescSort(
                         githubId,
@@ -64,7 +70,8 @@ public class RestaurantController {
 
     @GetMapping("/restaurants/bookmarks")
     public ResponseEntity<List<RestaurantTitleResponse>> showBookmarkedRestaurants(
-            @AuthenticationPrincipal final String githubId) {
+            @AuthenticationPrincipal final String githubId
+    ) {
         return ResponseEntity.ok(restaurantService.findBookmarkedRestaurants(githubId));
     }
 
