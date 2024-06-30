@@ -342,12 +342,12 @@ class RestaurantServiceTest {
     void 식당_목록_조회시_북마크수도_조회한다() {
         Restaurant restaurant = restaurantRepository.save(createTestRestaurant(1L, 1L, "테스트식당", "테스트주소"));
 
-        for (int i = 1; i <= 3; i++) {
-            Member member = createTestMember("githubId" + i);
-            memberRepository.save(member);
-
-            bookmarkRepository.save(createTestBookmark(member, restaurant));
-        }
+        Member member1 = memberRepository.save(createTestMember("githubId1"));
+        bookmarkRepository.save(createTestBookmark(member1, restaurant));
+        Member member2 = memberRepository.save(createTestMember("githubId2"));
+        bookmarkRepository.save(createTestBookmark(member2, restaurant));
+        Member member3 = memberRepository.save(createTestMember("githubId3"));
+        bookmarkRepository.save(createTestBookmark(member3, restaurant));
 
         RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId(null, "DEFAULT", 1L, 1L,
                 PageRequest.of(0, 10));

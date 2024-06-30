@@ -81,7 +81,8 @@ public class RestaurantService {
                 reviewRepository.findAverageRatingUsingRestaurantId(restaurantId)
                         .orElse(0.0),
                 isBookmarked(githubId, restaurantId),
-                bookmarkRepository.countByRestaurantId(restaurantId));
+                bookmarkRepository.countByRestaurantId(restaurantId)
+        );
     }
 
     private boolean isBookmarked(final String githubId, final Long restaurantId) {
