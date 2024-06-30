@@ -343,8 +343,9 @@ class RestaurantServiceTest {
                 Pageable.ofSize(5)
         ).getRestaurants();
 
-        assertThat(response).hasSize(3)
+
+        assertThat(response)
                 .extracting("name")
-                .containsAnyOf("마담밍", "마담밍2", "마담밍3");
+                .containsExactly("마담밍", "마담밍2", "마담밍3");
     }
 }
