@@ -18,7 +18,6 @@ import com.woowacourse.matzip.domain.campus.Campus;
 import com.woowacourse.matzip.domain.category.Category;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class DocumentationFixture {
@@ -32,14 +31,14 @@ public class DocumentationFixture {
     public static final List<CategoryResponse> CATEGORY_RESPONSES = Stream.of(CATEGORY_1, CATEGORY_2, CATEGORY_3,
                     CATEGORY_4, CATEGORY_5)
             .map(CategoryResponse::from)
-            .collect(Collectors.toList());
+            .toList();
 
     private static final Campus CAMPUS_1 = new Campus(1L, "잠실");
     private static final Campus CAMPUS_2 = new Campus(2L, "선릉");
 
     public static final List<CampusResponse> CAMPUS_RESPONSES = Stream.of(CAMPUS_1, CAMPUS_2)
             .map(CampusResponse::from)
-            .collect(Collectors.toList());
+            .toList();
 
     private static final Restaurant SEOLLEUNG_RESTAURANT_1 = Restaurant.builder()
             .id(1L)
@@ -100,50 +99,50 @@ public class DocumentationFixture {
             false,
             Stream.of(SEOLLEUNG_RESTAURANT_5, SEOLLEUNG_RESTAURANT_4, SEOLLEUNG_RESTAURANT_3, SEOLLEUNG_RESTAURANT_2,
                             SEOLLEUNG_RESTAURANT_1)
-                    .map(restaurant -> new RestaurantTitleResponse(restaurant, 4, false))
-                    .collect(Collectors.toList())
+                    .map(restaurant -> new RestaurantTitleResponse(restaurant, 4, false, 1))
+                    .toList()
     );
 
     public static final RestaurantTitlesResponse SEOLLEUNG_RESTAURANTS_SORT_BY_SPELL_RESPONSE = new RestaurantTitlesResponse(
             false,
             Stream.of(SEOLLEUNG_RESTAURANT_3, SEOLLEUNG_RESTAURANT_1, SEOLLEUNG_RESTAURANT_4, SEOLLEUNG_RESTAURANT_2,
                             SEOLLEUNG_RESTAURANT_5)
-                    .map(restaurant -> new RestaurantTitleResponse(restaurant, 4, false))
-                    .collect(Collectors.toList())
+                    .map(restaurant -> new RestaurantTitleResponse(restaurant, 4, false, 1))
+                    .toList()
     );
 
     public static final RestaurantTitlesResponse SEOLLEUNG_RESTAURANTS_SORT_BY_RATING_RESPONSE = new RestaurantTitlesResponse(
             false,
             List.of(
-                    new RestaurantTitleResponse(SEOLLEUNG_RESTAURANT_1, 5, false),
-                    new RestaurantTitleResponse(SEOLLEUNG_RESTAURANT_2, 4.7, false),
-                    new RestaurantTitleResponse(SEOLLEUNG_RESTAURANT_3, 4.2, false),
-                    new RestaurantTitleResponse(SEOLLEUNG_RESTAURANT_4, 3.7, false),
-                    new RestaurantTitleResponse(SEOLLEUNG_RESTAURANT_5, 3.0, false)
+                    new RestaurantTitleResponse(SEOLLEUNG_RESTAURANT_1, 5, false, 1),
+                    new RestaurantTitleResponse(SEOLLEUNG_RESTAURANT_2, 4.7, false, 2),
+                    new RestaurantTitleResponse(SEOLLEUNG_RESTAURANT_3, 4.2, false, 3),
+                    new RestaurantTitleResponse(SEOLLEUNG_RESTAURANT_4, 3.7, false, 4),
+                    new RestaurantTitleResponse(SEOLLEUNG_RESTAURANT_5, 3.0, false, 5)
             )
     );
 
     public static final RestaurantTitlesResponse SEOLLEUNG_PORT_CUTLET_RESTAURANTS_RESPONSE = new RestaurantTitlesResponse(
             false,
             Stream.of(SEOLLEUNG_RESTAURANT_5, SEOLLEUNG_RESTAURANT_4)
-                    .map(restaurant -> new RestaurantTitleResponse(restaurant, 4, false))
-                    .collect(Collectors.toList())
+                    .map(restaurant -> new RestaurantTitleResponse(restaurant, 4, false, 1))
+                    .toList()
     );
 
     public static final RestaurantTitlesResponse SEOLLEUNG_KOREAN_RESTAURANTS_RESPONSE = new RestaurantTitlesResponse(
             false,
             Stream.of(SEOLLEUNG_RESTAURANT_3, SEOLLEUNG_RESTAURANT_2)
-                    .map(restaurant -> new RestaurantTitleResponse(restaurant, 4, false))
-                    .collect(Collectors.toList())
+                    .map(restaurant -> new RestaurantTitleResponse(restaurant, 4, false, 1))
+                    .toList()
     );
 
     public static final List<RestaurantTitleResponse> SEOLLEUNG_RESTAURANTS_RANDOM_2_RESPONSE = Stream.of(
                     SEOLLEUNG_RESTAURANT_1, SEOLLEUNG_RESTAURANT_3)
-            .map(restaurant -> new RestaurantTitleResponse(restaurant, 4, false))
-            .collect(Collectors.toList());
+            .map(restaurant -> new RestaurantTitleResponse(restaurant, 4, false, 1))
+            .toList();
 
     public static final RestaurantResponse SEOLLEUNG_RESTAURANT_RESPONSE_1 = RestaurantResponse.of(
-            SEOLLEUNG_RESTAURANT_1, 4.0, false);
+            SEOLLEUNG_RESTAURANT_1, 4.0, false, 1);
 
     private static final ReviewResponse REVIEW_1 = new ReviewResponse(1L, new ReviewAuthor("후니", "url", 1L, 3d),
             "무가 맛있어요", 5,
