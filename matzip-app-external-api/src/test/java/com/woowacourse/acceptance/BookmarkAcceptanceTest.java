@@ -20,7 +20,7 @@ public class BookmarkAcceptanceTest extends AcceptanceTest {
         return httpPostRequest("/api/bookmarks/restaurants/" + restaurantId, accessToken);
     }
 
-    private static ExtractableResponse<Response> 북마크_삭제_요청(final Long restaurantId, final String accessToken) {
+    public static ExtractableResponse<Response> 북마크_삭제_요청(final Long restaurantId, final String accessToken) {
         return httpDeleteRequest("/api/bookmarks/restaurants/" + restaurantId, accessToken);
     }
 
