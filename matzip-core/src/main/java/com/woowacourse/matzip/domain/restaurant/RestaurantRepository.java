@@ -20,6 +20,16 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     Slice<Restaurant> findPageByCampusIdAndNameContainingIgnoreCase(Long campusId, String name, Pageable pageable);
 
+
+    @Query("select r " +
+            "from Restaurant r " +
+            "left join Bookmark b on b.restaurant = r " +
+            "where r.campusId = :campusId and r.name like CONCAT(:namePrefix, '%') " +
+            "group by r " +
+            "order by count(b) desc"
+    )
+    List<Restaurant> findByNamePrefixOrderByLikeDesc(Long campusId, String namePrefix, Pageable pageable);
+
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query(value = "update Restaurant r "
             + "set r.reviewRatingAverage = (r.reviewRatingSum + :rating) / cast((r.reviewCount + 1) as float), "

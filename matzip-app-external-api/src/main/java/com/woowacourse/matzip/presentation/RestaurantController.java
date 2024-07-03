@@ -3,6 +3,7 @@ package com.woowacourse.matzip.presentation;
 import com.woowacourse.auth.support.AuthenticationPrincipal;
 import com.woowacourse.matzip.application.RestaurantService;
 import com.woowacourse.matzip.application.response.RestaurantResponse;
+import com.woowacourse.matzip.application.response.RestaurantSearchesResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
 import java.util.List;
@@ -72,5 +73,11 @@ public class RestaurantController {
             @AuthenticationPrincipal final String githubId
     ) {
         return ResponseEntity.ok(restaurantService.findBookmarkedRestaurants(githubId));
+    }
+
+    @GetMapping("/campuses/{campusId}/restaurants/search/autocomplete")
+    public ResponseEntity<RestaurantSearchesResponse> autocompleteSearchRestaurants(@PathVariable final Long campusId,
+                                                                                        @RequestParam final String namePrefix) {
+        return ResponseEntity.ok(restaurantService.findByRestaurantNamePrefix(campusId, namePrefix, Pageable.ofSize(5)));
     }
 }
