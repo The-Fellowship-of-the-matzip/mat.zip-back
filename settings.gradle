@@ -4,5 +4,6 @@ include(
         "matzip-app-external-api",
         "matzip-app-internal-api",
         "matzip-support",
-        "matzip-core"
+        "matzip-core",
+        "matzip-batch"
 )
