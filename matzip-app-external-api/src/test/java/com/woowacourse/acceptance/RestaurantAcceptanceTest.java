@@ -1,6 +1,7 @@
 package com.woowacourse.acceptance;
 
 import static com.woowacourse.acceptance.AuthAcceptanceTest.로그인_토큰;
+import static com.woowacourse.acceptance.BookmarkAcceptanceTest.북마크_삭제_요청;
 import static com.woowacourse.acceptance.BookmarkAcceptanceTest.북마크_저장_요청;
 import static com.woowacourse.acceptance.support.RestAssuredRequest.httpGetRequest;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,7 +14,7 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-public class RestaurantAcceptanceTest extends AcceptanceTest {
+class RestaurantAcceptanceTest extends AcceptanceTest {
 
     private static final Long 선릉캠퍼스_ID = 2L;
     private static final Long 한식_ID = 1L;
@@ -114,6 +115,8 @@ public class RestaurantAcceptanceTest extends AcceptanceTest {
 
         ExtractableResponse<Response> response = 캠퍼스_식당_추천_검색어_자동완성_요청(선릉캠퍼스_ID, "마");
         캠퍼스_식당_추천_검색어_자동완성에_성공한다(response, 3,  "마담밍2", "마담밍", "마담밍3");
+
+        북마크_삭제_요청(식당_4_ID, accessToken);
     }
 
     private void 식당_조회에_성공한다(final ExtractableResponse<Response> response) {
