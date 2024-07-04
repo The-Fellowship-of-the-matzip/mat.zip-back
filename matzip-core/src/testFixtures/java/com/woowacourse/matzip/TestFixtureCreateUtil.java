@@ -72,6 +72,14 @@ public class TestFixtureCreateUtil {
                 .build();
     }
 
+    public static Member createTestMember(String githubId) {
+        return Member.builder()
+                .githubId(githubId)
+                .username("username")
+                .profileImage("url")
+                .build();
+    }
+
     public static Bookmark createTestBookmark(final Member member, final Restaurant restaurant) {
         return Bookmark.builder()
                 .member(member)

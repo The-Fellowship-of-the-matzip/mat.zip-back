@@ -14,11 +14,12 @@ public class RestaurantTitleResponse {
     private String imageUrl;
     private int reviewCount;
     private boolean liked;
+    private int bookmarkCount;
 
     private RestaurantTitleResponse() {
     }
 
-    public RestaurantTitleResponse(final Restaurant restaurant, final double rating, final boolean liked) {
+    public RestaurantTitleResponse(final Restaurant restaurant, final double rating, final boolean liked, final int bookmarkCount) {
         this.id = restaurant.getId();
         this.name = restaurant.getName();
         this.address = restaurant.getAddress();
@@ -27,5 +28,6 @@ public class RestaurantTitleResponse {
         this.imageUrl = restaurant.getImageUrl();
         this.reviewCount = restaurant.getReviewCount();
         this.liked = liked;
+        this.bookmarkCount = bookmarkCount;
     }
 }

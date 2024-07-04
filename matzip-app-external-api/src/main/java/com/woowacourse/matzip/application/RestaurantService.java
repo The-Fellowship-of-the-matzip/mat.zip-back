@@ -16,7 +16,6 @@ import com.woowacourse.matzip.exception.RestaurantNotFoundException;
 import com.woowacourse.matzip.infrastructure.restaurant.RestaurantFindQueryFactory;
 import com.woowacourse.matzip.infrastructure.restaurant.RestaurantQueryRepository;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -63,21 +62,23 @@ public class RestaurantService {
     private RestaurantTitlesResponse toRestaurantTitlesResponse(final String githubId, final Slice<Restaurant> page) {
         List<RestaurantTitleResponse> restaurantTitleResponses = page.stream()
                 .map(restaurant -> toResponseTitleResponse(githubId, restaurant))
-                .collect(Collectors.toList());
+                .toList();
         return new RestaurantTitlesResponse(page.hasNext(), restaurantTitleResponses);
     }
 
     private RestaurantTitleResponse toResponseTitleResponse(final String githubId, final Restaurant restaurant) {
         double rating = reviewRepository.findAverageRatingUsingRestaurantId(restaurant.getId())
                 .orElse(0.0);
-        return new RestaurantTitleResponse(restaurant, rating, isBookmarked(githubId, restaurant.getId()));
+        int bookmarkCount = bookmarkRepository.countByRestaurantId(restaurant.getId());
+
+        return new RestaurantTitleResponse(restaurant, rating, isBookmarked(githubId, restaurant.getId()), bookmarkCount);
     }
 
     public List<RestaurantTitleResponse> findRandomsByCampusId(final String githubId, final Long campusId, final int size) {
         return restaurantRepository.findRandomsByCampusId(campusId, size)
                 .stream()
                 .map(restaurant -> toResponseTitleResponse(githubId, restaurant))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public RestaurantResponse findById(final String githubId, final Long restaurantId) {
@@ -86,7 +87,9 @@ public class RestaurantService {
                         .orElseThrow(RestaurantNotFoundException::new),
                 reviewRepository.findAverageRatingUsingRestaurantId(restaurantId)
                         .orElse(0.0),
-                isBookmarked(githubId, restaurantId));
+                isBookmarked(githubId, restaurantId),
+                bookmarkRepository.countByRestaurantId(restaurantId)
+        );
     }
 
     private boolean isBookmarked(final String githubId, final Long restaurantId) {
@@ -127,7 +130,7 @@ public class RestaurantService {
         return member.getBookmarks()
                 .stream()
                 .map(bookmark -> toResponseTitleResponse(githubId, bookmark.getRestaurant()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional

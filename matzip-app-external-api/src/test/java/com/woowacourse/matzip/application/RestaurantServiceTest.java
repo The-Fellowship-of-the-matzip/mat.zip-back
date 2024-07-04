@@ -1,5 +1,6 @@
 package com.woowacourse.matzip.application;
 
+import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestBookmark;
 import static com.woowacourse.matzip.MemberFixtures.HUNI;
 import static com.woowacourse.matzip.MemberFixtures.ORI;
 import static com.woowacourse.matzip.TestFixtureCreateUtil.createTestMember;
@@ -13,6 +14,7 @@ import com.woowacourse.matzip.application.response.RestaurantResponse;
 import com.woowacourse.matzip.application.response.RestaurantSearchResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitleResponse;
 import com.woowacourse.matzip.application.response.RestaurantTitlesResponse;
+import com.woowacourse.matzip.domain.bookmark.BookmarkRepository;
 import com.woowacourse.matzip.domain.member.Member;
 import com.woowacourse.matzip.domain.member.MemberRepository;
 import com.woowacourse.matzip.domain.restaurant.Restaurant;
@@ -39,6 +41,8 @@ class RestaurantServiceTest {
     private RestaurantRepository restaurantRepository;
     @Autowired
     private ReviewRepository reviewRepository;
+    @Autowired
+    private BookmarkRepository bookmarkRepository;
 
     @Test
     void 캠퍼스id가_일치하는_식당_목록_페이지를_최신순으로_반환한다() {
@@ -182,10 +186,11 @@ class RestaurantServiceTest {
 
         assertAll(
                 () -> assertThat(response).usingRecursiveComparison()
-                        .ignoringFields("rating", "liked")
+                        .ignoringFields("rating", "liked", "bookmarkCount")
                         .isEqualTo(restaurant),
                 () -> assertThat(response.getRating()).isEqualTo(0.0),
-                () -> assertThat(response.isLiked()).isFalse()
+                () -> assertThat(response.isLiked()).isFalse(),
+                () -> assertThat(response.getBookmarkCount()).isZero()
         );
     }
 
@@ -376,6 +381,25 @@ class RestaurantServiceTest {
                 .containsExactlyInAnyOrder(4, 3);
     }
 
+    @Test
+    void 식당_목록_조회시_북마크수도_조회한다() {
+        Restaurant restaurant = restaurantRepository.save(createTestRestaurant(1L, 1L, "테스트식당", "테스트주소"));
+
+        Member member1 = memberRepository.save(createTestMember("githubId1"));
+        bookmarkRepository.save(createTestBookmark(member1, restaurant));
+        Member member2 = memberRepository.save(createTestMember("githubId2"));
+        bookmarkRepository.save(createTestBookmark(member2, restaurant));
+        Member member3 = memberRepository.save(createTestMember("githubId3"));
+        bookmarkRepository.save(createTestBookmark(member3, restaurant));
+
+        RestaurantTitlesResponse response = restaurantService.findByCampusIdAndCategoryId(null, "DEFAULT", 1L, 1L,
+                PageRequest.of(0, 10));
+
+        assertThat(response.getRestaurants()).hasSize(1)
+                .extracting(RestaurantTitleResponse::getBookmarkCount)
+                .containsExactly(3);
+    }
+  
     @Test
     void 캠퍼스의_식당_중_입력받은_접두사로_시작하는_이름의_식당을_좋아요_기준_내림차순으로_조회한다() {
         List<RestaurantSearchResponse> response = restaurantService.findByRestaurantNamePrefix(
