@@ -1,15 +1,14 @@
 package com.woowacourse.matzip.application.image;
 
 import com.woowacourse.matzip.domain.image.UnusedImage;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.Queue;
 
 @Component
 public class ImageDeleter {
@@ -25,6 +24,7 @@ public class ImageDeleter {
         this.imageManager = imageManager;
     }
 
+    @Scheduled(cron = "0 0 4 * * *")
     public void deleteImages() {
         List<UnusedImage> images = new ArrayList<>();
         LocalDate dateBoundary = LocalDate.now().minusDays(1);
