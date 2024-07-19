@@ -1,7 +1,7 @@
 package com.woowacourse.matzip.application.image;
 
+import com.woowacourse.matzip.domain.image.UnusedImage;
 import com.woowacourse.matzip.domain.review.ReviewCreatedEvent;
-import com.woowacourse.matzip.domain.review.ReviewDeletedEvent;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -10,19 +10,16 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Async(value = "asyncTaskExecutor")
 public class ImageEventListener {
 
-    private final ImageService imageService;
+    private final ImageDeleter imageDeleter;
 
-    public ImageEventListener(final ImageService imageService) {
-        this.imageService = imageService;
+    public ImageEventListener(ImageDeleter imageDeleter) {
+        this.imageDeleter = imageDeleter;
     }
 
     @TransactionalEventListener
     public void handleReviewCreatedEvent(final ReviewCreatedEvent event) {
-        imageService.deleteUsingImage(event.getImageUrl());
-    }
-
-    @TransactionalEventListener
-    public void handleReviewDeletedEvent(final ReviewDeletedEvent event) {
-        imageService.deleteImageWhenReviewDeleted(event.getImageUrl());
+        imageDeleter.addUnusedImage(UnusedImage.builder()
+                .imageUrl(event.getImageUrl())
+                .build());
     }
 }

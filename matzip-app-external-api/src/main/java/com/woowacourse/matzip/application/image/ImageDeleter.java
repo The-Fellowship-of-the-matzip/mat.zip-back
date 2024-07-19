@@ -40,4 +40,8 @@ public class ImageDeleter {
             unusedImages.addAll(images);
         }
     }
+
+    public void addUnusedImage(final UnusedImage unusedImage) {
+        unusedImages.add(unusedImage);
+    }
 }
