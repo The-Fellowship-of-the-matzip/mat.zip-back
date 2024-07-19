@@ -72,20 +72,6 @@ public class S3ImageManager implements ImageManager {
     }
 
     @Override
-    public void deleteImage(final String imageUrl) {
-        DeleteObjectRequest request = createDeleteRequest(imageUrl);
-        s3Client.deleteObject(request);
-    }
-
-    private DeleteObjectRequest createDeleteRequest(final String imageUrl) {
-        String key = imageUrl.substring(imageUrl.lastIndexOf(URL_DELIMITER) + 1);
-        return DeleteObjectRequest.builder()
-                .bucket(bucketName)
-                .key(key)
-                .build();
-    }
-
-    @Override
     public void deleteImages(final List<UnusedImage> unusedImages) {
 
         List<ObjectIdentifier> identifiers = toIdentifiers(unusedImages);

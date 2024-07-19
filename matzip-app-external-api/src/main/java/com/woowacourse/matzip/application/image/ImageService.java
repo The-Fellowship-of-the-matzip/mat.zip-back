@@ -45,7 +45,6 @@ public class ImageService {
 
     @Transactional
     public void deleteImageWhenReviewDeleted(final String imageUrl) {
-        imageManager.deleteImage(imageUrl);
         unusedImageRepository.deleteByImageUrl(imageUrl);
     }
 

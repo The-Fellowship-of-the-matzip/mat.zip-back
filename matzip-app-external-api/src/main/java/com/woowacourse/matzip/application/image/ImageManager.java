@@ -9,7 +9,5 @@ public interface ImageManager {
 
     String uploadImage(final MultipartFile file);
 
-    void deleteImage(final String imageUrl);
-
     void deleteImages(final List<UnusedImage> unusedImages);
 }
