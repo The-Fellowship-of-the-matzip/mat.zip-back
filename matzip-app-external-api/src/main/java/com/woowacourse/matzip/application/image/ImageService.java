@@ -37,23 +37,4 @@ public class ImageService {
         );
         return new ImageUploadResponse(imageUrl);
     }
-
-    @Transactional
-    public void deleteUsingImage(final String imageUrl) {
-        unusedImageRepository.deleteByImageUrl(imageUrl);
-    }
-
-    @Transactional
-    public void deleteImageWhenReviewDeleted(final String imageUrl) {
-        unusedImageRepository.deleteByImageUrl(imageUrl);
-    }
-
-    @Scheduled(cron = "0 0 4 * * *")
-    @Transactional
-    public void deleteUnusedImages() {
-        LocalDateTime deleteBoundary = LocalDate.now().atStartOfDay();
-        List<UnusedImage> unusedImages = unusedImageRepository.findAllByCreatedAtBefore(deleteBoundary);
-        unusedImageRepository.deleteAllByCreatedAtBefore(deleteBoundary);
-        imageManager.deleteImages(unusedImages);
-    }
 }
