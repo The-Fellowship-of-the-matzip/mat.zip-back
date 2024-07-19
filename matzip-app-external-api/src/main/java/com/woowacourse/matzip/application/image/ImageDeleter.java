@@ -27,6 +27,10 @@ public class ImageDeleter {
             images.add(unusedImages.poll());
         }
 
-        imageManager.deleteImages(images);
+        try {
+            imageManager.deleteImages(images);
+        } catch (Exception e) {
+            unusedImages.addAll(images);
+        }
     }
 }
