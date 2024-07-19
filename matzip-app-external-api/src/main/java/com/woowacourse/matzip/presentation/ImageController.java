@@ -1,7 +1,7 @@
 package com.woowacourse.matzip.presentation;
 
 import com.woowacourse.auth.support.AuthenticationPrincipal;
-import com.woowacourse.matzip.application.ImageService;
+import com.woowacourse.matzip.application.image.ImageService;
 import com.woowacourse.matzip.application.response.ImageUploadResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

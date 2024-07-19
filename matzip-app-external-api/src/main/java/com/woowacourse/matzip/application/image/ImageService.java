@@ -1,4 +1,4 @@
-package com.woowacourse.matzip.application;
+package com.woowacourse.matzip.application.image;
 
 import com.woowacourse.matzip.application.response.ImageUploadResponse;
 import com.woowacourse.matzip.domain.image.ImageExtension;

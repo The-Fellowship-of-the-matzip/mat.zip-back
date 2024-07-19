@@ -1,5 +1,6 @@
-package com.woowacourse.matzip.application;
+package com.woowacourse.matzip.application.image;
 
+import com.woowacourse.matzip.application.image.ImageManager;
 import com.woowacourse.matzip.domain.image.UnusedImage;
 import com.woowacourse.matzip.exception.UploadFailedException;
 import org.springframework.beans.factory.annotation.Value;
