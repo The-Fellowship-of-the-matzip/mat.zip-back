@@ -24,7 +24,7 @@ import static com.woowacourse.matzip.environment.ProfileUtil.PROD;
 
 @Profile({LOCAL, PROD})
 @Component
-public class S3ImageUploader implements ImageUploader {
+public class S3ImageManager implements ImageManager {
 
     private static final String EXTENSION_DELIMITER = ".";
     private static final String URL_DELIMITER = "/";
@@ -33,9 +33,9 @@ public class S3ImageUploader implements ImageUploader {
     private final String bucketName;
     private final String cloudFrontUrl;
 
-    public S3ImageUploader(final S3Client s3Client,
-                           @Value("${cloud.aws.s3.bucket}") final String bucketName,
-                           @Value("${cloud.aws.s3.cloud-front-url}") final String cloudFrontUrl) {
+    public S3ImageManager(final S3Client s3Client,
+                          @Value("${cloud.aws.s3.bucket}") final String bucketName,
+                          @Value("${cloud.aws.s3.cloud-front-url}") final String cloudFrontUrl) {
         this.s3Client = s3Client;
         this.bucketName = bucketName;
         this.cloudFrontUrl = cloudFrontUrl;

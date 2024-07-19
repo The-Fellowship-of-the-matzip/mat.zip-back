@@ -11,7 +11,7 @@ import static com.woowacourse.matzip.environment.ProfileUtil.TEST;
 
 @Component
 @Profile(TEST)
-public class TestImageUploader implements ImageUploader{
+public class TestImageManager implements ImageManager {
 
     @Override
     public String uploadImage(MultipartFile file) {

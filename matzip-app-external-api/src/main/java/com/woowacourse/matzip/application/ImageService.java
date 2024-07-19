@@ -17,11 +17,11 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class ImageService {
 
-    private final ImageUploader imageUploader;
+    private final ImageManager imageManager;
     private final UnusedImageRepository unusedImageRepository;
 
-    public ImageService(final ImageUploader imageUploader, final UnusedImageRepository unusedImageRepository) {
-        this.imageUploader = imageUploader;
+    public ImageService(final ImageManager imageManager, final UnusedImageRepository unusedImageRepository) {
+        this.imageManager = imageManager;
         this.unusedImageRepository = unusedImageRepository;
     }
 
@@ -29,7 +29,7 @@ public class ImageService {
     public ImageUploadResponse uploadImage(final MultipartFile file) {
         String originalFileName = file.getOriginalFilename();
         ImageExtension.validateExtension(originalFileName);
-        String imageUrl = imageUploader.uploadImage(file);
+        String imageUrl = imageManager.uploadImage(file);
         unusedImageRepository.save(
                 UnusedImage.builder()
                         .imageUrl(imageUrl)
@@ -45,7 +45,7 @@ public class ImageService {
 
     @Transactional
     public void deleteImageWhenReviewDeleted(final String imageUrl) {
-        imageUploader.deleteImage(imageUrl);
+        imageManager.deleteImage(imageUrl);
         unusedImageRepository.deleteByImageUrl(imageUrl);
     }
 
@@ -55,6 +55,6 @@ public class ImageService {
         LocalDateTime deleteBoundary = LocalDate.now().atStartOfDay();
         List<UnusedImage> unusedImages = unusedImageRepository.findAllByCreatedAtBefore(deleteBoundary);
         unusedImageRepository.deleteAllByCreatedAtBefore(deleteBoundary);
-        imageUploader.deleteImages(unusedImages);
+        imageManager.deleteImages(unusedImages);
     }
 }

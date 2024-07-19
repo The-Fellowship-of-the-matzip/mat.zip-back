@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-public interface ImageUploader {
+public interface ImageManager {
 
     String uploadImage(final MultipartFile file);
 
