@@ -1,5 +1,6 @@
 package com.woowacourse.matzip.domain.image;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -40,5 +41,9 @@ public class UnusedImage {
         this.id = id;
         this.imageUrl = imageUrl;
         this.createdAt = createdAt;
+    }
+
+    public boolean beforeDate(final LocalDate dateBoundary) {
+        return createdAt.toLocalDate().isBefore(dateBoundary);
     }
 }
