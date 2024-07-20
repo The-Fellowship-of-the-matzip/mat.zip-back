@@ -1,6 +1,7 @@
 package com.woowacourse.matzip.domain.image;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public enum ImageExtension {
     JPG,
@@ -9,13 +10,16 @@ public enum ImageExtension {
     WEBP,
     GIF;
 
-    public static String validateExtension(final String extension) {
-        return Arrays.stream(values())
-                .map(imageExtension -> imageExtension.name().toLowerCase())
-                .filter(imageExtension -> imageExtension.equalsIgnoreCase(extension))
-                .findFirst()
-                .orElseThrow(() ->
-                        new IllegalArgumentException("업로드 할 수 없는 확장자명입니다.")
-                );
+    private static final String DELIMITER = ".";
+
+    public static void validateExtension(final String fileName) {
+        Objects.requireNonNull(fileName);
+        String extension = fileName.substring(fileName.lastIndexOf(DELIMITER) + 1);
+        boolean isNotValidExtension = Arrays.stream(ImageExtension.values())
+                .noneMatch(imageExtension -> imageExtension.name().equalsIgnoreCase(extension));
+
+        if (isNotValidExtension) {
+            throw new InValidImageExtensionException();
+        }
     }
 }

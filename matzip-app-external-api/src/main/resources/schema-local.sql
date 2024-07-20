@@ -72,11 +72,19 @@ create table restaurant_request
 
 create table bookmark
 (
-    id            bigint      NOT NULL AUTO_INCREMENT,
-    member_id     bigint      NOT NULL,
-    restaurant_id bigint      NOT NULL,
+    id            bigint NOT NULL AUTO_INCREMENT,
+    member_id     bigint NOT NULL,
+    restaurant_id bigint NOT NULL,
     primary key (id)
 );
 
-alter table bookmark add constraint unique_member_restaurant unique (member_id, restaurant_id);
+create table unused_image
+(
+    id         bigint       NOT NULL AUTO_INCREMENT,
+    image_url  varchar(255) NOT NULL,
+    created_at TIMESTAMP    NOT NULL
+);
+
+alter table bookmark
+    add constraint unique_member_restaurant unique (member_id, restaurant_id);
 
