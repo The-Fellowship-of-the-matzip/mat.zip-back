@@ -1,15 +1,12 @@
 package com.woowacourse.matzip.application.image;
 
-import com.woowacourse.matzip.application.image.ImageManager;
 import com.woowacourse.matzip.domain.image.UnusedImage;
 import com.woowacourse.matzip.exception.UploadFailedException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.DeleteObjectsRequest;
 import software.amazon.awssdk.services.s3.model.ObjectIdentifier;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
@@ -20,10 +17,6 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.woowacourse.matzip.environment.ProfileUtil.LOCAL;
-import static com.woowacourse.matzip.environment.ProfileUtil.PROD;
-
-@Profile({LOCAL, PROD})
 @Component
 public class S3ImageManager implements ImageManager {
 
