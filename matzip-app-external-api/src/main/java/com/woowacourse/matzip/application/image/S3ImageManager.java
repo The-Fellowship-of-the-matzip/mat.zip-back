@@ -3,6 +3,7 @@ package com.woowacourse.matzip.application.image;
 import com.woowacourse.matzip.domain.image.UnusedImage;
 import com.woowacourse.matzip.exception.UploadFailedException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -17,11 +18,14 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.woowacourse.matzip.environment.ProfileUtil.LOCAL;
+import static com.woowacourse.matzip.environment.ProfileUtil.PROD;
+
+@Profile({LOCAL, PROD})
 @Component
 public class S3ImageManager implements ImageManager {
 
     private static final String EXTENSION_DELIMITER = ".";
-    private static final String URL_DELIMITER = "/";
 
     private final S3Client s3Client;
     private final String bucketName;
