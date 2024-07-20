@@ -1,47 +1,31 @@
 package com.woowacourse.matzip.application.image;
 
 import com.woowacourse.matzip.domain.image.UnusedImage;
+import com.woowacourse.matzip.domain.image.UnusedImageRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.PriorityQueue;
 
 @Component
 public class ImageDeleter {
 
-    private static final int DELETE_BATCH_SIZE = 50;
-
     private final ImageManager imageManager;
-    private final PriorityQueue<UnusedImage> unusedImages = new PriorityQueue<>(
-            Comparator.comparing(UnusedImage::getCreatedAt)
-    );
+    private final UnusedImageRepository unusedImageRepository;
 
-    public ImageDeleter(final ImageManager imageManager) {
+    public ImageDeleter(final ImageManager imageManager, final UnusedImageRepository unusedImageRepository) {
         this.imageManager = imageManager;
+        this.unusedImageRepository = unusedImageRepository;
     }
 
     @Scheduled(cron = "0 0 4 * * *")
     public void deleteImages() {
-        List<UnusedImage> images = new ArrayList<>();
         LocalDate dateBoundary = LocalDate.now().minusDays(1);
 
-        while ((!unusedImages.isEmpty() && unusedImages.peek().beforeDate(dateBoundary))
-                || images.size() <= DELETE_BATCH_SIZE) {
-            images.add(unusedImages.poll());
-        }
+        List<UnusedImage> images = unusedImageRepository.findAllByCreatedAtBefore(dateBoundary.atStartOfDay());
 
-        try {
-            imageManager.deleteImages(images);
-        } catch (Exception e) {
-            unusedImages.addAll(images);
-        }
-    }
-
-    public void addUnusedImage(final UnusedImage unusedImage) {
-        unusedImages.add(unusedImage);
+        imageManager.deleteImages(images);
+        unusedImageRepository.deleteAllBy(images);
     }
 }

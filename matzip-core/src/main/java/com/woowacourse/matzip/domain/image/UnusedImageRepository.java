@@ -9,11 +9,9 @@ import java.util.List;
 
 public interface UnusedImageRepository extends JpaRepository<UnusedImage, Long> {
 
-    void deleteByImageUrl(final String imageUrl);
-
     List<UnusedImage> findAllByCreatedAtBefore(final LocalDateTime date);
 
     @Modifying
-    @Query("delete from UnusedImage ui where ui.createdAt < :date ")
-    void deleteAllByCreatedAtBefore(final LocalDateTime date);
+    @Query("delete from UnusedImage i where i in :values")
+    void deleteAllBy(final List<UnusedImage> values);
 }
