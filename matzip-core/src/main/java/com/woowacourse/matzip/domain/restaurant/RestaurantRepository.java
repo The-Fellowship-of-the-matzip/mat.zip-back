@@ -6,6 +6,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
@@ -53,4 +54,13 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
             + "r.reviewRatingSum = r.reviewRatingSum + :ratingGap "
             + "where r.id = :id")
     void updateRestaurantByReviewUpdate(Long id, long ratingGap);
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query(value = "update Restaurant r "
+            + "set r.reviewRatingAverage = ((r.reviewRatingSum + :ratingGap) / cast((r.reviewCount + :reviewCount) as float)), "
+            + "r.reviewCount = r.reviewCount + :reviewCount, "
+            + "r.reviewRatingSum = r.reviewRatingSum + :ratingGap "
+            + "where r.id = :id")
+    void updateRestaurantFailover(@Param("id") Long id, @Param("ratingGap") long ratingGap,
+                                  @Param("reviewCount") int reviewCount);
 }
